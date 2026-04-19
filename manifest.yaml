@@ -1,0 +1,42 @@
+name: z-yap
+description: Yap language design space zettelkasten
+schema_version: 1
+
+project:
+  name: yap
+  repo: tiansivive/yap
+  path: .
+  branch: main
+
+federation:
+  hub: z-loom
+  namespace: yap
+  uri_scheme: "loom://@yap/{zettel_id}"
+
+backend:
+  current: github
+  github_repo: tiansivive/z-yap
+  neo4j_endpoint: null
+
+entry_points:
+  readme: README.md
+  vocabulary: VOCABULARY.md
+
+zettels:
+  path: "zettels/{id}.md"
+  format: markdown
+  frontmatter:
+    required: [tags]
+    optional: [refs]
+
+connections:
+  path: connections.cypher
+  format: pseudo-cypher
+
+scripts:
+  catalog: scripts/catalog.py
+
+dist:
+  path: dist/
+  files:
+    catalog: CATALOG.md
