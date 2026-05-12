@@ -16,7 +16,7 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 ROOT = Path(__file__).parent.parent
 ZETTELS_DIR = ROOT / "zettels"
-CONNECTIONS_FILE = ROOT / "connections.cypher"
+CONNECTIONS_FILE = ROOT / "connections.md"
 
 sys.path.insert(0, str(Path(__file__).parent))
 from lib.zettel import load_all, Zettel

@@ -28,7 +28,7 @@ z-yap/
   manifest.yaml          # Federation metadata and entry points
   README.md              # This file
   VOCABULARY.md          # Tags, labels, groups
-  connections.cypher     # All edges in pseudo-Cypher format
+  connections.md     # All edges in pseudo-Cypher format
   zettels/               # Atomic design notes (markdown + frontmatter)
   scripts/               # Catalog generation, neighborhood view
   dist/                  # CI-generated indexes
@@ -45,7 +45,7 @@ tags: [type-system, concept]
 Body text — one atomic idea per zettel.
 ```
 
-Zettels are pure content. Connections live in `connections.cypher`.
+Zettels are pure content. Connections live in `connections.md`.
 
 ## Connection format
 

@@ -2,11 +2,11 @@ name: Regenerate Catalog
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
-      - 'zettels/**'
-      - 'connections.cypher'
-      - 'scripts/**'
+      - "zettels/**"
+      - "connections.md"
+      - "scripts/**"
 
 jobs:
   catalog:
@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: pip install pyyaml

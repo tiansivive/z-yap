@@ -30,7 +30,7 @@ zettels:
     optional: [refs]
 
 connections:
-  path: connections.cypher
+  path: connections.md
   format: pseudo-cypher
 
 scripts:

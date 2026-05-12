@@ -27,6 +27,7 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `research` | Empirical findings, prior art exploration |
 | `paper` | Academic paper reference |
 | `gateway` | Entry point to an external resource |
+| `code` | Source code or code-level implementation concerns |
 
 ## Labels
 
@@ -45,6 +46,9 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `INCLUDES` | Source collection includes the target |
 | `DISTINGUISHES` | Source disambiguates the target from alternatives |
 | `ENABLES` | Source makes the target possible |
+| `PRODUCES` | Source produces the target as output (lifecycle/dataflow) |
+| `SOLVES` | Source resolves or computes solutions for the target |
+| `RELIES_ON` | Source depends on target to function correctly (softer than REQUIRES) |
 | `DEPENDS_ON` | Source depends on the target (structural DAG edge) |
 
 ## Tag groups
