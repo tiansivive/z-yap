@@ -1,14 +1,24 @@
 ---
-tags: [concept, type-system, mechanism, elaboration]
+tags:
+  [
+    concept,
+    mechanism,
+    elaboration,
+    type-system,
+    inference,
+    parser,
+    dependent,
+    principle,
+    ast,
+    modality,
+    implemented,
+  ]
 ---
-# Bidirectional Type Checking
+# Bidirectional checking
 
-A type inference strategy with two modes:
-- **Infer (synthesis)** — bottom-up: given a term, produce its type
-- **Check** — top-down: given a term and an expected type, verify compatibility
+Two elaboration modes over `Src.Term` (`src/elaboration/elaborate.ts`, `src/elaboration/check.ts`):
 
-The key insight: some terms are easy to infer (variables, applications, annotations) while others need guidance (lambdas, literals in polymorphic contexts). Bidirectional checking routes each case to the appropriate mode.
+- **`EB.infer`** — dispatch on `term.type`; produces `AST = [EB.Term, NF.Value, Q.Usages]`. Wraps tracing via `V2.track`; strips modalities from the synthesized type with `stripModalities` (`elaborate.ts`).
+- **`EB.check(term, ty)`** — dispatch on `[term, NF.Value]` pairs, primarily **by expected type shape** (implicit `Pi`, `Schema`, `Sigma`, rows at `Type`, `Modal`, etc.). Fallthrough: infer plus implicit insertion and `assign` constraints (`src/elaboration/ARCHITECTURE.md` checking table).
 
-In yap, the [[elaboration]] pipeline dispatches by term shape at the top level, then by type shape within modules. `check` pushes expected types inward; `infer` synthesises and unifies when checking fails.
-
-Natural fit for [[dependent-types|dependent types]] — annotations provide the type information that cannot be inferred from structure alone.
+Dependent typing leans on annotations and checking branches where synthesis alone does not pin types.

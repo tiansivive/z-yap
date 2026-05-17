@@ -1,19 +1,28 @@
 ---
-tags: [concept, type-system, mechanism, normalization]
+tags:
+- normalization
+- elaboration
+- concept
+- implemented
+- inference
+- verification
+- dependent
+- type-system
+- ir
+- ast
+- monad
+- testing
+- reference
+- mechanism
 ---
-# Normalisation by Evaluation (NbE)
+# Normalisation by Evaluation (NbE) (hub)
 
-A technique for computing normal forms by evaluating terms into a semantic domain (values) and then reading back to syntax.
+**Evaluate:** `NF.evaluate(ctx, term, maxSteps?, skolems?)` in `src/elaboration/normalization/evaluation.v2.ts` — stack interpreter (`globalWorkStack`, `globalResultStack`) over `EB.Term` producing `NF.Value`.
 
-Two phases:
-1. **Evaluate** — interpret syntax into values (closures, neutrals, canonical forms)
-2. **Quote/Read-back** — convert values back to syntactic normal forms
+**Quote / readback:** `NF.quote(ctx, lvl, val)` in `src/elaboration/normalization/quoting.ts` rebuilds `EB.Term`, converting bound **levels** to **indices** and chasing `ctx.zonker` for metas.
 
-In yap, NbE provides definitional equality: two terms are equal iff they evaluate to the same value. The semantic domain uses de Bruijn levels (not indices) to avoid shifting during weakening.
+Used throughout inference and checking (`NF.evaluate` / `NF.quote` call sites under `src/elaboration/inference/*`, `check.ts`, `implicits.ts`, etc.). Full definitional equality is not spelled here as a single `evaluate`-then-compare API; unification consumes `NF` values separately.
 
-Key components:
-- **Closures** — capture an environment and an unevaluated EB.Term
-- **Neutrals** — stuck computations (application to a variable)
-- **Values** — Pi, Lambda, Mu, Sigma with annotations that are already evaluated
+Semantic domain basics: closures and neutral-wrapped stuck spines (`syntax/term.ts`); binders introduce `NF.Abs` + `NF.Closure`.
 
-NbE is essential for [[dependent-types|dependent types]] — type equality must evaluate under binders to compare types that contain computations.
+Detail: [[application-evaluation.md]], [[cbv-evaluation.md]], [[closures.md]], [[neutrals.md]], [[nf-value.md]], [[de-bruijn.md]], [[quoting.md]], [[knot-tying.md]].

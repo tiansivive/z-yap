@@ -1,13 +1,28 @@
 ---
-tags: [mechanism, concept, type-system, normalization, elaboration]
+tags:
+- elaboration
+- normalization
+- concept
+- implemented
+- type-system
+- inference
+- dependent
+- syntax
+- ast
+- ir
+- mechanism
+- reference
 ---
-# De Bruijn Representation
+# De Bruijn Representation (hub)
 
-Yap uses a split de Bruijn representation:
+Yap splits bound-variable representations across elaborated syntax and semantic values:
 
-- **Levels** (NF.Value / semantic domain) — count from the outermost binder inward. Stable under context extension: adding a new binding doesn't shift existing levels.
-- **Indices** (EB.Term / syntactic domain) — count from the innermost binder outward. Canonical for α-equivalence: structurally equal terms are α-equivalent.
+| Layer | File | Bound shape |
+|-------|------|-------------|
+| Core terms | `src/elaboration/syntax/term.ts` | `EB.Variable`: `{ type: "Bound"; index: number }` (**index**) |
+| Normal forms | `src/elaboration/normalization/syntax/term.ts` | `NF.Variable`: `{ type: "Bound"; lvl: number }` (**level**) |
+| Context helpers | `src/elaboration/shared/context.ts` | `lvl2idx(ctx, lvl) => ctx.env.length - 1 - lvl`; binder insertion uses `NF.Constructors.Rigid(env.length)` in `bind` / `augment` |
 
-Conversion during quote: `index = depth - level - 1`
+Readback `NF.quote(ctx, lvl, …)` (`quoting.ts`) maps `NF` bound levels to `EB` indices at the passed quoting depth with `index = lvl - v.lvl - 1` for bound vars (equivalent to `lvl2idx` when `lvl` matches that depth).
 
-The split avoids expensive shifting during evaluation (levels don't change when the environment grows) while giving canonical syntax terms for comparison. This is standard in modern NbE implementations (Kovács, Abel).
+Detail notes: [[de-bruijn-indices.md]], [[de-bruijn-levels.md]], [[levels-vs-indices.md]], [[level-to-index-conversion.md]], [[quoting.md]].

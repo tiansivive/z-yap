@@ -1,16 +1,29 @@
 ---
-tags: [mechanism, concept, normalization, type-system]
+tags:
+- normalization
+- mechanism
+- implemented
+- elaboration
+- inference
+- unification
+- dependent
+- type-system
+- ir
+- ast
+- modality
+- ffi
+- recursion
+- reference
+- code
 ---
-# Neutral Terms
+# Neutrals (`NF.Neutral`)
 
-Neutral terms in NbE represent computations stuck on an unknown head:
+`NF.Value` uses a **single wrapper** `{ type: "Neutral"; value: Value }` (`src/elaboration/normalization/syntax/term.ts`), not a separate head+spine record. `unwrapNeutral` strips nested `Neutral` layers (`evaluation.v2.ts`).
 
-- **Free variable** — no value available in the environment
-- **Unsolved [[meta-variables|meta]]** — meta-variable not yet resolved by [[unification]]
-- **Blocked elimination** — projection, application, or match applied to a neutral head
+Typical neutral **heads** inside: `Var` (incl. unsolved **`Meta`** via `Neutral(Var(meta))` in the meta-var branch of `evaluateTerm`), or **spined** shapes built with `NF.Constructors.App` under `Neutral`.
 
-Stuckness propagates upward: if the head of a spine is neutral, the entire application spine is neutral. A match on a neutral scrutinee is neutral. A projection from a neutral record is neutral.
+**Examples from `reduceAndPushStack`:** applying to a neutral pushes `Neutral(App(head, arg, icit))`. **µ:** `Abs` with `Mu` binder reifies as neutral `App`. **Stuck match:** `NF.Constructors.StuckMatch` is `Neutral(App(λ $scrutinee. body, scrutinee))` (`syntax/term.ts`). **Blocked projection/injection:** `projectValue` / `injectValue` return `Neutral(App(λclosure, base))` when row structure is unknown or head is neutral.
 
-Neutrals preserve open-term structure during normalization without losing information. They are essential for comparing types that contain free variables — without neutrals, normalization would get stuck or discard information.
+**Modal / flex:** `NF.Patterns.Flex` and zonker-driven `force` interact with neutrals during unification-facing code paths (`evaluation.v2.ts`).
 
-In Yap: `NF.Value` has a `Neutral` variant carrying a `Head` (variable or meta) and a `Spine` (list of eliminations).
+See also: [[application-evaluation.md]], [[nf-value.md]], [[nbe.md]], [[de-bruijn-levels.md]].

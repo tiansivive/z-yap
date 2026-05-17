@@ -1,17 +1,27 @@
 ---
-tags: [project, language]
+tags:
+- project
+- language
+- dependent
+- row-types
+- elaboration
+- normalization
+- verification
+- lowering
+- mir
+- parser
+- inference
+- implemented
+- ffi
+- continuation
+- testing
 ---
-# Yap
+# Yap (language hub)
 
-A small dependently typed language with structural types, implicits, and code verification semantics via modalities (QTT-based multiplicities and liquid type refinements).
+Dependently typed research language: **structural** data (rows for records, tuples, variants, arrays), **bidirectional** elaboration, **NbE**-style definitional equality, **refinement** types with SMT checking, **multiplicity** annotations (`Zero`/`One`/`Many` in `src/shared/modalities/multiplicity.ts`), **delimited continuations** (shift/reset) in lowering (`src/lowering/continuations/`).
 
-Key properties:
-- **[[structural-typing|Structural types]] via rows** — structs, tuples, variants, arrays are all row-based
-- **[[row-polymorphism|Row polymorphism]]** — parametric quantification over row tails, no subtyping
-- **[[dependent-types|Dependent types]]** — Pi types with value dependencies
-- **[[bidirectional-checking|Bidirectional inference]]** — infer synthesises, check pushes expected types inward
-- **[[nbe|NbE]]** — definitional equality via normalisation by evaluation
-- **QTT multiplicities** — resource tracking via quantitative type theory
-- **Liquid refinements** — verification via SMT (Z3)
+**Pipeline (source-grounded):** parse (Nearley `src/parser/grammar.ne`; tree-sitter migration in `tree-sitter-yap` per `AGENTS.md`) → elaborate (`src/elaboration/`, canonical v2 under `checking.v2/` / `inference.v2/`) → normalize → verify on demand (`src/verification/V2/`, Z3 via `z3-solver` after `scripts/cli.ts` init) → lower to MIR (`src/lowering/`, `docs/MIR-LOWERING.md`) → backends (e.g. JS emission paths under lowering/cli).
 
-The compiler pipeline: Parser → [[elaboration|Elaboration]] → Normalization → Verification → Lowering (MIR).
+**Wiki-style entry points:** [[structural-typing.md]], [[row-polymorphism.md]], [[dependent-types.md]], [[nbe.md]], [[mir-lowering.md]], [[verification-pipeline.md]], [[shift-reset.md]], [[modalities.md]], [[refinement-types.md]].
+
+**Status:** `implemented` (compiler + tests exist); migration and verification backends still evolve (`brainstorming/yap/V2-MIGRATION.md`, `docs/SMT-SOLVER.md`).

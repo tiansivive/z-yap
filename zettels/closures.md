@@ -1,17 +1,29 @@
 ---
-tags: [mechanism, concept, normalization, type-system]
+tags:
+- normalization
+- elaboration
+- mechanism
+- implemented
+- ir
+- dependent
+- inference
+- continuation
+- ffi
+- lowering
+- ast
+- runtime
+- code
 ---
 # Closures (NbE)
 
-In Yap's Normalization by Evaluation, a closure captures:
-- An **environment** (list of NF.Values bound so far)
-- An **unevaluated term body** (EB.Term)
+`NF.Closure` (`src/elaboration/normalization/syntax/term.ts`) is a tagged union:
 
-To apply a closure: extend the environment with the argument value, then evaluate the body in the extended environment. This avoids substitution — the environment acts as a delayed substitution.
+- **`{ type: "Closure"; ctx: EB.Context; term: EB.Term }`** — body not evaluated until elimination; constructed for λ/Π/Σ/µ binders in `evaluateTerm` via `NF.Constructors.Closure(ctx, body)`.
+- **`{ type: "PrimOp"; ctx; term; arity; compute }`** — saturated via `extend`-style env slicing and `compute(...args)` in `reduceAndPushStack` / `apply`.
+- **`{ type: "Continuation"; ctx; term; frames: NF.StackFrame[]; results: NF.Value[] }`** — built when evaluating `EB.Shift`: captures suffix of `globalWorkStack` until the nearest `Delimiter`, plus `globalResultStack` suffix (`evaluation.v2.ts`).
 
-Variants:
-- **Lambda closure** — standard function body + env
-- **PrimOp closure** — partially applied primitive operator awaiting remaining arguments
-- **Continuation closure** — captured delimited continuation (shift/reset)
+Applying an `Abs` closure calls `EB.extend` for ordinary binders or `EB.extendSigmaEnv` when the binder is `Sigma` (requires argument `NF.Value` with `type: "Row"`).
 
-Closures are the mechanism by which NbE achieves sharing: the same closure applied to different arguments reuses the captured environment.
+`NF.closeVal` (`quoting.ts`) quotes a value at `ctx.env.length + 1` into a `Closure` carrying the current context.
+
+See also: [[application-evaluation.md]], [[knot-tying.md]], [[nf-value.md]], [[nbe.md]].

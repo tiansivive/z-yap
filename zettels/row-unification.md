@@ -1,18 +1,37 @@
 ---
-tags: [mechanism, type-system, row-types, elaboration]
+tags:
+  [
+    row-types,
+    type-system,
+    elaboration,
+    normalization,
+    unification,
+    inference,
+    dependent,
+    mechanism,
+    pattern,
+    code,
+    compiler,
+    implemented,
+  ]
 ---
-# Row Unification
+# Row unification
 
-Unification extended to handle row variables — solving constraints on record/variant structure.
+Implemented in **`src/elaboration/unification/rows.ts`** (**`Row.unify`**) and invoked from **`NF.Row` vs `NF.Row`** in **`src/elaboration/unification/unification.ts`** with **`lvl = ctx.env.length`**.
 
-When two row types are unified:
-1. Match shared labels — unify their types pairwise
-2. Collect remaining labels on each side
-3. Unify remainders with fresh row variables (or the row tail)
+**Purpose**: unify **`NF.Row`** spines (records / row polymorphism) using scoped-label rotation (**`rewrite`**) when matching an **`extension`** on the left against an arbitrary right row.
 
-```
-{ name: String, age: Int | r1 } ~ { name: String, x: Bool | r2 }
-→ unify(String, String), r1 ~ { x: Bool | r3 }, r2 ~ { age: Int | r3 }
-```
+**High-level flow**:
 
-In yap, row unification runs alongside standard type unification during [[constraint-solving]]. Row variables are meta-variables that range over row tails — they're solved the same way type metas are, via the substitution/zonker.
+- **`empty`/`empty`**: done (**`subst`** unchanged).
+- Two **`variable`** rows: succeed only if **`_.isEqual(v1, v2)`**; else fall through to **`otherwise`** (**`throw`** with Leijen paper citation in message).
+- Row meta **`variable`** solved in **`subst`**: chase (**`nf.row`**) if **`nf.type === "Row"`**, else **`throw "Expected row"`**.
+- Row meta vs other: **`bind(ctx, variable, NF.Constructors.Row(otherRow))`** (**`bind`** from **`src/elaboration/unification/unification.ts`** via re-export pattern — **`rows.ts`** imports **`bind`** from **`"."`**).
+
+**Extension vs `_`**: **`rewrite`**, require rewritten head **`extension`**, **`U.unify`** field **`NF.Value`**s, recurse **`Row.unify`** on tails; compose **`Subst`** **`o3 ∘ o2 ∘ o1`**.
+
+**`empty` vs `extension`** (either order): **`Err.MissingLabel`**.
+
+Unmatched combinations hit **`otherwise`** (**`throw`**).
+
+Detail: **`row-unification-mechanism.md`**.

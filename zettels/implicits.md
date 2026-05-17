@@ -1,15 +1,36 @@
 ---
-tags: [mechanism, type-system, elaboration, language]
+tags:
+- elaboration
+- inference
+- type-system
+- normalization
+- checking
+- syntax
+- parser
+- codegen
+- compiler
+- dependent
+- ast
+- mechanism
+- pattern
+- language
+- migration
+status: implemented
 ---
-# Implicit Arguments
+# Implicit arguments
 
-Yap's implicit argument system supports two resolution modes:
+Surface syntax: implicit binders use fat-arrow `=>` / `\ … => …`; applications supply implicit arguments with `@` before the atom (`grammar.ne` / `grammar.ts`: `App … @ Atom` → `icit: "Implicit"`).
 
-**1. Unification-driven** — A [[meta-variables|meta]] is inserted at the call site for each implicit parameter. Constraint propagation from the explicit arguments solves the meta. This handles type inference for polymorphic functions (`id 42` → meta solved to `Num`).
+Checking implicit lambdas: `src/elaboration/check.ts` matches expected implicit `Pi` and binds `ty.binder.variable` with origin `"inserted"` while checking the inner term.
 
-**2. Environment lookup** — The `using` statement brings values into an implicit scope. When an implicit parameter's type matches a value in scope, it's resolved by type-directed lookup. Explicit override with `@` syntax.
+Synthesis inserts metas: `src/elaboration/implicits.ts` `insert` — for synthesised term typed by implicit `Pi`, introduces meta argument, emits `resolve` constraint carrying `ctx.implicits`. Used from inference (`inference/applications.ts`, `inference/lambda.ts`) and checking paths that call `EB.Icit.insert.gen`.
 
-Key rules:
-- Implicits never cross module boundaries
-- Multiple values of the same type in scope trigger ambiguity errors
-- Unsolved implicits remain abstract (the function becomes polymorphic in that implicit)
+Explicit lambdas pair with matching `icit` on source lambda vs expected `Pi` (`check.ts` first `lambda`/`Pi` clause).
+
+Module-level instance wiring: `module.ts` `using`.
+
+Let-generalization interaction: unsolved locals become implicit binders via `NF.generalize` + `EB.Icit.wrapLambda` (`generalization.ts`, `implicits.ts`).
+
+Note: solver picks first successful implicit candidate with empty residual substitution (`solver.ts`); no dedicated ambiguity diagnostic in that loop.
+
+Hub: [[implicit-resolution.md]], [[implicit-environment.md]], [[meta-variables.md]], [[generalization.md]].

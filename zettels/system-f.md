@@ -1,17 +1,36 @@
 ---
-tags: [concept, type-system]
+tags:
+- concept
+- type-system
+- reference
+- elaboration
+- generalization
+- inference
+- quantifiers
+- dependent
+- incomplete
+- principle
+- parser
+- normalization
+- monad
+- decision
+- migration
 ---
-# System F
+# System F (background)
 
-System F (Girard 1971, Reynolds 1974) extends the simply typed lambda calculus with universal quantification over types:
+System F adds type abstraction and ∀-quantified types to the simply typed λ-calculus. ML-style **rank‑1** polymorphism is the fragment where ∀ appears only at the outermost level of a let-bound type scheme.
 
-```
-Λa. λx:a. x   : ∀a. a → a   (polymorphic identity)
-```
+**What Yap shares (verified)**
 
-Key concepts:
-- **Rank-1** — ∀ appears only at the top level; the fragment that HM inference covers
-- **Higher-rank** — ∀ can appear nested in arguments; requires annotations
-- **Impredicativity** — type variables can be instantiated to polymorphic types
+- **Type-level lambdas / quantification via Pi:** polymorphic or dependent function types use the same `Abs`+`Pi` representation (`src/elaboration/syntax/term.ts`).
+- **Let-polymorphism flavor:** `NF.generalize` in `src/elaboration/normalization/generalization.ts` abstracts metas local to a binding into implicit Pi binders (see file comment block with `fmap` / `stringify` example).
+- **Instantiation:** `NF.instantiate` (same module) defaults unconstrained metas.
 
-Yap's parametric polymorphism builds on System F, extended with [[dependent-types|dependent types]] (Pi binders where the codomain references the domain variable). This goes beyond System F into the lambda cube — specifically, types depending on values.
+**What Yap adds (verified)**
+
+- **Dependent types:** Pi bodies and domains are arbitrary `NF.Type`-classified terms, not a separate kind layer only for type variables (`src/elaboration/inference/pi.ts`).
+- **Rows and modalities:** record/variant shapes and modal annotations live in the same term language (`grammar.ne` `ModalType`, row processors, `NF.Modal`).
+
+**Not verified here:** impredicativity claims, exact rank‑k fragment of surface Yap, or correspondence to a pure Fω presentation—treat those as external type-theory references, not repo facts.
+
+Related: [[hindley-milner.md]], [[dependent-types.md]], [[type-type.md]], [[types-as-terms.md]].

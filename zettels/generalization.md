@@ -1,14 +1,36 @@
 ---
-tags: [mechanism, type-system, elaboration]
+tags:
+- type-system
+- elaboration
+- normalization
+- unification
+- inference
+- mechanism
+- concept
+- dependent
+- monad
+- compiler
+- code
+- polymorphism
+- metavariable
+- reference
+- implemented
+status: implemented
 ---
-# Generalization (Let-Polymorphism)
+# Generalization (let bindings)
 
-The mechanism that infers polymorphic types without explicit annotations. After elaborating a let-binding's body:
+Implementation: `src/elaboration/normalization/generalization.ts` `generalize`.
 
-1. Collect unsolved [[meta-variables|metas]] whose scope level exceeds the binding's level
-2. Wrap the inferred type in [[implicits|implicit]] Pi binders for each generalizable meta
-3. Wrap the elaborated term in corresponding implicit lambda abstractions
+Input: `NF.Value` type, `EB.Term` definition, `EB.Context`, `EB.Resolutions`, skolem map from `V2.MutState`.
 
-Scope-level filtering ensures only locally-created metas generalize — metas from enclosing scopes remain free. This is Yap's implementation of [[hindley-milner|Hindley-Milner]] let-generalization, extended to work with dependent types and row variables.
+Collect unsolved metas via `collectMetasNF(ty, zonker)` and `collectMetasEB(tm, zonker)`, uniq by `val`, drop entries present in `resolutions` or `skolems`.
 
-Blocked by: metas that escape into the context (appear in other constraints) cannot generalize.
+Scoping: keep only metas with `m.lvl >= ctx.env.length` (created at or inside the binding’s elaboration depth). Metas with smaller `lvl` stay open for outer solves.
+
+Build `extendedCtx` by `EB.bind` for each meta with implicit origin `"inserted"` and map `zonker[meta.val]` to `NF.Var(Bound lvl)` so quoting sees binders.
+
+Wrap the generalized type in implicit `NF.Pi`s outer-to-inner (`A.reverse(ms).reduce`), quoting bodies with trimmed env slices so closure levels align.
+
+Interaction: `Stmt.letdec` in `src/elaboration/inference/statements.ts` calls `NF.generalize` after `EB.solve`; `wrapLambda` / `EB.Icit.instantiate` in `src/elaboration/implicits.ts` align term shapes with generalized types.
+
+Hub: [[meta-variables.md]], [[implicits.md]].

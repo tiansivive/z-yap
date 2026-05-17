@@ -1,15 +1,36 @@
 ---
-tags: [mechanism, concept, type-system, elaboration]
+tags:
+- elaboration
+- inference
+- unification
+- normalization
+- type-system
+- mechanism
+- concept
+- ast
+- compiler
+- code
+- substitution
+- dependent
+- metavariable
+- reference
+- implemented
+status: implemented
 ---
 # Meta-variables
 
-Placeholders for unknown types or terms during bidirectional elaboration. Lifecycle:
+Representation: `EB.Meta` `{ type: "Meta"; val: number; lvl: number }`. Allocation: `freshMeta` / `EB.freshMeta` (`src/elaboration/shared/supply.ts`) bumps monotonic `counts.meta`, registers `{ meta, ann }` under `V2.tell("meta", …)` consumed into `ctx.metas`.
 
-1. **Create** — fresh meta with a scope level; represents an unknown to be determined
-2. **Constrain** — [[unification]] generates equations involving the meta
-3. **Solve** — Robinson [[unification]] resolves the meta to a concrete type/term
-4. **Zonk** — substitute all solved metas through the final term, collapsing indirections
+Elaborated occurrence: `EB.Var(meta)`. Normal form flex: `NF.Var({ type: "Meta", … })`.
 
-Unsolved metas after elaborating a let-binding become implicit Pi binders during [[generalization]]. Metas are scoped by level — only metas created above the current scope can generalize.
+Solved values live in `ctx.zonker: Subst` (`src/elaboration/shared/context.ts`), mapping meta id → `NF.Value`. `collectMetasNF` / `collectMetasEB` (`shared/metas.ts`) traverse terms skipping zonked metas.
 
-In Yap: the `zonker` accumulates substitutions from solved metas. The supply generates fresh meta IDs monotonically.
+Implicit holes: implicit `Pi` synthesis introduces metas and `resolve` constraints (`implicits.ts`).
+
+Let-bound metas generalize only when `lvl >= ctx.env.length` (`generalization.ts`).
+
+Instantiation passes: `NF.instantiate` / `EB.Icit.instantiate` (`generalization.ts`, `implicits.ts`) fill or preserve metas depending on zonker, scope level, and annotations.
+
+Verification holes: `check.ts` `{ type: "hole" }` also allocates type-level metas.
+
+Hubs tie facets: elaboration constraints (`solver.ts`), normalization (`NF.force`, `NF.quote`), verification (separate pipeline).

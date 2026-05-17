@@ -1,8 +1,27 @@
 ---
-tags: [concept, type-system, mechanism]
+tags:
+- concept
+- type-system
+- mechanism
+- rejected
+- elaboration
+- unification
+- row-types
+- reference
+- principle
+- decision
+- inference
+- normalization
+- parser
+- migration
+- ffi
 ---
-# Structural Subtyping
+# Structural subtyping
 
-A subtyping discipline where compatibility is determined by structure rather than declared names. A type A is a subtype of B if A has at least the members B requires.
+**Definition (general PL literature):** a directional judgment **A <: B** justified by shape (extra fields allowed, required fields satisfied), independent of type aliases/names.
 
-Yap does NOT use structural subtyping. Its structural flexibility comes from [[row-polymorphism]] (parametric quantification) rather than implicit coercion. Contrasts with [[nominal-subtyping]]. This zettel exists for contrast and reference.
+**Yap:** there is **no** structural subtyping judgment or width subsumption pass in `src/elaboration/check.ts`, `infer`, or `unification/unification.ts`. Compatibility is **equality-oriented**: unify `NF.Value`/`NF.Row`, possibly instantiating **row metavariables** (`src/elaboration/unification/rows.ts`), not silently forgetting fields via <:.
+
+**Flexibility mechanism (verified):** parametric row variables and extension unification (`Row.unify`, `bind` on row metas) give “open row” behaviour without subtyping—see [[row-polymorphism.md]], [[row-unification.md]].
+
+**Contrast:** [[nominal-subtyping.md]] (name-driven) vs this zettel (subtyping-as-lattice). Yap’s nominal story, if any, is elsewhere; absence of <: is the verified claim here.

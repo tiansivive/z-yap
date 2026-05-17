@@ -1,23 +1,34 @@
 ---
-tags: [mechanism, elaboration, pattern, code]
+tags:
+  [
+    mechanism,
+    pattern,
+    monad,
+    elaboration,
+    code,
+    inference,
+    unification,
+    tracing,
+    error-handling,
+    continuation,
+    performance,
+    implemented,
+  ]
 ---
-# Elaboration Monad (V2 Do)
+# Elaboration monad (V2)
 
-Yap's [[elaboration]] uses a ReaderWriterStateEither monad expressed via generator-based Do notation:
+Type (`src/elaboration/shared/monad.v2.ts`):
 
-- **Reader** — context: typing environment, current level, implicit scope, module state
-- **Writer** — constraints ([[unification]] equations), diagnostics/warnings
-- **State** — [[meta-variables|meta]] store (solutions), fresh name supply
-- **Either** — elaboration errors (type mismatches, scope errors, ambiguity)
+`Elaboration<A> = (ctx: EB.Context, w?, st?) => [Collector<A>, MutState]`
 
-The V2 design uses `yield*` for monadic bind, enabling linear imperative-looking code that is actually pure functional composition:
+**Reader:** `ctx` threaded per step; `ask`, `asks`, `local`.
 
-```typescript
-const result = V2.Do(function*() {
-  const ty = yield* infer(term)
-  const unified = yield* unify(ty, expected)
-  return unified
-})
-```
+**Writer (`Collector`):** merges `constraints` (provenance-wrapped), `binders`, `metas`, per-term `types`, composed `zonker` `Subst`, and `Either` result.
 
-This replaced V1's deeply nested fp-ts pipe chains. Domain-specific monad instances (Elaboration, Unification, Verification) planned as P0 refactor.
+**Mutable state (`MutState`):** `delimitations` (shift/reset), `skolems`, `nondeterminism.solution` — not the meta counter. Fresh meta IDs live in module `counts` (`shared/supply.ts`).
+
+**Either:** `fail` yields `Left` with `Cause` + `ctx.trace`; `Do` stops on first `Left`.
+
+**Channels:** `tell` supports `constraint` \| `binder` \| `meta` \| `type` \| `zonker`. `listen` returns the accumulated writer slice.
+
+Usage pattern: `V2.Do(function* () { const ctx = yield* V2.ask(); … yield* V2.tell("constraint", { type: "assign", left, right }); … })`.

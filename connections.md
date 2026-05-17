@@ -57,3 +57,847 @@
 [[meta-variables]] --[:PRODUCES]--> [[neutrals]]  -- Unsolved metas produce neutral terms  @2026-04-18
 [[neutrals]] --[:CONTRASTS_WITH]--> [[closures]]  -- Closures reduce; neutrals are stuck — dual roles in NbE  @2026-04-18
 [[system-f]] --[:INFORMS]--> [[de-bruijn]]  -- System F's binding structure motivates de Bruijn representation  @2026-04-18
+
+## Sessions
+
+[[session-lowering-branch-split]] --[:ADDRESSES]--> [[closures]]  -- Closure conversion and shared bundle primitive  @2026-05-13
+[[session-lowering-branch-split]] --[:ADDRESSES]--> [[elaboration]]  -- FFI arity computation piped from elaboration to lowering  @2026-05-13
+
+## Imported Connections  @2026-05-17
+
+[[yap]] --[:INCLUDES]--> [[nearley-parser]]  -- Parser component
+[[yap]] --[:INCLUDES]--> [[verification-pipeline]]  -- Verification component
+[[yap]] --[:INCLUDES]--> [[mir-lowering]]  -- Lowering component
+[[yap]] --[:INCLUDES]--> [[js-codegen]]  -- JS backend
+[[yap]] --[:INCLUDES]--> [[c-codegen]]  -- C backend
+[[yap]] --[:INCLUDES]--> [[erlang-codegen]]  -- Erlang backend
+[[yap]] --[:INCLUDES]--> [[module-system]]  -- Module component
+[[yap]] --[:INCLUDES]--> [[compile-orchestration]]  -- Orchestration
+[[nearley-parser]] --[:PRODUCES]--> [[elaboration]]  -- Src.Term
+[[nearley-parser]] --[:TRANSLATES_TO]--> [[src-term]]  -- Token stream → AST
+[[tree-sitter-parser]] --[:SUPERSEDES]--> [[nearley-parser]]  -- Incremental replaces ambiguous CFG
+[[tree-sitter-parser]] --[:PRODUCES]--> [[v2-elaboration-pipeline]]  -- CST.SyntaxNode
+[[v2-elaboration-pipeline]] --[:SUPERSEDES]--> [[v1-elaboration-pipeline]]  -- Fresh implementation
+[[v2-elaboration-pipeline]] --[:MIRRORS]--> [[v1-elaboration-pipeline]]  -- Same theory, new code
+[[v1-elaboration-pipeline]] --[:PRODUCES]--> [[eb-term]]  -- EB.Term output
+[[v1-elaboration-pipeline]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Types → normal forms
+[[v1-elaboration-pipeline]] --[:DISPATCHES_ON]--> [[src-term]]  -- Source shape drives dispatch
+[[verification-pipeline]] --[:VALIDATES]--> [[v1-elaboration-pipeline]]  -- On-demand, not pipeline stage
+[[verification-pipeline]] --[:TRANSLATES_TO]--> [[smt-translation]]  -- Types → Z3 assertions
+[[verification-pipeline]] --[:COMPOSES_WITH]--> [[v1-elaboration-pipeline]]  -- Post-hoc validation
+[[mir-lowering]] --[:CONSUMES]--> [[v1-elaboration-pipeline]]  -- EB.Term input
+[[mir-lowering]] --[:PRODUCES]--> [[js-codegen]]  -- MIR → JS
+[[mir-lowering]] --[:PRODUCES]--> [[c-codegen]]  -- MIR → C
+[[mir-lowering]] --[:PRODUCES]--> [[erlang-codegen]]  -- MIR → Erlang
+[[mir-lowering]] --[:TRANSLATES_TO]--> [[eb-term]]  -- EB.Term → SSA blocks
+[[mir-lowering]] --[:ERASES]--> [[pi-types]]  -- Types not preserved in MIR
+[[mir-lowering]] --[:TRAVERSES]--> [[eb-term]]  -- Pattern-match walk
+[[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]  -- Stubs prevent integration
+[[usages-deferred]] --[:DEPRECATES]--> [[qtt-usage-collection]]  -- Move to verification
+[[module-system]] --[:RELIES_ON]--> [[v1-elaboration-pipeline]]  -- Not yet wired to v2
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[v1-elaboration-pipeline]]  -- Current delegation
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- On-demand
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[mir-lowering]]  -- Lowering step
+[[pi-types]] --[:EXTENDS]--> [[dependent-types]]  -- Universal quantification with dependency
+[[pi-types]] --[:GENERALIZES]--> [[lambda]]  -- Arrow → is non-dependent Pi
+[[pi-types]] --[:FORMS]--> [[lambda]]  -- Π is formation rule for functions
+[[pi-types]] --[:DUAL_OF]--> [[sigma-types]]  -- Universal vs existential
+[[pi-types]] --[:COMPOSES_WITH]--> [[sigma-types]]  -- Dependent function returning dependent record
+[[pi-types]] --[:COMPOSES_WITH]--> [[refinement-types]]  -- Refined domains/codomains
+[[sigma-types]] --[:EXTENDS]--> [[dependent-types]]  -- Existential with row dependency
+[[sigma-types]] --[:USES]--> [[row-polymorphism]]  -- Row-backed dependent records
+[[sigma-types]] --[:FORMS]--> [[structural-records]]  -- Σ forms dependent record types
+[[refinement-types]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Z3 discharges VCs
+[[refinement-types]] --[:COMPOSES_WITH]--> [[sigma-types]]  -- :fst in predicates
+[[refinement-types]] --[:SUBSUMES]--> [[pi-types]]  -- Refined T subtype of T
+[[refinement-types]] --[:COERCES_TO]--> [[pi-types]]  -- Forget rule strips predicate
+[[modalities]] --[:APPLIES_TO]--> [[pi-types]]  -- Quantity on domain
+[[modalities]] --[:COMPOSES_WITH]--> [[refinement-types]]  -- Modal + refined
+[[modalities]] --[:COERCES_TO]--> [[pi-types]]  -- Modal stripping during inference
+[[variant-types]] --[:USES]--> [[row-polymorphism]]  -- Row-backed unions
+[[variant-types]] --[:DUAL_OF]--> [[structural-records]]  -- Sum vs product over rows
+[[variant-types]] --[:MIRRORS]--> [[structural-records]]  -- Row-backed dual
+[[modality-enforcement]] --[:FOLLOWS]--> [[modalities]]  -- Requires modality definitions
+[[modality-enforcement]] --[:ADDRESSES]--> [[modalities]]  -- Enforcement gap
+[[modality-polymorphism]] --[:EXTENDS]--> [[modalities]]  -- Polymorphism over modalities
+[[modality-polymorphism]] --[:REQUIRES]--> [[modality-enforcement]]  -- Depends on enforcement
+[[refinement-inference]] --[:EXTENDS]--> [[refinement-types]]  -- Inferred refinements
+[[refinement-inference]] --[:REVISES]--> [[modalities]]  -- Strip → template revision
+[[structural-records]] --[:USES]--> [[row-polymorphism]]  -- Open-tail row structure
+[[tuples]] --[:DESUGARS_TO]--> [[structural-records]]  -- Positional labels
+[[tuples]] --[:SPECIALIZES]--> [[structural-records]]  -- Numeric labels only
+[[lists]] --[:ENCODES]--> [[ffi]]  -- Indexed Num T defaultArray (foreign)
+[[dictionaries]] --[:ENCODES]--> [[ffi]]  -- Indexed String T defaultHashMap (foreign)
+[[dictionaries]] --[:MIRRORS]--> [[lists]]  -- Same Indexed encoding, different index
+[[projection]] --[:ELIMINATES]--> [[structural-records]]  -- Field access
+[[projection]] --[:ELIMINATES]--> [[sigma-types]]  -- Dependent field access
+[[projection]] --[:DUAL_OF]--> [[injection]]  -- Elim vs intro for row-backed types
+[[injection]] --[:INTRODUCES]--> [[structural-records]]  -- Field extension
+[[injection]] --[:INTRODUCES]--> [[variant-types]]  -- Tag injection
+[[rows-universal-substrate]] --[:MOTIVATES]--> [[row-polymorphism]]  -- All data is row-based
+[[rows-universal-substrate]] --[:MOTIVATES]--> [[structural-records]]  -- Uniform substrate
+[[dedicated-row-constructors]] --[:REVISES]--> [[structural-records]]  -- Dedicated AST nodes
+[[dedicated-row-constructors]] --[:ADDRESSES]--> [[rows-universal-substrate]]  -- Cognitive overhead
+[[lambda]] --[:INTRODUCES]--> [[pi-types]]  -- Intro form for functions
+[[lambda]] --[:DUAL_OF]--> [[application]]  -- Intro/elim pair for Pi
+[[application]] --[:ELIMINATES]--> [[pi-types]]  -- Elim form for functions
+[[application]] --[:USES]--> [[implicit-resolution]]  -- Implicit insertion
+[[tagged-values]] --[:INTRODUCES]--> [[variant-types]]  -- Intro form for variants
+[[match]] --[:ELIMINATES]--> [[variant-types]]  -- Elim form for variants
+[[match]] --[:LOWERS_TO]--> [[pattern-matching-compilation]]  -- Decision trees
+[[match]] --[:DUAL_OF]--> [[tagged-values]]  -- Intro/elim pair for variants
+[[blocks]] --[:USES]--> [[generalization]]  -- Let-polymorphism at boundaries
+[[holes]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh meta per hole
+[[where-clauses]] --[:DESUGARS_TO]--> [[blocks]]  -- Let bindings
+[[loop-sugar]] --[:DESUGARS_TO]--> [[lambda]]  -- Tail-recursive functions
+[[spineful-applications]] --[:REVISES]--> [[application]]  -- Head + spine
+[[exhaustiveness-checking]] --[:EXTENDS]--> [[match]]  -- Safety gap
+[[type-erasure]] --[:ERASES]--> [[pi-types]]  -- Removes type information
+[[annotations]] --[:COERCES_TO]--> [[pi-types]]  -- Term validated against annotation
+[[shift-reset]] --[:USES]--> [[answer-type-polymorphism]]  -- k has polymorphic answer type
+[[shift-reset]] --[:USES]--> [[continuation-binders]]  -- Resume encoded via metas
+[[shift-reset]] --[:INTRODUCES]--> [[continuation-binders]]  -- Shift captures k
+[[shift-reset]] --[:COMPOSES_WITH]--> [[pi-types]]  -- k has Pi type
+[[answer-type-polymorphism]] --[:GENERALIZES]--> [[pi-types]]  -- Monomorphic → polymorphic answer
+[[continuation-binders]] --[:USES]--> [[meta-variables]]  -- Skolem-like metas
+[[continuation-binders]] --[:RELIES_ON]--> [[nondeterminism]]  -- Multishot semantics
+[[continuation-binders]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- Via MutState
+[[shift-reset-mir-lowering]] --[:LOWERS_TO]--> [[mir-lowering]]  -- State machines
+[[shift-reset-mir-lowering]] --[:IMPLEMENTS]--> [[shift-reset]]  -- Runtime story
+[[multishot-serialization]] --[:CONSTRAINS]--> [[shift-reset-mir-lowering]]  -- Replay challenge
+[[selective-cps]] --[:ADDRESSES]--> [[multishot-serialization]]  -- Evidence passing alternative
+[[selective-cps]] --[:CONTRASTS_WITH]--> [[shift-reset-mir-lowering]]  -- Closure vs state machine
+[[koka-influence]] --[:INSPIRES]--> [[selective-cps]]  -- Evidence passing model
+[[koka-influence]] --[:CONTRASTS_WITH]--> [[shift-reset]]  -- Evidence passing vs direct capture
+[[effects-as-modality]] --[:EXTENDS]--> [[modalities]]  -- Effects tracked as modalities
+[[effects-as-modality]] --[:EXTENDS]--> [[shift-reset]]  -- Effect system over continuations
+[[petricek-orchard]] --[:INSPIRES]--> [[effects-as-modality]]  -- Coeffect framework
+[[petricek-orchard]] --[:INSPIRES]--> [[implicits-as-coeffects]]  -- Context-dependence calculus
+[[danvy-filinski]] --[:INFORMS]--> [[shift-reset]]  -- Foundational theory
+[[danvy-filinski]] --[:INFORMS]--> [[answer-type-polymorphism]]  -- Answer type modification
+[[implicit-resolution]] --[:EXTENDS]--> [[implicits]]  -- Resolver mechanism
+[[implicit-resolution]] --[:RESOLVES]--> [[constraint-types]]  -- Δ lookup for resolve constraints
+[[implicit-resolution]] --[:COMPOSES_WITH]--> [[pi-types]]  -- Implicit Pi triggers insertion
+[[implicit-environment]] --[:ENABLES]--> [[implicit-resolution]]  -- Provides Δ
+[[implicit-environment]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- ctx.implicits
+[[typeclass-emulation]] --[:EMULATES]--> [[nominal-typing]]  -- Structural alternative to classes
+[[typeclass-emulation]] --[:USES]--> [[implicit-resolution]]  -- Instance lookup via Δ
+[[typeclass-emulation]] --[:USES]--> [[structural-records]]  -- Instances are records
+[[typeclass-emulation]] --[:CONTRASTS_WITH]--> [[nominal-typing]]  -- No class hierarchy
+[[implicits-as-coeffects]] --[:REVISES]--> [[implicit-resolution]]  -- Coeffect-based approach
+[[ffi]] --[:RELIES_ON]--> [[mir-lowering]]  -- Saturation
+[[ffi]] --[:LACKS]--> [[type-erasure]]  -- Needs dummy type args
+[[ffi]] --[:TRANSLATES_TO]--> [[js-codegen]]  -- Curried JS functions
+[[ffi-saturation]] --[:EXTENDS]--> [[ffi]]  -- Partial application handling
+[[ffi-saturation]] --[:RELIES_ON]--> [[mir-lowering]]  -- Lowering step
+[[ffi-saturation]] --[:PRESERVES]--> [[lambda]]  -- Calling convention via closures
+[[module-system]] --[:PRODUCES]--> [[elaboration-context]]  -- Interface tables
+[[mutual-recursion]] --[:EXTENDS]--> [[module-system]]  -- Multi-pass elaboration
+[[cbv-evaluation]] --[:IMPLEMENTS]--> [[yap]]  -- Runtime semantics
+[[cbv-evaluation]] --[:PRESERVES]--> [[application]]  -- Left-to-right evaluation order
+[[cbv-evaluation]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Closed terms fully reduce
+[[primitive-signature]] --[:USES]--> [[cbv-evaluation]]  -- δ-rules on literals
+[[type-type]] --[:ENABLES]--> [[dependent-types]]  -- Types compute as terms
+[[type-type]] --[:GENERALIZES]--> [[system-f]]  -- Collapses all universe levels
+[[type-type]] --[:COMPOSES_WITH]--> [[dependent-types]]  -- Types in same universe
+[[strict-vs-lazy]] --[:CONTRASTS_WITH]--> [[cbv-evaluation]]  -- Lazy alternative
+[[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[smt-translation]]  -- CAS alternative
+[[gram]] --[:SUPERSEDES]--> [[mir-lowering]]  -- As IR approach
+[[gram]] --[:REWRITES]--> [[dpo-rewriting]]  -- DPO rules refine graph
+[[gram]] --[:PRESERVES]--> [[nbe]]  -- Semantic equivalence per pass
+[[dpo-rewriting]] --[:IMPLEMENTS]--> [[gram]]  -- Rewriting engine
+[[dpo-rewriting]] --[:TRAVERSES]--> [[gram]]  -- Pattern matching for rule LHS
+[[structural-vs-representational-passes]] --[:CONSTRAINS]--> [[gram]]  -- Ordering principle
+[[closure-conversion]] --[:CONTRASTS_WITH]--> [[defunctionalization]]  -- Different lowering strategies
+[[closure-conversion]] --[:CONTRASTS_WITH]--> [[native-lambda-hvm]]  -- Different targets
+[[closure-conversion]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Env + function pointer
+[[closure-conversion]] --[:ERASES]--> [[lambda]]  -- Flattens lexical scope
+[[defunctionalization]] --[:SPECIALIZES]--> [[mir-lowering]]  -- GPU/HVM targets
+[[native-lambda-hvm]] --[:REJECTS]--> [[closure-conversion]]  -- HVM needs raw λ
+[[native-lambda-hvm]] --[:PRESERVES]--> [[nbe]]  -- Optimal reduction
+[[mir-retrospective]] --[:INFORMS]--> [[gram]]  -- Lessons learned
+[[mir-retrospective]] --[:MOTIVATES]--> [[gram]]  -- Why GRAM exists
+[[gram-step-1]] --[:IMPLEMENTS]--> [[gram]]  -- Partial — first step
+[[gram-as-s-expressions]] --[:REJECTS]--> [[gram]]  -- Rejected representation
+[[logram]] --[:EXTENDS]--> [[gram]]  -- Speculative substrate
+[[typed-pass-composition]] --[:EXTENDS]--> [[gram]]  -- Type-safe passes
+[[passes-in-yap]] --[:EXTENDS]--> [[gram]]  -- Self-hosting passes
+[[pattern-matching-compilation]] --[:LOWERS_TO]--> [[mir-lowering]]  -- Decision trees → MIR
+[[pattern-matching-compilation]] --[:DISPATCHES_ON]--> [[match]]  -- Pattern shape
+[[saturation]] --[:REWRITES]--> [[application]]  -- App chains → primop nodes
+[[zonking]] --[:RELIES_ON]--> [[meta-variables]]  -- Applies subst to metas
+[[zonking]] --[:FOLLOWS]--> [[solver]]  -- After solving
+[[zonking]] --[:ZONKS]--> [[meta-variables]]  -- Resolves unknowns
+[[zonking]] --[:TRAVERSES]--> [[eb-term]]  -- Walks replacing metas
+[[solver]] --[:USES]--> [[unification]]  -- Assign constraints → unify
+[[solver]] --[:USES]--> [[nondeterminism]]  -- Multishot replay
+[[solver]] --[:RESOLVES]--> [[constraint-types]]  -- Processes queue
+[[solver]] --[:DELEGATES_TO]--> [[unification-algorithm]]  -- Assign constraints
+[[solver]] --[:DELEGATES_TO]--> [[implicit-resolution-solver]]  -- Resolve constraints
+[[nondeterminism]] --[:ENABLES]--> [[shift-reset]]  -- Multishot continuations
+[[nondeterminism]] --[:INSTANTIATES]--> [[meta-variables]]  -- Solution combinations
+[[whnf-vs-full-normalization]] --[:CONSTRAINS]--> [[elaboration]]  -- WHNF only in elab
+[[whnf-vs-full-normalization]] --[:CONSTRAINS]--> [[unification]]  -- Full NF in unification
+[[smt-translation]] --[:IMPLEMENTS]--> [[verification-pipeline]]  -- Z3 translation
+[[smt-translation]] --[:TRANSLATES_TO]--> [[verification-pipeline]]  -- Z3 sorts/assertions
+[[smt-translation]] --[:TRAVERSES]--> [[eb-term]]  -- Walks producing Z3
+[[smt-translation]] --[:ERASES]--> [[pi-types]]  -- Functions → uninterpreted
+[[vc-provenance]] --[:EXTENDS]--> [[verification-pipeline]]  -- Error quality
+[[vc-provenance]] --[:REPORTS]--> [[verification-pipeline]]  -- Provenance-annotated failures
+[[elaboration-context]] --[:ENABLES]--> [[elaboration]]  -- Central context
+[[elaboration-context]] --[:INCLUDES]--> [[implicit-environment]]  -- Δ in context
+[[elaboration-context]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- Reader component
+[[monad-split]] --[:REVISES]--> [[elaboration-monad]]  -- Addresses coupling
+[[usages-deferred]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- Analysis moves post-elab
+[[types-as-terms]] --[:ENABLES]--> [[type-type]]  -- Types compute as terms
+[[types-as-terms]] --[:RELIES_ON]--> [[dependent-types]]  -- Dependency required
+[[types-as-terms]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Types evaluate like terms
+[[levels-vs-indices]] --[:APPLIES_TO]--> [[de-bruijn]]  -- Representation split
+[[levels-vs-indices]] --[:APPLIES_TO]--> [[nbe]]  -- Levels for evaluation
+[[deferred-constraint-solving]] --[:ENABLES]--> [[generalization]]  -- Metas generalized before solving
+[[deferred-constraint-solving]] --[:ENABLES]--> [[implicit-resolution]]  -- Full context for resolution
+[[deferred-constraint-solving]] --[:RELIES_ON]--> [[solver-dispatch]]  -- Batch processing at let boundaries
+[[deferred-constraint-solving]] --[:RESOLVES]--> [[constraint-types]]  -- At let boundaries
+[[branded-types]] --[:CONSTRAINS]--> [[eb-term]]  -- Type-level separation
+[[branded-types]] --[:CONSTRAINS]--> [[nf-value]]  -- Prevents mixing
+[[generator-monad]] --[:IMPLEMENTS]--> [[elaboration-monad]]  -- Generator yield protocol
+[[generator-monad]] --[:ENCODES]--> [[elaboration-monad]]  -- RWSE as generator
+[[structural-row-based-types]] --[:MOTIVATES]--> [[row-polymorphism]]  -- All composite = rows
+[[structural-row-based-types]] --[:FORMS]--> [[structural-records]]  -- Records, variants, tuples, lists, dicts
+[[bidirectional-checking-decision]] --[:DISPATCHES_ON]--> [[elaboration]]  -- Mode drives path
+[[bidirectional-checking-decision]] --[:COMPOSES_WITH]--> [[implicit-resolution]]  -- Mode switch triggers insertion
+[[equirecursive-types]] --[:EXTENDS]--> [[mu-types]]  -- Beyond simple unfolding
+[[equirecursive-types]] --[:REVISES]--> [[mu-type-unification]]  -- Toward full bisimulation
+[[equirecursive-types]] --[:PRESERVES]--> [[unification]]  -- Type equality under finite unfolding
+[[termination-checking]] --[:EXTENDS]--> [[equirecursive-types]]  -- Guardedness
+[[termination-checking]] --[:DETECTS]--> [[nbe]]  -- Non-termination
+[[dynamic-reflection]] --[:COMPOSES_WITH]--> [[verification-pipeline]]  -- Proof-gated casts
+[[dynamic-reflection]] --[:COERCES_TO]--> [[pi-types]]  -- Safe cast via proof
+[[mlir-influence]] --[:INSPIRES]--> [[gram]]  -- Open vocabulary / dialects
+[[mlir-influence]] --[:INSPIRES]--> [[structural-vs-representational-passes]]  -- Pass scheduling
+[[nanopass-influence]] --[:INSPIRES]--> [[gram]]  -- Composable passes
+[[nanopass-influence]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Many vs monolithic
+[[compcert-cakeml-influence]] --[:INSPIRES]--> [[gram]]  -- Refinement terminology
+[[compcert-cakeml-influence]] --[:INSPIRES]--> [[verification-pipeline]]  -- Verified compilation aspiration
+[[egglog-influence]] --[:INSPIRES]--> [[logram]]  -- Equality saturation
+[[egglog-influence]] --[:INSPIRES]--> [[dpo-rewriting]]  -- E-graph rewriting
+[[stratego-influence]] --[:INSPIRES]--> [[dpo-rewriting]]  -- Strategy combinators
+[[stratego-influence]] --[:INSPIRES]--> [[passes-in-yap]]  -- Rewrite rule API
+[[thorin-mimir-influence]] --[:INSPIRES]--> [[mir-retrospective]]  -- Calls = jumps
+[[thorin-mimir-influence]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- CPS vs direct
+[[documentation-debt]] --[:APPLIES_TO]--> [[yap]]  -- README/FAQ drift
+[[documentation-debt]] --[:DETECTS]--> [[yap]]  -- Drift between docs and impl
+[[idris-2-influence]] --[:INSPIRES]--> [[meta-variables]]  -- Contextual metas
+[[idris-2-influence]] --[:INSPIRES]--> [[bidirectional-checking]]  -- TT core
+[[idris-2-influence]] --[:INSPIRES]--> [[dependent-types]]  -- Dependent TT
+[[idris-2-influence]] --[:INSPIRES]--> [[solver]]  -- Unification approach
+[[agda-influence]] --[:INSPIRES]--> [[meta-variables]]  -- Pattern unification
+[[agda-influence]] --[:INSPIRES]--> [[dependent-types]]  -- Dependent types
+[[agda-influence]] --[:INSPIRES]--> [[nbe]]  -- Evaluation-based normalization
+[[agda-influence]] --[:INSPIRES]--> [[implicit-resolution]]  -- Instance resolution
+[[lean-4-influence]] --[:INSPIRES]--> [[nbe]]  -- NbE architecture
+[[lean-4-influence]] --[:INSPIRES]--> [[meta-variables]]  -- Instantiation strategy
+[[lean-4-influence]] --[:INSPIRES]--> [[elaboration-monad]]  -- Pipeline discipline
+[[lean-4-influence]] --[:INSPIRES]--> [[zonking]]  -- Substitution application
+[[ghc-influence]] --[:INSPIRES]--> [[generalization]]  -- Let-polymorphism
+[[ghc-influence]] --[:INSPIRES]--> [[deferred-constraint-solving]]  -- Constraint deferral
+[[ghc-influence]] --[:INSPIRES]--> [[modalities]]  -- Levity polymorphism precedent
+[[elm-ocaml-influence]] --[:INSPIRES]--> [[row-polymorphism]]  -- Row types approach
+[[elm-ocaml-influence]] --[:INSPIRES]--> [[variant-types]]  -- Polymorphic variants
+[[liquid-haskell-influence]] --[:INSPIRES]--> [[refinement-types]]  -- SMT automation
+[[liquid-haskell-influence]] --[:INSPIRES]--> [[smt-translation]]  -- VC generation pipeline
+[[liquid-haskell-influence]] --[:INSPIRES]--> [[vc-ir]]  -- Formula fragment
+[[dunfield-krishnaswami]] --[:INFORMS]--> [[bidirectional-checking]]  -- Declarative → algorithmic
+[[dunfield-krishnaswami]] --[:INFORMS]--> [[implicit-resolution]]  -- Subsumption in bidir
+[[mcbride-nuttin]] --[:INFORMS]--> [[meta-variables]]  -- Contextual metavariables
+[[mcbride-nuttin]] --[:INFORMS]--> [[zonking]]  -- Postponed substitution
+[[abel-pientka]] --[:INFORMS]--> [[nbe]]  -- Higher-order pattern unification
+[[abel-pientka]] --[:INFORMS]--> [[unification]]  -- Pattern fragment analysis
+[[idris-1-qtt-paper]] --[:INSPIRES]--> [[modalities]]  -- Quantity tracking
+[[maranget-paper]] --[:INFORMS]--> [[pattern-matching-compilation]]  -- Decision-tree construction
+[[typing-rules]] --[:ENCODES]--> [[yap]]  -- Formal rules in spec.md
+[[typing-rules]] --[:FORMS]--> [[pi-types]]  -- Type-theoretic foundation
+[[typing-rules]] --[:COMPOSES_WITH]--> [[bidirectional-checking]]  -- Mode drives rule selection
+[[modality-drift]] --[:ADDRESSES]--> [[modalities]]  -- Annotation vs type former
+[[modality-drift]] --[:MOTIVATES]--> [[modality-enforcement]]  -- Gap needs fixing
+[[block-level-using-gap]] --[:APPLIES_TO]--> [[blocks]]  -- Using in block scope
+[[block-level-using-gap]] --[:APPLIES_TO]--> [[implicit-environment]]  -- Block-local Δ
+[[block-level-using-gap]] --[:DETECTS]--> [[module-system]]  -- Gap in implementation
+[[missing-spec-shift-reset]] --[:IMPLEMENTS]--> [[shift-reset]]  -- Impl ahead of spec
+[[missing-spec-let-polymorphism]] --[:IMPLEMENTS]--> [[generalization]]  -- No spec formalization
+[[missing-spec-sigma-types]] --[:IMPLEMENTS]--> [[sigma-types]]  -- No spec formalization
+[[missing-spec-recursive-types]] --[:IMPLEMENTS]--> [[mu-type-unification]]  -- No spec formalization
+[[unification-algorithm]] --[:IMPLEMENTS]--> [[unification]]  -- Core algorithm
+[[unification-algorithm]] --[:USES]--> [[occurs-check]]  -- Prevents infinite types
+[[unification-algorithm]] --[:USES]--> [[row-unification-mechanism]]  -- Row case delegation
+[[unification-algorithm]] --[:USES]--> [[substitution-system]]  -- Accumulates solutions
+[[unification-algorithm]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Pattern match on pairs
+[[unification-algorithm]] --[:TRAVERSES]--> [[nf-value]]  -- Recursive walk
+[[flex-flex-unification]] --[:SPECIALIZES]--> [[unification-algorithm]]  -- Both unsolved
+[[flex-flex-unification]] --[:RESOLVES]--> [[meta-variables]]  -- Binds left to right
+[[flex-rigid-unification]] --[:SPECIALIZES]--> [[unification-algorithm]]  -- Meta vs rigid
+[[flex-rigid-unification]] --[:RESOLVES]--> [[meta-variables]]  -- Binds to rigid
+[[flex-rigid-unification]] --[:RECOVERS_FROM]--> [[substitution-system]]  -- Chases solved metas
+[[mu-type-unification]] --[:SPECIALIZES]--> [[unification-algorithm]]  -- Mu case
+[[mu-type-unification]] --[:IMPLEMENTS]--> [[equirecursive-types]]  -- Current approach
+[[mu-type-unification]] --[:REWRITES]--> [[mu-types]]  -- Unfolds and recurses
+[[occurs-check]] --[:CONSTRAINS]--> [[unification-algorithm]]  -- Prevents cycles
+[[occurs-check]] --[:TRAVERSES]--> [[nf-value]]  -- Walks checking meta presence
+[[occurs-check]] --[:DETECTS]--> [[mu-types]]  -- Cyclic types
+[[row-unification-mechanism]] --[:EXTENDS]--> [[unification-algorithm]]  -- Row extension
+[[row-unification-mechanism]] --[:DELEGATES_TO]--> [[row-rewriting]]  -- Label lookup
+[[row-unification-mechanism]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh row metas
+[[constraint-types]] --[:ENABLES]--> [[solver-dispatch]]  -- Typed constraints
+[[constraint-types]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Assign vs resolve
+[[solver-dispatch]] --[:USES]--> [[unification-algorithm]]  -- Assign → unify
+[[solver-dispatch]] --[:USES]--> [[implicit-resolution-solver]]  -- Resolve → Δ lookup
+[[solver-dispatch]] --[:RESOLVES]--> [[constraint-types]]  -- Processes queue
+[[implicit-resolution-solver]] --[:IMPLEMENTS]--> [[implicit-resolution]]  -- Solver-side mechanism
+[[implicit-resolution-solver]] --[:USES]--> [[unification-algorithm]]  -- Candidate matching
+[[implicit-resolution-solver]] --[:PRESERVES]--> [[generalization]]  -- Rejects subst-producing candidates
+[[substitution-system]] --[:ENABLES]--> [[zonking]]  -- Subst for resolution
+[[substitution-system]] --[:ENABLES]--> [[unification-algorithm]]  -- Solution accumulation
+[[substitution-system]] --[:ZONKS]--> [[meta-variables]]  -- Maps IDs to solutions
+[[row-data-structure]] --[:ENABLES]--> [[row-rewriting]]  -- Rewrite over rows
+[[row-data-structure]] --[:ENABLES]--> [[row-polymorphism]]  -- Shared data type
+[[row-data-structure]] --[:FORMS]--> [[structural-records]]  -- Basis of row-backed types
+[[row-rewriting]] --[:ENABLES]--> [[projection]]  -- Label lookup for field access
+[[row-rewriting]] --[:ENABLES]--> [[injection]]  -- Row extension
+[[row-rewriting]] --[:ENABLES]--> [[row-unification-mechanism]]  -- Restructuring for unification
+[[row-rewriting]] --[:REWRITES]--> [[row-data-structure]]  -- Moves label to head
+[[row-rewriting]] --[:TRAVERSES]--> [[row-data-structure]]  -- Recursive tail descent
+[[sigma-bindings]] --[:IMPLEMENTS]--> [[dependent-types]]  -- Field-to-field dependency
+[[sigma-bindings]] --[:APPLIES_TO]--> [[structural-records]]  -- Record field references
+[[sigma-bindings]] --[:APPLIES_TO]--> [[sigma-types]]  -- Σ field dependency
+[[sigma-bindings]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh metas per field
+[[sigma-bindings]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- ctx.sigma map
+[[label-lookup]] --[:USES]--> [[sigma-bindings]]  -- :label → sigma entry
+[[label-lookup]] --[:RESOLVES]--> [[sigma-bindings]]  -- Label references
+[[de-bruijn-indices]] --[:CONTRASTS_WITH]--> [[de-bruijn-levels]]  -- Dual representations
+[[de-bruijn-indices]] --[:EXTENDS]--> [[de-bruijn]]  -- EB-level detail
+[[de-bruijn-levels]] --[:EXTENDS]--> [[de-bruijn]]  -- NF-level detail
+[[level-to-index-conversion]] --[:USES]--> [[de-bruijn-indices]]  -- Target representation
+[[level-to-index-conversion]] --[:USES]--> [[de-bruijn-levels]]  -- Source representation
+[[quoting]] --[:USES]--> [[level-to-index-conversion]]  -- Core conversion
+[[quoting]] --[:USES]--> [[closures]]  -- Apply closure for readback
+[[quoting]] --[:QUOTES_TO]--> [[eb-term]]  -- NF.Value → EB.Term
+[[quoting]] --[:TRAVERSES]--> [[nf-value]]  -- Recursive descent
+[[context-operations]] --[:ENABLES]--> [[elaboration-context]]  -- Bind, extend, augment, prune
+[[context-operations]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- All phases
+[[nondeterminism-multishot]] --[:ENABLES]--> [[shift-reset]]  -- Multishot continuations
+[[nondeterminism-multishot]] --[:USES]--> [[solver-dispatch]]  -- Runs after solving
+[[nondeterminism-multishot]] --[:INSTANTIATES]--> [[meta-variables]]  -- Solution combinations
+[[trampoline-evaluator]] --[:IMPLEMENTS]--> [[nbe]]  -- Stack-safe evaluation
+[[trampoline-evaluator]] --[:ADDRESSES]--> [[nbe]]  -- Stack overflow prevention
+[[trampoline-evaluator]] --[:WRAPS]--> [[nbe]]  -- Heap-allocated frames
+[[trampoline-evaluator]] --[:PRESERVES]--> [[cbv-evaluation]]  -- Same results
+[[evaluation-step-limit]] --[:CONSTRAINS]--> [[trampoline-evaluator]]  -- Prevents non-termination
+[[evaluation-step-limit]] --[:DETECTS]--> [[nbe]]  -- Infinite loops
+[[variable-evaluation-dispatch]] --[:IMPLEMENTS]--> [[nbe]]  -- (Var) at NF level
+[[variable-evaluation-dispatch]] --[:RESOLVES]--> [[meta-variables]]  -- Skolems → zonker → neutral
+[[application-evaluation]] --[:IMPLEMENTS]--> [[nbe]]  -- (App) at NF level
+[[application-evaluation]] --[:DELEGATES_TO]--> [[closures]]  -- Abs case
+[[knot-tying]] --[:ENABLES]--> [[generalization]]  -- Recursive let evaluation
+[[knot-tying]] --[:ENABLES]--> [[mu-type-unification]]  -- Recursive self-reference
+[[knot-tying]] --[:INSTANTIATES]--> [[nbe]]  -- Placeholder entry
+[[error-causes]] --[:REPORTS]--> [[unification-algorithm]]  -- Type error rendering
+[[error-causes]] --[:USES]--> [[nf-display]]  -- Zonked NF in messages
+[[error-propagation]] --[:USES]--> [[error-causes]]  -- Lifts into monad
+[[error-propagation]] --[:USES]--> [[provenance-system]]  -- Carries trace
+[[error-propagation]] --[:PROPAGATES_VIA]--> [[elaboration-monad]]  -- V2.fail + yield
+[[provenance-system]] --[:ENABLES]--> [[error-propagation]]  -- Meaningful errors need context
+[[provenance-system]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- ctx.trace stack
+[[v2-track]] --[:IMPLEMENTS]--> [[provenance-system]]  -- Track function
+[[v2-track]] --[:EXTENDS]--> [[elaboration-monad]]  -- Trace extension
+[[provenance-display]] --[:USES]--> [[provenance-system]]  -- Stack rendering
+[[provenance-display]] --[:USES]--> [[pretty-printing]]  -- Term display
+[[provenance-display]] --[:REPORTS]--> [[error-causes]]  -- Error paths
+[[pretty-printing]] --[:USES]--> [[nf-display]]  -- NF rendering
+[[pretty-printing]] --[:REPORTS]--> [[elaboration]]  -- Human-readable output
+[[nf-display]] --[:USES]--> [[quoting]]  -- NF → EB → render
+[[nf-display]] --[:USES]--> [[zonking]]  -- Resolves metas before display
+[[src-term]] --[:PRODUCES]--> [[eb-term]]  -- Via elaboration
+[[eb-term]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Via evaluation
+[[nf-value]] --[:QUOTES_TO]--> [[eb-term]]  -- Via quoting
+[[src-term]] --[:CONTRASTS_WITH]--> [[eb-term]]  -- Surface vs core
+[[eb-term]] --[:CONTRASTS_WITH]--> [[nf-value]]  -- Syntax vs semantic domain
+[[parser-processors]] --[:PRODUCES]--> [[src-term]]  -- Grammar → AST
+[[src-to-eb-transformation]] --[:CONSUMES]--> [[src-term]]  -- Source input
+[[src-to-eb-transformation]] --[:PRODUCES]--> [[eb-term]]  -- Elaborated output
+[[src-to-eb-transformation]] --[:INSTANTIATES]--> [[meta-variables]]  -- Holes, implicit args
+[[test-utility]] --[:USES]--> [[parser-processors]]  -- Parses input
+[[test-utility]] --[:USES]--> [[elaboration-monad]]  -- V2.Do pipeline
+[[test-utility]] --[:USES]--> [[solver-dispatch]]  -- Solve constraints
+[[test-utility]] --[:SNAPSHOTS]--> [[elaboration]]  -- Pretty + structure output
+[[snapshot-testing]] --[:USES]--> [[test-utility]]  -- elaborateFrom
+[[snapshot-testing]] --[:SNAPSHOTS]--> [[pretty-printing]]  -- Inline snapshots
+[[snapshot-testing]] --[:PRESERVES]--> [[test-utility]]  -- Determinism via resets
+[[repl]] --[:USES]--> [[parser-processors]]  -- Parses each input
+[[repl]] --[:USES]--> [[v1-elaboration-pipeline]]  -- Elaborates
+[[repl]] --[:USES]--> [[mir-lowering]]  -- Optional MIR mode
+[[repl]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- Persistent ctx
+[[pipeline-explorer]] --[:REPORTS]--> [[yap]]  -- Visualizes pipeline stages
+[[brainstorming-artifacts]] --[:INFORMS]--> [[yap]]  -- Roadmap decisions
+[[vc-ir]] --[:SUPERSEDES]--> [[smt-translation]]  -- Backend-neutral replaces Z3
+[[vc-ir]] --[:TRANSLATES_TO]--> [[verification-pipeline]]  -- NF.Value → formulas
+[[vc-normalization]] --[:NORMALIZES_TO]--> [[vc-ir]]  -- Simplifies formulas
+[[vc-normalization]] --[:FOLLOWS]--> [[translation-boundary-vc]]  -- After translation
+[[quantifier-preparation]] --[:FOLLOWS]--> [[vc-normalization]]  -- After normalization
+[[quantifier-preparation]] --[:REWRITES]--> [[vc-ir]]  -- Prenex + skolemize + triggers
+[[boolean-lowering-cnf]] --[:FOLLOWS]--> [[quantifier-preparation]]  -- After quantifier prep
+[[boolean-lowering-cnf]] --[:TRANSLATES_TO]--> [[vc-ir]]  -- Formula → clauses
+[[boolean-lowering-cnf]] --[:PRESERVES]--> [[vc-ir]]  -- Theory atoms untouched
+[[translation-boundary-vc]] --[:SUPERSEDES]--> [[smt-translation]]  -- New translation tools
+[[translation-boundary-vc]] --[:CONSUMES]--> [[nf-value]]  -- NF.Value input
+[[translation-boundary-vc]] --[:DELEGATES_TO]--> [[vc-ir]]  -- Produces VC types
+[[verification-artefacts-revised]] --[:SUPERSEDES]--> [[verification-pipeline]]  -- New artefact type
+[[cdcl-t-solver]] --[:IMPLEMENTS]--> [[verification-pipeline]]  -- Replaces Z3
+[[cdcl-t-solver]] --[:CONSUMES]--> [[boolean-lowering-cnf]]  -- CNF clauses
+[[cdcl-t-solver]] --[:DELEGATES_TO]--> [[theory-plugin-interface]]  -- Theory propagation
+[[theory-plugin-interface]] --[:ENABLES]--> [[cdcl-t-solver]]  -- Modular theories
+[[verification-backend]] --[:SUPERSEDES]--> [[verification-pipeline]]  -- New backend API
+[[verification-backend]] --[:WRAPS]--> [[cdcl-t-solver]]  -- Simple API
+[[euf-theory]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Congruence closure
+[[euf-theory]] --[:ENABLES]--> [[quantifier-engine]]  -- Trigger matching
+[[arithmetic-theory]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Simplex
+[[arithmetic-theory]] --[:COMPOSES_WITH]--> [[string-theory]]  -- Length coupling
+[[string-theory]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Word equations
+[[string-theory]] --[:DELEGATES_TO]--> [[arithmetic-theory]]  -- Length lemmas
+[[row-theory]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Row containment
+[[row-theory]] --[:MIRRORS]--> [[row-unification-mechanism]]  -- Same label decomposition
+[[row-theory]] --[:PRESERVES]--> [[verification-pipeline]]  -- subtype.contains() semantics
+[[quantifier-engine]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Instantiation
+[[quantifier-engine]] --[:DELEGATES_TO]--> [[euf-theory]]  -- E-matching
+[[z3-replacement-decision]] --[:MOTIVATES]--> [[vc-ir]]  -- Backend-neutral IR needed
+[[z3-replacement-decision]] --[:MOTIVATES]--> [[cdcl-t-solver]]  -- Own solver needed
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[smt-translation]]  -- Z3 dependency removed
+[[z3-replacement-decision]] --[:PRESERVES]--> [[verification-pipeline]]  -- Shape unchanged
+[[num-sort-semantics]] --[:APPLIES_TO]--> [[arithmetic-theory]]  -- Int vs Real
+[[non-linear-arithmetic]] --[:CONSTRAINS]--> [[arithmetic-theory]]  -- Linearizable subset first
+[[non-linear-arithmetic]] --[:COMPOSES_WITH]--> [[nbe]]  -- Constant-folding removes ground arith
+[[higher-order-in-formulas]] --[:CONSTRAINS]--> [[quantifier-engine]]  -- No HO quantification
+[[milestone-1-ir-boundary]] --[:PRODUCES]--> [[vc-ir]]  -- First deliverable
+[[milestone-1-ir-boundary]] --[:PRODUCES]--> [[translation-boundary-vc]]  -- Translation tools
+[[milestone-1-ir-boundary]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- First step
+[[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[cdcl-t-solver]]  -- Core solver
+[[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[euf-theory]]  -- EUF module
+[[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[arithmetic-theory]]  -- Arithmetic module
+[[milestone-2-euf-quant-lia]] --[:FOLLOWS]--> [[milestone-1-ir-boundary]]  -- After IR
+[[milestone-3-strings]] --[:PRODUCES]--> [[string-theory]]  -- String module
+[[milestone-3-strings]] --[:FOLLOWS]--> [[milestone-2-euf-quant-lia]]  -- After core
+[[milestone-4-rows]] --[:PRODUCES]--> [[row-theory]]  -- Row module
+[[milestone-4-rows]] --[:FOLLOWS]--> [[milestone-3-strings]]  -- After strings
+[[milestone-5-explanations]] --[:FOLLOWS]--> [[milestone-4-rows]]  -- After rows
+[[required-formula-forms]] --[:CONSTRAINS]--> [[vc-ir]]  -- IR must express all forms
+[[required-theory-support]] --[:CONSTRAINS]--> [[theory-plugin-interface]]  -- All theories needed
+[[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[z3-replacement-decision]]  -- Alternative rejected
+[[nieuwenhuis-oliveras]] --[:INFORMS]--> [[cdcl-t-solver]]  -- DPLL(T) architecture
+[[nelson-oppen]] --[:INFORMS]--> [[theory-plugin-interface]]  -- Cooperating procedures
+[[de-moura-bjorner-z3]] --[:INFORMS]--> [[cdcl-t-solver]]  -- Industrial reference
+[[barbosa-cvc5]] --[:INFORMS]--> [[cdcl-t-solver]]  -- Modern reference
+[[liang-strings]] --[:INFORMS]--> [[string-theory]]  -- DPLL(T) string solver
+[[reynolds-strings]] --[:INFORMS]--> [[string-theory]]  -- Context-dependent simplification
+[[ge-de-moura-quantifiers]] --[:INFORMS]--> [[quantifier-engine]]  -- Complete instantiation
+[[dutertre-arithmetic]] --[:INFORMS]--> [[arithmetic-theory]]  -- Fast linear arithmetic
+[[neutrals]] --[:WRAPS]--> [[nf-value]]  -- Unsolved computations wrapped
+[[neutrals]] --[:ENABLES]--> [[nbe]]  -- Stuck terms represent unknowns
+[[nbe]] --[:USES]--> [[closures]]  -- Lazy substitution
+[[nbe]] --[:USES]--> [[neutrals]]  -- Stuck computations
+[[nbe]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Evaluation direction
+[[nbe]] --[:QUOTES_TO]--> [[eb-term]]  -- Readback direction
+[[nbe]] --[:PRESERVES]--> [[dependent-types]]  -- Beta-eta equivalence
+[[hindley-milner]] --[:INFORMS]--> [[generalization]]  -- Let-polymorphism theory
+[[hindley-milner]] --[:INFORMS]--> [[meta-variables]]  -- Unification-based inference
+[[system-f]] --[:INFORMS]--> [[pi-types]]  -- Parametric polymorphism foundation
+[[system-f]] --[:INFORMS]--> [[hindley-milner]]  -- Explicit polymorphism
+[[structural-typing]] --[:ENABLES]--> [[row-polymorphism]]  -- Structure-based identity
+[[structural-subtyping]] --[:CONTRASTS_WITH]--> [[row-polymorphism]]  -- Subtyping vs parametric
+[[nominal-typing]] --[:CONTRASTS_WITH]--> [[typeclass-emulation]]  -- Class hierarchy vs structural
+
+## Cross-Batch Connections  @2026-05-17
+
+### 8 ↔ 2 (Implementation internals ↔ Language features)
+
+[[unification-algorithm]] --[:IMPLEMENTS]--> [[pi-types]]  -- Pi-Pi equality checking case
+[[unification-algorithm]] --[:IMPLEMENTS]--> [[sigma-types]]  -- Sigma-Sigma equality checking case
+[[unification-algorithm]] --[:IMPLEMENTS]--> [[variant-types]]  -- Variant-Variant equality checking case
+[[row-unification-mechanism]] --[:IMPLEMENTS]--> [[row-polymorphism]]  -- Type-level row unification
+[[solver-dispatch]] --[:RESOLVES]--> [[implicit-resolution]]  -- Resolve type → Δ lookup
+[[solver-dispatch]] --[:ENABLES]--> [[deferred-constraint-solving]]  -- Batch processing at let boundaries
+[[substitution-system]] --[:ZONKS]--> [[holes]]  -- Fresh metas after solving
+[[sigma-bindings]] --[:IMPLEMENTS]--> [[sigma-types]]  -- Dependent field references
+[[sigma-bindings]] --[:ENABLES]--> [[structural-records]]  -- Field-to-field dependency
+[[de-bruijn-levels]] --[:ENABLES]--> [[lambda]]  -- Evaluation under binders
+[[closures]] --[:IMPLEMENTS]--> [[lambda]]  -- Closure = captured env + body
+[[quoting]] --[:ENABLES]--> [[pretty-printing]]  -- NF values → readable terms
+[[nondeterminism-multishot]] --[:IMPLEMENTS]--> [[continuation-binders]]  -- Multishot resume semantics
+[[trampoline-evaluator]] --[:IMPLEMENTS]--> [[cbv-evaluation]]  -- Without stack overflow
+[[knot-tying]] --[:IMPLEMENTS]--> [[blocks]]  -- Recursive let self-referential evaluation
+[[variable-evaluation-dispatch]] --[:IMPLEMENTS]--> [[ffi]]  -- Foreign variable lookup
+[[provenance-system]] --[:THREADS_THROUGH]--> [[bidirectional-checking]]  -- Checking/inference trace
+
+### 8 ↔ 7 (Implementation internals ↔ Typing rules)
+
+[[unification-algorithm]] --[:IMPLEMENTS]--> [[typing-rules]]  -- (Conv) rule: assignment → unify
+[[variable-evaluation-dispatch]] --[:IMPLEMENTS]--> [[typing-rules]]  -- (Var) rule: context lookup
+[[application-evaluation]] --[:IMPLEMENTS]--> [[typing-rules]]  -- (App) rule at NF level
+[[sigma-bindings]] --[:IMPLEMENTS]--> [[typing-rules]]  -- Sigma typing (impl ahead of spec)
+[[knot-tying]] --[:IMPLEMENTS]--> [[typing-rules]]  -- Recursive types (Mu) typing (no spec)
+[[occurs-check]] --[:DETECTS]--> [[typing-rules]]  -- Failures producing Mu wrapping
+[[trampoline-evaluator]] --[:IMPLEMENTS]--> [[typing-rules]]  -- Operational semantics via NbE
+
+### 5 ↔ 8 (Decisions ↔ Implementation internals)
+
+[[levels-vs-indices]] --[:MOTIVATES]--> [[de-bruijn-indices]]  -- Index representation choice
+[[levels-vs-indices]] --[:MOTIVATES]--> [[de-bruijn-levels]]  -- Level representation choice
+[[types-as-terms]] --[:ENABLES]--> [[trampoline-evaluator]]  -- Evaluate types like values
+[[whnf-vs-full-normalization]] --[:CONSTRAINS]--> [[trampoline-evaluator]]  -- Evaluation depth
+[[bidirectional-checking-decision]] --[:DISPATCHES_ON]--> [[src-to-eb-transformation]]  -- Mode drives Src → EB
+[[structural-row-based-types]] --[:MOTIVATES]--> [[row-data-structure]]  -- Row structure choice
+[[structural-row-based-types]] --[:MOTIVATES]--> [[row-rewriting]]  -- Row mechanism choice
+
+### 4 ↔ 2 (Mechanisms ↔ Language features)
+
+[[zonking]] --[:ZONKS]--> [[holes]]  -- Metas after constraint solving
+[[zonking]] --[:RESOLVES]--> [[application]]  -- Meta-variables from implicit insertion
+[[elaboration-context]] --[:THREADS_THROUGH]--> [[lambda]]  -- Binder extension
+[[elaboration-context]] --[:THREADS_THROUGH]--> [[pi-types]]  -- Binder extension
+[[elaboration-context]] --[:THREADS_THROUGH]--> [[match]]  -- Binder extension
+[[elaboration-monad]] --[:ENABLES]--> [[shift-reset]]  -- Via MutState.skolems
+[[solver]] --[:ENABLES]--> [[implicit-resolution]]  -- Δ lookup phase
+[[smt-translation]] --[:TRANSLATES_TO]--> [[refinement-types]]  -- Verification conditions
+
+### 1 ↔ 8 (Pipeline ↔ Implementation)
+
+[[mir-lowering]] --[:CONSUMES]--> [[eb-term]]  -- EB.Term for IR translation
+
+### 9 ↔ 1 (SMT solver ↔ Pipeline)
+
+[[verification-pipeline]] --[:DELEGATES_TO]--> [[verification-backend]]  -- Satisfiability checking
+[[verification-pipeline]] --[:PRODUCES]--> [[vc-ir]]  -- VC.Formula via translation boundary
+[[cdcl-t-solver]] --[:SUPERSEDES]--> [[smt-translation]]  -- Replaces Z3 invocation
+
+### 9 ↔ 2 (SMT solver ↔ Language features)
+
+[[vc-ir]] --[:ENCODES]--> [[refinement-types]]  -- Predicates as VC.Formula
+[[row-theory]] --[:IMPLEMENTS]--> [[row-polymorphism]]  -- Width subtyping, containment
+[[arithmetic-theory]] --[:VALIDATES]--> [[primitive-signature]]  -- Arithmetic operations
+[[string-theory]] --[:VALIDATES]--> [[primitive-signature]]  -- String primitives
+[[quantifier-engine]] --[:IMPLEMENTS]--> [[refinement-types]]  -- Guarded universal quantification
+[[vc-ir]] --[:ENCODES]--> [[modalities]]  -- Modal verification constraints
+
+### 9 ↔ 4 (SMT solver ↔ Mechanisms)
+
+[[verification-backend]] --[:ENABLES]--> [[vc-provenance]]  -- Unsat-core reporting
+
+### 9 ↔ 8 (SMT solver ↔ Implementation internals)
+
+[[euf-theory]] --[:MIRRORS]--> [[unification-algorithm]]  -- Term equality ↔ type equality
+[[milestone-5-explanations]] --[:COMPOSES_WITH]--> [[provenance-system]]  -- End-to-end error reporting
+[[milestone-5-explanations]] --[:PRODUCES]--> [[vc-provenance]]  -- Explanation/model infrastructure
+
+## Semantic Enrichment — Parallel Edges  @2026-05-17
+
+### NbE pipeline
+
+[[nbe]] --[:DELEGATES_TO]--> [[closures]]  -- Lazy substitution mechanism
+[[nbe]] --[:DELEGATES_TO]--> [[trampoline-evaluator]]  -- Stack-safe execution
+
+### Elaboration monad
+
+[[elaboration-monad]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- Reader component
+[[elaboration-monad]] --[:PROPAGATES_VIA]--> [[generator-monad]]  -- Generator yield protocol
+[[elaboration-monad]] --[:WRAPS]--> [[generator-monad]]  -- ReaderWriterStateEither algebraic structure
+[[elaboration-monad]] --[:DELEGATES_TO]--> [[nondeterminism]]  -- MutState for skolems, metas
+[[elaboration-monad]] --[:ENABLES]--> [[elaboration]]  -- Monadic pipeline
+[[elaboration-monad]] --[:ENABLES]--> [[v2-elaboration-pipeline]]  -- V2 pipeline
+
+### Row polymorphism
+
+[[row-polymorphism]] --[:DELEGATES_TO]--> [[row-rewriting]]  -- Label lookup mechanism
+[[row-polymorphism]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh row variables (open tails)
+[[row-polymorphism]] --[:SUBSUMES]--> [[structural-records]]  -- Rows generalize fixed-field records
+[[row-polymorphism]] --[:SUBSUMES]--> [[variant-types]]  -- Rows generalize fixed-tag unions
+
+### Meta-variables
+
+[[meta-variables]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.supply, ctx.metas
+
+### Dependent types
+
+[[dependent-types]] --[:FORMS]--> [[pi-types]]  -- Universal quantification with dependency
+[[dependent-types]] --[:FORMS]--> [[sigma-types]]  -- Existential quantification with dependency
+[[dependent-types]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Types compute as terms
+[[dependent-types]] --[:COMPOSES_WITH]--> [[row-polymorphism]]  -- Dependent rows
+[[dependent-types]] --[:ENABLES]--> [[type-type]]  -- Types live in same universe as terms
+
+### Implicit resolution
+
+[[implicit-resolution]] --[:DISPATCHES_ON]--> [[constraint-types]]  -- Resolve → Δ, assign → unify
+[[implicit-resolution]] --[:DELEGATES_TO]--> [[solver-dispatch]]  -- Batch processing
+[[implicit-resolution]] --[:PRESERVES]--> [[generalization]]  -- Rejects subst-producing candidates
+[[implicit-resolution]] --[:INSTANTIATES]--> [[meta-variables]]  -- Insertion creates fresh unknowns
+[[implicit-resolution]] --[:RESOLVES]--> [[deferred-constraint-solving]]  -- At let boundaries
+
+### Verification pipeline
+
+[[verification-pipeline]] --[:ERASES]--> [[pi-types]]  -- Functions → uninterpreted
+[[verification-pipeline]] --[:DETECTS]--> [[refinement-types]]  -- Counterexample generation
+[[verification-pipeline]] --[:REPORTS]--> [[provenance-system]]  -- Provenance-annotated failures
+
+### GRAM
+
+[[gram]] --[:TRANSLATES_TO]--> [[js-codegen]]  -- Target-specific passes
+[[gram]] --[:TRANSLATES_TO]--> [[c-codegen]]  -- Target-specific passes
+[[gram]] --[:TRANSLATES_TO]--> [[erlang-codegen]]  -- Target-specific passes
+[[gram]] --[:DELEGATES_TO]--> [[dpo-rewriting]]  -- Graph transformation engine
+
+### Pattern matching compilation
+
+[[pattern-matching-compilation]] --[:ERASES]--> [[match]]  -- Patterns removed after compilation
+[[pattern-matching-compilation]] --[:USES]--> [[maranget-paper]]  -- Decision-tree algorithm
+
+### Bidirectional checking
+
+[[bidirectional-checking]] --[:INTRODUCES]--> [[pi-types]]  -- Types in check mode
+[[bidirectional-checking]] --[:ELIMINATES]--> [[pi-types]]  -- Types in infer mode
+[[bidirectional-checking]] --[:DISPATCHES_ON]--> [[elaboration]]  -- Check vs infer mode
+[[bidirectional-checking]] --[:DELEGATES_TO]--> [[solver]]  -- At let boundaries
+[[bidirectional-checking]] --[:COERCES_TO]--> [[pi-types]]  -- Infer to check mode switch
+
+### Equirecursive types
+
+[[equirecursive-types]] --[:REWRITES]--> [[mu-types]]  -- Unfold-and-recurse during unification
+[[equirecursive-types]] --[:DETECTS]--> [[nbe]]  -- Infinite unfolding (step limit)
+[[equirecursive-types]] --[:DELEGATES_TO]--> [[mu-type-unification]]  -- Checking delegation
+
+### Delimited continuations
+
+[[shift-reset]] --[:INSTANTIATES]--> [[continuation-binders]]  -- Via skolem-like metas
+[[shift-reset]] --[:DELEGATES_TO]--> [[nondeterminism]]  -- Multishot replay
+[[shift-reset]] --[:NORMALIZES_TO]--> [[closures]]  -- Continuation closure (captured frames)
+[[shift-reset]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- State machines (planned)
+
+## Multi-target Expansion + Orphan Fixes  @2026-05-17
+
+### Batch section expansions
+
+[[lambda]] --[:ENCODES]--> [[closures]]  -- Function values as closures
+[[effects-as-modality]] --[:COMPOSES_WITH]--> [[verification-pipeline]]  -- Effect verification
+[[type-erasure]] --[:ADDRESSES]--> [[ffi]]  -- Dummy type args
+[[type-erasure]] --[:ENABLES]--> [[js-codegen]]  -- Cleaner codegen
+[[multishot-serialization]] --[:MOTIVATES]--> [[selective-cps]]  -- Alternative approach
+[[usages-deferred]] --[:ADDRESSES]--> [[modality-enforcement]]  -- Enforcement gap
+[[structural-row-based-types]] --[:REJECTS]--> [[nominal-typing]]  -- Not primary type discipline
+[[koka-influence]] --[:INSPIRES]--> [[effects-as-modality]]  -- Effect tracking model
+[[closures]] --[:ENABLES]--> [[nbe]]  -- Evaluation without substitution
+[[repl]] --[:USES]--> [[js-codegen]]  -- Code generation
+[[src-to-eb-transformation]] --[:DISPATCHES_ON]--> [[src-term]]  -- Src.Term type drives dispatch
+[[parser-processors]] --[:DISPATCHES_ON]--> [[src-term]]  -- Grammar rule postprocessors
+[[parser-processors]] --[:TRANSLATES_TO]--> [[src-term]]  -- Token arrays → AST nodes
+[[repl]] --[:DISPATCHES_ON]--> [[mir-lowering]]  -- Standard, --mir, --codegen modes
+[[whnf-codification]] --[:ADDRESSES]--> [[whnf-vs-full-normalization]]  -- Formalize the WHNF boundary
+
+### Orphan zettel connections
+
+[[functional-patterns]] --[:EXTENDS]--> [[match]]  -- Curry-style patterns, view patterns
+[[functional-patterns]] --[:REQUIRES]--> [[elaboration]]  -- Elaboration redesign needed
+[[logic-programming]] --[:INSPIRES]--> [[elaboration]]  -- miniKanren-like relational fragments
+[[logic-programming]] --[:USES]--> [[unification]]  -- Relational reasoning via unification
+[[lsp]] --[:REPORTS]--> [[yap]]  -- Language server protocol
+[[lsp]] --[:USES]--> [[v2-elaboration-pipeline]]  -- Incremental analysis
+[[lsp]] --[:USES]--> [[tree-sitter-parser]]  -- Incremental parsing
+[[records-indexed-separation]] --[:ADDRESSES]--> [[structural-records]]  -- Syntax confusion with indexed types
+[[records-indexed-separation]] --[:ADDRESSES]--> [[lists]]  -- Indexed vs plain record clarity
+[[records-indexed-separation]] --[:ADDRESSES]--> [[dictionaries]]  -- Indexed vs plain record clarity
+[[solver-module-layout]] --[:APPLIES_TO]--> [[cdcl-t-solver]]  -- Internal module structure
+[[solver-module-layout]] --[:APPLIES_TO]--> [[theory-plugin-interface]]  -- Separation of concerns
+[[yap-explore]] --[:REPORTS]--> [[yap]]  -- Web dashboard for pipeline stages
+[[yap-explore]] --[:USES]--> [[v1-elaboration-pipeline]]  -- Displays elaboration output
+[[yap-explore]] --[:USES]--> [[pretty-printing]]  -- Term rendering
+[[yap-explore]] --[:MIRRORS]--> [[pipeline-explorer]]  -- Same tool, alternate zettel
+
+## Batch-Internal Expansion (Round 2)  @2026-05-17
+
+### Batch 1 — Pipeline
+
+[[nearley-parser]] --[:CONTRASTS_WITH]--> [[tree-sitter-parser]]  -- Ambiguous CFG vs error-recovering incremental
+[[tree-sitter-parser]] --[:TRANSLATES_TO]--> [[src-term]]  -- Incremental parse tree → CST
+[[v2-elaboration-pipeline]] --[:FOLLOWS]--> [[v1-elaboration-pipeline]]  -- Sequential development
+[[js-codegen]] --[:TRANSLATES_TO]--> [[ffi]]  -- JavaScript source output
+[[c-codegen]] --[:TRANSLATES_TO]--> [[ffi]]  -- C source output
+[[erlang-codegen]] --[:TRANSLATES_TO]--> [[ffi]]  -- Erlang source output
+
+### Batch 2a — Type formers
+
+[[modalities]] --[:COMPOSES_WITH]--> [[pi-types]]  -- Graded function arguments
+[[sigma-types]] --[:COMPOSES_WITH]--> [[variant-types]]  -- Dependent elimination produces variants
+[[refinement-types]] --[:COMPOSES_WITH]--> [[pi-types]]  -- Refined function domains/codomains
+
+### Batch 2b — Data structures
+
+[[projection]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Schema, Sigma, Neutral, Flex
+[[injection]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Neutral, Var, Schema, Variant, Sigma
+[[lists]] --[:CONTRASTS_WITH]--> [[tuples]]  -- Homogeneous indexed vs heterogeneous positional
+
+### Batch 2c — Expressions
+
+[[application]] --[:DUAL_OF]--> [[lambda]]  -- Intro/elim pair for Pi
+[[spineful-applications]] --[:ADDRESSES]--> [[application]]  -- Nested App complexity
+[[answer-type-polymorphism]] --[:USES]--> [[pi-types]]  -- Polymorphic answer type is a Pi
+
+### Batch 2d — Continuations
+
+[[nondeterminism]] --[:IMPLEMENTS]--> [[shift-reset]]  -- Multishot continuation semantics
+[[effects-as-modality]] --[:COMPOSES_WITH]--> [[shift-reset]]  -- Effect system over continuations
+
+### Batch 2g — Semantics
+
+[[cbv-evaluation]] --[:IMPLEMENTS]--> [[nbe]]  -- Spec vs implementation
+[[cbv-evaluation]] --[:CONTRASTS_WITH]--> [[strict-vs-lazy]]  -- Evaluation strategy contrast
+[[primitive-signature]] --[:USES]--> [[ffi]]  -- Foreign δ-rules
+[[primitive-signature]] --[:ENCODES]--> [[cbv-evaluation]]  -- Arithmetic/boolean/comparison as built-in δ-rules
+
+### Batch 3 — Lowering
+
+[[saturation]] --[:DISPATCHES_ON]--> [[ffi]]  -- Known-arity foreign/ref functions
+[[saturation]] --[:ADDRESSES]--> [[application]]  -- Collapse App chains into primop nodes
+[[gram-step-1]] --[:FOLLOWS]--> [[mir-retrospective]]  -- Lessons learned inform first step
+[[gram-step-1]] --[:TRANSLATES_TO]--> [[gram]]  -- EB.Term → GRAM nodes
+[[logram]] --[:TRANSLATES_TO]--> [[gram]]  -- Triple store / Datalog facts
+[[logram]] --[:USES]--> [[egglog-influence]]  -- Equality saturation substrate
+[[mir-retrospective]] --[:REJECTS]--> [[mir-lowering]]  -- Closure conversion mistake identified
+
+### Batch 4 — Mechanisms
+
+[[elaboration-monad]] --[:THREADS_THROUGH]--> [[meta-variables]]  -- MutState manages meta store
+[[smt-translation]] --[:ERASES]--> [[pi-types]]  -- Functions → uninterpreted in SMT
+
+### Batch 5 — Decisions
+
+[[modality-drift]] --[:CONTRASTS_WITH]--> [[typing-rules]]  -- Type former vs annotation inconsistency
+[[mutual-recursion]] --[:REQUIRES]--> [[solver]]  -- Multi-pass constraint solving
+
+### Batch 8b — Sigma/De Bruijn/Closures
+
+[[closures]] --[:WRAPS]--> [[eb-term]]  -- Deferred substitution (EB.Term + Context)
+[[closures]] --[:PRESERVES]--> [[lambda]]  -- Lexical scope captured at binding site
+[[closures]] --[:RELIES_ON]--> [[de-bruijn-levels]]  -- Level-indexed environments
+
+### Batch 8c — Nondeterminism/Evaluation
+
+[[variable-evaluation-dispatch]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Meta, Bound, Free, Label, Foreign
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Abs → closure, External → partial, PrimOp → δ
+[[nondeterminism-multishot]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.nondeterminism
+[[nondeterminism-multishot]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Solution emptiness check
+[[knot-tying]] --[:WRAPS]--> [[nbe]]  -- Placeholder entry mutated after evaluation
+[[evaluation-step-limit]] --[:ADDRESSES]--> [[nbe]]  -- Non-termination prevention
+
+### Batch 8d — Errors/Provenance
+
+[[error-causes]] --[:DISPATCHES_ON]--> [[nf-value]]  -- UnificationFailure, RowMismatch, etc.
+[[v2-track]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- Extends ctx.trace per step
+
+### Batch 9 — SMT Solver
+
+[[solver-module-layout]] --[:ENCODES]--> [[cdcl-t-solver]]  -- IR / SAT / theories / explanation separation
+[[milestone-5-explanations]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Error quality improvement
+
+## Batch-Internal Expansion (Round 3)  @2026-05-17
+
+### 2c — Expressions
+
+[[lambda]] --[:DISPATCHES_ON]--> [[pi-types]]  -- Explicit λ vs implicit λ{} icit matching
+[[lambda]] --[:COMPOSES_WITH]--> [[application]]  -- β-redex pair
+[[application]] --[:COMPOSES_WITH]--> [[lambda]]  -- β-redex pair
+[[application]] --[:DISPATCHES_ON]--> [[src-term]]  -- Explicit app vs @-implicit app
+[[tagged-values]] --[:ENCODES]--> [[row-polymorphism]]  -- Open row tail on TYPE, closed on term
+[[match]] --[:DISPATCHES_ON]--> [[variant-types]]  -- Variant, Struct, Lit, List, Wildcard, Binder
+[[match]] --[:COMPOSES_WITH]--> [[tagged-values]]  -- Intro/elim pair for variants
+[[blocks]] --[:INTRODUCES]--> [[elaboration-context]]  -- Local scope via let bindings
+[[pattern-matching-compilation]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Maranget decision trees
+
+### 2d — Continuations
+
+[[continuation-binders]] --[:ENCODES]--> [[meta-variables]]  -- Resumption as meta in MutState.skolems
+[[shift-reset]] --[:ELIMINATES]--> [[continuation-binders]]  -- Resume applies k
+[[shift-reset-mir-lowering]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- State machine (heap-allocated frames)
+
+### 2e — Implicits
+
+[[implicit-resolution]] --[:COMPOSES_WITH]--> [[generalization]]  -- Deferred resolution preserves generality
+[[typeclass-emulation]] --[:ENCODES]--> [[implicit-environment]]  -- Instances as record values in Δ
+
+### 2f — FFI/modules
+
+[[ffi]] --[:ENCODES]--> [[elaboration-context]]  -- External functions as Var(Foreign)
+[[ffi]] --[:TRANSLATES_TO]--> [[js-codegen]]  -- Curried JS functions (.ffi.js companions)
+[[module-system]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- ctx.imports
+
+### 3 — Lowering
+
+[[dpo-rewriting]] --[:REWRITES]--> [[gram]]  -- L ← K → R rule application on nodes
+[[gram]] --[:REJECTS]--> [[gram-as-s-expressions]]  -- Cycles break tree model
+[[defunctionalization]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Tagged dispatch on function identity
+[[closure-conversion]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Environment + function pointer
+[[closure-conversion]] --[:ERASES]--> [[lambda]]  -- Flattens lexical scope to heap allocation
+[[mlir-influence]] --[:MIRRORS]--> [[gram]]  -- Dialects ↔ tag vocabularies, passes ↔ rewrites
+[[structural-vs-representational-passes]] --[:DISTINGUISHES]--> [[gram]]  -- Eta/beta/fold before closure-conv/defunc
+[[egglog-influence]] --[:MIRRORS]--> [[logram]]  -- Equality saturation ↔ graph saturation
+
+### 5 — Decisions
+
+[[modality-drift]] --[:DETECTS]--> [[modalities]]  -- Type former vs annotation inconsistency
+
+## Batch-Internal Expansion (Round 4)  @2026-05-17
+
+### Batch 7 — Typing rules
+
+[[typing-rules]] --[:DISPATCHES_ON]--> [[bidirectional-checking]]  -- Γ ⊢ e ⇐ A vs Γ ⊢ e ⇒ A
+[[missing-spec-shift-reset]] --[:ADDRESSES]--> [[documentation-debt]]  -- Spec gap
+[[missing-spec-let-polymorphism]] --[:ADDRESSES]--> [[documentation-debt]]  -- Spec gap
+[[missing-spec-sigma-types]] --[:ADDRESSES]--> [[documentation-debt]]  -- Spec gap
+[[missing-spec-recursive-types]] --[:ADDRESSES]--> [[documentation-debt]]  -- Spec gap
+
+### Batch 9b — CDCL(T) solver internals
+
+[[cdcl-t-solver]] --[:DISPATCHES_ON]--> [[theory-plugin-interface]]  -- EUF, arithmetic, strings, rows, quantifiers
+[[cdcl-t-solver]] --[:TRAVERSES]--> [[boolean-lowering-cnf]]  -- SAT decides boolean skeleton
+[[cdcl-t-solver]] --[:PRODUCES]--> [[verification-backend]]  -- SolveResult (sat/unsat/unknown)
+[[theory-plugin-interface]] --[:SPECIALIZES]--> [[nelson-oppen]]  -- Cooperating decision procedures
+[[theory-plugin-interface]] --[:DISPATCHES_ON]--> [[cdcl-t-solver]]  -- Theories receive literals from SAT
+
+### Batch 9c — Theory modules
+
+[[euf-theory]] --[:RESOLVES]--> [[unification]]  -- Congruence propagation
+[[euf-theory]] --[:WRAPS]--> [[cdcl-t-solver]]  -- Hash-consed term arena shared across theories
+[[euf-theory]] --[:TRAVERSES]--> [[cdcl-t-solver]]  -- Trigger matching over e-class arena
+[[arithmetic-theory]] --[:RESOLVES]--> [[cdcl-t-solver]]  -- Simplex feasibility for linear constraints
+[[arithmetic-theory]] --[:DISPATCHES_ON]--> [[cdcl-t-solver]]  -- Int → branch-and-bound, Real → simplex
+[[string-theory]] --[:REWRITES]--> [[cdcl-t-solver]]  -- Contains/prefix/suffix → concat equalities
+[[string-theory]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh witnesses for decomposition
+[[string-theory]] --[:USES]--> [[arithmetic-theory]]  -- Length coupling
+[[row-theory]] --[:USES]--> [[cdcl-t-solver]]  -- Emits child obligations for field values
+[[row-theory]] --[:DELEGATES_TO]--> [[cdcl-t-solver]]  -- Nested obligation emission
+[[quantifier-engine]] --[:DISPATCHES_ON]--> [[euf-theory]]  -- Triggers → E-match, none → bounded MBQI
+[[quantifier-engine]] --[:INSTANTIATES]--> [[cdcl-t-solver]]  -- Ground substitutions asserted
+[[quantifier-engine]] --[:USES]--> [[euf-theory]]  -- E-matching over arena
+
+### Batch 9a — VC IR internals
+
+[[vc-ir]] --[:ENCODES]--> [[verification-pipeline]]  -- All formula forms from current verification
+[[vc-normalization]] --[:TRAVERSES]--> [[vc-ir]]  -- Walk and simplify formulas
+[[boolean-lowering-cnf]] --[:ENCODES]--> [[vc-ir]]  -- Origin metadata for provenance
+[[verification-artefacts-revised]] --[:ENCODES]--> [[vc-ir]]  -- VC.Formula replaces Expr
+[[verification-artefacts-revised]] --[:INCLUDES]--> [[vc-ir]]  -- vc field is VC.Formula
+[[required-formula-forms]] --[:ENCODES]--> [[verification-pipeline]]  -- Existing verification capabilities
+
+### Batch 1 — Pipeline
+
+[[v2-elaboration-pipeline]] --[:MIRRORS]--> [[v1-elaboration-pipeline]]  -- Same theory, fresh implementation
+
+### Remaining multi-target expansions
+
+[[closures]] --[:PRESERVES]--> [[nbe]]  -- Lexical scope captured at binding site
+[[nondeterminism]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.nondeterminism.solution
+[[nondeterminism]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Solution emptiness (single vs replay)

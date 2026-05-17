@@ -1,14 +1,35 @@
 ---
-tags: [concept, type-system, mechanism]
+tags:
+- concept
+- type-system
+- mechanism
+- elaboration
+- unification
+- row-types
+- inference
+- normalization
+- lowering
+- ast
+- implemented
+- pattern
+- parser
+- mir
+- codegen
+- testing
+- reference
 ---
-# Structural Typing
+# Structural typing (shape-based types, without subtyping)
 
-A type discipline where type equivalence and compatibility are determined by structure (fields, methods, shape) rather than declared name. Two types with identical structure are interchangeable regardless of what they're called.
+In PL parlance “structural typing” often means **type equivalence depends on shape**, not on declared names. That overlaps with—but is **not the same as**—**structural subtyping** ([[structural-subtyping.md]]): equivalence is symmetric; subtyping is directional.
 
-Encompasses two related concepts:
-- **Structural equivalence** — symmetric: two types are the same if they have the same structure
-- **[[structural-subtyping|Structural subtyping]]** — asymmetric: a type with more features can substitute for one with fewer
+**Yap (verified)**
 
-In practice, 'structural typing' and 'structural subtyping' are often used interchangeably. The distinction matters in type theory: equivalence is symmetric, subtyping is directional.
+- **Row-shaped types:** structs/schemas/variants lower to `App` of literal atoms (`Struct`, `Schema`, `Variant`, …) to a `Row` (`src/elaboration/syntax/term.ts` `Constructors`).
+- **Structural congruence via unification:** `Schema–Schema`, `Struct–Struct`, `Variant–Variant` unify by comparing inner rows (`src/elaboration/unification/unification.ts`). Rows unify label-wise with metavariable solving (`src/elaboration/unification/rows.ts`).
+- **No width subtyping:** extra labels are not implicitly discarded—failed row unification surfaces as errors (`MissingLabel` etc. in rows module), not as coercion.
 
-Yap uses structural typing via rows — type identity is determined by row structure. It does NOT use [[structural-subtyping|structural subtyping]]; flexibility comes from [[row-polymorphism|row polymorphism]] instead. Contrasts with [[nominal-typing|nominal typing]].
+**Parametric structure:** openness comes from row **variables** solved against extensions, not from **A <: B** rules—tie this hub to [[row-polymorphism.md]] rather than subtyping vocabulary.
+
+**Lowering:** pure type-level rows/apps erase (`Leaf.erase`, `Patterns.TypeLevelApp`) before MIR (`src/lowering/lower.ts`); runtime structs use `Struct.data` lowering path.
+
+Related: [[nominal-typing.md]], [[rows-universal-substrate.md]], [[structural-records.md]], [[row-theory.md]].
