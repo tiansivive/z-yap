@@ -75,6 +75,14 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `primitive` | Primitive operations, built-in signatures |
 | `cps` | Continuation-passing style transformation |
 | `specification` | Formal rules, language specification |
+| `memory` | Memory management, allocation, GC, heap concerns |
+| `allocation` | Heap allocation, stack allocation, placement strategy |
+| `mutation` | In-place update, destructive modification, mutability |
+| `ownership` | Value ownership, exclusive access, borrowing |
+| `uniqueness` | Uniqueness typing, single-reference guarantee |
+| `reuse` | Memory reuse, slot recycling, reset/reuse patterns |
+| `refcounting` | Reference counting, drop/dup, RC optimization |
+| `data-access` | Structural operations: read, update, CRUD on records/variants |
 
 ### Work Layer Tags
 
@@ -165,6 +173,8 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `SNAPSHOTS` | Source captures target state for testing |
 | `VALIDATES` | Source validates correctness of target |
 | `CONSUMES` | Source consumes target as input |
+| `ANNOTATES` | Source pass adds metadata/enrichment to target node kind |
+| `ENRICHES` | Source pass adds structural information to target IR |
 | `PRECEDES` | Source work item comes before target in a thread's sequence |
 | `SHARED_WITH` | Source thread shares target work item with another thread |
 | `DEFERRED_FROM` | Source work item was deferred from target thread or queue |
@@ -178,7 +188,7 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | Pipeline | `elaboration`, `normalization`, `parser`, `mir`, `verification`, `lowering`, `codegen`, `checking`, `evaluation` |
 | Language | `syntax`, `continuation`, `ffi`, `inference`, `runtime`, `effect`, `recursion`, `sugar`, `cps` |
 | Elaboration | `constraint`, `solver`, `metavariable`, `generalization`, `context`, `closure`, `substitution` |
-| Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive` |
+| Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access` |
 | Verification | `verification`, `quantifiers`, `arithmetic`, `strings` |
 | Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration` |
 | Meta | `research`, `paper`, `gateway`, `reference`, `milestone` |

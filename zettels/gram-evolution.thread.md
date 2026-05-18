@@ -13,6 +13,8 @@ Graph Rewriting Abstract Machine: from current pass infrastructure (DPO + impera
 through the MIR bridge to future backend-specific passes and the LoGRAM substrate.
 GRAM is the research IR; MIR remains the practical codegen path.
 
+_Shared with: usage-semantics (CRUD depends on multiplicity)_
+
 ## Sequence
 
 1. **GRAM core** [[gram]] — implemented
@@ -58,8 +60,18 @@ GRAM is the research IR; MIR remains the practical codegen path.
 13. **GRAM next steps** [[gram-next-steps]] — planned
     Defunctionalization pass, lambda lifting pass, CRUD data access enrichment.
 
-14. **GRAM interpreter** [[gram-interpreter]] — speculative
+14. **Lambda lifting** [[lambda-lifting]] — planned
+    Promote closures to top-level fns with captured params. C/GPU-specific.
+
+15. **GRAM CRUD enrichment** [[gram-crud-enrichment]] — planned, needs-design
+    Access mode annotation on inj nodes from multiplicity.
+    _Shared with: usage-semantics thread_
+
+16. **CRUD strategy choice** [[crud-strategy-choice]] — needs-design
+    Phased: mode annotation → reuse analysis → constructor contexts.
+
+17. **GRAM interpreter** [[gram-interpreter]] — speculative
     Swappable strategy interpreter. Needs LoGRAM or better traversal.
 
-15. **LoGRAM** [[logram]] — speculative
+18. **LoGRAM** [[logram]] — speculative
     Datalog-style triple-store substrate for graph queries.

@@ -1167,3 +1167,105 @@
 [[global-pending-queue]] --[:INCLUDES]--> [[dynamic-reflection]]
 [[global-pending-queue]] --[:INCLUDES]--> [[ffi-saturation]]
 [[global-pending-queue]] --[:INCLUDES]--> [[whnf-codification]]
+
+## CRUD enrichment, strategies, and research references  @2026-05-18
+
+### GRAM CRUD enrichment — core edges
+[[gram-crud-enrichment]] --[:ENRICHES]--> [[gram]]  -- Adds access mode annotation to proj/inj nodes
+[[gram-crud-enrichment]] --[:CONSUMES]--> [[modalities]]  -- Multiplicity drives mode selection
+[[gram-crud-enrichment]] --[:ANNOTATES]--> [[projection]]  -- proj → Read (always safe, no mode needed)
+[[gram-crud-enrichment]] --[:ANNOTATES]--> [[injection]]  -- inj → Update (mode from multiplicity)
+[[gram-crud-enrichment]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Conservative defaults until enforcement works
+[[gram-crud-enrichment]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Adds edges, never replaces
+[[gram-crud-enrichment]] --[:INSTANTIATES]--> [[compilation-by-selection]]  -- Backends choose whether to read modes
+[[gram-crud-enrichment]] --[:MIRRORS]--> [[mir-lowering]]  -- MIR §6.4 Read/Update is the same concept in CFG form
+[[gram-crud-enrichment]] --[:FOLLOWS]--> [[gram-to-mir-bridge]]  -- After bridge validates graph
+[[gram-crud-enrichment]] --[:INSTANTIATES]--> [[gram-dataflow-semantics]]  -- Mode flows with data, not control
+[[gram-crud-enrichment]] --[:LOWERS_TO]--> [[mir-lowering]]  -- Update{mode} in MIR
+
+### CRUD strategy choice — decision hub
+[[crud-strategy-choice]] --[:CONSTRAINS]--> [[gram-crud-enrichment]]  -- Strategy determines pass design
+[[crud-strategy-choice]] --[:USES]--> [[mode-annotation-strategy]]  -- Phase A: chosen first
+[[crud-strategy-choice]] --[:DEFERS]--> [[reuse-analysis-strategy]]  -- Phase B: after mode annotation proves arch
+[[crud-strategy-choice]] --[:DEFERS]--> [[constructor-context-strategy]]  -- Phase C: speculative/post-LoGRAM
+[[crud-strategy-choice]] --[:CONTRASTS_WITH]--> [[pattern-algorithm-choice]]  -- Same pattern: pick strategy, defer alternatives
+[[crud-strategy-choice]] --[:RELIES_ON]--> [[modalities]]  -- Strategy depends on multiplicity system
+[[crud-strategy-choice]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Full benefit requires enforcement
+
+### Mode annotation strategy (Phase A)
+[[mode-annotation-strategy]] --[:APPLIES_TO]--> [[gram-crud-enrichment]]  -- Simplest enrichment pass
+[[mode-annotation-strategy]] --[:CONSUMES]--> [[modalities]]  -- Reads quantity from modal nodes
+[[mode-annotation-strategy]] --[:PRODUCES]--> [[gram]]  -- access_mode edges on inj nodes
+[[mode-annotation-strategy]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Conservative defaults without it
+[[mode-annotation-strategy]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Pure annotation, no deletion
+[[mode-annotation-strategy]] --[:CONTRASTS_WITH]--> [[reuse-analysis-strategy]]  -- Different concern: ownership vs allocation
+[[mode-annotation-strategy]] --[:CONTRASTS_WITH]--> [[constructor-context-strategy]]  -- Different concern: ownership vs construction pattern
+
+### Reuse analysis strategy (Phase B)
+[[reuse-analysis-strategy]] --[:APPLIES_TO]--> [[gram-crud-enrichment]]  -- Enrichment layer B
+[[reuse-analysis-strategy]] --[:COMPOSES_WITH]--> [[mode-annotation-strategy]]  -- Orthogonal enrichments; both compose
+[[reuse-analysis-strategy]] --[:COMPOSES_WITH]--> [[constructor-context-strategy]]  -- Both address allocation
+[[reuse-analysis-strategy]] --[:FOLLOWS]--> [[mode-annotation-strategy]]  -- Phase B after Phase A
+[[reuse-analysis-strategy]] --[:RELIES_ON]--> [[gram-pattern-pass]]  -- Reuse sites occur at match boundaries
+
+### Constructor context strategy (Phase C)
+[[constructor-context-strategy]] --[:APPLIES_TO]--> [[gram-crud-enrichment]]  -- Enrichment layer C
+[[constructor-context-strategy]] --[:COMPOSES_WITH]--> [[mode-annotation-strategy]]  -- Contexts are always exclusive
+[[constructor-context-strategy]] --[:COMPOSES_WITH]--> [[reuse-analysis-strategy]]  -- Context might reuse memory
+[[constructor-context-strategy]] --[:FOLLOWS]--> [[reuse-analysis-strategy]]  -- Phase C after Phase B
+[[constructor-context-strategy]] --[:RELIES_ON]--> [[logram]]  -- Benefits from indexed graph traversal
+
+### Research references — Perceus
+[[perceus-reuse-analysis]] --[:INSPIRES]--> [[crud-strategy-choice]]  -- Research input to strategy decision
+[[perceus-reuse-analysis]] --[:INSPIRES]--> [[reuse-analysis-strategy]]  -- Reuse tokens concept
+[[perceus-reuse-analysis]] --[:INSPIRES]--> [[constructor-context-strategy]]  -- Constructor contexts concept
+[[perceus-reuse-analysis]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- FBIP concept adapted for graph IR
+[[perceus-reuse-analysis]] --[:EXTENDS]--> [[koka-influence]]  -- Perceus is part of Koka ecosystem
+[[perceus-reuse-analysis]] --[:CONTRASTS_WITH]--> [[modalities]]  -- Runtime refcount vs compile-time QTT
+[[perceus-reuse-analysis]] --[:CONTRASTS_WITH]--> [[counting-immutable-beans]]  -- Same problem, different mechanisms
+
+### Research references — Counting Immutable Beans
+[[counting-immutable-beans]] --[:INSPIRES]--> [[crud-strategy-choice]]  -- Research input
+[[counting-immutable-beans]] --[:INSPIRES]--> [[reuse-analysis-strategy]]  -- reset/reuse model
+[[counting-immutable-beans]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- Graph-level reuse edges
+[[counting-immutable-beans]] --[:CONTRASTS_WITH]--> [[modalities]]  -- Runtime uniqueness vs compile-time QTT
+[[counting-immutable-beans]] --[:CONTRASTS_WITH]--> [[perceus-reuse-analysis]]  -- Lean vs Koka: different RC strategies
+[[counting-immutable-beans]] --[:CONTRASTS_WITH]--> [[clean-uniqueness-types]]  -- Runtime analysis vs type-level guarantee
+
+### Research references — Clean uniqueness types
+[[clean-uniqueness-types]] --[:INSPIRES]--> [[crud-strategy-choice]]  -- Research input
+[[clean-uniqueness-types]] --[:INSPIRES]--> [[mode-annotation-strategy]]  -- Whole-object uniqueness → per-field in Yap
+[[clean-uniqueness-types]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- Uniqueness → safe mutation precedent
+[[clean-uniqueness-types]] --[:INSPIRES]--> [[modalities]]  -- Uniqueness typing as prior art for QTT
+[[clean-uniqueness-types]] --[:CONTRASTS_WITH]--> [[modalities]]  -- Whole-object binary vs per-binding graded
+[[clean-uniqueness-types]] --[:CONTRASTS_WITH]--> [[perceus-reuse-analysis]]  -- Type-level vs runtime analysis
+[[clean-uniqueness-types]] --[:CONTRASTS_WITH]--> [[counting-immutable-beans]]  -- Type-level vs runtime analysis
+
+### Lambda lifting
+[[lambda-lifting]] --[:COMPOSES_WITH]--> [[closure-conversion]]  -- Builds on identified captures
+[[lambda-lifting]] --[:FOLLOWS]--> [[closure-conversion]]  -- Strictly further in pipeline
+[[lambda-lifting]] --[:CONTRASTS_WITH]--> [[defunctionalization]]  -- Lifting keeps fns; defunc replaces with data
+[[lambda-lifting]] --[:APPLIES_TO]--> [[gram]]  -- GRAM enrichment pass
+[[lambda-lifting]] --[:ENABLES]--> [[compilation-by-selection]]  -- C/GPU need it, JS/Erlang skip it
+[[lambda-lifting]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- lifts_to edge, original closure remains
+[[lambda-lifting]] --[:MIRRORS]--> [[mir-lowering]]  -- MIR expects top-level functions
+
+### Thread and roadmap edges
+[[gram-next-steps]] --[:INCLUDES]--> [[gram-crud-enrichment]]  -- Planned pass (phase 5)
+[[gram-next-steps]] --[:INCLUDES]--> [[lambda-lifting]]  -- Planned pass (phase 4)
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-crud-enrichment]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[crud-strategy-choice]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[lambda-lifting]]
+[[gram-evolution.thread]] --[:SHARED_WITH]--> [[usage-semantics.thread]]  -- CRUD depends on multiplicity
+
+### Cross-domain edges
+[[modality-enforcement]] --[:BLOCKS]--> [[gram-crud-enrichment]]  -- Conservative defaults without enforcement
+[[koka-influence]] --[:INSPIRES]--> [[perceus-reuse-analysis]]  -- Same ecosystem
+[[koka-influence]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- FBIP concept origin
+[[koka-influence]] --[:INSPIRES]--> [[constructor-context-strategy]]  -- FP² constructor contexts
+[[idris-1-qtt-paper]] --[:INSPIRES]--> [[mode-annotation-strategy]]  -- QTT multiplicities drive access mode
+[[idris-1-qtt-paper]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- Compile-time uniqueness from types
+[[projection]] --[:TRANSLATES_TO]--> [[gram-crud-enrichment]]  -- Proj → Read in GRAM
+[[injection]] --[:TRANSLATES_TO]--> [[gram-crud-enrichment]]  -- Inj → Update in GRAM
+[[rows-universal-substrate]] --[:ENABLES]--> [[gram-crud-enrichment]]  -- Row structure = per-field access
+[[stg-analogy]] --[:INFORMS]--> [[gram-crud-enrichment]]  -- STG case = semantic; operational compiled later
