@@ -12,14 +12,17 @@ tags:
 - backend
 - dependent
 - testing
+- graph
 ---
 
-# Pattern matching compilation
+# Pattern matching compilation (hub)
 
-**Code:** `src/lowering/matching/` — entry `lower` / `compileSubMatrix` in `index.ts`; columns split into variant (`variant.ts`), literal (`literal.ts`), struct (`struct.ts`), binder/wildcard handling (`shared.ts`). `lower.ts` header calls this **Maranget-style clause matrix** compilation.
+Maranget-style clause matrix compilation -- decision tree construction from pattern matrices. Implemented in two contexts: MIR (block emission) and GRAM (graph enrichment).
 
-**MIR shape:** Fail block label `e` with non-exhaustive string literal; merge blocks use parameter-carrying jumps (`j` labels) per `index.ts`. Tag and value dispatch emit `Branch` terminators (`docs/MIR-LOWERING.md` §3.7 Match table).
+**MIR:** `src/lowering/matching/` -- entry `lower` / `compileSubMatrix` in `index.ts`; columns split into variant (`variant.ts`), literal (`literal.ts`), struct (`struct.ts`), binder/wildcard handling (`shared.ts`). Fail block label `e` with non-exhaustive string literal; merge blocks use parameter-carrying jumps (`j` labels). Tag and value dispatch emit `Branch` terminators (`docs/MIR-LOWERING.md` section 3.7).
 
-**Coverage (doc):** `docs/MIR-LOWERING.md` §5 Match table lists variant, lit, struct, binder, wildcard; **list patterns not yet implemented**.
+**GRAM:** Two phases -- (1) `gram-pattern-translation` (translate.ts emits `pat:*` graph nodes from `EB.Pattern`) and (2) `gram-pattern-pass` (Maranget decision tree as `switch`/`leaf`/`fail` graph nodes, linked via `:decision_tree` edge). The original match structure is preserved alongside the operational tree.
 
-**Not a separate backend:** Same lowering feeds `Codegen/v2/` emitters; no distinct “trampoline-specific” matcher IR in `src/lowering/matching/`.
+**Coverage:** Variant, lit, struct, binder, wildcard. **List patterns not yet implemented.**
+
+**Algorithm:** Column heuristic (fewest wildcards), matrix specialization per head constructor, default matrix for wildcards/binders. Same conceptual algorithm in both MIR and GRAM -- different output representations.

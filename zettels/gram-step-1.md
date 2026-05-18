@@ -3,7 +3,7 @@ tags:
   [
     lowering,
     migration,
-    in-progress,
+    implemented,
     graph,
     ir,
     elaboration,
@@ -19,10 +19,10 @@ tags:
 
 # GRAM step 1 (substrate)
 
+**Status: complete.** The graph substrate and all initial passes are implemented and tested.
+
 **Anchored implementation:** `.cursor/plans/gram-implementation.md` — graph data structure, `translate.ts` from `EB.Term`, display, tests.
 
-**What exists:** `translate` walks elaboration terms into `Graph` values; `pipeline/descriptor.ts` `Initial` vocabulary already lists node tags including `RESET` and `SHIFT` (translation emits them). `compile` chains `translate` → configured pass pipeline → `verify`.
+**What exists:** `translate` walks elaboration terms into `Graph` values including pattern graph nodes (`pat:*`). `compile` chains `translate` → configured pass pipeline (`eta → saturate → shiftReset → pattern → closure`) → `verify`. All five passes are implemented with full test coverage.
 
-**Not the same as MIR parity:** MIR lowering implements shift/reset state machines (`src/lowering/continuations/`); GRAM pipeline tests mark shift/reset coverage as skipped until a GRAM lowering pass lands.
-
-Step 1 is the **graph + translation handshake**; η / saturate / closure passes (`src/GRAM/passes/`) sit on top of that substrate.
+Step 1 was the **graph + translation handshake**; subsequent passes (η, saturate, shift-reset enrichment, pattern decision tree, closure) built on that substrate to reach feature parity with MIR for translation and analysis.

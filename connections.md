@@ -901,3 +901,89 @@
 [[closures]] --[:PRESERVES]--> [[nbe]]  -- Lexical scope captured at binding site
 [[nondeterminism]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.nondeterminism.solution
 [[nondeterminism]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Solution emptiness (single vs replay)
+
+## GRAM Architecture Principles  @2026-05-18
+
+[[gram-additive-enrichment]] --[:CONSTRAINS]--> [[gram]]  -- All passes must follow
+[[gram-additive-enrichment]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- MIR erases/replaces; GRAM accumulates
+[[gram-additive-enrichment]] --[:ENABLES]--> [[compilation-by-selection]]  -- Multiple views enable selection
+[[gram-additive-enrichment]] --[:MIRRORS]--> [[mlir-influence]]  -- Multi-dialect coexistence pattern
+[[gram-dataflow-semantics]] --[:CONSTRAINS]--> [[gram]]  -- No forced sequencing in graph
+[[gram-dataflow-semantics]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Partial order vs total order (blocks)
+[[gram-dataflow-semantics]] --[:CONTRASTS_WITH]--> [[shift-reset-mir-lowering]]  -- Dependency edges vs jump sequences
+[[gram-dataflow-semantics]] --[:ENABLES]--> [[native-lambda-hvm]]  -- Parallel reduction compatible
+[[gram-dataflow-semantics]] --[:ENABLES]--> [[compilation-by-selection]]  -- Independence enables selectivity
+[[compilation-by-selection]] --[:RELIES_ON]--> [[gram-additive-enrichment]]  -- Requires accumulated views
+[[compilation-by-selection]] --[:RELIES_ON]--> [[gram-dataflow-semantics]]  -- Requires independence
+[[compilation-by-selection]] --[:ADDRESSES]--> [[closure-conversion]]  -- Backend-specific (C yes, JS no)
+[[compilation-by-selection]] --[:ADDRESSES]--> [[defunctionalization]]  -- Backend-specific (GPU yes, JS no)
+[[compilation-by-selection]] --[:ADDRESSES]--> [[native-lambda-hvm]]  -- Backend-specific (HVM skips all)
+[[compilation-by-selection]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Pass selection vs fixed representation
+
+## GRAM Passes  @2026-05-18
+
+[[gram-shift-reset-pass]] --[:IMPLEMENTS]--> [[gram]]  -- Pipeline pass
+[[gram-shift-reset-pass]] --[:IMPLEMENTS]--> [[shift-reset]]  -- In GRAM context
+[[gram-shift-reset-pass]] --[:CONTRASTS_WITH]--> [[shift-reset-mir-lowering]]  -- Annotation vs state machine
+[[gram-shift-reset-pass]] --[:PRESERVES]--> [[shift-reset]]  -- reset/shift nodes unchanged
+[[gram-shift-reset-pass]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Adds bubble/continuation/resumption alongside existing nodes
+[[gram-shift-reset-pass]] --[:INSTANTIATES]--> [[gram-dataflow-semantics]]  -- Resumptions unordered
+[[gram-shift-reset-pass]] --[:FOLLOWS]--> [[saturation]]  -- Pipeline order
+
+## GRAM Pattern Matching  @2026-05-18
+
+[[pattern-matching-compilation]] --[:INCLUDES]--> [[gram-pattern-translation]]  -- Representation phase
+[[pattern-matching-compilation]] --[:INCLUDES]--> [[gram-pattern-pass]]  -- Compilation phase
+[[gram-pattern-pass]] --[:RELIES_ON]--> [[gram-pattern-translation]]  -- Reads pat:* nodes as input
+[[gram-pattern-translation]] --[:IMPLEMENTS]--> [[gram]]  -- Part of translate.ts
+[[gram-pattern-translation]] --[:TRANSLATES_TO]--> [[match]]  -- EB.Pattern → pat:* graph nodes
+[[gram-pattern-translation]] --[:ENABLES]--> [[gram-pattern-pass]]  -- Makes patterns graph-queryable
+[[gram-pattern-translation]] --[:COMPOSES_WITH]--> [[closure-conversion]]  -- pat:binder pushes onto binder stack
+[[gram-pattern-pass]] --[:IMPLEMENTS]--> [[gram]]  -- Pipeline pass
+[[gram-pattern-pass]] --[:USES]--> [[maranget-paper]]  -- Decision tree algorithm
+[[gram-pattern-pass]] --[:PRESERVES]--> [[match]]  -- match/case/pat nodes unchanged
+[[gram-pattern-pass]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- :decision_tree edge exemplifies principle
+[[gram-pattern-pass]] --[:FOLLOWS]--> [[gram-shift-reset-pass]]  -- Pipeline ordering
+[[gram]] --[:INCLUDES]--> [[gram-shift-reset-pass]]  -- Pipeline pass
+[[gram]] --[:INCLUDES]--> [[gram-pattern-translation]]  -- Translation phase
+[[gram]] --[:INCLUDES]--> [[gram-pattern-pass]]  -- Pipeline pass
+
+## GRAM → MIR Bridge  @2026-05-18
+
+[[gram-to-mir-bridge]] --[:CONSUMES]--> [[gram]]  -- Reads enriched graph
+[[gram-to-mir-bridge]] --[:PRODUCES]--> [[mir-lowering]]  -- Emits MIR Module
+[[gram-to-mir-bridge]] --[:VALIDATES]--> [[gram-additive-enrichment]]  -- Tests if enrichment is sufficient
+[[gram-to-mir-bridge]] --[:RELIES_ON]--> [[gram-shift-reset-pass]]  -- Needs continuation structure
+[[gram-to-mir-bridge]] --[:RELIES_ON]--> [[gram-pattern-pass]]  -- Needs decision trees
+[[gram-to-mir-bridge]] --[:RELIES_ON]--> [[saturation]]  -- Needs external/primop
+[[gram-to-mir-bridge]] --[:RELIES_ON]--> [[closure-conversion]]  -- Needs env/fn nodes
+[[gram]] --[:GENERALIZES]--> [[mir-lowering]]  -- Richer representation subsumes sequential form
+
+## Pattern Algorithm Design  @2026-05-18
+
+[[augustsson-paper]] --[:INFORMS]--> [[pattern-matching-compilation]]  -- Original algorithm (1985)
+[[pettersson-paper]] --[:INFORMS]--> [[pattern-matching-compilation]]  -- DAG variant (1992)
+[[maranget-paper]] --[:SUPERSEDES]--> [[augustsson-paper]]  -- Better column selection, no body duplication
+[[pettersson-paper]] --[:EXTENDS]--> [[maranget-paper]]  -- DAG sharing over trees (deferred)
+[[pattern-algorithm-choice]] --[:USES]--> [[maranget-paper]]  -- Chosen algorithm
+[[pattern-algorithm-choice]] --[:REJECTS]--> [[augustsson-paper]]  -- Body duplication unsuitable for graph IR
+[[pattern-algorithm-choice]] --[:DEFERS]--> [[pettersson-paper]]  -- DAG optimization possible later
+[[pattern-algorithm-choice]] --[:CONSTRAINS]--> [[gram-pattern-pass]]  -- Algorithm for the pass
+[[pattern-algorithm-choice]] --[:CONSTRAINS]--> [[pattern-matching-compilation]]  -- Algorithm for MIR too
+
+## STG Analogy  @2026-05-18
+
+[[stg-analogy]] --[:INFORMS]--> [[gram]]  -- Pipeline layering inspiration
+[[stg-analogy]] --[:DISTINGUISHES]--> [[gram-pattern-translation]]  -- Translation = STG-level (semantic)
+[[stg-analogy]] --[:DISTINGUISHES]--> [[gram-pattern-pass]]  -- Pass = Cmm-level (operational)
+[[stg-analogy]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Monolithic (STG->Cmm) vs composable (GRAM passes)
+[[stg-analogy]] --[:INSPIRES]--> [[compilation-by-selection]]  -- Selective = improvement over GHC's fused approach
+
+## DPO vs Imperative  @2026-05-18
+
+[[dpo-vs-imperative-passes]] --[:CONSTRAINS]--> [[dpo-rewriting]]  -- Defines when DPO applies
+[[dpo-vs-imperative-passes]] --[:CONSTRAINS]--> [[gram]]  -- Pass implementation guide
+[[dpo-vs-imperative-passes]] --[:APPLIES_TO]--> [[gram-pattern-pass]]  -- Pattern pass is imperative/aggregate
+[[dpo-vs-imperative-passes]] --[:APPLIES_TO]--> [[gram-shift-reset-pass]]  -- Shift-reset pass is imperative/aggregate
+[[dpo-vs-imperative-passes]] --[:APPLIES_TO]--> [[closure-conversion]]  -- Capture is aggregate
+[[dpo-vs-imperative-passes]] --[:ENABLES]--> [[gram-pattern-pass]]  -- Downstream optimizations on decision tree are DPO
