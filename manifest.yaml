@@ -45,3 +45,4 @@ dist:
     status: STATUS.md
     threads: THREADS.md
     queue: QUEUE.md
+    glossary: GLOSSARY.md

@@ -18,7 +18,7 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `elaboration` | Bidirectional inference, checking, type synthesis |
 | `normalization` | NbE, evaluation, normal forms |
 | `parser` | Parsing, grammar, CST/AST concerns |
-| `mir` | Mid-level IR, lowering, compilation |
+| `mir` | Machine-Independent IR, lowering, compilation |
 | `verification` | Liquid types, refinements, SMT, VC generation |
 | `row-types` | Row polymorphism, row variables, row unification |
 | `dependent` | Dependent types, Pi types, value-level type indices |

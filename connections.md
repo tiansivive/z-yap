@@ -1269,3 +1269,8 @@
 [[injection]] --[:TRANSLATES_TO]--> [[gram-crud-enrichment]]  -- Inj → Update in GRAM
 [[rows-universal-substrate]] --[:ENABLES]--> [[gram-crud-enrichment]]  -- Row structure = per-field access
 [[stg-analogy]] --[:INFORMS]--> [[gram-crud-enrichment]]  -- STG case = semantic; operational compiled later
+
+## Glossary  @2026-05-18
+
+[[glossary]] --[:EXTENDS]--> [[smt-solver-glossary]]  -- Global glossary references domain-specific glossary
+[[yap]] --[:INCLUDES]--> [[glossary]]  -- Project-level reference

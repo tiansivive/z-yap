@@ -43,6 +43,9 @@ jobs:
       - name: Generate queue
         run: node scripts/queue.js --markdown > dist/QUEUE.md
 
+      - name: Generate glossary
+        run: node scripts/glossary.js --markdown > dist/GLOSSARY.md
+
       - name: Commit dist/
         run: |
           git config user.name "github-actions[bot]"
