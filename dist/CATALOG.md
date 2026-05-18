@@ -1,4 +1,4 @@
-# z-yap Catalog (227 zettels)
+# z-yap Catalog (239 zettels)
 
 ## Abel & Pientka — Higher-order dynamic pattern unification
 `abel-pientka` — tags: unification, elaboration, normalization, dependent, row-types, mechanism, research, paper, reference, monad, implemented, inference
@@ -78,6 +78,16 @@
 - [[milestone-2-euf-quant-lia]] [PRODUCES] → — Arithmetic module
 - [[dutertre-arithmetic]] [INFORMS] → — Fast linear arithmetic
 - [[string-theory]] [USES] → — Length coupling
+
+## Augustsson — compiling pattern matching (1985)
+`augustsson-paper` — tags: paper, reference, lowering, compiler
+
+**Outgoing:**
+- [INFORMS] → [[pattern-matching-compilation]] — Original algorithm (1985)
+
+**Incoming:**
+- [[maranget-paper]] [SUPERSEDES] → — Better column selection, no body duplication
+- [[pattern-algorithm-choice]] [REJECTS] → — Body duplication unsuitable for graph IR
 
 ## Barbosa et al. — cvc5 system overview
 `barbosa-cvc5` — tags: verification, sat, backend, compiler, tooling, infrastructure, strings, quantifiers, research, paper, reference, planned, performance
@@ -239,6 +249,10 @@
 
 **Incoming:**
 - [[native-lambda-hvm]] [REJECTS] → — HVM needs raw λ
+- [[compilation-by-selection]] [ADDRESSES] → — Backend-specific (C yes, JS no)
+- [[gram-pattern-translation]] [COMPOSES_WITH] → — pat:binder pushes onto binder stack
+- [[gram-to-mir-bridge]] [RELIES_ON] → — Needs env/fn nodes
+- [[dpo-vs-imperative-passes]] [APPLIES_TO] → — Capture is aggregate
 
 ## Closures (NbE)
 `closures` — tags: normalization, elaboration, mechanism, implemented, ir, dependent, inference, continuation, ffi, lowering, ast, runtime, code
@@ -268,6 +282,22 @@
 **Outgoing:**
 - [INSPIRES] → [[gram]] — Refinement terminology
 - [INSPIRES] → [[verification-pipeline]] — Verified compilation aspiration
+
+## Compilation by selection
+`compilation-by-selection` — tags: concept, compiler, backend, codegen, decision, graph, ir
+
+**Outgoing:**
+- [RELIES_ON] → [[gram-additive-enrichment]] — Requires accumulated views
+- [RELIES_ON] → [[gram-dataflow-semantics]] — Requires independence
+- [ADDRESSES] → [[closure-conversion]] — Backend-specific (C yes, JS no)
+- [ADDRESSES] → [[defunctionalization]] — Backend-specific (GPU yes, JS no)
+- [ADDRESSES] → [[native-lambda-hvm]] — Backend-specific (HVM skips all)
+- [CONTRASTS_WITH] → [[mir-lowering]] — Pass selection vs fixed representation
+
+**Incoming:**
+- [[gram-additive-enrichment]] [ENABLES] → — Multiple views enable selection
+- [[gram-dataflow-semantics]] [ENABLES] → — Independence enables selectivity
+- [[stg-analogy]] [INSPIRES] → — Selective = improvement over GHC's fused approach
 
 ## Compile Orchestration
 `compile-orchestration` — tags: compiler, infrastructure, cli, codegen, parser, elaboration, verification, mir, backend, tooling, project, ffi, implemented
@@ -403,6 +433,7 @@
 
 **Incoming:**
 - [[closure-conversion]] [CONTRASTS_WITH] → — Different lowering strategies
+- [[compilation-by-selection]] [ADDRESSES] → — Backend-specific (GPU yes, JS no)
 
 ## Dependent types
 `dependent-types` — tags: concept, type-system, elaboration, normalization, unification, verification, syntax, dependent, quantifiers, inference, implemented, ast, monad, parser, row-types
@@ -464,6 +495,18 @@
 - [[egglog-influence]] [INSPIRES] → — E-graph rewriting
 - [[stratego-influence]] [INSPIRES] → — Strategy combinators
 - [[gram]] [DELEGATES_TO] → — Graph transformation engine
+- [[dpo-vs-imperative-passes]] [CONSTRAINS] → — Defines when DPO applies
+
+## DPO vs imperative passes
+`dpo-vs-imperative-passes` — tags: rewriting, decision, graph, compiler, pattern, mechanism
+
+**Outgoing:**
+- [CONSTRAINS] → [[dpo-rewriting]] — Defines when DPO applies
+- [CONSTRAINS] → [[gram]] — Pass implementation guide
+- [APPLIES_TO] → [[gram-pattern-pass]] — Pattern pass is imperative/aggregate
+- [APPLIES_TO] → [[gram-shift-reset-pass]] — Shift-reset pass is imperative/aggregate
+- [APPLIES_TO] → [[closure-conversion]] — Capture is aggregate
+- [ENABLES] → [[gram-pattern-pass]] — Downstream optimizations on decision tree are DPO
 
 ## Dunfield & Krishnaswami — bidirectional checking for higher-rank polymorphism
 `dunfield-krishnaswami` — tags: inference, elaboration, type-system, dependent, mechanism, pattern, research, paper, reference, implemented, monad, syntax
@@ -791,6 +834,21 @@
 - [INSPIRES] → [[deferred-constraint-solving]] — Constraint deferral
 - [INSPIRES] → [[modalities]] — Levity polymorphism precedent
 
+## Additive enrichment (GRAM)
+`gram-additive-enrichment` — tags: principle, graph, ir, compiler, lowering, decision
+
+**Outgoing:**
+- [CONSTRAINS] → [[gram]] — All passes must follow
+- [CONTRASTS_WITH] → [[mir-lowering]] — MIR erases/replaces; GRAM accumulates
+- [ENABLES] → [[compilation-by-selection]] — Multiple views enable selection
+- [MIRRORS] → [[mlir-influence]] — Multi-dialect coexistence pattern
+
+**Incoming:**
+- [[compilation-by-selection]] [RELIES_ON] → — Requires accumulated views
+- [[gram-shift-reset-pass]] [INSTANTIATES] → — Adds bubble/continuation/resumption alongside existing nodes
+- [[gram-pattern-pass]] [INSTANTIATES] → — :decision_tree edge exemplifies principle
+- [[gram-to-mir-bridge]] [VALIDATES] → — Tests if enrichment is sufficient
+
 ## GRAM as S-expressions
 `gram-as-s-expressions` — tags: lowering, decision, rejected, graph, ir, ast, syntax, rewriting, compiler, infrastructure, reference, display, migration
 
@@ -800,16 +858,96 @@
 **Incoming:**
 - [[gram]] [REJECTS] → — Cycles break tree model
 
+## Dataflow semantics (GRAM)
+`gram-dataflow-semantics` — tags: concept, graph, ir, compiler, principle, performance, backend
+
+**Outgoing:**
+- [CONSTRAINS] → [[gram]] — No forced sequencing in graph
+- [CONTRASTS_WITH] → [[mir-lowering]] — Partial order vs total order (blocks)
+- [CONTRASTS_WITH] → [[shift-reset-mir-lowering]] — Dependency edges vs jump sequences
+- [ENABLES] → [[native-lambda-hvm]] — Parallel reduction compatible
+- [ENABLES] → [[compilation-by-selection]] — Independence enables selectivity
+
+**Incoming:**
+- [[compilation-by-selection]] [RELIES_ON] → — Requires independence
+- [[gram-shift-reset-pass]] [INSTANTIATES] → — Resumptions unordered
+
+## Pattern decision tree pass (GRAM)
+`gram-pattern-pass` — tags: lowering, graph, ir, mechanism, implemented, rewriting
+
+**Outgoing:**
+- [RELIES_ON] → [[gram-pattern-translation]] — Reads pat:* nodes as input
+- [IMPLEMENTS] → [[gram]] — Pipeline pass
+- [USES] → [[maranget-paper]] — Decision tree algorithm
+- [PRESERVES] → [[match]] — match/case/pat nodes unchanged
+- [INSTANTIATES] → [[gram-additive-enrichment]] — :decision_tree edge exemplifies principle
+- [FOLLOWS] → [[gram-shift-reset-pass]] — Pipeline ordering
+
+**Incoming:**
+- [[pattern-matching-compilation]] [INCLUDES] → — Compilation phase
+- [[gram-pattern-translation]] [ENABLES] → — Makes patterns graph-queryable
+- [[gram]] [INCLUDES] → — Pipeline pass
+- [[gram-to-mir-bridge]] [RELIES_ON] → — Needs decision trees
+- [[pattern-algorithm-choice]] [CONSTRAINS] → — Algorithm for the pass
+- [[stg-analogy]] [DISTINGUISHES] → — Pass = Cmm-level (operational)
+- [[dpo-vs-imperative-passes]] [APPLIES_TO] → — Pattern pass is imperative/aggregate
+- [[dpo-vs-imperative-passes]] [ENABLES] → — Downstream optimizations on decision tree are DPO
+
+## Pattern graph translation (GRAM)
+`gram-pattern-translation` — tags: lowering, graph, ir, mechanism, implemented, ast
+
+**Outgoing:**
+- [IMPLEMENTS] → [[gram]] — Part of translate.ts
+- [TRANSLATES_TO] → [[match]] — EB.Pattern → pat:* graph nodes
+- [ENABLES] → [[gram-pattern-pass]] — Makes patterns graph-queryable
+- [COMPOSES_WITH] → [[closure-conversion]] — pat:binder pushes onto binder stack
+
+**Incoming:**
+- [[pattern-matching-compilation]] [INCLUDES] → — Representation phase
+- [[gram-pattern-pass]] [RELIES_ON] → — Reads pat:* nodes as input
+- [[gram]] [INCLUDES] → — Translation phase
+- [[stg-analogy]] [DISTINGUISHES] → — Translation = STG-level (semantic)
+
+## Shift/reset enrichment pass (GRAM)
+`gram-shift-reset-pass` — tags: continuation, lowering, graph, ir, mechanism, implemented
+
+**Outgoing:**
+- [IMPLEMENTS] → [[gram]] — Pipeline pass
+- [IMPLEMENTS] → [[shift-reset]] — In GRAM context
+- [CONTRASTS_WITH] → [[shift-reset-mir-lowering]] — Annotation vs state machine
+- [PRESERVES] → [[shift-reset]] — reset/shift nodes unchanged
+- [INSTANTIATES] → [[gram-additive-enrichment]] — Adds bubble/continuation/resumption alongside existing nodes
+- [INSTANTIATES] → [[gram-dataflow-semantics]] — Resumptions unordered
+- [FOLLOWS] → [[saturation]] — Pipeline order
+
+**Incoming:**
+- [[gram-pattern-pass]] [FOLLOWS] → — Pipeline ordering
+- [[gram]] [INCLUDES] → — Pipeline pass
+- [[gram-to-mir-bridge]] [RELIES_ON] → — Needs continuation structure
+- [[dpo-vs-imperative-passes]] [APPLIES_TO] → — Shift-reset pass is imperative/aggregate
+
 ## GRAM step 1 (substrate)
-`gram-step-1` — tags: lowering, migration, in-progress, graph, ir, elaboration, parser, mir, compiler, infrastructure, milestone, project, testing
+`gram-step-1` — tags: lowering, migration, implemented, graph, ir, elaboration, parser, mir, compiler, infrastructure, milestone, project, testing
 
 **Outgoing:**
 - [IMPLEMENTS] → [[gram]] — Partial — first step
 - [FOLLOWS] → [[mir-retrospective]] — Lessons learned inform first step
 - [TRANSLATES_TO] → [[gram]] — EB.Term → GRAM nodes
 
+## GRAM → MIR bridge
+`gram-to-mir-bridge` — tags: lowering, speculative, ir, graph, compiler, mir, planned
+
+**Outgoing:**
+- [CONSUMES] → [[gram]] — Reads enriched graph
+- [PRODUCES] → [[mir-lowering]] — Emits MIR Module
+- [VALIDATES] → [[gram-additive-enrichment]] — Tests if enrichment is sufficient
+- [RELIES_ON] → [[gram-shift-reset-pass]] — Needs continuation structure
+- [RELIES_ON] → [[gram-pattern-pass]] — Needs decision trees
+- [RELIES_ON] → [[saturation]] — Needs external/primop
+- [RELIES_ON] → [[closure-conversion]] — Needs env/fn nodes
+
 ## GRAM (hub)
-`gram` — tags: lowering, rewriting, compiler, in-progress, graph, ir, project, infrastructure, mir, tooling, cli, display
+`gram` — tags: lowering, rewriting, compiler, implemented, graph, ir, project, infrastructure, mir, tooling, cli, display
 
 **Outgoing:**
 - [SUPERSEDES] → [[mir-lowering]] — As IR approach
@@ -820,6 +958,10 @@
 - [TRANSLATES_TO] → [[erlang-codegen]] — Target-specific passes
 - [DELEGATES_TO] → [[dpo-rewriting]] — Graph transformation engine
 - [REJECTS] → [[gram-as-s-expressions]] — Cycles break tree model
+- [INCLUDES] → [[gram-shift-reset-pass]] — Pipeline pass
+- [INCLUDES] → [[gram-pattern-translation]] — Translation phase
+- [INCLUDES] → [[gram-pattern-pass]] — Pipeline pass
+- [GENERALIZES] → [[mir-lowering]] — Richer representation subsumes sequential form
 
 **Incoming:**
 - [[dpo-rewriting]] [IMPLEMENTS] → — Rewriting engine
@@ -840,6 +982,14 @@
 - [[dpo-rewriting]] [REWRITES] → — L ← K → R rule application on nodes
 - [[mlir-influence]] [MIRRORS] → — Dialects ↔ tag vocabularies, passes ↔ rewrites
 - [[structural-vs-representational-passes]] [DISTINGUISHES] → — Eta/beta/fold before closure-conv/defunc
+- [[gram-additive-enrichment]] [CONSTRAINS] → — All passes must follow
+- [[gram-dataflow-semantics]] [CONSTRAINS] → — No forced sequencing in graph
+- [[gram-shift-reset-pass]] [IMPLEMENTS] → — Pipeline pass
+- [[gram-pattern-translation]] [IMPLEMENTS] → — Part of translate.ts
+- [[gram-pattern-pass]] [IMPLEMENTS] → — Pipeline pass
+- [[gram-to-mir-bridge]] [CONSUMES] → — Reads enriched graph
+- [[stg-analogy]] [INFORMS] → — Pipeline layering inspiration
+- [[dpo-vs-imperative-passes]] [CONSTRAINS] → — Pass implementation guide
 
 ## Higher-order in formulas
 `higher-order-in-formulas` — tags: verification, type-system, decision, implemented, elaboration, dependent, modality, backend, ast, ffi, quantifiers, inference, reference, project, recursion
@@ -1124,9 +1274,13 @@
 
 **Outgoing:**
 - [INFORMS] → [[pattern-matching-compilation]] — Decision-tree construction
+- [SUPERSEDES] → [[augustsson-paper]] — Better column selection, no body duplication
 
 **Incoming:**
 - [[pattern-matching-compilation]] [USES] → — Decision-tree algorithm
+- [[gram-pattern-pass]] [USES] → — Decision tree algorithm
+- [[pettersson-paper]] [EXTENDS] → — DAG sharing over trees (deferred)
+- [[pattern-algorithm-choice]] [USES] → — Chosen algorithm
 
 ## Match
 `match` — tags: syntax, elaboration, lowering, mir, mechanism, parser, ast, dependent, implemented, codegen, compiler, inference, monad, error-handling
@@ -1144,6 +1298,8 @@
 - [[elaboration-context]] [THREADS_THROUGH] → — Binder extension
 - [[pattern-matching-compilation]] [ERASES] → — Patterns removed after compilation
 - [[functional-patterns]] [EXTENDS] → — Curry-style patterns, view patterns
+- [[gram-pattern-translation]] [TRANSLATES_TO] → — EB.Pattern → pat:* graph nodes
+- [[gram-pattern-pass]] [PRESERVES] → — match/case/pat nodes unchanged
 
 ## McBride — “I Got Plenty o’ Nuttin’” (2016)
 `mcbride-nuttin` — tags: elaboration, type-system, modality, dependent, research, paper, reference, principle, quantifiers, monad, in-progress, inference
@@ -1274,6 +1430,12 @@
 - [[shift-reset-mir-lowering]] [TRANSLATES_TO] → — State machine (heap-allocated frames)
 - [[defunctionalization]] [TRANSLATES_TO] → — Tagged dispatch on function identity
 - [[closure-conversion]] [TRANSLATES_TO] → — Environment + function pointer
+- [[gram-additive-enrichment]] [CONTRASTS_WITH] → — MIR erases/replaces; GRAM accumulates
+- [[gram-dataflow-semantics]] [CONTRASTS_WITH] → — Partial order vs total order (blocks)
+- [[compilation-by-selection]] [CONTRASTS_WITH] → — Pass selection vs fixed representation
+- [[gram-to-mir-bridge]] [PRODUCES] → — Emits MIR Module
+- [[gram]] [GENERALIZES] → — Richer representation subsumes sequential form
+- [[stg-analogy]] [CONTRASTS_WITH] → — Monolithic (STG->Cmm) vs composable (GRAM passes)
 
 ## MIR retrospective
 `mir-retrospective` — tags: lowering, decision, reference, mir, compiler, migration, graph, infrastructure, pattern, ir, project, display, testing
@@ -1322,6 +1484,9 @@
 - [INSPIRES] → [[gram]] — Open vocabulary / dialects
 - [INSPIRES] → [[structural-vs-representational-passes]] — Pass scheduling
 - [MIRRORS] → [[gram]] — Dialects ↔ tag vocabularies, passes ↔ rewrites
+
+**Incoming:**
+- [[gram-additive-enrichment]] [MIRRORS] → — Multi-dialect coexistence pattern
 
 ## Modalities (multiplicity + liquid)
 `modalities` — tags: type-system, elaboration, inference, normalization, verification, syntax, modality, multiplicity, dependent, concept, pattern, incomplete, project
@@ -1448,6 +1613,8 @@
 
 **Incoming:**
 - [[closure-conversion]] [CONTRASTS_WITH] → — Different targets
+- [[gram-dataflow-semantics]] [ENABLES] → — Parallel reduction compatible
+- [[compilation-by-selection]] [ADDRESSES] → — Backend-specific (HVM skips all)
 
 ## Normalisation by Evaluation (NbE) (hub)
 `nbe` — tags: normalization, elaboration, concept, implemented, inference, verification, dependent, type-system, ir, ast, monad, testing, reference, mechanism
@@ -1659,8 +1826,18 @@
 **Incoming:**
 - [[stratego-influence]] [INSPIRES] → — Rewrite rule API
 
-## Pattern matching compilation
-`pattern-matching-compilation` — tags: lowering, mechanism, implemented, mir, compiler, ir, elaboration, row-types, codegen, backend, dependent, testing
+## Pattern algorithm choice: Maranget
+`pattern-algorithm-choice` — tags: decision, lowering, compiler, graph, ir
+
+**Outgoing:**
+- [USES] → [[maranget-paper]] — Chosen algorithm
+- [REJECTS] → [[augustsson-paper]] — Body duplication unsuitable for graph IR
+- [DEFERS] → [[pettersson-paper]] — DAG optimization possible later
+- [CONSTRAINS] → [[gram-pattern-pass]] — Algorithm for the pass
+- [CONSTRAINS] → [[pattern-matching-compilation]] — Algorithm for MIR too
+
+## Pattern matching compilation (hub)
+`pattern-matching-compilation` — tags: lowering, mechanism, implemented, mir, compiler, ir, elaboration, row-types, codegen, backend, dependent, testing, graph
 
 **Outgoing:**
 - [LOWERS_TO] → [[mir-lowering]] — Decision trees → MIR
@@ -1668,10 +1845,15 @@
 - [ERASES] → [[match]] — Patterns removed after compilation
 - [USES] → [[maranget-paper]] — Decision-tree algorithm
 - [TRANSLATES_TO] → [[mir-lowering]] — Maranget decision trees
+- [INCLUDES] → [[gram-pattern-translation]] — Representation phase
+- [INCLUDES] → [[gram-pattern-pass]] — Compilation phase
 
 **Incoming:**
 - [[match]] [LOWERS_TO] → — Decision trees
 - [[maranget-paper]] [INFORMS] → — Decision-tree construction
+- [[augustsson-paper]] [INFORMS] → — Original algorithm (1985)
+- [[pettersson-paper]] [INFORMS] → — DAG variant (1992)
+- [[pattern-algorithm-choice]] [CONSTRAINS] → — Algorithm for MIR too
 
 ## Petricek, Orchard & Mycroft — coeffects (ICFP 2014)
 `petricek-orchard` — tags: elaboration, modality, effect, inference, research, paper, reference, pattern, speculative, type-system, dependent
@@ -1679,6 +1861,16 @@
 **Outgoing:**
 - [INSPIRES] → [[effects-as-modality]] — Coeffect framework
 - [INSPIRES] → [[implicits-as-coeffects]] — Context-dependence calculus
+
+## Pettersson — pattern match compiler via automata (1992)
+`pettersson-paper` — tags: paper, reference, lowering, compiler
+
+**Outgoing:**
+- [INFORMS] → [[pattern-matching-compilation]] — DAG variant (1992)
+- [EXTENDS] → [[maranget-paper]] — DAG sharing over trees (deferred)
+
+**Incoming:**
+- [[pattern-algorithm-choice]] [DEFERS] → — DAG optimization possible later
 
 ## Pi types
 `pi-types` — tags: type-system, dependent, concept, syntax, implemented, elaboration, inference, parser, modality, ast, quantifiers, checking, normalization, sugar, display, testing
@@ -2010,6 +2202,10 @@
 - [DISPATCHES_ON] → [[ffi]] — Known-arity foreign/ref functions
 - [ADDRESSES] → [[application]] — Collapse App chains into primop nodes
 
+**Incoming:**
+- [[gram-shift-reset-pass]] [FOLLOWS] → — Pipeline order
+- [[gram-to-mir-bridge]] [RELIES_ON] → — Needs external/primop
+
 ## Selective CPS
 `selective-cps` — tags: continuation, lowering, codegen, compiler, mir, speculative, pattern, principle, effect, type-system, elaboration, inference, backend, code, migration, reference, problem, performance, rewriting, decision
 
@@ -2039,6 +2235,8 @@
 **Incoming:**
 - [[multishot-serialization]] [CONSTRAINS] → — Replay challenge
 - [[selective-cps]] [CONTRASTS_WITH] → — Closure vs state machine
+- [[gram-dataflow-semantics]] [CONTRASTS_WITH] → — Dependency edges vs jump sequences
+- [[gram-shift-reset-pass]] [CONTRASTS_WITH] → — Annotation vs state machine
 
 ## Shift/Reset
 `shift-reset` — tags: continuation, elaboration, lowering, inference, mir, compiler, type-system, effect, mechanism, implemented, monad, codegen, normalization, reference, ast
@@ -2065,6 +2263,8 @@
 - [[elaboration-monad]] [ENABLES] → — Via MutState.skolems
 - [[nondeterminism]] [IMPLEMENTS] → — Multishot continuation semantics
 - [[effects-as-modality]] [COMPOSES_WITH] → — Effect system over continuations
+- [[gram-shift-reset-pass]] [IMPLEMENTS] → — In GRAM context
+- [[gram-shift-reset-pass]] [PRESERVES] → — reset/shift nodes unchanged
 
 ## Sigma bindings (`ctx.sigma`)
 `sigma-bindings` — tags: row-types, dependent, elaboration, inference, normalization, type-system, unification, context, mechanism, syntax, parser, implemented
@@ -2212,6 +2412,16 @@
 **Incoming:**
 - [[bidirectional-checking-decision]] [DISPATCHES_ON] → — Mode drives Src → EB
 
+## STG analogy
+`stg-analogy` — tags: concept, compiler, graph, ir, lowering, reference, pattern
+
+**Outgoing:**
+- [INFORMS] → [[gram]] — Pipeline layering inspiration
+- [DISTINGUISHES] → [[gram-pattern-translation]] — Translation = STG-level (semantic)
+- [DISTINGUISHES] → [[gram-pattern-pass]] — Pass = Cmm-level (operational)
+- [CONTRASTS_WITH] → [[mir-lowering]] — Monolithic (STG->Cmm) vs composable (GRAM passes)
+- [INSPIRES] → [[compilation-by-selection]] — Selective = improvement over GHC's fused approach
+
 ## Stratego (Influence)
 `stratego-influence` — tags: research, reference, rewriting, pattern, ast, mir, lowering, tooling, decision, implemented
 
@@ -2304,7 +2514,7 @@
 - [[structural-subtyping]] [APPLIES_TO] → — Asymmetric aspect of structural type systems
 
 ## Structural vs Representational Passes
-`structural-vs-representational-passes` — tags: lowering, compiler, rewriting, graph, mir, closure, performance, codegen, tooling, type-system, in-progress
+`structural-vs-representational-passes` — tags: lowering, compiler, rewriting, graph, mir, closure, performance, codegen, tooling, type-system, implemented, decision
 
 **Outgoing:**
 - [CONSTRAINS] → [[gram]] — Ordering principle
