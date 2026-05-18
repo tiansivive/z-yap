@@ -3,6 +3,7 @@ tags:
 - type-system
 - recursion
 - incomplete
+- needs-design
 - elaboration
 - normalization
 - unification

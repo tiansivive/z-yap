@@ -3,3 +3,4 @@ __pycache__/
 .obsidian/
 .DS_Store
 .trash/
+dist/

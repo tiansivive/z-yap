@@ -5,6 +5,7 @@ tags:
 - type-system
 - elaboration
 - incomplete
+- needs-design
 - specification
 - ast
 - inference

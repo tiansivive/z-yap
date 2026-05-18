@@ -21,6 +21,8 @@ backend:
 entry_points:
   readme: README.md
   vocabulary: VOCABULARY.md
+  paper_trail: thread.md
+  agent_init: init.md
 
 zettels:
   path: "zettels/{id}.md"
@@ -40,3 +42,6 @@ dist:
   path: dist/
   files:
     catalog: CATALOG.md
+    status: STATUS.md
+    threads: THREADS.md
+    queue: QUEUE.md

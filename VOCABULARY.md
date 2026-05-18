@@ -76,6 +76,16 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `cps` | Continuation-passing style transformation |
 | `specification` | Formal rules, language specification |
 
+### Work Layer Tags
+
+| Tag | Description |
+|-----|-------------|
+| `thread` | A named, ordered sequence of work items forming a parallel concern |
+| `queue` | A flat pending-work list; items graduate to threads when scoped |
+| `ready` | Work item is unblocked and can be started |
+| `blocked` | Work item is waiting on a dependency |
+| `needs-design` | Work item requires design exploration before implementation |
+
 ### Epistemic Status Tags
 
 | Tag | Description |
@@ -155,6 +165,9 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `SNAPSHOTS` | Source captures target state for testing |
 | `VALIDATES` | Source validates correctness of target |
 | `CONSUMES` | Source consumes target as input |
+| `PRECEDES` | Source work item comes before target in a thread's sequence |
+| `SHARED_WITH` | Source thread shares target work item with another thread |
+| `DEFERRED_FROM` | Source work item was deferred from target thread or queue |
 
 ## Tag Groups
 
@@ -170,4 +183,5 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration` |
 | Meta | `research`, `paper`, `gateway`, `reference`, `milestone` |
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
+| Work Layer | `thread`, `queue`, `ready`, `blocked`, `needs-design` |
 | Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift` |

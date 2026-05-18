@@ -7,6 +7,7 @@ tags:
     pattern,
     problem,
     incomplete,
+    needs-design,
     testing,
     syntax,
     ast,

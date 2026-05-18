@@ -5,6 +5,7 @@ tags:
 - elaboration
 - normalization
 - incomplete
+- needs-design
 - problem
 - specification
 - ast

@@ -5,6 +5,7 @@ tags:
     row-types,
     dependent,
     planned,
+    needs-design,
     mechanism,
     sat,
     normalization,

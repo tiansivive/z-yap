@@ -8,11 +8,15 @@ Part of the [z-loom](https://github.com/tiansivive/z-loom) federation.
 ## Quick start
 
 ```bash
-python3 scripts/catalog.py           # full catalog
-python3 scripts/catalog.py --compact # one-line-per-zettel
-python3 scripts/catalog.py types     # filter by keyword
+node scripts/status.js               # thread + queue overview (start here)
+node scripts/threads.js              # detailed per-thread member listing
+node scripts/threads.js --pending    # only non-implemented items
+node scripts/queue.js                # pending queue items
+python3 scripts/catalog.py --compact # one-line-per-zettel catalog
 python3 scripts/neighborhood.py yap  # show a zettel's connections
 ```
+
+For agent sessions, read `init.md` first.
 
 ## What is yap?
 
@@ -28,11 +32,32 @@ z-yap/
   manifest.yaml          # Federation metadata and entry points
   README.md              # This file
   VOCABULARY.md          # Tags, labels, groups
-  connections.md     # All edges in pseudo-Cypher format
+  connections.md         # All edges in pseudo-Cypher format
+  thread.md              # Append-only paper trail of work sessions
   zettels/               # Atomic design notes (markdown + frontmatter)
   scripts/               # Catalog generation, neighborhood view
   dist/                  # CI-generated indexes
 ```
+
+## Work threads
+
+Parallel work concerns tracked as thread hub zettels (tagged `thread`). Each hub
+contains an ordered sequence of items with dependency and readiness annotations.
+See `thread.md` for the session-by-session paper trail.
+
+| Thread | Concern |
+|--------|---------|
+| `delimited-continuations.thread` | shift/reset, answer types, multishot, lowering |
+| `row-types.thread` | Structural data, unification, verification gap |
+| `usage-semantics.thread` | QTT, modalities, enforcement |
+| `recursion.thread` | Mu types, mutual recursion, loop sugar |
+| `pattern-matching.thread` | Compilation, exhaustiveness, surface features |
+| `verification-backend.thread` | VC IR, in-house solver, theory support |
+| `gram-evolution.thread` | Graph IR, MIR bridge, future passes |
+| `elaboration-v2.thread` | Monad, pipeline, doc alignment |
+| `parser-migration.thread` | Tree-sitter, grammar alignment |
+
+Unassigned items live in `global-pending-queue`.
 
 ## Zettel format
 
@@ -79,10 +104,15 @@ z-loom resolves `loom://@yap/...` to this repository via the yap Gateway node.
 
 ## Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `catalog.py` | Generate catalog from zettels + connections |
-| `neighborhood.py` | Show a zettel's incoming/outgoing edges |
+| Script | Lang | Purpose |
+|--------|------|---------|
+| `status.js` | Node.js | Thread + queue summary (quick overview) |
+| `threads.js` | Node.js | Detailed per-thread member listing |
+| `queue.js` | Node.js | Pending queue items |
+| `catalog.py` | Python | Full zettel catalog with connections |
+| `neighborhood.py` | Python | Single zettel's connection neighborhood |
+
+Markdown versions auto-generated to `dist/` on push to main (GitHub Actions).
 
 ## License
 

@@ -959,6 +959,23 @@
 [[gram-to-mir-bridge]] --[:RELIES_ON]--> [[closure-conversion]]  -- Needs env/fn nodes
 [[gram]] --[:GENERALIZES]--> [[mir-lowering]]  -- Richer representation subsumes sequential form
 
+## GRAM Interpreter (Speculative)  @2026-05-18
+
+[[gram-interpreter]] --[:EXTENDS]--> [[gram]]  -- Execution semantics for graph
+[[gram-interpreter]] --[:MIRRORS]--> [[compilation-by-selection]]  -- Interpretation-by-selection dual
+[[gram-interpreter]] --[:REQUIRES]--> [[logram]]  -- Practical with indexed queries
+[[gram-interpreter]] --[:ENABLES]--> [[gram-pattern-pass]]  -- Tests decision tree semantics
+[[gram-interpreter]] --[:ENABLES]--> [[gram-shift-reset-pass]]  -- Tests continuation semantics
+[[gram-interpreter]] --[:ENABLES]--> [[closure-conversion]]  -- Tests closure semantics
+
+## GRAM Next Steps  @2026-05-18
+
+[[gram-next-steps]] --[:APPLIES_TO]--> [[gram]]  -- Near-term roadmap
+[[gram-to-mir-bridge]] --[:FOLLOWS]--> [[gram-next-steps]]  -- Step 1: regression + CFG extraction
+[[defunctionalization]] --[:FOLLOWS]--> [[gram-to-mir-bridge]]  -- Step 2: after bridge validates graph
+[[gram-next-steps]] --[:INCLUDES]--> [[defunctionalization]]  -- Planned pass
+[[gram-next-steps]] --[:INCLUDES]--> [[gram-to-mir-bridge]]  -- Planned translation
+
 ## Pattern Algorithm Design  @2026-05-18
 
 [[augustsson-paper]] --[:INFORMS]--> [[pattern-matching-compilation]]  -- Original algorithm (1985)
@@ -987,3 +1004,166 @@
 [[dpo-vs-imperative-passes]] --[:APPLIES_TO]--> [[gram-shift-reset-pass]]  -- Shift-reset pass is imperative/aggregate
 [[dpo-vs-imperative-passes]] --[:APPLIES_TO]--> [[closure-conversion]]  -- Capture is aggregate
 [[dpo-vs-imperative-passes]] --[:ENABLES]--> [[gram-pattern-pass]]  -- Downstream optimizations on decision tree are DPO
+
+## Work Layer: Thread & Queue System  @2026-05-18
+
+[[thread-queue-system]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[row-types.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[usage-semantics.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[recursion.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[pattern-matching.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[verification-backend.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[gram-evolution.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[parser-migration.thread]]  -- System design
+[[thread-queue-system]] --[:INFORMS]--> [[global-pending-queue]]  -- System design
+
+## Thread: Delimited Continuations  @2026-05-18
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[answer-type-polymorphism]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[continuation-binders]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[nondeterminism]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[nondeterminism-multishot]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-serialization]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-mir-lowering]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[selective-cps]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[missing-spec-shift-reset]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[gram-shift-reset-pass]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[session-lowering-branch-split]]
+
+## Thread: Row Types  @2026-05-18
+
+[[row-types.thread]] --[:INCLUDES]--> [[row-polymorphism]]
+[[row-types.thread]] --[:INCLUDES]--> [[row-data-structure]]
+[[row-types.thread]] --[:INCLUDES]--> [[row-rewriting]]
+[[row-types.thread]] --[:INCLUDES]--> [[row-unification]]
+[[row-types.thread]] --[:INCLUDES]--> [[row-unification-mechanism]]
+[[row-types.thread]] --[:INCLUDES]--> [[rows-universal-substrate]]
+[[row-types.thread]] --[:INCLUDES]--> [[structural-row-based-types]]
+[[row-types.thread]] --[:INCLUDES]--> [[structural-records]]
+[[row-types.thread]] --[:INCLUDES]--> [[tuples]]
+[[row-types.thread]] --[:INCLUDES]--> [[variant-types]]
+[[row-types.thread]] --[:INCLUDES]--> [[injection]]
+[[row-types.thread]] --[:INCLUDES]--> [[projection]]
+[[row-types.thread]] --[:INCLUDES]--> [[tagged-values]]
+[[row-types.thread]] --[:INCLUDES]--> [[lists]]
+[[row-types.thread]] --[:INCLUDES]--> [[dedicated-row-constructors]]
+[[row-types.thread]] --[:INCLUDES]--> [[row-theory]]
+[[row-types.thread]] --[:INCLUDES]--> [[label-lookup]]
+
+## Thread: Usage Semantics  @2026-05-18
+
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modalities]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-drift]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-enforcement]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-polymorphism]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[qtt-usage-collection]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[usages-deferred]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[effects-as-modality]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[idris-1-qtt-paper]]
+
+## Thread: Recursion  @2026-05-18
+
+[[recursion.thread]] --[:INCLUDES]--> [[mu-types]]
+[[recursion.thread]] --[:INCLUDES]--> [[mu-type-unification]]
+[[recursion.thread]] --[:INCLUDES]--> [[equirecursive-types]]
+[[recursion.thread]] --[:INCLUDES]--> [[mutual-recursion]]
+[[recursion.thread]] --[:INCLUDES]--> [[missing-spec-recursive-types]]
+[[recursion.thread]] --[:INCLUDES]--> [[loop-sugar]]
+
+## Thread: Pattern Matching  @2026-05-18
+
+[[pattern-matching.thread]] --[:INCLUDES]--> [[match]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-matching-compilation]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[gram-pattern-translation]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[gram-pattern-pass]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-algorithm-choice]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[maranget-paper]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[exhaustiveness-checking]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[functional-patterns]]
+
+## Thread: Verification Backend  @2026-05-18
+
+[[verification-backend.thread]] --[:INCLUDES]--> [[verification-pipeline]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[verification-artefacts-revised]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[smt-translation]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[refinement-types]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[refinement-inference]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[translation-boundary-vc]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[milestone-1-ir-boundary]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[milestone-2-euf-quant-lia]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[milestone-3-strings]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[milestone-4-rows]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[milestone-5-explanations]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-dispatch]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-module-layout]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[vc-ir]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[vc-normalization]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[vc-provenance]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[z3-replacement-decision]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[required-formula-forms]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[required-theory-support]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[verification-backend]]
+
+## Thread: GRAM Evolution  @2026-05-18
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-additive-enrichment]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-as-s-expressions]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-dataflow-semantics]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-interpreter]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-next-steps]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-step-1]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-to-mir-bridge]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-pattern-pass]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-pattern-translation]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-shift-reset-pass]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[dpo-rewriting]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[dpo-vs-imperative-passes]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[logram]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[compilation-by-selection]]
+
+## Thread: Elaboration V2  @2026-05-18
+
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[elaboration]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[v2-elaboration-pipeline]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[v1-elaboration-pipeline]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[elaboration-monad]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[elaboration-context]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[eb-term]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[src-term]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[src-to-eb-transformation]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[generator-monad]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[monad-split]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-let-polymorphism]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-sigma-types]]
+
+## Thread: Parser Migration  @2026-05-18
+
+[[parser-migration.thread]] --[:INCLUDES]--> [[nearley-parser]]
+[[parser-migration.thread]] --[:INCLUDES]--> [[parser-processors]]
+[[parser-migration.thread]] --[:INCLUDES]--> [[tree-sitter-parser]]
+
+## Cross-Thread Shared Items  @2026-05-18
+
+[[gram-evolution.thread]] --[:SHARED_WITH]--> [[delimited-continuations.thread]]  -- gram-shift-reset-pass
+[[gram-evolution.thread]] --[:SHARED_WITH]--> [[pattern-matching.thread]]  -- gram-pattern-pass, gram-pattern-translation
+[[verification-backend.thread]] --[:SHARED_WITH]--> [[row-types.thread]]  -- milestone-4-rows / row-theory
+[[pattern-matching.thread]] --[:SHARED_WITH]--> [[row-types.thread]]  -- exhaustiveness-checking depends on row/variant structure
+[[elaboration-v2.thread]] --[:SHARED_WITH]--> [[recursion.thread]]  -- missing-spec-let-polymorphism (mu recovery at let boundaries)
+
+## Queue Membership  @2026-05-18
+
+[[global-pending-queue]] --[:INCLUDES]--> [[spineful-applications]]
+[[global-pending-queue]] --[:INCLUDES]--> [[where-clauses]]
+[[global-pending-queue]] --[:INCLUDES]--> [[lsp]]
+[[global-pending-queue]] --[:INCLUDES]--> [[repl]]
+[[global-pending-queue]] --[:INCLUDES]--> [[module-system]]
+[[global-pending-queue]] --[:INCLUDES]--> [[block-level-using-gap]]
+[[global-pending-queue]] --[:INCLUDES]--> [[documentation-debt]]
+[[global-pending-queue]] --[:INCLUDES]--> [[type-erasure]]
+[[global-pending-queue]] --[:INCLUDES]--> [[dynamic-reflection]]
+[[global-pending-queue]] --[:INCLUDES]--> [[ffi-saturation]]
+[[global-pending-queue]] --[:INCLUDES]--> [[whnf-codification]]
