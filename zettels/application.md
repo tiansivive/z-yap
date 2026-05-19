@@ -22,4 +22,4 @@ Elaboration: `EB.Application.infer` (`src/elaboration/inference/applications.ts`
 
 Projection/injection use **`Atom %dot Identifier`** (`Projection`), not `App`, per grammar (`grammar.ne`).
 
-Lower-level evaluation semantics live outside this inference rule (`application-evaluation.md`, `nf-value.md`).
+Lower-level evaluation semantics live outside this inference rule ([[application-evaluation.md]], [[nf-value.md]]).
