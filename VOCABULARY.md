@@ -59,6 +59,9 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `ir` | Intermediate representations |
 | `milestone` | Project milestones, deliverables |
 | `drift` | Specification/implementation drift |
+| `implementation` | Concrete code realization of a design/concept |
+| `ai-session` | A recorded AI pair-programming session |
+| `ivl` | Intermediate Verification Language |
 | `reference` | Reference material, external artifacts |
 | `solver` | Constraint solver, batched solving, implicit resolution dispatch |
 | `graph` | Graph-based intermediate representation and rewriting |
@@ -183,15 +186,15 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 
 | Group | Tags |
 |-------|------|
-| Core | `concept`, `mechanism`, `principle`, `pattern`, `decision`, `specification` |
+| Core | `concept`, `mechanism`, `principle`, `pattern`, `decision`, `specification`, `implementation` |
 | Type Theory | `type-system`, `row-types`, `dependent`, `modality`, `multiplicity`, `polymorphism` |
 | Pipeline | `elaboration`, `normalization`, `parser`, `mir`, `verification`, `lowering`, `codegen`, `checking`, `evaluation` |
 | Language | `syntax`, `continuation`, `ffi`, `inference`, `runtime`, `effect`, `recursion`, `sugar`, `cps` |
 | Elaboration | `constraint`, `solver`, `metavariable`, `generalization`, `context`, `closure`, `substitution` |
 | Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access` |
-| Verification | `verification`, `quantifiers`, `arithmetic`, `strings` |
+| Verification | `verification`, `quantifiers`, `arithmetic`, `strings`, `ivl` |
 | Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration` |
-| Meta | `research`, `paper`, `gateway`, `reference`, `milestone` |
+| Meta | `research`, `paper`, `gateway`, `reference`, `milestone`, `ai-session` |
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
 | Work Layer | `thread`, `queue`, `ready`, `blocked`, `needs-design` |
 | Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift` |

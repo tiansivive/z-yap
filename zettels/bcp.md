@@ -3,7 +3,7 @@ tags:
   - verification
   - sat
   - mechanism
-  - planned
+  - implemented
   - milestone
 ---
 # Boolean Constraint Propagation

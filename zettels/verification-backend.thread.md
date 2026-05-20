@@ -32,14 +32,16 @@ in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
 5. **Refinement inference** [[refinement-inference]] — planned
    No separate metavariable pipeline for refinement templates/holes.
 
-6. **Translation boundary** [[translation-boundary-vc]] — planned
-   Emit VC.Formula instead of Z3 directly. Not done; code still builds Z3.
+6. **Translation boundary** [[translation-boundary-vc]] — partial
+   IVL types defined; z3.adapter.ts bridges. Full translate.ts rewrite deferred.
 
-7. **M1: IR boundary** [[milestone-1-ir-boundary]] — planned
-   VC.Sort, VC.Term, VC.Formula. Translation emits VC instead of Z3.
+7. **M1: IR boundary** [[milestone-1-ir-boundary]] — implemented
+   IVL sorts/terms/formulas, builder, DSL, printer, CNF, normalize, skolem.
+   See [[m1-implementation]].
 
-8. **M2: EUF + quantifiers + LIA** [[milestone-2-euf-quant-lia]] — planned
-   Core theory combination in-house.
+8. **M2: EUF + quantifiers + LIA** [[milestone-2-euf-quant-lia]] — implemented
+   CDCL core, EUF/CC, simplex arithmetic, trigger-based quantifier instantiation.
+   See [[m2-implementation]].
 
 9. **M3: Strings** [[milestone-3-strings]] — planned
    String theory support beyond uninterpreted sort.
@@ -51,11 +53,12 @@ in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
 11. **M5: Explanations** [[milestone-5-explanations]] — planned
     UNSAT cores, model fragments, counterexample pretty-printing.
 
-12. **Solver architecture** [[solver]], [[solver-dispatch]], [[solver-module-layout]] — planned
-    In-house CDCL(T) solver, dispatch, module layout from docs/SMT-SOLVER.md.
+12. **Solver architecture** [[solver]], [[solver-dispatch]], [[solver-module-layout]] — partial
+    CDCL(T) solver and module layout implemented. Dispatch not yet wired to
+    VerificationServiceV2.
 
-13. **VC IR** [[vc-ir]], [[vc-normalization]], [[vc-provenance]] — planned
-    Internal verification IR, normalization, provenance tracking.
+13. **VC IR** [[vc-ir]], [[vc-normalization]], [[vc-provenance]] — partial
+    IVL types and normalization implemented. Provenance tracking not yet done.
 
 14. **Z3 replacement decision** [[z3-replacement-decision]] — decision
     Staged plan for moving away from Z3.

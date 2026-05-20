@@ -1,9 +1,9 @@
 ---
 tags:
-  [verification, sat, mechanism, planned, backend, ir, reference, project, milestone, lowering, inference, arithmetic, codegen, principle, problem, ffi]
+  [verification, sat, mechanism, implemented, backend, ir, reference, project, milestone, lowering, inference, arithmetic, codegen, principle, problem, ffi]
 ---
 # Boolean lowering (CNF)
 
-**Status:** Design only. `docs/SMT-SOLVER.md` “Pass 3. Boolean lowering” calls for a Tseitin-style transform: theory atoms stay opaque, boolean connectives become clauses with origin metadata for unsat cores. The suggested file `src/verification/solver/cnf.ts` does not exist.
+**Implemented (M1):** `src/verification/solver/cnf.ts` performs Tseitin-style CNF transformation. Theory atoms stay opaque as integer-indexed variables; boolean connectives (And, Or, Not, Implies, Iff) become definitional clause blocks with fresh proxy variables. The proxy for the root formula is asserted. Output feeds directly into the CDCL core.
 
-**Current stack:** VCs are Z3 `Bool` `Expr` values from `createTranslationTools` (`src/verification/V2/logic/translate.ts`); `VerificationServiceV2` (`src/verification/V2/service.ts`) never runs a Yap-owned CNF pass. Clause learning and boolean search are internal to Z3.
+**Legacy stack:** `VerificationServiceV2` still uses Z3-internal clause learning via `z3.adapter.ts` during transition. See [[m1-implementation]].

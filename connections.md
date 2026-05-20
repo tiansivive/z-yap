@@ -1274,3 +1274,74 @@
 
 [[glossary]] --[:EXTENDS]--> [[smt-solver-glossary]]  -- Global glossary references domain-specific glossary
 [[yap]] --[:INCLUDES]--> [[glossary]]  -- Project-level reference
+
+## M1 + M2 implementation  @2026-05-20
+
+### Session
+
+[[session-m2-completion]] --[:PRODUCED]--> [[m1-implementation]]  -- Session delivered M1
+[[session-m2-completion]] --[:PRODUCED]--> [[m2-implementation]]  -- Session delivered M2
+[[session-m2-completion]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- Continues Z3 replacement
+
+### M1 implementation → milestone & concepts
+
+[[m1-implementation]] --[:IMPLEMENTS]--> [[milestone-1-ir-boundary]]  -- Realizes the milestone
+[[m1-implementation]] --[:ADDRESSES]--> [[milestone-1-ir-boundary]]  -- Closes the open work item
+
+[[m1-implementation]] --[:IMPLEMENTS]--> [[vc-ir]]  -- IVL types/builder realize the VC IR concept
+[[m1-implementation]] --[:INSTANTIATES]--> [[vc-ir]]  -- Concrete TypeScript module from abstract design
+
+[[m1-implementation]] --[:IMPLEMENTS]--> [[translation-boundary-vc]]  -- z3.adapter.ts realizes the boundary
+[[m1-implementation]] --[:PRESERVES]--> [[translation-boundary-vc]]  -- Keeps Z3 working during transition
+
+[[m1-implementation]] --[:IMPLEMENTS]--> [[boolean-lowering-cnf]]  -- cnf.ts realizes Tseitin pass
+[[m1-implementation]] --[:IMPLEMENTS]--> [[vc-normalization]]  -- normalize.ts realizes formula simplification
+[[m1-implementation]] --[:IMPLEMENTS]--> [[quantifier-preparation]]  -- skolem.ts realizes skolemization
+[[m1-implementation]] --[:USES]--> [[tseitin-cnf]]  -- Tseitin algorithm used in cnf.ts
+
+[[m1-implementation]] --[:SUPERSEDES]--> [[smt-translation]]  -- IVL replaces direct Z3 encoding
+[[m1-implementation]] --[:DEPRECATES]--> [[smt-translation]]  -- translate.ts path now legacy
+
+[[m1-implementation]] --[:VALIDATES]--> [[required-formula-forms]]  -- IVL covers all required formula shapes
+[[m1-implementation]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- First concrete step after the decision
+
+### M2 implementation → milestone & concepts
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[milestone-2-euf-quant-lia]]  -- Realizes the milestone
+[[m2-implementation]] --[:ADDRESSES]--> [[milestone-2-euf-quant-lia]]  -- Closes the open work item
+
+[[m2-implementation]] --[:DEPENDS_ON]--> [[m1-implementation]]  -- Structurally built on IVL
+[[m2-implementation]] --[:CONSUMES]--> [[m1-implementation]]  -- Solver ingests IVL formulas
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[cdcl-t-solver]]  -- Realizes the CDCL(T) concept
+[[m2-implementation]] --[:INSTANTIATES]--> [[cdcl-t-solver]]  -- Concrete core.ts from abstract design
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[euf-theory]]  -- Realizes EUF via CC
+[[m2-implementation]] --[:ENCODES]--> [[euf-theory]]  -- Hash-consed arena representation
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[arithmetic-theory]]  -- Realizes simplex arithmetic
+[[m2-implementation]] --[:ENCODES]--> [[arithmetic-theory]]  -- Rational bounds + fixed tableau representation
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[quantifier-engine]]  -- Realizes quantifier instantiation
+[[m2-implementation]] --[:DELEGATES_TO]--> [[quantifier-engine]]  -- Solver delegates rounds to quantifier loop
+
+[[m2-implementation]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Realizes the Theory API contract
+[[m2-implementation]] --[:IMPLEMENTS]--> [[watched-literals]]  -- Two-watch in watched.ts
+[[m2-implementation]] --[:IMPLEMENTS]--> [[bcp]]  -- Unit propagation in core.ts
+[[m2-implementation]] --[:IMPLEMENTS]--> [[one-uip]]  -- 1UIP conflict analysis in core.ts
+[[m2-implementation]] --[:IMPLEMENTS]--> [[congruence-closure]]  -- CC in euf/cc.ts
+[[m2-implementation]] --[:IMPLEMENTS]--> [[e-matching]]  -- Trigger matching in quantifiers/ematch.ts
+[[m2-implementation]] --[:VALIDATES]--> [[required-theory-support]]  -- Covers EUF + arithmetic + quantifiers
+
+### M2 implementation → papers (algorithms directly implemented)
+
+[[m2-implementation]] --[:USES]--> [[nieuwenhuis-oliveras]]  -- DPLL(T) architecture directly implemented
+[[m2-implementation]] --[:USES]--> [[dutertre-arithmetic]]  -- Fixed-tableau simplex directly implemented
+[[m2-implementation]] --[:USES]--> [[ge-de-moura-quantifiers]]  -- E-matching directly implemented
+[[m2-implementation]] --[:USES]--> [[nelson-oppen]]  -- Theory combination via shared equalities
+
+### Thread inclusion
+
+[[verification-backend.thread]] --[:INCLUDES]--> [[session-m2-completion]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[m1-implementation]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[m2-implementation]]

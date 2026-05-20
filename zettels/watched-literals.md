@@ -3,7 +3,7 @@ tags:
   - verification
   - sat
   - mechanism
-  - planned
+  - implemented
   - milestone
 ---
 # Watched literals (two-watch scheme)

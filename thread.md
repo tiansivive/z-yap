@@ -63,3 +63,39 @@ ENQUEUE [[type-erasure]] — no principled erasure
 ENQUEUE [[dynamic-reflection]] — design-space only
 ENQUEUE [[ffi-saturation]] — MIR saturation concern
 ENQUEUE [[whnf-codification]] — NbE mode API gap
+
+---
+
+## session:m2-completion — 2026-05-20 [verification, sat, milestone]
+
+AI pair-programming session implementing milestones 1 and 2 of the SMT solver
+plan (`docs/SMT-SOLVER.md`). Branch: `ivl-sat-solver`.
+
+### New zettels
+
+[[session-m2-completion]] — session record
+[[m1-implementation]] — M1 IR boundary implementation details + src refs
+[[m2-implementation]] — M2 CDCL(T) + theories implementation details + src refs
+
+### Status changes
+
+[[milestone-1-ir-boundary]] planned → implemented
+[[milestone-2-euf-quant-lia]] planned → implemented
+[[cdcl-t-solver]] planned → implemented
+[[arithmetic-theory]] planned → implemented
+[[euf-theory]] planned → implemented
+[[quantifier-engine]] planned → implemented
+[[quantifier-preparation]] planned → implemented
+[[watched-literals]] planned → implemented
+[[bcp]] planned → implemented
+[[one-uip]] planned → implemented
+[[congruence-closure]] planned → implemented
+[[boolean-lowering-cnf]] planned → implemented
+
+### Thread updates
+
+[[verification-backend.thread]] items 7, 8 → implemented; 6, 12, 13 → partial
+
+### Vocabulary additions
+
+New tags: `implementation`, `ai-session`, `ivl`.

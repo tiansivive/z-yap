@@ -2,7 +2,7 @@
 tags:
 - verification
 - milestone
-- planned
+- implemented
 - reference
 - sat
 - arithmetic

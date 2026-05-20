@@ -1,0 +1,33 @@
+---
+tags:
+  - verification
+  - sat
+  - project
+  - milestone
+  - implemented
+  - arithmetic
+  - quantifiers
+  - ir
+  - solver
+  - ai-session
+  - ivl
+refs:
+  plans:
+    - .cursor/plans/SMT Solver M1 IR-50b94189.plan.md
+    - .cursor/plans/Milestone 1 IVL Boundary-50b94189.plan.md
+    - .cursor/plans/SMT Solver M2 Core-50b94189.plan.md
+    - .cursor/plans/M2 Missing Pieces-50b94189.plan.md
+  transcript: 50b94189-e668-4c26-b421-b368ee851bb8
+  branch: ivl-sat-solver
+---
+# Session: M1 + M2 completion
+
+AI pair-programming session that implemented milestones 1 and 2 of the SMT solver plan (`docs/SMT-SOLVER.md`).
+
+**M1 — IR boundary:** Defined the Intermediate Verification Language (IVL) as a Yap-owned, backend-neutral formula representation. Built sort/term/formula types, smart constructors, s-expr printer, DSL helpers, and a Z3 bridge adapter to keep the existing pipeline working during transition.
+
+**M2 — CDCL(T) core + theories:** Built the in-house SAT solver (CDCL with watched literals, 1UIP conflict analysis, non-chronological backjumping), EUF theory (hash-consed term arena + congruence closure), linear arithmetic theory (simplex with rational bounds, branch-and-bound for integers), and a trigger-based quantifier instantiation engine with E-matching. Wired everything through a `Theory` plugin interface and top-level `solve` entry point.
+
+**Code quality pass:** Enforced fp-ts combinators, ts-pattern structural dispatch, immutability discipline, and namespace-based API style across all solver modules. Documented deviations where mutable state is justified (trail, watched-literal arrays, simplex tableau).
+
+See [[m1-implementation]] and [[m2-implementation]] for per-milestone details with source file links.
