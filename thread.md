@@ -99,3 +99,62 @@ plan (`docs/SMT-SOLVER.md`). Branch: `ivl-sat-solver`.
 ### Vocabulary additions
 
 New tags: `implementation`, `ai-session`, `ivl`.
+
+---
+
+## session:trace-observability — 2026-05-21 [verification, observability, explorer, bugfix]
+
+AI pair-programming session following M2 completion. Built solver observability
+tooling, integrated the IVL solver into the pipeline explorer, discovered and
+fixed a correctness bug in Lambda type synthesis, and added a simplification
+toggle for debugging. Branch: `ivl-sat-solver`.
+
+### New zettels
+
+[[session-trace-observability]] — session record
+[[solver-trace]] — generator-based CDCL(T) observability system
+[[build-simplify-toggle]] — global flag gating IVL algebraic simplifications
+[[lambda-synthesis-fix]] — Pi return closure bug fix in synth.ts
+
+### Status changes
+
+[[pipeline-explorer]] updated: IVL + Trace tabs replace Z3 Verify tab
+
+### Thread updates
+
+[[verification-backend.thread]] items 17–20 added (solver-trace, explorer
+integration, build-simplify-toggle, lambda-synthesis-fix — all implemented)
+
+### Vocabulary additions
+
+New tags: `observability`, `bugfix`, `explorer`, `generator`.
+New labels: `EXPOSES`, `GATES`, `FIXES`, `DISCOVERED_BY`.
+
+---
+
+## session:bubble-verification-design — 2026-05-21 [continuation, verification, ivl, elaboration]
+
+AI pair-programming session designing the verification story for shift/reset
+expressions. Two-phase approach: immediate dummy stub (Reset transparent, Shift
+opaque), then full Bubble semantics with concrete expansion and symbolic
+quantification. Branch: `ivl-sat-solver`.
+
+### New zettels
+
+[[session-bubble-verification-design]] — session record
+[[shift-reset-verification-stub]] — dummy pass-through (Reset=inner, Shift=true)
+[[bubble-semantics]] — EB.Term Bubble replacing skolem-meta indirection
+[[shift-reset-verification]] — full VC strategy (concrete + symbolic)
+[[open-shift-verification]] — symbolic mode for cross-module/open shifts
+[[arm-paper]] — Sekiyama, Tsukada, Igarashi (POPL 2024) — Answer Refinement Modification
+[[sekiyama-unno-temporal]] — Sekiyama & Unno (POPL 2023) — temporal answer-effect modification
+
+### Thread updates
+
+[[verification-backend.thread]] item 21 added (shift-reset-verification-stub — planned)
+[[delimited-continuations.thread]] items 11–13 added (bubble-semantics, shift-reset-verification, open-shift-verification)
+
+### Cross-thread connections
+
+[[verification-backend.thread]] -- shared_with -> [[delimited-continuations.thread]] — shift-reset-verification, shift-reset-verification-stub
+[[delimited-continuations.thread]] -- shared_with -> [[verification-backend.thread]] — shift-reset-verification

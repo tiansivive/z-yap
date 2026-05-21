@@ -55,7 +55,7 @@ in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
 
 12. **Solver architecture** [[solver]], [[solver-dispatch]], [[solver-module-layout]] — partial
     CDCL(T) solver and module layout implemented. Dispatch not yet wired to
-    VerificationServiceV2.
+    VerificationServiceV2 as default backend (explorer calls it manually).
 
 13. **VC IR** [[vc-ir]], [[vc-normalization]], [[vc-provenance]] — partial
     IVL types and normalization implemented. Provenance tracking not yet done.
@@ -68,3 +68,23 @@ in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
 
 16. **Verification backend interface** [[verification-backend]] — planned
     Pluggable VerificationBackend abstraction.
+
+17. **Solver trace** [[solver-trace]] — implemented
+    Generator-based observability system: Step events, TheoryStep sub-events,
+    TracedSolverInstance API, prettier-printer replay renderer.
+
+18. **Explorer integration** [[pipeline-explorer]] — implemented
+    IVL tab + Trace tab in pipeline explorer. Replaced Z3 Verify tab.
+
+19. **Build simplify toggle** [[build-simplify-toggle]] — implemented
+    Global flag gating algebraic simplifications. CLI + explorer UI config.
+
+20. **Lambda synthesis fix** [[lambda-synthesis-fix]] — implemented
+    Correctness fix in synth.ts: Pi return closure used term body instead of
+    synthesized body type.
+
+21. **Shift/reset verification stub** [[shift-reset-verification-stub]] — planned
+    Dummy pass-through: Reset transparent (verify inner term), Shift opaque
+    (always true). Unblocks verification for programs with shift/reset.
+    Superseded by [[shift-reset-verification]] once Bubble semantics lands.
+    _Shared with: delimited-continuations thread_

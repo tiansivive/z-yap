@@ -34,11 +34,13 @@ refs:
     - src/verification/solver/quantifiers/ematch.ts
     - src/verification/solver/quantifiers/solver.ts
     - src/verification/solver/solver.ts
+    - src/verification/solver/trace.ts
   tests:
     - src/verification/solver/__tests__/cdcl.test.ts
     - src/verification/solver/__tests__/arithmetic.test.ts
     - src/verification/solver/__tests__/quantifier.test.ts
     - src/verification/solver/__tests__/solver.test.ts
+    - src/verification/solver/__tests__/trace.test.ts
 ---
 # M2 implementation — EUF + quantifiers + linear arithmetic
 
@@ -80,7 +82,11 @@ Built the in-house CDCL(T) solver stack on top of M1's IVL representation. The s
 
 ## Top-level solver (`solver.ts`)
 
-Entry point: `solve(formulas)`. Normalizes, skolemizes, CNF-lowers, registers theories, runs CDCL(T) loop with quantifier rounds interleaved.
+Entry point: `solve(formulas)`. Normalizes, skolemizes, CNF-lowers, registers theories, runs CDCL(T) loop with quantifier rounds interleaved. A parallel `createTraced()` entry point returns a generator-based `TracedSolverInstance` that yields `Step` events for observability (see [[solver-trace]]).
+
+## Theory tracing (`theory.ts`)
+
+The `Theory` interface exposes both `assert`/`check` (silent) and `assertTrace`/`checkTrace` (generator-based) methods. The traced variants yield `TheoryStep` sub-events — `EUFTrace.Step` for congruence closure internals and `ArithTrace.Step` for simplex internals — consumed by the trace replay renderer.
 
 ## Implementation decisions
 

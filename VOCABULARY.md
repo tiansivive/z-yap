@@ -86,6 +86,10 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `reuse` | Memory reuse, slot recycling, reset/reuse patterns |
 | `refcounting` | Reference counting, drop/dup, RC optimization |
 | `data-access` | Structural operations: read, update, CRUD on records/variants |
+| `observability` | Runtime inspection of internal solver/engine state, step-by-step traces |
+| `bugfix` | A concrete correctness fix for a discovered defect |
+| `explorer` | Pipeline explorer web dashboard (`pnpm yap explore`) |
+| `generator` | Generator functions (`function*`/`yield`) as control flow mechanism |
 
 ### Work Layer Tags
 
@@ -181,6 +185,10 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `PRECEDES` | Source work item comes before target in a thread's sequence |
 | `SHARED_WITH` | Source thread shares target work item with another thread |
 | `DEFERRED_FROM` | Source work item was deferred from target thread or queue |
+| `EXPOSES` | Source makes target's internal state externally visible |
+| `GATES` | Source flag/toggle controls whether target behavior is active |
+| `FIXES` | Source corrects a defect in target |
+| `DISCOVERED_BY` | Source issue was discovered via/during target |
 
 ## Tag Groups
 
@@ -192,9 +200,9 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | Language | `syntax`, `continuation`, `ffi`, `inference`, `runtime`, `effect`, `recursion`, `sugar`, `cps` |
 | Elaboration | `constraint`, `solver`, `metavariable`, `generalization`, `context`, `closure`, `substitution` |
 | Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access` |
-| Verification | `verification`, `quantifiers`, `arithmetic`, `strings`, `ivl` |
-| Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration` |
+| Verification | `verification`, `quantifiers`, `arithmetic`, `strings`, `ivl`, `observability` |
+| Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration`, `explorer`, `generator` |
 | Meta | `research`, `paper`, `gateway`, `reference`, `milestone`, `ai-session` |
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
 | Work Layer | `thread`, `queue`, `ready`, `blocked`, `needs-design` |
-| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift` |
+| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift`, `bugfix` |

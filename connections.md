@@ -1345,3 +1345,149 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[session-m2-completion]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[m1-implementation]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[m2-implementation]]
+
+## Trace & observability session  @2026-05-21
+
+### Session
+
+[[session-trace-observability]] --[:FOLLOWS]--> [[session-m2-completion]]  -- Continuation of solver development
+[[session-trace-observability]] --[:PRODUCED]--> [[solver-trace]]  -- Session delivered the trace system
+[[session-trace-observability]] --[:PRODUCED]--> [[build-simplify-toggle]]  -- Session delivered the simplify toggle
+[[session-trace-observability]] --[:PRODUCED]--> [[lambda-synthesis-fix]]  -- Session discovered and fixed the bug
+[[session-trace-observability]] --[:DEPENDS_ON]--> [[m2-implementation]]  -- Built on top of the M2 solver
+[[session-trace-observability]] --[:ADDRESSES]--> [[pipeline-explorer]]  -- Integrated solver into the explorer
+
+### Solver trace → solver internals
+
+[[solver-trace]] --[:EXPOSES]--> [[cdcl-t-solver]]  -- Makes CDCL(T) execution steps observable
+[[solver-trace]] --[:EXPOSES]--> [[euf-theory]]  -- EUFTrace.Step reveals merge/congruence/scan internals
+[[solver-trace]] --[:EXPOSES]--> [[arithmetic-theory]]  -- ArithTrace.Step reveals bound/pivot/feasibility internals
+[[solver-trace]] --[:EXPOSES]--> [[quantifier-engine]]  -- Quantifier round events visible in trace
+[[solver-trace]] --[:EXPOSES]--> [[bcp]]  -- Propagation steps rendered in trace output
+[[solver-trace]] --[:EXPOSES]--> [[one-uip]]  -- Conflict analysis + backjump steps rendered
+[[solver-trace]] --[:EXPOSES]--> [[watched-literals]]  -- Clause satisfaction tracking in trace
+[[solver-trace]] --[:DEPENDS_ON]--> [[m2-implementation]]  -- Structurally built on the M2 solver
+[[solver-trace]] --[:CONSUMES]--> [[m2-implementation]]  -- Trace consumes solver generator output
+[[solver-trace]] --[:EXTENDS]--> [[theory-plugin-interface]]  -- Added assertTrace/checkTrace generator methods
+[[solver-trace]] --[:USES]--> [[pretty-printing]]  -- prettier-printer for structured output
+[[solver-trace]] --[:REPORTS]--> [[cdcl-t-solver]]  -- Human-readable execution replay
+[[solver-trace]] --[:REPORTS]--> [[euf-theory]]  -- Renders equivalence classes after merges
+[[solver-trace]] --[:REPORTS]--> [[arithmetic-theory]]  -- Renders bound intervals after updates
+[[solver-trace]] --[:TRANSLATES_TO]--> [[pipeline-explorer]]  -- Trace output displayed in Trace tab
+[[solver-trace]] --[:SNAPSHOTS]--> [[cdcl-t-solver]]  -- 14 snapshot tests capture trace output
+[[solver-trace]] --[:RESOLVES]--> [[vc-ir]]  -- Tseitin proxy variables resolved back to IVL subformulas
+[[solver-trace]] --[:RESOLVES]--> [[congruence-closure]]  -- Enode IDs resolved to term names
+[[solver-trace]] --[:DISPATCHES_ON]--> [[theory-plugin-interface]]  -- Step rendering dispatches on theory name
+
+### Solver trace → IVL
+
+[[solver-trace]] --[:CONSUMES]--> [[vc-ir]]  -- Reads IVL formulas for display
+[[solver-trace]] --[:USES]--> [[m1-implementation]]  -- Uses IVL printer for formula rendering
+[[solver-trace]] --[:DEPENDS_ON]--> [[boolean-lowering-cnf]]  -- Trace reads atom table + proxy table from Tseitin
+
+### Build simplify toggle → IVL constructors
+
+[[build-simplify-toggle]] --[:GATES]--> [[vc-ir]]  -- Controls whether Build constructors simplify formulas
+[[build-simplify-toggle]] --[:GATES]--> [[vc-normalization]]  -- Algebraic simplification is a form of normalization
+[[build-simplify-toggle]] --[:APPLIES_TO]--> [[m1-implementation]]  -- Modifies Build module from M1
+[[build-simplify-toggle]] --[:ENABLES]--> [[solver-trace]]  -- Unsimplified formulas reveal full VC structure in trace
+[[build-simplify-toggle]] --[:ENABLES]--> [[pipeline-explorer]]  -- Togglable via explorer UI checkbox
+[[build-simplify-toggle]] --[:USES]--> [[pipeline-explorer]]  -- Config persisted in localStorage, sent per /run request
+[[build-simplify-toggle]] --[:DISCOVERED_BY]--> [[lambda-synthesis-fix]]  -- Need emerged from debugging the Lambda bug
+
+### Lambda synthesis fix
+
+[[lambda-synthesis-fix]] --[:FIXES]--> [[verification-pipeline]]  -- Corrects Pi type construction in V2 synth
+[[lambda-synthesis-fix]] --[:FIXES]--> [[smt-translation]]  -- Incorrect VC formula was downstream of wrong type
+[[lambda-synthesis-fix]] --[:ADDRESSES]--> [[dependent-types]]  -- Dependent Pi return closure was capturing values not types
+[[lambda-synthesis-fix]] --[:USES]--> [[nbe]]  -- Fix uses NF.quote to convert synthesized type back to term
+[[lambda-synthesis-fix]] --[:USES]--> [[whnf-vs-full-normalization]]  -- Quotes NF.Value at correct de Bruijn level
+[[lambda-synthesis-fix]] --[:DEPENDS_ON]--> [[bidirectional-checking]]  -- Fix is in the synth direction
+[[lambda-synthesis-fix]] --[:DEPENDS_ON]--> [[pi-types]]  -- Pi type return closure construction
+[[lambda-synthesis-fix]] --[:DISCOVERED_BY]--> [[solver-trace]]  -- Incorrect formula visible in trace output
+[[lambda-synthesis-fix]] --[:DISCOVERED_BY]--> [[pipeline-explorer]]  -- Bug reproduced via explorer's IVL tab
+[[lambda-synthesis-fix]] --[:VALIDATES]--> [[build-simplify-toggle]]  -- Post-fix simplification behaviour confirmed the fix was correct
+
+### Explorer integration updates
+
+[[pipeline-explorer]] --[:USES]--> [[solver-trace]]  -- Trace tab displays solver replay
+[[pipeline-explorer]] --[:USES]--> [[vc-ir]]  -- IVL tab displays s-expression formula
+[[pipeline-explorer]] --[:USES]--> [[m1-implementation]]  -- IVLPrint for formula rendering
+[[pipeline-explorer]] --[:USES]--> [[m2-implementation]]  -- Solver.createTraced() for trace generation
+[[pipeline-explorer]] --[:USES]--> [[build-simplify-toggle]]  -- ivlSimplify config option
+[[pipeline-explorer]] --[:SUPERSEDES]--> [[smt-translation]]  -- IVL + Trace tabs replaced Z3 Verify tab
+[[pipeline-explorer]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- Calls VerificationServiceV2 directly
+[[pipeline-explorer]] --[:REPORTS]--> [[solver-trace]]  -- Renders trace output in Trace tab
+[[pipeline-explorer]] --[:REPORTS]--> [[vc-ir]]  -- Renders IVL formula in IVL tab
+
+### Thread inclusion
+
+[[verification-backend.thread]] --[:INCLUDES]--> [[session-trace-observability]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-trace]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[build-simplify-toggle]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[lambda-synthesis-fix]]
+
+## session:bubble-verification-design — 2026-05-21
+
+### Bubble semantics
+
+[[bubble-semantics]] --[:SUPERSEDES]--> [[continuation-binders]]  -- Replaces skolem-meta indirection with explicit Bubble node
+[[bubble-semantics]] --[:ADDRESSES]--> [[missing-spec-shift-reset]]  -- Makes nondeterministic semantics explicit in AST
+[[bubble-semantics]] --[:ENABLES]--> [[shift-reset-verification]]  -- Carries values for VC generation
+[[bubble-semantics]] --[:APPLIES_TO]--> [[shift-reset]]  -- New EB.Term constructor at shift use sites
+[[bubble-semantics]] --[:COMPOSES_WITH]--> [[gram-shift-reset-pass]]  -- GRAM already has bubble concept; aligns vocabulary
+[[bubble-semantics]] --[:USES]--> [[nondeterminism]]  -- Resume values from nondeterminism.solution
+[[bubble-semantics]] --[:USES]--> [[answer-type-polymorphism]]  -- ann carries answer type A
+
+### Verification stub
+
+[[shift-reset-verification-stub]] --[:IMPLEMENTS]--> [[shift-reset]]  -- Dummy verification pass-through
+[[shift-reset-verification-stub]] --[:EXTENDS]--> [[verification-pipeline]]  -- Adds Reset/Shift cases (transparent/opaque)
+[[shift-reset-verification-stub]] --[:USES]--> [[vc-ir]]  -- Build.true_() for shift VC
+
+### Full verification
+
+[[shift-reset-verification]] --[:SUPERSEDES]--> [[shift-reset-verification-stub]]  -- Replaces dummy with real verification
+[[shift-reset-verification]] --[:EXTENDS]--> [[verification-pipeline]]  -- Adds Reset/Bubble cases with quantification
+[[shift-reset-verification]] --[:USES]--> [[vc-ir]]  -- IVL Bubble term constructor
+[[shift-reset-verification]] --[:USES]--> [[answer-type-polymorphism]]  -- Bubble type = answer type A
+[[shift-reset-verification]] --[:RELIES_ON]--> [[bubble-semantics]]  -- Needs Bubble in EB.Term
+[[shift-reset-verification]] --[:ADDRESSES]--> [[open-shift-verification]]  -- Symbolic mode handles open shifts
+
+### Open shifts
+
+[[open-shift-verification]] --[:MOTIVATES]--> [[bubble-semantics]]  -- Design for symbolic mode upfront
+[[open-shift-verification]] --[:EXTENDS]--> [[shift-reset-verification]]  -- Symbolic generalization of concrete expansion
+[[open-shift-verification]] --[:COMPOSES_WITH]--> [[effects-as-modality]]  -- Effect annotations needed for cross-module
+
+### Papers
+
+[[arm-paper]] --[:INFORMS]--> [[shift-reset-verification]]  -- ARM = symbolic answer refinement tracking
+[[arm-paper]] --[:EXTENDS]--> [[danvy-filinski]]  -- Refinement dimension of ATM
+[[arm-paper]] --[:INFORMS]--> [[open-shift-verification]]  -- Theoretical foundation for symbolic mode
+[[arm-paper]] --[:INFORMS]--> [[answer-type-polymorphism]]  -- Extends ATM to refinement level
+
+[[sekiyama-unno-temporal]] --[:INFORMS]--> [[arm-paper]]  -- Prior work by same first author
+[[sekiyama-unno-temporal]] --[:INFORMS]--> [[shift-reset-verification]]  -- Temporal effects + delimited control
+
+### Session
+
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[bubble-semantics]]
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[shift-reset-verification]]
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[shift-reset-verification-stub]]
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[arm-paper]]
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[sekiyama-unno-temporal]]
+[[session-bubble-verification-design]] --[:PRODUCES]--> [[open-shift-verification]]
+[[session-bubble-verification-design]] --[:FOLLOWS]--> [[session-trace-observability]]  -- Same branch, next session
+
+### Thread inclusion
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[bubble-semantics]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-verification]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[open-shift-verification]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[shift-reset-verification-stub]]
+
+### Cross-thread
+
+[[verification-backend.thread]] --[:SHARED_WITH]--> [[delimited-continuations.thread]]  -- shift-reset-verification, shift-reset-verification-stub
+[[delimited-continuations.thread]] --[:SHARED_WITH]--> [[verification-backend.thread]]  -- shift-reset-verification

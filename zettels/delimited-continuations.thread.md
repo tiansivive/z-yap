@@ -47,3 +47,17 @@ tracks the full vertical of delimited control in Yap.
 
 10. **Session lowering notes** [[session-lowering-branch-split]] — reference
     Historical migration note on branch lineage.
+
+11. **Bubble semantics** [[bubble-semantics]] — planned, needs-design
+    EB.Term Bubble constructor replacing skolem-meta indirection. Carries id,
+    type, resume values, shift handler. Unifies representation for verification,
+    lowering, and evaluation.
+
+12. **Shift/reset verification** [[shift-reset-verification]] — planned, needs-design
+    VC generation for Reset/Bubble: concrete expansion (conjoin per value) +
+    symbolic quantification (∀bubble. P → φ). Depends on Bubble semantics.
+    _Shared with: verification-backend thread_
+
+13. **Open shift verification** [[open-shift-verification]] — speculative, needs-design
+    Symbolic mode for cross-module and open-term shifts. ARM-style answer
+    refinement tracking. Deferred until module system exists.
