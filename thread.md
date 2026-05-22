@@ -229,3 +229,50 @@ Branch: `i-dont-do-it-for-the-gram`.
 ### Thread updates
 
 [[testing.thread]] items added: v1-test-cleanup, test-coverage-gaps
+
+## session:selfification-first-order-guard — 2026-05-22 [verification, modality, type-system, ivl]
+
+Selfification first-order restriction: guard function-sorted types from self-equality refinements.
+Branch: `i-dont-do-it-for-the-gram`.
+
+### Codebase changes
+
+**selfify + isFirstOrder (`src/verification/V2/utils/refinements.ts`):**
+- `isFirstOrder` now unwraps Modal recursively (checks inner value)
+- `selfify` uses `isFirstOrder` as top-level guard; higher-order types return unchanged
+- `selfify` uses `NF.force` (not `unwrapNeutral`) to zonk metas before matching
+- Pi/Lambda/Sigma cases removed from selfify — `isFirstOrder` is the single authority
+- Aligns with Liquid Haskell T-Var rule (Knowles & Flanagan 2010, Vazou et al. 2024)
+- Prevents `(= f f)` atoms on function sorts from entering IVL/EUF
+
+### New zettels
+
+[[selfification]] — selfification mechanism, T-Var rule, Yap implementation
+[[first-order-restriction]] — first-order boundary for refinements, three enforcement points
+[[knowles-flanagan-2010]] — Hybrid Type Checking paper, T-Var formalization
+[[vazou-mechanizing-refinement-types-2024]] — Mechanizing Refinement Types, self() formal definition
+[[vazou-refinement-reflection-2018]] — Refinement Reflection, T-Exact, Fun sort, PLE
+[[ou-et-al-2004]] — Dynamic Typing with Dependent Types, coined "selfification"
+
+### Edges
+
+[[selfification]] --[:COMPOSES_WITH]--> [[modalities]]
+[[selfification]] --[:RELIES_ON]--> [[verification-pipeline]]
+[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction]]
+[[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]
+[[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]
+[[first-order-restriction]] --[:PRESERVES]--> [[ivl]]
+[[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]
+[[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]
+[[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[selfification]]
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction]]
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[selfification]]
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction]]
+[[vazou-refinement-reflection-2018]] --[:GENERALIZES]--> [[selfification]]
+[[vazou-refinement-reflection-2018]] --[:INFORMS]--> [[liquid-haskell-influence]]
+[[ou-et-al-2004]] --[:INFORMS]--> [[knowles-flanagan-2010]]
+
+### Thread updates
+
+[[verification-backend.thread]] item 22 added: selfification + first-order restriction

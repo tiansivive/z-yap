@@ -89,3 +89,9 @@ in-house CDCL(T) solver with pluggable theory support.
     (always true). Unblocks verification for programs with shift/reset.
     Superseded by [[shift-reset-verification]] once Bubble semantics lands.
     _Shared with: delimited-continuations thread_
+
+22. **Selfification + first-order restriction** [[selfification]], [[first-order-restriction]] — implemented
+    selfify uses isFirstOrder as top-level guard; higher-order types skip selfification.
+    isFirstOrder unwraps Modal and Neutral, returns false for Pi/Lambda/Sigma.
+    Matches Liquid Haskell / Knowles-Flanagan convention. Prevents function-sorted
+    atoms from entering IVL formulas.

@@ -16,7 +16,6 @@ node scripts/catalog.js --tag solver        # filter zettel inventory by tag
 node scripts/catalog.js --status planned    # filter by epistemic status
 node scripts/catalog.js --search fuzzy      # text search on slug + title
 node scripts/neighborhood.js nbe            # connections to/from a zettel (fuzzy match)
-python3 scripts/catalog.py --compact        # full catalog with connections (Python)
 ```
 
 For agent sessions, read `init.md` first.
@@ -112,11 +111,9 @@ z-loom resolves `loom://@yap/...` to this repository via the yap Gateway node.
 | `status.js` | Node.js | Thread + queue summary (quick overview) |
 | `threads.js` | Node.js | Detailed per-thread member listing |
 | `queue.js` | Node.js | Pending queue items |
-| `catalog.js` | Node.js | Zettel inventory with `--tag`/`--status`/`--search` filtering |
+| `catalog.js` | Node.js | Zettel inventory with `--tag`/`--status`/`--search`/`--markdown` filtering |
 | `neighborhood.js` | Node.js | All connections to/from a zettel (fuzzy slug match) |
 | `glossary.js` | Node.js | Browse glossary terms |
-| `catalog.py` | Python | Full zettel catalog with connections |
-| `neighborhood.py` | Python | Single zettel's connection neighborhood |
 
 Markdown versions auto-generated to `dist/` on push to main (GitHub Actions).
 

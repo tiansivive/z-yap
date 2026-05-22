@@ -1838,6 +1838,31 @@
 [[testing-strategy]] --[:INCLUDES]--> [[test-coverage-gaps]]  -- Gap tracking
 [[testing-strategy]] --[:INCLUDES]--> [[v1-test-cleanup]]  -- Cleanup event
 
+## Selfification
+
+[[selfification]] --[:COMPOSES_WITH]--> [[modalities]]  -- Conjoins self-equality into existing liquid predicate  @2026-05-22
+[[selfification]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Called from synth (Bound var path)  @2026-05-22
+[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction]]  -- Guarded by isFirstOrder  @2026-05-22
+
+## First-order restriction
+
+[[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]  -- Restricts self-equality and quantification to first-order types  @2026-05-22
+[[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]  -- isFirstOrder top-level guard  @2026-05-22
+[[first-order-restriction]] --[:PRESERVES]--> [[ivl]]  -- Keeps IVL formulas in decidable QF-EUFLIA fragment  @2026-05-22
+[[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Used in synth (selfify) and subtype (Pi parameter)  @2026-05-22
+[[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]  -- Standard Liquid Types convention  @2026-05-22
+
+## Selfification papers
+
+[[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]  -- Coined the term  @2026-05-22
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[selfification]]  -- T-Var formalization  @2026-05-22
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction]]  -- Restricts selfification to base types  @2026-05-22
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[selfification]]  -- Mechanized self() function  @2026-05-22
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction]]  -- Formal proof of restriction  @2026-05-22
+[[vazou-refinement-reflection-2018]] --[:GENERALIZES]--> [[selfification]]  -- T-Exact generalizes T-Var to reflected definitions  @2026-05-22
+[[vazou-refinement-reflection-2018]] --[:INFORMS]--> [[liquid-haskell-influence]]  -- Core LH paper  @2026-05-22
+[[ou-et-al-2004]] --[:INFORMS]--> [[knowles-flanagan-2010]]  -- Original selfification idea  @2026-05-22
+
 ## V1 test cleanup
 
 [[v1-test-cleanup]] --[:REVISES]--> [[snapshot-testing]]  -- Old tests used v1 API; ported coverage to v2 suites
