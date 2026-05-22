@@ -21,7 +21,7 @@ tags:
 
 **Status: complete.** The graph substrate and all initial passes are implemented and tested.
 
-**Anchored implementation:** `.cursor/plans/gram-implementation.md` — graph data structure, `translate.ts` from `EB.Term`, display, tests.
+**Anchored implementation:** `src/GRAM/` — graph data structure, `translate.ts` from `EB.Term`, display, tests under `src/GRAM/__tests__/`.
 
 **What exists:** `translate` walks elaboration terms into `Graph` values including pattern graph nodes (`pat:*`). `compile` chains `translate` → configured pass pipeline (`eta → saturate → shiftReset → pattern → closure`) → `verify`. All five passes are implemented with full test coverage.
 

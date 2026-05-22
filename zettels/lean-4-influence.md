@@ -18,4 +18,6 @@ tags:
 
 **Verified in Yap:** **Zonking** is first-class data: `zonker` substitutions thread through `src/elaboration/module.ts`, `src/elaboration/shared/monad.v2.ts` (accumulator channel `"zonker"`), NF pretty-printing, and the explorer’s meta debug pane (`src/cli/explore/pipeline.ts`). That naming and plumbing track **Lean-flavored** elaboration vocabulary even without per-line Lean citations.
 
-NbE-related work lives under `src/elaboration/normalization/` (evaluate / quote); parity with Lean’s definitional equality algorithm is **not** documented in-repo.
+NbE-related work lives under `src/elaboration/normalization/` (evaluate / quote); how closely Yap's definitional equality matches Lean's algorithm is an open comparison point for anyone auditing `evaluation.v2.ts` and `unification.ts`.
+
+Related: [[case-tree-elaboration]], [[inductive-types]].

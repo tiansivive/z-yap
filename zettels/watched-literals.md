@@ -5,6 +5,9 @@ tags:
   - mechanism
   - implemented
   - milestone
+  - solver
+  - performance
+  - principle
 ---
 # Watched literals (two-watch scheme)
 

@@ -20,8 +20,8 @@ tags:
 
 # Tree-sitter parser
 
-Grammar package: **external `tree-sitter-yap`** (see `src/parser/ARCHITECTURE.md` dual-backend table). Intended TypeScript surface: generated node typings under **`src/parser/types/generated.d.ts`** and CST helpers **`extractFields` / `extractParam`** in **`src/parser/utils.ts`** (documented in the same ARCHITECTURE file; matches **`.github/copilot-instructions.md`**’s field-access recipe with `SyntaxType`).
+Grammar package: **external `tree-sitter-yap`**. Intended TypeScript surface: generated node typings under **`src/parser/types/generated.d.ts`** (via `@asgerf/dts-tree-sitter`) and CST helpers **`extractFields` / `extractParam`** in **`src/parser/utils.ts`**, with field access through **`SyntaxType`** enums.
 
-This repository snapshot may not yet contain `src/parser/types/` or `utils.ts`; **`src/parser/index.ts`** does not re-export CST modules yet—treat tree-sitter as the **migration target**, Nearley as the **shipping** parse path (`nearley-parser.md`).
+Tree-sitter is the **migration target**; Nearley remains the **shipping** parse path (`nearley-parser.md`). **`src/parser/index.ts`** today exposes the Nearley barrel; CST modules would join the index when the migration lands.
 
-Regeneration command for typings is described in **`AGENTS.md`** / **`docs/ARCHITECTURE.md`** as **`pnpm ts-dts`**; that script string is **not** present in root **`package.json`** on this branch (documentation vs scripts drift).
+Typings regeneration is wired in tooling docs as **`pnpm run ts-dts`** (redirect `dts-tree-sitter` output into `generated.d.ts`) — confirm the script exists in root **`package.json`** before relying on it in CI.

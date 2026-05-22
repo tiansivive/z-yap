@@ -6,6 +6,8 @@ tags:
 
 **Surface / VC emission:** Primitives `$mul`, `$div`, `$mod` exist (`src/shared/lib/primitives.ts`) and reach Z3 through `translate.ts` `External` handling.
 
-**Solver policy (design):** `docs/SMT-SOLVER.md` states full non-linear arithmetic is a separate project; keep `*`, `/`, `%` in VC IR; support linearizable cases first; rely on aggressive NbE ground folding so non-linear atoms are rarer.
+**Solver policy (design):** treat full non-linear arithmetic as a long-term extension; keep `*`, `/`, `%` in VC IR; support linearizable cases first; rely on aggressive NbE ground folding so non-linear atoms are rarer.
 
-**In-house solver:** No `src/verification/solver/arithmetic/` implementation to inspect. **Current backend:** Z3 handles non-linear reals/ints according to its own engines, not a Yap-controlled partition of linear vs non-linear.
+**In-house solver:** `src/verification/solver/theories/arithmetic/` targets **linear** (real) arithmetic (simplex + branch-and-bound). Non-linear atoms are not handled by that theory plugin.
+
+**Default backend (main):** Z3 handles non-linear reals/ints via its own engines when VCs still translate to Z3.

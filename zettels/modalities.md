@@ -34,4 +34,4 @@ Elaboration constraint solving (`src/elaboration/solver/solver.ts`) only handles
 
 Variable lookup returns usage vectors of zeros for bound variables and leaves multiplicity on sigma entries unresolved (`QUESTION` in `src/elaboration/shared/context.ts` lookup).
 
-Verification consumes `quantity` when extracting modal annotations (`extractModalities`, modal subtyping in `src/verification/V2/subtype.ts`) but does not implement multiplicity checking end-to-end (`src/verification/ARCHITECTURE.md`, QTT Multiplicities).
+Verification consumes `quantity` when extracting modal annotations (`extractModalities`, modal subtyping in `src/verification/V2/subtype.ts`) and checks liquid refinements under `NF.Modal`; QTT-style multiplicity checking beyond that extraction remains an open extension of the same pass.

@@ -5,6 +5,9 @@ tags:
 - migration
 - syntax
 - tooling
+- ast
+- compiler
+- in-progress
 ---
 # Parser Migration
 

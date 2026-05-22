@@ -1,8 +1,10 @@
 ---
 tags:
-  [verification, concept, incomplete, backend, sat, arithmetic, strings, row-types, quantifiers, reference, milestone, inference, ffi, project, unification, migration, principle]
+  [verification, concept, incomplete, backend, sat, arithmetic, strings, row-types, quantifiers, reference, milestone, inference, ffi, project, unification, migration, principle, deprecated]
 ---
 # Required theory support
+
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
 
 **Target (design):** `docs/SMT-SOLVER.md` “Required theory support” lists EUF, mixed linear integer/real arithmetic with explicit non-linear operators in IR, guarded quantifiers with instantiation, string primitives (`=`, concat, length, prefix/suffix/contains), and a dedicated row theory aligned with `subtype.contains()`.
 

@@ -3,29 +3,34 @@ tags:
   [
     verification,
     infrastructure,
-    planned,
     reference,
+    deprecated,
     backend,
     compiler,
     sat,
     normalization,
     mir,
-    migration,
     project,
     tooling,
     testing,
-    milestone,
     principle,
     pattern,
-    drift,
   ]
 ---
-# Solver module layout (planned)
+# Solver module layout
 
-Authoritative sketch: `docs/SMT-SOLVER.md` §Internal module layout.
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
 
-Proposed tree `src/verification/solver/` with `ir.ts`, `normalize.ts`, `skolem.ts`, `cnf.ts`, `solver.ts`, `context.ts`, `trail.ts`, `explain.ts`, plus `euf/`, `arithmetic/`, `strings/`, `rows/`, `quantifiers/` subfolders—matching that doc verbatim.
+`src/verification/solver/` is the in-repo SMT-style solver stack over **IVL** (internal verification language).
 
-Repo state: no `src/verification/solver/` directory yet; solving today goes through `z3-solver` in tests (`src/verification/__tests__/check.test.ts`) and `src/elaboration/module.ts` (`solver.add(artefacts.vc.eq(true))`).
+**Top level:** `solver.ts` (assert/check, wires theories), `normalize.ts`, `skolem.ts`, `cnf.ts` (Tseitin), `trace.ts`, `z3.adapter.ts` (Z3 sort/term bridge for tests and comparison).
 
-Layering intent from doc: VC utilities independent of SAT internals; theories plug into shared literal interfaces.
+**IVL:** `ivl/types.ts` (`IVL.Sort`, `IVL.Term`, `IVL.Formula`, `IVL.RowTerm` with `Empty` / `Extend` / `Var`), `ivl/build.ts`, `ivl/dsl.ts`, `ivl/print.ts`.
+
+**CDCL:** `cdcl/core.ts`, `cdcl/watched.ts`.
+
+**Theories:** `theories/theory.ts`; `theories/euf/` (arena + congruence closure); `theories/arithmetic/` (normalize, bounds, simplex tableau, branch); `quantifiers/` (ematch, triggers, solver).
+
+**Pipeline:** VC formulas from elaboration (`src/elaboration/module.ts` adds artefacts) translate to IVL via `src/verification/V2/logic/translate.ts`, then `normalize` → `skolemize` → `tseitin` → CDCL + EUF + arithmetic + quantifiers. Tests: `src/verification/solver/__tests__/` and `src/verification/__tests__/check.test.ts` (Z3 cross-check).
+
+**Layering:** VC utilities in `src/verification/V2/` stay independent of SAT internals; theories plug in through shared literal / arena interfaces in `solver.ts`.

@@ -25,10 +25,10 @@ Surface modal terms elaborate through `EB.Modal.infer`, which typechecks `liquid
 
 The verification subsystem (`VerificationServiceV2` in `src/verification/V2/service.ts`) checks elaborated terms against types by generating Z3 booleans: `check`, `synth`, `subtype` in `src/verification/V2/`. Translation is `src/verification/V2/logic/translate.ts`; refinement helpers include `selfify`, `meet`, `extractModalities` in `src/verification/V2/utils/refinements.ts`.
 
-Modal subtyping relates liquid predicates (with neutral lift for non-modal sides) in `src/verification/V2/subtype.ts`; architecture summary in `src/verification/ARCHITECTURE.md`.
+Modal subtyping relates liquid predicates (with neutral lift for non-modal sides) in `src/verification/V2/subtype.ts`.
 
-**Incomplete:** `src/verification/ARCHITECTURE.md` states multiplicity checking is not implemented in the verification pass. Pipeline artefacts are `VerificationArtefacts = { vc; nf? }` (`src/verification/V2/types.ts`)—no usage vectors are produced there even though `modalities/shared.ts` still declares an `Artefacts` type carrying `usages`.
+**Gaps:** multiplicity checking is not part of the verification pass today. `VerificationArtefacts = { vc; nf? }` (`src/verification/V2/types.ts`) carries VC formulas only; usage vectors live in the separate `Artefacts` shape in `modalities/shared.ts` and are not threaded through `VerificationServiceV2`.
 
-**Incomplete:** elaboration strips modal wrappers from inferred types via `stripModalities` (`src/elaboration/elaborate.ts`), so inferred refinements are not preserved for downstream phases unless types stay explicitly modal.
+**Gaps:** elaboration strips modal wrappers from inferred types via `stripModalities` (`src/elaboration/elaborate.ts`), so inferred refinements are not preserved for downstream phases unless types stay explicitly modal.
 
 End-to-end refinement tests live under `src/verification/__tests__/check.test.ts` (snapshots under `__snapshots__/`).

@@ -20,12 +20,12 @@ tags:
 ---
 # Modality enforcement
 
-**Current code:** multiplicity is not enforced by the solver-backed elaboration constraint system — `Constraint` in `src/elaboration/solver/solver.ts` only supports `assign` and `resolve`; `usage` constraints are commented out. Call sites that would emit usage constraints (`yield* V2.tell("constraint", { type: "usage", ... })`) are commented in `src/elaboration/check.ts`, `src/elaboration/inference/lambda.ts`, `src/elaboration/inference/statements.ts`, `src/elaboration/inference/block.ts`.
+**Elaboration today:** `Constraint` in `src/elaboration/solver/solver.ts` handles `assign` and `resolve`; `usage` constraints and their `V2.tell("constraint", { type: "usage", ... })` call sites in `check.ts`, `lambda.ts`, `statements.ts`, and `block.ts` remain commented—reserved hooks for graded usage solving.
 
-**Verification:** liquid refinements under `NF.Modal` are checked via Z3 (`src/verification/V2/`); `src/verification/ARCHITECTURE.md` states multiplicity checking is not implemented in that pass.
+**Verification today:** liquid refinements under `NF.Modal` are checked via Z3 (`src/verification/V2/`); extending the same pass to discharge QTT multiplicity obligations is the natural next step.
 
-**Lookup / usages vectors:** bound-variable lookup returns zero usage vectors and leaves open how sigma multiplicities integrate (`QUESTION` in `src/elaboration/shared/context.ts`). Row sigma defaults include `multiplicity: Q.Many` in places like `extendSigmaEnv` (`src/elaboration/shared/context.ts`).
+**Lookup / usages vectors:** bound-variable lookup returns zero usage vectors; sigma multiplicity integration is marked `QUESTION` in `src/elaboration/shared/context.ts`. Row sigma defaults include `multiplicity: Q.Many` in `extendSigmaEnv`.
 
-"Enforcement" here means future wiring: emit and solve usage constraints (or an equivalent analysis), align variable lookup usage with binder annotations, and extend verification beyond liquid predicates — none of which is complete in-tree.
+Full enforcement would wire usage constraints (or equivalent analysis), align lookup vectors with binder annotations, and carry grades through verification beyond liquid predicates.
 
-**Downstream consumer:** GRAM's CRUD enrichment pass ([[gram-crud-enrichment]]) depends on multiplicity information to determine access modes (`shared` vs `exclusive`). Until enforcement is complete, the CRUD pass uses conservative defaults (`"shared"` everywhere) — always sound but misses FBIP optimization opportunities. This makes modality enforcement a soft blocker for full compile-time mutation guarantees.
+**Downstream consumer:** GRAM's CRUD enrichment pass ([[gram-crud-enrichment]]) reads multiplicity to choose access modes (`shared` vs `exclusive`). While elaboration still defaults unknown grades conservatively, the CRUD pass uses `"shared"` everywhere—sound, with FBIP optimizations opening up as usage solving lands.

@@ -21,9 +21,7 @@ Sigma appears as first-class syntax:
 
 - `EB.Binding` variant `{ type: "Sigma"; variable; annotation }` (`src/elaboration/syntax/term.ts`).
 - NF binder `{ type: "Sigma"; variable; annotation }` plus constructors (`src/elaboration/normalization/syntax/term.ts`).
-- Verification handles struct-vs-sigma checking (`src/verification/V2/check.ts` table in `src/verification/ARCHITECTURE.md`).
+- Verification handles struct-vs-sigma checking in `src/verification/V2/check.ts`.
 - Context `sigma` maps bind dependent field labels (`src/elaboration/shared/context.ts`); row helpers such as `collectSigmaBindings` live in `src/verification/V2/utils/context.ts`.
 
-There is no standalone calculus write-up checked into `z-yap/zettels/` that lists formation / introduction / elimination / η rules tying telescopic dependency to row operations—that gap is documentary, not a claim that code paths are absent.
-
-Related implementation-oriented notes in-graph: `z-yap/zettels/sigma-bindings.md`, `z-yap/zettels/sigma-types.md`.
+Formation / introduction / elimination / η rules tying telescopic dependency to row operations are exercised in code; a standalone calculus write-up in this vault would consolidate them. Related notes: [[sigma-bindings]], [[sigma-types]].

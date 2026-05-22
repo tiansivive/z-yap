@@ -25,4 +25,4 @@ tags:
 
 **Limitation:** comment in `rows.ts`: sigma should become a stack for nested row types — current map is flat.
 
-There is no `checking.v2/` directory in-repo; sigma behavior is split across `check.ts`, `inference/rows.ts`, `inference/structs.ts`, and normalization as above.
+Sigma behavior lives in `check.ts`, `inference/rows.ts`, `inference/structs.ts`, and normalization (`evaluation.v2.ts`, `extendSigmaEnv`) as above—the v2 elaboration path uses these modules rather than a separate `checking.v2/` tree.

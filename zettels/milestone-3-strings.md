@@ -21,10 +21,10 @@ tags:
 ---
 # Milestone 3: String theory
 
-Roadmap slice from `docs/SMT-SOLVER.md` §Algorithms by milestone → Milestone 3.
+**Goal:** dedicated string theory plugin (concat, length, prefix, suffix, contains).
 
-Deliverables named there: concat normal forms, length coupling to arithmetic, prefix/suffix/contains reductions, witness generation for containment-like constraints.
+**Deliverables:** concat normal forms, length coupling to arithmetic, prefix/suffix/contains reductions, witness generation for containment-like constraints; IVL `StrConcat` / `StrLen` wired through translation and a `theories/strings/` (or equivalent) solver module.
 
-Doc §Current hard constraints: strings today use an uninterpreted sort in `translate.ts` (`Sorts.String = Z3.Sort.declare("String")`); `$concat` is called out as not translated into native string reasoning.
+**Current state:** strings use an uninterpreted Z3 sort in `translate.ts` on main; in-house string reasoning and full primitive lowering remain open.
 
 Depends on Milestone 2 arithmetic/EUF interplay for length bridges.

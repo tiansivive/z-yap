@@ -6,6 +6,8 @@ tags:
 - lowering
 - rewriting
 - compiler
+- project
+- mir
 ---
 # GRAM Evolution
 

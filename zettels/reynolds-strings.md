@@ -19,6 +19,6 @@ tags:
 
 Context-dependent rewrites on string constraints using partial assignments from the SAT engine before expensive case splits; targets operators such as `contains`, `index_of`, `replace` (CVC4 implementation; motivation from symbolic execution workloads).
 
-**Yap:** As in `liang-strings.md`, Yap currently uses an **uninterpreted** `String` sort in `translate.ts`, not solver-native sequence/string theory rewrites. `docs/SMT-SOLVER.md` §Required theory support lists rich string ops as goals and flags row literals / full string lowering gaps. Reynolds et al. describe the **solver-internal** optimization layer Yap would benefit from once VCs use real string theories rather than EUF constants.
+**Yap:** As in `liang-strings.md`, refinement VCs today use an **uninterpreted** `String` sort in `src/verification/V2/logic/translate.ts`, not solver-native sequence/string theory rewrites. Rich string operators (concatenation, `contains`, length) are documented targets in [[required-theory-support]]; Reynolds et al. describe the **solver-internal** optimization layer that becomes relevant once VCs lower to real string theories rather than EUF constants.
 
-**Status:** `incomplete` (string side of verification not at this stack level yet).
+**Status:** `incomplete` (string verification remains partial relative to industrial DPLL(T) string solvers).

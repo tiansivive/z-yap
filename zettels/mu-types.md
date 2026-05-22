@@ -22,7 +22,7 @@ tags:
 
 **Recursive lets:** `src/elaboration/inference/statements.ts` wraps the inferred definition in `EB.Constructors.Mu` when the listener records a `Mu` binder for that variable.
 
-**Evaluation:** `normalization/ARCHITECTURE.md` and `evaluation.v2.ts`: reducing an application whose head is `Abs(Mu)` does **not** unfold the μ for computation—it becomes neutral/stuck unless other rules apply; unfolding for computation paths uses `NF.unfoldMu` where wired.
+**Evaluation:** `evaluation.v2.ts` reduces an application whose head is `Abs(Mu)` to neutral/stuck form without unfolding μ for that step; computation paths that need expansion call `NF.unfoldMu` where wired.
 
 **Unification (`src/elaboration/unification/unification.ts`):**
 
@@ -30,8 +30,8 @@ tags:
 - Mu versus other values: unfold via `NF.apply(mu.binder, mu.closure, mu)` inside `EB.unfoldMu` context and recurse.
 - App–App without flex metas: tries `NF.unfoldMu` on either side before structural App unification.
 
-**Occurs check gap:** `bind` ends with `throw new Error("Unification: Occurs check failed. Need to implement mu type")` when the occurs check fails (`src/elaboration/unification/unification.ts`)—recursive meta solutions through μ are **not** implemented here despite the comment.
+**Occurs check:** when the occurs check fails, `bind` currently throws (`Unification: Occurs check failed. Need to implement mu type` in `src/elaboration/unification/unification.ts`); constructing recursive meta solutions as μ types is the natural completion of that path.
 
 **Tests:** `src/elaboration/unification/__tests__/unification.v2.test.ts` covers Mu–Mu agreement and unfolding scenarios.
 
-Related: [[mu-type-unification.md]], [[equirecursive-types.md]], [[missing-spec-recursive-types.md]], [[nf-value.md]].
+Related: [[mu-type-unification.md]], [[equirecursive-types.md]], [[missing-spec-recursive-types.md]], [[nf-value.md]], [[nu-types]], [[bisimulation-type-equality]], [[inductive-types]], [[coinductivity]].

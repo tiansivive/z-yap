@@ -32,4 +32,4 @@ In PL parlance “structural typing” often means **type equivalence depends on
 
 **Lowering:** pure type-level rows/apps erase (`Leaf.erase`, `Patterns.TypeLevelApp`) before MIR (`src/lowering/lower.ts`); runtime structs use `Struct.data` lowering path.
 
-Related: [[nominal-typing.md]], [[rows-universal-substrate.md]], [[structural-records.md]], [[row-theory.md]].
+Related: [[nominal-typing.md]], [[rows-universal-substrate.md]], [[structural-records.md]], [[row-theory.md]], [[nominal-identity]], [[opaque-types]], [[data-declarations]].

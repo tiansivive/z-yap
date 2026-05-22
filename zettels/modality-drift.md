@@ -25,6 +25,6 @@ tags:
 
 **Tracking without enforcement:** `V2` elaboration state still records `{ nf, modalities }` per term id (`src/elaboration/shared/monad.v2.ts` collector `types` / `tell("type", …)` payload), while constraint solving ignores usage constraints (`src/elaboration/solver/solver.ts`).
 
-**Verification path:** `NF.Modal` with `quantity` + `liquid` is consumed for subtyping and extraction (`src/verification/V2/utils/refinements.ts`, `src/verification/V2/subtype.ts`), but multiplicity checking is explicitly unfinished (`src/verification/ARCHITECTURE.md`).
+**Verification path:** `NF.Modal` with `quantity` + `liquid` is consumed for subtyping and extraction (`src/verification/V2/utils/refinements.ts`, `src/verification/V2/subtype.ts`); liquid predicates are discharged via Z3, while full QTT multiplicity checking would extend that pipeline.
 
-Net: modalities are fully represented in AST and NF, partially tracked in elaboration metadata, weakened on inferred types, and checked logically (liquid) without QTT enforcement.
+Net: modalities are fully represented in AST and NF, partially tracked in elaboration metadata, weakened on inferred types, and checked logically (liquid) ahead of graded usage enforcement.

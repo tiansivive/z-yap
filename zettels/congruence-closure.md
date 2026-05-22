@@ -5,6 +5,9 @@ tags:
   - mechanism
   - implemented
   - milestone
+  - solver
+  - unification
+  - concept
 ---
 # Congruence closure (EUF support)
 

@@ -28,3 +28,5 @@ tags:
 **Loading**: `mkInterface` in `src/modules/loading.ts` reads files, parses with compiled Nearley grammar, resolves **`import`** statements recursively (`visited` tracks cycles), merges exported **`let`** / **`foreign`** defs into `EB.Context.imports`, then calls **`EB.Mod.elaborate`** from `src/elaboration/module.ts`. Interface caches live in `globalModules`.
 
 **Per-statement behavior** in `module.ts`: **`using`**, **`foreign`**, **`let`** handled; unknown statement types log `"Unrecognized statement"` and are skipped (`console.warn`). Verification hooks into **`letdec`** via `VerificationServiceV2`.
+
+Related: [[module-system-exploration]], [[opaque-types]], [[nominal-identity]].

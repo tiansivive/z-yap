@@ -90,6 +90,12 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `bugfix` | A concrete correctness fix for a discovered defect |
 | `explorer` | Pipeline explorer web dashboard (`pnpm yap explore`) |
 | `generator` | Generator functions (`function*`/`yield`) as control flow mechanism |
+| `exploration` | Open-ended design exploration, not yet committed |
+| `structural` | Structural typing properties (shape-based identity) |
+| `compilation` | Compilation strategy, code generation approach |
+| `concern` | A potential issue or trade-off worth tracking |
+| `goal` | An aspirational design target |
+| `question` | An open question awaiting investigation |
 
 ### Work Layer Tags
 
@@ -194,12 +200,12 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 
 | Group | Tags |
 |-------|------|
-| Core | `concept`, `mechanism`, `principle`, `pattern`, `decision`, `specification`, `implementation` |
-| Type Theory | `type-system`, `row-types`, `dependent`, `modality`, `multiplicity`, `polymorphism` |
+| Core | `concept`, `mechanism`, `principle`, `pattern`, `decision`, `specification`, `implementation`, `exploration`, `question`, `concern`, `goal` |
+| Type Theory | `type-system`, `row-types`, `dependent`, `modality`, `multiplicity`, `polymorphism`, `structural` |
 | Pipeline | `elaboration`, `normalization`, `parser`, `mir`, `verification`, `lowering`, `codegen`, `checking`, `evaluation` |
 | Language | `syntax`, `continuation`, `ffi`, `inference`, `runtime`, `effect`, `recursion`, `sugar`, `cps` |
 | Elaboration | `constraint`, `solver`, `metavariable`, `generalization`, `context`, `closure`, `substitution` |
-| Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access` |
+| Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access`, `compilation` |
 | Verification | `verification`, `quantifiers`, `arithmetic`, `strings`, `ivl`, `observability` |
 | Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration`, `explorer`, `generator` |
 | Meta | `research`, `paper`, `gateway`, `reference`, `milestone`, `ai-session` |

@@ -28,6 +28,6 @@ A GRAM pass that annotates `proj` and `inj` nodes with access modes derived from
 
 **Source of truth:** Multiplicity is a *type-system property* from elaboration (QTT), not a runtime analysis. When the elaborator says `One`, the compiler knows at compile time that mutation is safe — no runtime refcount check needed. This is Yap's advantage over Lean/Koka which derive uniqueness at runtime.
 
-**Conservative default:** Until modality enforcement is complete in the elaborator, the pass defaults to `"shared"` for any binding whose multiplicity is unknown or Many. This is always sound (never mutates unsafely), just misses optimization opportunities.
+**Conservative default:** When elaboration leaves multiplicity unknown or Many, the pass defaults to `"shared"`. This is always sound (never mutates unsafely), with `"exclusive"` opening up as usage constraints land in the solver.
 
-**Multiplicity flow:** `translate.ts` already emits `modal` nodes with `{ quantity }` payload. The CRUD pass reads these to determine mode. The gap is that multiplicity checking is not end-to-end in elaboration yet — usage constraints are commented out.
+**Multiplicity flow:** `translate.ts` already emits `modal` nodes with `{ quantity }` payload; the CRUD pass reads these to choose mode. Elaboration still carries graded information mainly through modal AST shape and commented usage-constraint hooks (`src/elaboration/solver/solver.ts`) ahead of full QTT solving.

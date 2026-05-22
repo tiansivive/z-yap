@@ -7,6 +7,8 @@ tags:
 - decision
 - graph
 - ir
+- lowering
+- mir
 ---
 
 # Compilation by selection

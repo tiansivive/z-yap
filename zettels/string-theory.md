@@ -23,10 +23,10 @@ tags:
 ---
 # String theory (solver)
 
-Specification target in `docs/SMT-SOLVER.md` §Strings and §Minimum target theory support (equality, concat, length, prefix, suffix, contains)—first solver design is a dedicated theory, not pure EUF.
+**Target:** dedicated string theory (not pure EUF): equality, concat, length, prefix, suffix, contains.
 
-Sketch types/strategy there: flat concat normal forms, prefix/suffix decomposition on equations, arithmetic lemmas for lengths, reduce prefix/suffix/contains using concat equalities + fresh witnesses (`contains` pseudocode introduces `u`, `v` with `s = concat(u, t, v)`).
+**Planned strategy:** flat concat normal forms; prefix/suffix decomposition on equations; arithmetic lemmas for lengths; reduce prefix/suffix/contains using concat equalities + fresh witnesses (e.g. `contains` via witnesses `u`, `v` with `s = concat(u, t, v)`).
 
-VC IR atoms listed in §New VC IR include `"str.prefix" | "str.suffix" | "str.contains"` alongside `StrLen`.
+**IVL atoms:** `StrLen`, `StrConcat`, and (when added) `str.prefix`, `str.suffix`, `str.contains` alongside boolean connectives.
 
-Current gap documented in §Current hard constraints: uninterpreted string sort and missing `$concat` translation in `translate.ts`.
+**Current translation gap:** strings use an uninterpreted sort in `translate.ts` (`Sorts.String = Z3.Sort.declare("String")` on main); native string reasoning and full `$concat` lowering are not wired in the in-house stack yet.

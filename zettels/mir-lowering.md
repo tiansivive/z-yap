@@ -16,7 +16,7 @@ tags:
 
 # MIR lowering (hub)
 
-**Entry:** `lowerToMir` in `src/lowering/lower.ts` returns `MIR.Module`; re-exported via `src/lowering/index.ts`. **Spec:** `docs/MIR-LOWERING.md` (status tables §5–7).
+**Entry:** `lowerToMir` in `src/lowering/lower.ts` returns `MIR.Module`; re-exported via `src/lowering/index.ts`. Driver layout and pass responsibilities are documented in the `lower.ts` header comment and submodules below.
 
 **Dispatch modules:** `leaf.ts`, `struct.ts`, `block.ts`, `functions/` (lambda closure conversion, app, materialize), `continuations/` (reset, shift, k-call), `matching/` (Maranget-style decision trees for `Match`). Driver: worklist + `monad.ts` RWSE (`lower.ts` header comment lists layout).
 

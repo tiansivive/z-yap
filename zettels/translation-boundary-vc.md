@@ -3,7 +3,7 @@ tags:
 - verification
 - elaboration
 - normalization
-- planned
+- incomplete
 - reference
 - ir
 - inference
@@ -21,12 +21,10 @@ tags:
 ---
 # Translation boundary (VC IR)
 
-Target shape from `docs/SMT-SOLVER.md` §Translation boundary:
+**Translation boundary target:** `TranslationTools` with `mkSort`, `translateTerm`, `translateFormula`, `quantify` — producing backend-neutral sorts/terms/formulas (IVL today) while keeping `createCheck` / `createSynth` / `createSubtype` wiring.
 
-`TranslationTools`: `mkSort`, `translateTerm`, `translateFormula`, `quantify`—all producing `VC.Sort` / `VC.Term` / `VC.Formula` instead of Z3 AST.
+**ivl worktree (ivl-sat-solver branch):** `createTranslationTools` in `src/verification/V2/logic/translate.ts` now produces IVL types (`IVL.Sort`, `IVL.Term`, `IVL.Formula`) via the `Build` module. No Z3 import. `quantify()` builds `Build.forall` + `Build.implies` for liquid/modal annotations.
 
-Minimum structural goal stated there: decouple VC generation from Z3 while keeping `createCheck` / `createSynth` / `createSubtype` wiring.
+**main worktree:** still Z3-coupled — `createTranslationTools` returns `{ mkSort, translate: Expr builder, quantify }` using `z3-solver`; `quantify()` uses `Z3.ForAll` + `Implies`.
 
-Current implementation still matches Z3: `createTranslationTools` in `src/verification/V2/logic/translate.ts` returns `{ mkSort, translate: Expr builder, quantify }` using `z3-solver`; stub fragment in doc §Suggested API changes shows throws until ported.
-
-`quantify()` remains the guarded-universal site (`Z3.ForAll` + `Implies` for liquid/modal annotations today).
+**Further work:** `z3.adapter.ts` translates IVL formulas back to Z3 for cross-checking, off the default verification path. A pluggable `VerificationBackend` interface would formalize swapping IVL vs Z3 vs in-house `solve` without touching check/synth/subtype wiring.

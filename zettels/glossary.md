@@ -3,6 +3,15 @@ tags:
 - reference
 - project
 - concept
+- language
+- infrastructure
+- type-system
+- compiler
+- elaboration
+- verification
+- mir
+- parser
+- syntax
 ---
 # Glossary
 
@@ -19,7 +28,7 @@ terms see [[smt-solver-glossary]].
 | **DPO** | Double-pushout graph rewriting | GRAM pass engine (`grs/`) |
 | **EB** | Elaboration bridge | Core typed syntax namespace (`EB.Term`) |
 | **GRAM** | Graph Rewriting Abstract Machine | Property-graph IR enriched by additive passes |
-| **IVL** | Intermediate Verification Language | Planned VC IR under `src/verification/solver/` |
+| **IVL** | Intermediate Verification Language | VC IR in `src/verification/solver/ivl/` (sorts, terms, formulas) |
 | **MIR** | Machine-Independent IR | Block-SSA lowering target for codegen backends |
 | **NbE** | Normalisation by evaluation | `NF.evaluate` + `NF.quote` spine |
 | **NF** | Normal form | Semantic domain (`NF.Value`, `NF.Neutral`) |
@@ -43,7 +52,7 @@ terms see [[smt-solver-glossary]].
 | **Equirecursive types** | Recursive types without explicit fold/unfold; `Mu` is a first-class `Abs` binder |
 | **Generalization** | After solving, abstract unsolved metas into implicit `Pi`s at `let` boundaries |
 | **Hole (`_`)** | Surface placeholder allocating type and term metas; no hole node in `EB.Term` |
-| **Icitness (`@`)** | Whether an application supplies an implicit or explicit argument |
+| **Icitness (`@`)** | Surface `@` before an atom: **explicit application of an implicit argument** (not a toggle or override of implicitness) |
 | **Modalities** | `Modal { term; modalities }` pairing multiplicity and optional liquid predicate |
 | **Mu type** | `Abs` with `Mu` binder for recursion; unification unfolds, occurs-check → mu not implemented |
 | **Neutral** | Stuck/flex-headed spine in NF (meta-headed, stuck projection, stuck match) |
@@ -70,7 +79,7 @@ terms see [[smt-solver-glossary]].
 | **Continuation binder (`$k`)** | `shift` binds a `Pi("$k", …)` with env stamp; `resume` appends payloads |
 | **Dataflow semantics** | GRAM principle: partial order on nodes, not total order |
 | **Decision tree** | Maranget-style clause matrix compilation for pattern matching |
-| **Defunctionalization** | Replace indirect calls with tagged dispatch — not implemented, contrast only |
+| **Defunctionalization** | Replace indirect calls with tagged dispatch; contrast with Yap's indirect `App` lowering |
 | **DPO rewriting** | Double-pushout graph rules in `grs/`; aggregate workflows need imperative code |
 | **`EB.Term`** | Core elaboration IR: Lit, Var, Abs, App, Row, Proj, Inj, Match, Block, Modal, Reset, Shift |
 | **`lowerToMir`** | Entry point translating `EB.Term` to `MIR.Module` |

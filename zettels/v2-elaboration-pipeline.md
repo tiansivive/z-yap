@@ -26,4 +26,4 @@ tags:
 
 **Related:** constraint solving `src/elaboration/solver/solver.ts`, unification `src/elaboration/unification/unification.ts` (both use `V2.Do`).
 
-**Docs mismatch:** `.github/copilot-instructions.md` and `src/elaboration/ARCHITECTURE.md` refer to `inference.v2/` and `checking.v2/` directories those paths **do not exist** in this tree — inference/checking modules are under `inference/` and `check.ts`.
+**Module layout:** inference handlers under `src/elaboration/inference/` (re-exported from `index.ts`); checking in `src/elaboration/check.ts`. Older migration prose sometimes names `inference.v2/` / `checking.v2/` — those directory names are placeholders; the live code uses `inference/` + `check.ts`.

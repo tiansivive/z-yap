@@ -19,6 +19,6 @@ tags:
 
 Combine decision procedures for disjoint quantifier-free theories by propagating equalities on shared variables (under the paper’s completeness conditions).
 
-**Yap:** The compiler does not implement Nelson–Oppen. Refinement checking builds formulas in `src/verification/V2/` and hands them to **Z3** through `z3-solver` (`translate.ts`, `scripts/cli.ts` initializes the context). Industrial SMT solvers realize this combination idea internally; understanding it explains why mixed EUF, arithmetic, arrays, etc. can live in one query Yap emits.
+**Yap:** Refinement checking builds **IVL** formulas in `src/verification/V2/logic/translate.ts` and solves them via the in-tree **CDCL(T)** engine (`src/verification/solver/`) with theory plugins for EUF and linear arithmetic. That stack realizes Nelson–Oppen-style cooperation: the boolean engine negotiates literals; each theory propagates equalities and conflicts on shared terms. Understanding the 1979 paper explains why mixed EUF and arithmetic can appear in one VC without a monolithic decision procedure.
 
-**Status:** `implemented` (as “what the backend does”), not reimplemented in Yap source.
+**Status:** `implemented` — theory combination is exercised by Yap's owned solver, not delegated to Z3 (Z3 remains available through `z3.adapter.ts` for cross-check).

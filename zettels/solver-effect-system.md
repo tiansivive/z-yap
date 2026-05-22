@@ -1,3 +1,16 @@
+---
+tags:
+- effect
+- solver
+- verification
+- sat
+- mechanism
+- generator
+- monad
+- speculative
+- planned
+- code
+---
 # Solver Effect System (Future Work)
 
 The CDCL and EUF theory modules currently use internal mutability (union-find path compression, trail append, assignment map updates) behind pure API boundaries. This is a performance pragmatism, not a design goal.

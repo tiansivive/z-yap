@@ -31,6 +31,6 @@ Module-level instance wiring: `module.ts` `using`.
 
 Let-generalization interaction: unsolved locals become implicit binders via `NF.generalize` + `EB.Icit.wrapLambda` (`generalization.ts`, `implicits.ts`).
 
-Note: solver picks first successful implicit candidate with empty residual substitution (`solver.ts`); no dedicated ambiguity diagnostic in that loop.
+Note: the solver selects the first successful implicit candidate with empty residual substitution (`solver.ts`).
 
 Hub: [[implicit-resolution.md]], [[implicit-environment.md]], [[meta-variables.md]], [[generalization.md]].

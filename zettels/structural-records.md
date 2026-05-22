@@ -22,3 +22,5 @@ Closed rows yield `EB.Constructors.Struct(rtm)` with type `NF.Constructors.Schem
 Open tail variable with `Row`/`Schema`/`Flex` typing follows `match` branches in `structs.ts` (schema merger vs type-level schema vs polymorphic flex + `assign`). That flex branch is the implementation locus for parametric row tails ([[row-polymorphism.md]]); it is not width subtyping.
 
 Elimination: `Proj` (`projection.ts`). Extension into existing row-shaped types: `Inj` (`injection.ts`). Dependent sigma binders use the same row machinery (`Rows.inSigmaContext`).
+
+Related: [[codata]], [[data-declarations]], [[customizable-data-types]], [[dictionary-passing]].

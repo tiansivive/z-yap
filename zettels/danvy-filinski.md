@@ -21,4 +21,4 @@ tags:
 
 Defines **shift** and **reset** as delimited-control operators carved out of continuation-passing discipline: typed hierarchies of continuations index how much evaluation context an abstraction may capture (“answer types”).
 
-Lowering compiles surface **reset**/**shift** without whole-program CPS: `src/lowering/continuations/reset.ts`, `src/lowering/continuations/shift.ts`, block graphs and tests under `src/lowering/__tests__/`. Multishot resume wiring is documented in `docs/MIR-LOWERING.md` §7 and `src/lowering/continuations/multishot.mir.md`. Elaboration-side typing/inference hooks live under `src/elaboration/inference/reset.ts` and `src/elaboration/inference/shift.ts`.
+Lowering compiles surface **reset**/**shift** without whole-program CPS: `src/lowering/continuations/reset.ts`, `src/lowering/continuations/shift.ts`, multishot via `src/lowering/continuations/kcall.ts` (indexed `Jump` into a shared resume block, `Branch` dispatch), with tests under `src/lowering/__tests__/`. Elaboration-side typing/inference hooks live under `src/elaboration/inference/reset.ts` and `src/elaboration/inference/shift.ts`.

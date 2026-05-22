@@ -3,7 +3,7 @@ tags:
   [
     verification,
     infrastructure,
-    planned,
+    in-progress,
     backend,
     sat,
     ffi,
@@ -19,8 +19,8 @@ tags:
 ---
 # VerificationBackend
 
-**Today:** `VerificationServiceV2` in `src/verification/V2/service.ts` is a closure over `Context<"main">` from `z3-solver`. It builds `createRuntime`, `createTranslationTools(Z3, …)`, then `createSubtype`, `createCheck`, `createSynth`. Exports `{ check, synth, subtype, getObligations }` — **no** pluggable backend parameter.
+**ivl worktree (ivl-sat-solver branch):** `VerificationServiceV2` in `src/verification/V2/service.ts` no longer takes a Z3 context. `createTranslationTools` produces IVL terms/formulas. `VerificationArtefacts.vc` is `IVL.Formula`. The in-house CDCL(T) solver (`src/verification/solver/`) handles satisfiability. Z3 remains available via `z3.adapter.ts` as a fallback/cross-check but is not on the default path.
 
-**Proposed (`docs/SMT-SOLVER.md` § “Suggested API changes”):** `VerificationBackend` with `solve: (vc: VC.Formula, obligations: Obligation[]) => SolveResult`; factory threads `backend` into a revised `VerificationServiceV2` so `check`/`synth`/`subtype` stay but `Expr` construction becomes VC IR emission and solving moves behind the interface.
+**main worktree:** still on Z3 — `VerificationServiceV2` takes `Context<"main">` from `z3-solver`, `translate.ts` builds Z3 `Expr` directly, `VerificationArtefacts.vc` is `Expr`.
 
-**Current hard coupling (same doc, matches code):** `translate.ts` imports Z3 context; `VerificationArtefacts.vc` is `Expr`.
+**Direction:** a `VerificationBackend` with `solve: (vc: Formula, obligations: Obligation[]) => SolveResult` so the solver can be swapped without touching VC generation. The ivl worktree routes through CDCL(T) directly; a formal pluggable backend trait is still design work.

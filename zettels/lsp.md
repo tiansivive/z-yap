@@ -21,6 +21,6 @@ tags:
 
 # Language Server Protocol (LSP)
 
-**No LSP implementation** under `src/` (no language-server package, no `vscode-languageclient`-style server entry). Editors rely on external grammar assets (for example `tooling/syntax-highlighting` consumed by `src/cli/explore/server.ts` for static `/syntax/*` routes) and batch **`pnpm yap`** / tests.
+**Today:** Editors rely on external grammar assets (`tooling/syntax-highlighting` via `src/cli/explore/server.ts` `/syntax/*`) and batch **`pnpm yap`** / tests — no language-server package under `src/` yet.
 
-Planned work would require a stable query surface over **CST** (tree-sitter migration per project docs) plus **elaboration outputs** (types, spans, defs/refs) without restarting full CLI processes per keystroke.
+**One approach for an LSP:** expose a stable query surface over **CST** (tree-sitter migration) plus **elaboration outputs** (types, spans, defs/refs) without restarting full CLI processes per keystroke.

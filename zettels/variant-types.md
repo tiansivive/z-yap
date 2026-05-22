@@ -23,4 +23,4 @@ Introducing a **value** arm uses `:tag payload` elaboration (`tagged.ts`), which
 
 Elimination compiles through `Match` and lowering (`src/lowering/matching/`, entry from `src/lowering/lower.ts`); `Inj` lowers via `Struct.injection` (`lower.ts`).
 
-Adding or removing variant tags changes the `Row` spine; compatibility is via unification / explicit row parameters, **not** structural subtyping ([[structural-subtyping.md]]). Related: [[structural-records.md]] (products), [[row-polymorphism.md]].
+Adding or removing variant tags changes the `Row` spine; compatibility is via unification / explicit row parameters, **not** structural subtyping ([[structural-subtyping.md]]). Related: [[structural-records.md]] (products), [[row-polymorphism.md]], [[open-closed-variants]], [[data-declarations]], [[codata]].

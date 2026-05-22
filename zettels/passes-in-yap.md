@@ -20,4 +20,4 @@ tags:
 
 **CLI wiring:** `src/cli/explore/pipeline.ts` imports GRAM translate, η, saturate, closure, and MIR `lowerToMir` for side-by-side artifacts.
 
-**Self-hosted passes (speculative):** No compiler package loads Yap-authored rewrite rules from `.yap` sources; all graph pass logic ships as TS in this repository. Any future surface-language pass DSL would need a separate bootstrap story.
+**Self-hosted passes (speculative):** Graph passes today ship as TypeScript under `src/GRAM/passes/`. A surface-language pass DSL that loads rewrite rules from `.yap` sources would need its own bootstrap story (compiler interpreting Yap-authored rules).

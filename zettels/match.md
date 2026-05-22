@@ -24,4 +24,6 @@ Elaboration: `EB.Match.infer` (`src/elaboration/inference/match.ts`). Infers scr
 
 Lowering: `src/lowering/lower.ts` routes `Match` to `matching/`; header documents **Maranget-style clause-matrix compilation**. Fallback block emits `"non-exhaustive match"` string (`src/lowering/matching/index.ts`). Detail graph: `pattern-matching-compilation.md`, `maranget-paper.md`.
 
-Elaboration does not currently implement exhaustiveness warnings in `match.ts` (no reachability pass there).
+Elaboration in `match.ts` infers and unifies arms but leaves exhaustiveness and reachability analysis to future work—coverage diagnostics would live alongside the existing `EB.Match.infer` path.
+
+Related: [[dependent-pattern-matching]], [[exhaustiveness-checking]], [[view-patterns]], [[pattern-synonyms]], [[active-patterns]], [[open-closed-variants]], [[pattern-matching-compilation]].

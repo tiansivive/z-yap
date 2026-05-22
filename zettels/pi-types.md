@@ -29,7 +29,7 @@ tags:
 
 **Unification:** Pi–Pi case in `src/elaboration/unification/unification.ts` unifies annotations, then bodies under extended level (same pattern as Lambda–Lambda).
 
-**NbE:** `normalization/ARCHITECTURE.md`: quote applies Pi to a fresh rigid; evaluation builds closures for `Abs`.
+**NbE:** quote applies Pi to a fresh rigid (`src/elaboration/normalization/`); evaluation builds closures for `Abs` (`src/elaboration/normalization/evaluation.v2.ts`).
 
 **Lowering:** `src/lowering/lower.ts` dispatches runtime `Lambda`, not Pi; type-level `Abs` is not in the lowering match (non-lambda `Abs` would fall through to `notImplemented` if reached—erased programs should not ship raw Π to MIR).
 

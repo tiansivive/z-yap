@@ -20,6 +20,6 @@ tags:
 
 # Loop sugar
 
-**No `for` / `while` surface syntax** appears in `src/parser/grammar.ne` (lexer keywords include neither). Iteration is expressed via **functions, blocks, recursion**, `match`, and FFI-backed helpers where applicable (`foreign` statements, REPL FFI wiring in `src/cli/repl.ts`).
+Iteration today uses **functions, blocks, recursion**, `match`, and FFI-backed helpers where applicable (`foreign` statements, REPL FFI wiring in `src/cli/repl.ts`). `src/parser/grammar.ne` does not yet surface `for` / `while` keywords.
 
-Deferred **loop sugar** would be a compile-time desugar (for example tail-recursive accumulator definitions), not a silent imperative primitive inside core elaboration — but nothing like that exists in grammar or lowering yet.
+**Loop sugar (exploratory):** a compile-time desugar to tail-recursive accumulator definitions would stay outside core elaboration as an imperative primitive — grammar and lowering would need explicit rules if added.

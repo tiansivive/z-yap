@@ -6,6 +6,8 @@ tags:
 - elaboration
 - unification
 - verification
+- parser
+- mir
 ---
 # Row Types
 
@@ -57,5 +59,5 @@ mechanism.
     NbE, unify, snapshots.
 
 14. **Row theory (verification)** [[row-theory]] — needs-design
-    SMT/verification-side row solver and translation. Row literals currently
-    error in translate.ts.
+    IVL `RowTerm` and sort `Build.Row` exist; `translate.ts` still rejects
+    row-shaped NF values in formula `term()` (falls through to unsupported).

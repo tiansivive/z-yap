@@ -18,6 +18,6 @@ tags:
 
 [MLIR](https://mlir.llvm.org/) — tiered IR infrastructure (dialects, shared pass tooling, SSA patterns).
 
-**Verified in Yap:** `docs/MIR-LOWERING.md` §2.1 gives **block parameters instead of φ-nodes**, with rationale: same idiom as **MLIR, Swift SIL, Rust MIR**. The implemented IR and lowering live under `src/lowering/` (e.g. `lowerToMir` used from `src/cli/explore/pipeline.ts`).
+**Verified in Yap:** MIR uses **block parameters instead of φ-nodes**—the same idiom as **MLIR, Swift SIL, and Rust MIR**. The implemented IR and lowering live under `src/lowering/` (e.g. `lowerToMir` used from `src/cli/explore/pipeline.ts`).
 
-**Not using LLVM MLIR libraries** — analogy is to **control-flow structuring**, not linking the C++ MLIR project.
+Yap does not link the LLVM MLIR C++ project; the parallel is **control-flow structuring** (SSA-style blocks with parameters), not dialect reuse.

@@ -21,7 +21,7 @@ status: implemented
 
 Field on `EB.Context`: `implicits: Array<[EB.Term, NF.Value]>` (`src/elaboration/shared/context.ts`).
 
-Each pair is an elaborated candidate term and its type in normal form. Module `using` (`module.ts`) appends after `Stmt.infer`. Block **evaluation** extends the same field for `EB.Statement` `{ type: "Using" }` (`evaluation.v2.ts`); block **inference** currently does not mirror that (`inference/block.ts`).
+Each pair is an elaborated candidate term and its type in normal form. Module `using` (`module.ts`) appends after `Stmt.infer`. Block **evaluation** extends `implicits` for `{ type: "Using" }` (`evaluation.v2.ts`). Block **inference** elaborates `using` via `inference/statements.ts` into `{ type: "Using", value, annotation }` while keeping the ambient `ctx.implicits` from the enclosing scope for subsequent statements (module-level `using` is what grows the list during typechecking).
 
 `resolveImplicit` (`context.ts`) scans the array head-first: `U.unify(goal, candidateType, env.length, Sub.empty)`; returns first `[term, subst]` with `Either` success.
 

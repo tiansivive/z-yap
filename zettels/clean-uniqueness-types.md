@@ -34,6 +34,6 @@ Clean's approach to safe destructive update in a pure functional language via un
 **What Yap can learn:**
 - Clean proves that whole-object uniqueness → safe destructive update works in practice for purely functional languages.
 - The "transparent" property is desirable — non-linear code shouldn't need to care about the multiplicity system.
-- Per-field granularity (which Clean lacks) is a potential Yap advantage worth pursuing.
+- Per-field granularity (which Clean lacks) is a potential Yap advantage worth exploring alongside row-level modalities.
 
 **References:** Barendsen & Smetsers, "Uniqueness Typing for Functional Languages" (1993). Clean language manual §11.

@@ -5,6 +5,9 @@ tags:
 - compiler
 - graph
 - ir
+- pattern
+- mir
+- mechanism
 ---
 
 # Pattern algorithm choice: Maranget

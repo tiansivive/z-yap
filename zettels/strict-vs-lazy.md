@@ -18,6 +18,6 @@ The v2 NbE evaluator evaluates composite subterms eagerly in fixed order — `Ap
 
 That semantics is **kernel / tooling** behaviour (`NF.evaluate`). It does **not** automatically describe every host artefact: lowering emits explicit MIR sequences (`src/lowering/lower.ts`), and legacy JS codegen prints lambdas/applications (`src/Codegen/terms.ts`) whose observability depends on emitted structure plus JS rules.
 
-**Deliberate lowering choice:** administrative beta-redexes are **not** collapsed during MIR lowering so source→MIR stays transparent (`docs/MIR-LOWERING.md` discusses contrast with NbE beta).
+**Deliberate lowering choice:** administrative beta-redexes are **not** collapsed during MIR lowering so source→MIR stays transparent (contrast with NbE beta in `evaluation.v2.ts`).
 
-Changing global evaluation strategy (lazy primitives, memoization) would cut across normalization, lowering docs, and backends — none of that dual-strategy machinery exists today (`speculative` if pursued).
+A global lazy or memoized evaluation strategy would cut across normalization, lowering, and backends — an exploratory axis, not part of the current pipeline (`speculative` if pursued).

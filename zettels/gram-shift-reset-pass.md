@@ -6,6 +6,8 @@ tags:
 - ir
 - mechanism
 - implemented
+- compiler
+- mir
 ---
 
 # Shift/reset enrichment pass (GRAM)

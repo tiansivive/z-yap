@@ -4,6 +4,7 @@ tags:
     verification,
     concept,
     planned,
+    deprecated,
     ir,
     normalization,
     dependent,
@@ -18,6 +19,8 @@ tags:
   ]
 ---
 # VerificationArtefacts (revised shape)
+
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
 
 **Today (`src/verification/V2/types.ts`):**
 

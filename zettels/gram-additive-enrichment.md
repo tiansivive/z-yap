@@ -6,6 +6,8 @@ tags:
 - compiler
 - lowering
 - decision
+- mechanism
+- concept
 ---
 
 # Additive enrichment (GRAM)

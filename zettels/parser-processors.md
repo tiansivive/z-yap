@@ -21,7 +21,7 @@ tags:
 
 # Parser processors
 
-Nearley **`postprocess`** hooks live in **`src/parser/processors.ts`**. They construct **`Src.Term`** / **`Src.Statement`** / patterns with **`location: P.Location`** (`span`, `locSpan`, `Sourced.located`, etc.—see **`src/parser/ARCHITECTURE.md`**).
+Nearley **`postprocess`** hooks live in **`src/parser/processors.ts`**. They construct **`Src.Term`** / **`Src.Statement`** / patterns with **`location: P.Location`** (`span`, `locSpan`, `Sourced.located`, etc.).
 
 Representative **`export const`** processors tied to **`grammar.ne`**: **`Hole`**, **`Var`**, **`Lit`**, **`Application`**, **`Operation`**, **`Annotation`**, **`Lambda`**, **`Pi`**, **`Param`**, row/record builders (**`row`**, **`struct`**, **`tuple`**, **`list`**, **`variant`**, **`dict`**, **`tagged`**), **`Projection`**, **`Injection`**, **`Match`**, **`Alternative`**, **`Block`**, **`Return`**, **`Expr`**, **`LetDec`**, **`Using`**, **`Foreign`**, **`Modal`**, **`Reset`**, **`Shift`**, **`Resume`**, **`Pattern.{…}`**, module/import/export (**`module_`**, **`script`**, …), plus lexer/name helpers (**`Name`**, **`Label`**, …).
 

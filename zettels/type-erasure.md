@@ -22,4 +22,4 @@ That is partial mechanical removal of type-only syntax at the MIR boundary, not 
 
 **Remaining typing artefacts:** Elaborated modules still carry rich types for verification (`src/elaboration/module.ts` `letdec` path runs `Verification.check`). Legacy JS codegen emits only handled `EB.Term` constructors (`src/Codegen/terms.ts`), which implicitly ignores typing annotations not translated — distinct from a principled erase-to-runtime ABI.
 
-There is **no** dedicated documented pass that strips `∀`, proof terms, or refinement witnesses systematically across all backends (`incomplete` relative to a full erasure story).
+A full erasure story—systematically stripping `∀`, proof terms, and refinement witnesses across every backend—remains open (`incomplete`): lowering-side `Leaf.erase()` and codegen’s constructor subset are partial steps toward that goal.

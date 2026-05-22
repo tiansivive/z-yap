@@ -4,6 +4,7 @@ tags:
     verification,
     milestone,
     planned,
+    deprecated,
     reference,
     sat,
     display,
@@ -20,6 +21,8 @@ tags:
   ]
 ---
 # Milestone 5: Explanations and models
+
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
 
 Roadmap slice from `docs/SMT-SOLVER.md` §Algorithms by milestone → Milestone 5.
 

@@ -18,6 +18,6 @@ tags:
 
 Native string theory for DPLL(T): concatenation, length, regex membership, integrated with CDCL-style search and theory lemmas (implemented in CVC4; paper predates current cvc5 split).
 
-**Yap:** Refinement VCs are built and solved through `z3-solver` (`src/verification/V2/logic/translate.ts`). String literals map to constants of a **declared uninterpreted** `String` sort (`Z3.Sort.declare("String")`), not to Z3’s sequence theory. `docs/SMT-SOLVER.md` lists concatenation, length, prefix/suffix/`contains` as *target* solver capability; `$concat` is noted there as **not** yet lowered to solver-native strings. No code path mirrors Liang et al.’s CVC4-specific integration—this paper is background for where industrial string reasoning sits inside DPLL(T) if Yap grows past EUF-style string encodings.
+**Yap:** Refinement VCs are built and solved through `z3-solver` (`src/verification/V2/logic/translate.ts`). String literals map to constants of a **declared uninterpreted** `String` sort (`Z3.Sort.declare("String")`), not to Z3’s sequence theory. Concatenation, length, prefix/suffix, and `contains` appear among [[required-theory-support]] goals; lowering `$concat` and related forms to solver-native strings remains work in progress. Liang et al.’s CVC4-specific integration—this paper is background for where industrial string reasoning sits inside DPLL(T) as Yap moves past EUF-style string encodings.
 
-**Status:** `incomplete` (strings in verification are partial vs. documented goals).
+**Status:** `incomplete` (strings in verification are partial relative to full sequence-theory lowering).

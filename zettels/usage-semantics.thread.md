@@ -6,6 +6,8 @@ tags:
 - type-system
 - elaboration
 - verification
+- inference
+- principle
 ---
 # Usage Semantics
 

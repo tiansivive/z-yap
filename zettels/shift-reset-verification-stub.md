@@ -3,21 +3,24 @@ tags:
   - verification
   - continuation
   - ivl
-  - planned
-  - ready
+  - implemented
   - mechanism
   - implementation
+  - code
+  - elaboration
 ---
 # Shift/Reset Verification Stub
 
 Dummy pass-through handling so verification no longer throws on shift/reset expressions.
 
-**Reset:** verify the inner term directly, ignoring the delimiter structure. The Reset wrapper is transparent — `check(Reset(body), ty)` delegates to `check(body, ty)`.
+**Reset:** verify the inner term directly, ignoring the delimiter structure. The Reset wrapper is transparent — falls through `check` to `synth`, which recurses into the inner term.
 
-**Shift:** produce an opaque, verification-neutral value. The shift expression synthesizes its inferred type but contributes `Build.true_()` as its verification condition — always satisfiable, zero proof obligation. The shift body is not verified.
+**Shift:** produces `NF.Any` with `Build.true_()` — opaque, verification-neutral. The shift body is not verified.
 
-This unblocks verification for programs that contain shift/reset without requiring the full Bubble semantics or nondeterministic formula expansion. Programs with shifts will verify, but the shift-specific properties (continuation safety, answer-type preservation) are not checked.
+**NF.Any in subtyping:** `subtype.ts` handles `Any <: T` and `T <: Any` as trivially true (with warning logs), placed before `Lit <: Lit` to avoid `isEqual("Any", "Num") → false`.
 
-**Code impact:** `src/verification/V2/synth.ts` (Shift case → type + true), `src/verification/V2/check.ts` (Reset case → verify inner term). Currently both throw "unsupported" (`src/verification/V2/logic/translate.ts`).
+**Meta variables in formula translation:** skolem metas from shift sites (`Var(Meta(skolem))`) appear in NF values when refinement predicates are applied to shift-containing expressions. `translate.ts` maps `Meta` variables to `Build.const_("?N", uninterpreted("Any"))` instead of throwing.
+
+**Code:** `src/verification/V2/synth.ts` (Reset + Shift cases), `src/verification/V2/subtype.ts` (Any cases), `src/verification/V2/logic/translate.ts` (Meta variable case).
 
 Superseded eventually by [[shift-reset-verification]] once Bubble semantics lands.

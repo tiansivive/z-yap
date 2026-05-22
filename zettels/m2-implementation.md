@@ -13,11 +13,6 @@ tags:
   - implementation
   - ivl
 refs:
-  plans:
-    - .cursor/plans/SMT Solver M2 Core-50b94189.plan.md
-    - .cursor/plans/M2 Missing Pieces-50b94189.plan.md
-  docs:
-    - docs/SMT-SOLVER.md
   src:
     - src/verification/solver/cdcl/core.ts
     - src/verification/solver/cdcl/watched.ts

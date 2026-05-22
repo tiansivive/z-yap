@@ -15,10 +15,10 @@ tags:
 ---
 # Refinement inference
 
-No separate refinement metavariable or hole pipeline exists: refinements are concrete `EB.Term` liquids checked during modal inference (`src/elaboration/inference/modal.ts`) and normalized predicates in verification (`src/verification/V2/`).
+Refinements today are concrete `EB.Term` liquids checked during modal inference (`src/elaboration/inference/modal.ts`) and normalized predicates in verification (`src/verification/V2/`). There is no refinement metavariable or hole pipeline yet.
 
-`stripModalities` on inferred types (`src/elaboration/elaborate.ts`) removes `NF.Modal` wrappers from synthesized types; the adjacent TODO explicitly mentions needing refinement templates/holes when implementing refinement inference.
+`stripModalities` on inferred types (`src/elaboration/elaborate.ts`) removes `NF.Modal` wrappers from synthesized types; a future refinement-inference design would need templates/holes at that boundary.
 
-Verification artefacts carry only `{ vc; nf? }` (`src/verification/V2/types.ts`), not deferred refinement placeholders.
+`VerificationArtefacts` carry `{ vc; nf? }` (`src/verification/V2/types.ts`) — VC obligations, not deferred refinement placeholders.
 
-Anything labeled “refinement inference” here would be new work atop elaboration + VC generation, not present behavior.
+“Refinement inference” as metavariable synthesis would extend elaboration + VC generation beyond current behavior.

@@ -4,16 +4,13 @@ tags:
     verification,
     row-types,
     dependent,
-    planned,
     needs-design,
     mechanism,
     sat,
     normalization,
     inference,
-    reference,
     backend,
     compiler,
-    migration,
     pattern,
     principle,
     performance,
@@ -22,10 +19,10 @@ tags:
 ---
 # Row theory (solver)
 
-Specification target in `docs/SMT-SOLVER.md` §Rows (not implemented under `src/verification/solver/`—that directory does not exist in-repo).
+**IVL row algebra** lives in `src/verification/solver/ivl/types.ts`: `IVL.RowTerm` is `Empty`, label `Extend` (value + rest), or tail `Var`. Sort mapping in `src/verification/V2/logic/translate.ts` maps atom `Row` and `NF.Patterns.Row` to `Build.Row`.
 
-Intended representation sketch: `RowTerm` as label→`VC.Term` map plus optional tail name; normalize extensions (canonical label order, overwrite collapse), solve equality/containment by label decomposition, propagate field obligations, unify tails for open rows.
+**Elaboration rows** use `R.Row` / `Row.unify` in `src/elaboration/unification/rows.ts` — shape equality and flex tails, aligned with structural checking.
 
-Explicit design choice there: avoid encoding rows as a generic boxed-array theory; align solver with verifier containment walks (`subtype.contains()`).
+**Verification gap:** `translate.ts` `term()` walks literals, apps, vars, and externals; row-shaped `NF.Value` terms hit the final `.otherwise` and raise `"Unsupported expression type in verification"`. Sort-level `Row` is wired; embedding concrete row values into `IVL.Term` `{ tag: "Row", row: … }` is the remaining design (canonical extension order, tail unification, field obligations), ideally aligned with `subtype.contains()` in `src/verification/V2/subtype.ts` rather than a generic array theory.
 
-Current code gap noted in same doc and visible in `src/verification/V2/logic/translate.ts`: row literals error out during translation.
+**Z3 bridge:** `z3.adapter.ts` declares a `Row` sort for parity tests; the native CDCL stack interns row sorts in the EUF arena (`solver.ts` `.with({ tag: "Row" }, …)`).

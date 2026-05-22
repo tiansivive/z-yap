@@ -13,11 +13,6 @@ tags:
   - implementation
   - ivl
 refs:
-  plans:
-    - .cursor/plans/SMT Solver M1 IR-50b94189.plan.md
-    - .cursor/plans/Milestone 1 IVL Boundary-50b94189.plan.md
-  docs:
-    - docs/SMT-SOLVER.md
   src:
     - src/verification/solver/ivl/types.ts
     - src/verification/solver/ivl/build.ts

@@ -6,7 +6,9 @@ tags:
   - ivl
   - elaboration
   - ast
-  - planned
+  - in-progress
+  - mechanism
+  - concept
 ---
 # Session: Bubble Semantics & Shift/Reset Verification Design
 
@@ -29,3 +31,5 @@ Key decisions:
 6. Shift body verification deferred — handler postcondition must imply answer refinement (ARM constraint)
 
 Also discussed: EB.Ann implementation (completed earlier in session) for caching inferred types in the AST, avoiding downstream re-synthesis. Removed brittle `structure` snapshots from let-polymorphism tests.
+
+**Phase 1 implemented (2026-05-21):** Stub landed in `synth.ts` (Reset transparent, Shift → `NF.Any`/true), `subtype.ts` (`Any` cases at top of match), `translate.ts` (Meta → uninterpreted constant). Discovery: skolem metas leak into formula translation via refinement predicates on arithmetic expressions — handled by mapping Meta to `Build.const_("?N", uninterpreted("Any"))`.

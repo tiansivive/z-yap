@@ -34,6 +34,6 @@ Implementation package: `src/lowering/continuations/reset.ts`, `shift.ts`, `kcal
 
 `KCall.lower` handles each `App(k, arg)` inside the shift body: numeric index, `Jump` to `rLabel`, fresh `s_i` with env updates (`Instr.UpdateImmutable`) and `Read`s restoring prior `r_j` bindings (`kcall.ts`).
 
-Instruction surface matches `docs/MIR-LOWERING.md`: shift/reset uses **`Alloc`/`Read`/`Jump`/`Branch`** only—no dedicated MIR resume opcode (`Terminator` resume pattern is Read + Jump).
+Shift/reset lowering uses **`Alloc`/`Read`/`Jump`/`Branch`** only—resume is `Read` + `Jump`, not a dedicated MIR resume opcode.
 
 Tests / snapshots: `src/lowering/__tests__/lower.test.ts`; runnable MIR interpreter smoke: `src/lowering/__tests__/interpret.test.ts`.

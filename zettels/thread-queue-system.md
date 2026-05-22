@@ -4,6 +4,11 @@ tags:
 - tooling
 - concept
 - infrastructure
+- thread
+- queue
+- project
+- principle
+- pattern
 ---
 # Thread & Queue System
 

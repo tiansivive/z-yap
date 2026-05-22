@@ -20,7 +20,7 @@ tags:
 [Koka](https://koka-lang.github.io/koka/doc/) — algebraic effects/handlers; compilation narratives around **selective CPS**, evidence for control effects, and **Perceus** reference counting with FBIP.
 
 **Effect system influence:**
-`z-yap/zettels/selective-cps.md` treats selective CPS as **experimental**: inspired "broadly" by languages including Koka, while MIR design **explicitly rejects global CPS** (`docs/MIR-LOWERING.md` §2.2 — shift/reset lowered to explicit blocks/jumps). Current lowering favors **direct-style MIR + closure conversion**.
+`z-yap/zettels/selective-cps.md` treats selective CPS as **experimental**: inspired "broadly" by languages including Koka, while Yap's MIR path **favors direct style over global CPS**—`Shift`/`Reset` lower to explicit blocks and jumps (`src/lowering/`), not ubiquitous continuation arguments. Current lowering uses **direct-style MIR + closure conversion**.
 
 **Memory management influence:**
 Koka's Perceus system ([[perceus-reuse-analysis]]) introduces reuse analysis and FBIP — functional-but-in-place semantics where unique arguments enable mutation without allocation. This informs Yap's CRUD enrichment strategy ([[gram-crud-enrichment]]): Koka derives uniqueness at runtime via refcounting; Yap aims to derive it at compile time via QTT multiplicities. Constructor contexts ([[constructor-context-strategy]]) are directly inspired by Koka's FP² work.

@@ -3,10 +3,11 @@ tags:
   - verification
   - sat
   - mechanism
-  - planned
+  - implemented
   - reference
   - ir
   - milestone
+  - solver
 ---
 # Tseitin CNF transformation
 
@@ -14,4 +15,4 @@ Introduces fresh proxy Booleans sub-formula by sub-formula so every connective b
 
 Worst-case size grows **linearly** in formula size versus naïvely distributing connectives across clauses (**exponential** blowup).
 
-Planned lowering context: `docs/SMT-SOLVER.md` Pass 3 and [boolean lowering to CNF](boolean-lowering-cnf.md); target file sketch `src/verification/solver/cnf.ts` once the SAT core consumes clauses.
+**Yap:** Implemented in `src/verification/solver/cnf.ts` (`tseitin`). Invoked from `solver.ts` after normalization and Skolemization; proxy variables feed the CDCL core ([boolean lowering to CNF](boolean-lowering-cnf.md), [[cdcl-t-solver]]). See [[m1-implementation]].

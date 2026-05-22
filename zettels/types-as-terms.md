@@ -27,4 +27,4 @@ tags:
 
 **Lowering boundary:** `src/lowering/lower.ts` erases or rejects many type-only shapes (e.g. type-level rows via `Leaf.erase()`, `Patterns.TypeLevelApp`); runtime lowering centers on `Lambda`, `App`, data constructors—see module header comments in `lower.ts`.
 
-Related: [[eb-term.md]], [[nf-value.md]], [[type-type.md]], [[dependent-types.md]], [[mir-lowering.md]].
+Related: [[eb-term.md]], [[nf-value.md]], [[type-type.md]], [[dependent-types.md]], [[mir-lowering.md]], [[type-level-computation]].

@@ -6,6 +6,8 @@ tags:
 - mechanism
 - implemented
 - rewriting
+- pattern
+- compiler
 ---
 
 # Pattern decision tree pass (GRAM)

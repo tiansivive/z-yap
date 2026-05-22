@@ -15,10 +15,8 @@ tags:
     mir,
   ]
 ---
-# tmp.ts Pipeline Stub (doc vs tree)
+# tmp.ts Pipeline Stub (migration placeholder)
 
-**Docs:** `src/elaboration/ARCHITECTURE.md` (“V2 Migration Modules”) states that `inference.v2/tmp.ts` and `checking.v2/tmp.ts` stubs block wiring full CST-based inference/checking pipelines.
+Some migration notes name `inference.v2/tmp.ts` and `checking.v2/tmp.ts` as placeholders for a full CST-based infer/check split.
 
-**This repository:** There is **no** `src/elaboration/inference.v2/` or `src/elaboration/checking.v2/` directory and **no** `tmp.ts` under `src/elaboration/`. Actual inference is dispatched from `src/elaboration/elaborate.ts` via `ts-pattern` into modules under `src/elaboration/inference/`; checking lives in `src/elaboration/check.ts`. Both use `V2.Do` / `V2.track` from `src/elaboration/shared/monad.v2.ts`.
-
-Treat the stub narrative as **migration-plan / architecture-doc content**, not something verified by files in this checkout. For parity status, prefer `brainstorming/yap/V2-MIGRATION.md` plus a fresh directory listing.
+**Live layout:** Inference dispatches from `src/elaboration/elaborate.ts` via `ts-pattern` into `src/elaboration/inference/`; checking lives in `src/elaboration/check.ts`. Both use `V2.Do` / `V2.track` from `src/elaboration/shared/monad.v2.ts`. The `inference.v2/` / `checking.v2/` directory names are historical — no `tmp.ts` stubs sit under `src/elaboration/` in this tree.

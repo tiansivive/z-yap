@@ -31,10 +31,10 @@ Historical note: describes a past effort to isolate MIR lowering from an abandon
 Verified in the current tree:
 
 - `src/lowering/` — worklist monad (`src/lowering/monad.ts`), `lower.ts` dispatch, `continuations/` (`reset.ts`, `shift.ts`, `kcall.ts`), `matching/`, `functions/` (closures, `materialize`), shared helpers.
-- `docs/MIR-LOWERING.md` — shift/reset state-machine spec.
+- Shift/reset lowering spec lives with `src/lowering/continuations/` (`reset.ts`, `shift.ts`, `kcall.ts`) and elaboration counterparts in `src/elaboration/inference/{shift,reset}.ts`.
 - `src/elaboration/normalization/arity.ts` — used for lowering / FFI arity.
 - Tests under `src/lowering/__tests__/` (lower + interpret + pretty).
 
-Not present (matches the “dropped migration” story): no `src/elaboration/checking.v2/` or `src/elaboration/inference.v2/` directory; inference code for shift/reset lives under `src/elaboration/inference/{shift,reset}.ts`.
+Inference for shift/reset lives under `src/elaboration/inference/{shift,reset}.ts` (not under legacy `checking.v2/` / `inference.v2/` directory names from the dropped CST migration experiment).
 
 Use `git log` / issue links if you need the original branch lineage.

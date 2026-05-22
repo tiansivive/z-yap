@@ -18,6 +18,6 @@ tags:
 
 # Defunctionalization
 
-**Status:** No `defunctionalization` references in `/Users/t.vilaverde/Workspace/panlogion/yap/` source; not an implemented Yap pass.
+**Status:** `defunctionalization` does not name a pass in `src/lowering/`; production lowering uses closure conversion instead.
 
-**Contrast with current MIR:** Production lowering uses indirect calls after closure conversion: `Call` with `{ type: "indirect", callee }` and uniform `(env, arg)` conventions (`docs/MIR-LOWERING.md` §3.4, §5). Defunctionalization would replace first-class function values with tagged data and a single dispatch loop—an alternative lowering shape, not present in `src/lowering/` today.
+**Contrast with current MIR:** Lowering emits indirect calls after closure conversion: `Call` with `{ type: "indirect", callee }` and uniform `(env, arg)` conventions (`src/lowering/functions/`, `materialize.ts`). Defunctionalization would replace first-class function values with tagged data and a single dispatch loop — an alternative lowering shape worth comparing if exploring backends beyond indirect `Call`.

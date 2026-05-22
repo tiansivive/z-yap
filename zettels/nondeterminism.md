@@ -33,4 +33,4 @@ For each zonker fragment it invokes the supplied elaboration thunk (currently `_
 
 Empty map → single run with the ambient zonker (`replay` early return).
 
-Not general solver nondeterminism: no comparable machinery for unrelated metavariable branching outside this continuation hook.
+Scope is continuation-specific: `replay` branches only on resumption-meta candidate lists accumulated during shift/reset elaboration, not on unrelated metavariable branching elsewhere in the solver.

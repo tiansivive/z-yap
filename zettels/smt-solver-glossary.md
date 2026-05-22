@@ -6,6 +6,8 @@ tags:
   - project
   - milestone
   - concept
+  - solver
+  - quantifiers
 ---
 # SMT solver glossary
 

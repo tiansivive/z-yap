@@ -7,6 +7,7 @@ tags:
 - compiler
 - mir
 - planned
+- codegen
 ---
 
 # GRAM → MIR bridge
@@ -25,4 +26,4 @@ Speculative direction: the enriched GRAM graph (after all passes) contains enoug
 2. Clarifies architectural roles: GRAM = canonical semantic graph with multiple views; MIR = one sequential operational materialization.
 3. Provides a migration path: existing codegen (JS/C/Erlang) already consumes MIR. The bridge lets them work unchanged while GRAM becomes the source of truth upstream.
 
-**Status:** Not implemented. Current codegen still goes through `lowerToMir` directly from `EB.Term`.
+**Status:** Exploratory. Executable codegen today goes through `lowerToMir` from `EB.Term`; a GRAM→MIR emitter would sit between enriched graph passes and existing `Codegen/v2/` backends.

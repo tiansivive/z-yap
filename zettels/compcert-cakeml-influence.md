@@ -20,6 +20,6 @@ tags:
 
 Both embody **refinement between semantics-aligned intermediate languages** and machine-checked pipeline proofs.
 
-**Codebase:** No mentions of CompCert, CakeML, or “verified compiler” in Yap sources (search over the repo). Yap today couples type checking to **Z3-backed** refinement checking (`src/verification/`, `z3-solver` dependency), not a Coq/HOL proof of the whole compiler.
+**Codebase:** Yap's verification path couples type checking to **Z3-backed** refinement checking (`src/verification/`, `z3-solver` dependency)—a different evidence model from CompCert/CakeML's Coq/HOL pipeline proofs.
 
-Use these projects as **external benchmarks**: what a fully machine-checked compilation chain looks like, not as something Yap currently instantiates.
+CompCert and CakeML are **external benchmarks** for what a fully machine-checked compilation chain looks like; Yap can draw design lessons without instantiating their proof artifacts today.

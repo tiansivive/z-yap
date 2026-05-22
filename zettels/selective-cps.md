@@ -25,7 +25,7 @@ tags:
 ---
 # Selective CPS
 
-**Selective CPS** (CPS only under effectful/delim-cont regions) is a standard way to avoid whole-program administrative noise. Yap’s current pipeline **does not** use it for shift/reset: `docs/MIR-LOWERING.md` states the design goal explicitly—lower delimited control to a **block + jump state machine** with `Alloc`/`Read`/`Jump`/`Branch`, not a global CPS transform.
+**Selective CPS** (CPS only under effectful/delim-cont regions) is a standard way to avoid whole-program administrative noise. Yap’s shift/reset pipeline instead lowers delimited control to a **block + jump state machine** with `Alloc`/`Read`/`Jump`/`Branch`, not a global CPS transform.
 
 Contrast: `src/lowering/continuations/` implements that direct-style lowering; closure conversion follows separately (`src/lowering/functions/`).
 

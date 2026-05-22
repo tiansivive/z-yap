@@ -5,22 +5,25 @@ tags:
 - lowering
 - elaboration
 - compiler
+- pattern
+- mir
+- graph
 ---
 # Pattern Matching
 
 From surface match expressions through elaboration (typing, coverage) to MIR/GRAM
-compilation (Maranget decision trees). The main gap: exhaustiveness and redundancy
-checking at elaboration time.
+compilation (Maranget decision trees). Elaboration-time exhaustiveness and redundancy
+checking is the next frontier alongside the implemented lowering passes.
 
 ## Sequence
 
 1. **Match elaboration** [[match]] — incomplete
    Surface match typing. TODOs: dependent narrowing, variant return typing.
-   No exhaustiveness warnings.
+   Exhaustiveness diagnostics still to be designed for `match.ts`.
 
 2. **Pattern matching compilation** [[pattern-matching-compilation]] — implemented
    Maranget-style clause matrices for MIR and GRAM. Column heuristic. Variant/
-   lit/struct/binder/wildcard. List patterns NOT implemented.
+   lit/struct/binder/wildcard. List patterns: extension of the same pipeline.
 
 3. **GRAM pattern translation** [[gram-pattern-translation]] — implemented
    pat:* node translation into graph IR.
@@ -36,7 +39,7 @@ checking at elaboration time.
    Column heuristic, clause matrix decomposition.
 
 7. **Exhaustiveness checking** [[exhaustiveness-checking]] — needs-design
-   Surface match coverage and redundancy. Main elaboration-time gap.
+   Surface match coverage and redundancy. Elaboration-time complement to MIR fail blocks.
    _Shared with: row-types (variant coverage depends on row structure)_
 
 8. **Functional patterns** [[functional-patterns]] — speculative

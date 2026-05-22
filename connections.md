@@ -1491,3 +1491,287 @@
 
 [[verification-backend.thread]] --[:SHARED_WITH]--> [[delimited-continuations.thread]]  -- shift-reset-verification, shift-reset-verification-stub
 [[delimited-continuations.thread]] --[:SHARED_WITH]--> [[verification-backend.thread]]  -- shift-reset-verification
+
+## session:type-system-concepts — 2026-05-22
+
+### Coinductivity & Codata
+
+[[coinductivity]] --[:DUAL_OF]-- [[inductive-types]]  -- Coinduction is the dual of induction
+[[coinductivity]] --[:INFORMS]--> [[nu-types]]  -- Nu abstraction is Yap's coinductivity mechanism
+[[coinductivity]] --[:USES]--> [[bisimulation-type-equality]]  -- Bisimulation is a coinductive proof method
+[[coinductivity]] --[:EXTENDS]--> [[recursion.thread]]  -- Coinductivity extends the recursion story
+[[codata]] --[:INFORMS]--> [[coinductivity]]  -- Observation-defined types ground coinductivity
+[[codata]] --[:EXTENDS]--> [[structural-records]]  -- Records as observations = codata
+[[codata]] --[:COMPOSES_WITH]--> [[row-polymorphism]]  -- Codata observations as extensible rows
+[[codata]] --[:CONTRASTS_WITH]--> [[variant-types]]  -- Constructors (data) vs observations (codata)
+[[codata]] --[:INFORMS]--> [[nu-types]]  -- Codata semantics for nu-wrapped recursive types
+[[nu-types]] --[:EXTENDS]--> [[mu-types]]  -- Greatest fixed point dual to least fixed point
+[[nu-types]] --[:RELIES_ON]--> [[bisimulation-type-equality]]  -- Nu equality needs bisimulation
+[[nu-types]] --[:RELIES_ON]--> [[unification]]  -- Shares mu's unification infrastructure
+[[nu-types]] --[:RELIES_ON]--> [[nbe]]  -- Shares mu's evaluation infrastructure
+[[nu-types]] --[:USES]--> [[equirecursive-types]]  -- Extends equirecursive machinery with polarity
+[[nu-types]] --[:REQUIRES]--> [[productivity-checking]]  -- Coinductive definitions must be productive
+[[nu-types]] --[:COMPOSES_WITH]--> [[structural-records]]  -- Coinductive records via nu + projections
+[[bisimulation-type-equality]] --[:ADDRESSES]--> [[equirecursive-types]]  -- Principled equality for recursive types
+[[bisimulation-type-equality]] --[:EXTENDS]--> [[unification]]  -- Would replace ad-hoc mu unfolding
+[[bisimulation-type-equality]] --[:USES]--> [[coinductivity]]  -- Bisimulation is itself coinductive
+[[bisimulation-type-equality]] --[:USES]--> [[nbe]]  -- Unfolding via evaluation
+[[bisimulation-type-equality]] --[:ADDRESSES]--> [[mu-types]]  -- Proper equality for mu-wrapped types
+[[bisimulation-type-equality]] --[:INFORMS]--> [[nu-types]]  -- Foundation for nu type equality
+
+### Productivity & Termination
+
+[[productivity-checking]] --[:DUAL_OF]--> [[termination-checking]]  -- Productivity is the coinductive dual of termination
+[[productivity-checking]] --[:APPLIES_TO]--> [[nu-types]]  -- Ensures coinductive defs are productive
+[[productivity-checking]] --[:APPLIES_TO]--> [[coinductivity]]  -- Static guarantee for coinductive data
+[[productivity-checking]] --[:RELIES_ON]--> [[sized-types]]  -- One approach to productivity
+[[productivity-checking]] --[:RELIES_ON]--> [[syntactic-guardedness]]  -- Alternative approach to productivity
+[[sized-types]] --[:ADDRESSES]--> [[productivity-checking]]  -- Size annotations ensure productivity
+[[sized-types]] --[:ADDRESSES]--> [[termination-checking]]  -- Size annotations ensure termination
+[[sized-types]] --[:CONTRASTS_WITH]--> [[syntactic-guardedness]]  -- More expressive but more complex
+[[sized-types]] --[:EXTENDS]--> [[dependent-types]]  -- Size indices are dependent type params
+[[sized-types]] --[:ADDRESSES]--> [[equirecursive-types]]  -- Bounds unfolding depth type-theoretically
+[[sized-types]] --[:USES]--> [[nbe]]  -- Size reduction via evaluation
+[[syntactic-guardedness]] --[:ADDRESSES]--> [[productivity-checking]]  -- Syntactic criterion for productivity
+[[syntactic-guardedness]] --[:ADDRESSES]--> [[termination-checking]]  -- Syntactic criterion for termination
+[[syntactic-guardedness]] --[:CONTRASTS_WITH]--> [[sized-types]]  -- Simpler but less expressive
+[[syntactic-guardedness]] --[:APPLIES_TO]--> [[inductive-types]]  -- Structural decrease for induction
+[[syntactic-guardedness]] --[:APPLIES_TO]--> [[nu-types]]  -- Constructor guarding for coinduction
+
+### Inductive Types & Data
+
+[[inductive-types]] --[:EXTENDS]--> [[mu-types]]  -- Adds well-foundedness to recursive types
+[[inductive-types]] --[:REQUIRES]--> [[termination-checking]]  -- Inductive types need termination proofs
+[[inductive-types]] --[:INFORMS]--> [[data-declarations]]  -- Constructor-based definition motivates data syntax
+[[inductive-types]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Known constructors enable coverage
+[[inductive-types]] --[:RELIES_ON]--> [[bisimulation-type-equality]]  -- Needs proper recursive equality first
+[[inductive-types]] --[:CONTRASTS_WITH]--> [[equirecursive-types]]  -- Well-founded vs equirecursive
+[[data-declarations]] --[:DESUGARS_TO]--> [[variant-types]]  -- Data decls are sugar over row variants
+[[data-declarations]] --[:DESUGARS_TO]--> [[structural-records]]  -- Product parts desugar to struct rows
+[[data-declarations]] --[:RELIES_ON]--> [[rows-universal-substrate]]  -- Desugars into row machinery
+[[data-declarations]] --[:USES]--> [[row-polymorphism]]  -- Structural identity via rows
+[[data-declarations]] --[:INFORMS]--> [[open-closed-variants]]  -- Data decl could default to closed
+[[data-declarations]] --[:INFORMS]--> [[nominal-identity]]  -- Sugar syntax does not require nominality
+[[data-declarations]] --[:COMPOSES_WITH]--> [[mu-types]]  -- Recursive data uses mu wrapping
+[[data-declarations]] --[:ENABLES]--> [[exhaustiveness-checking]]  -- Named constructors enable coverage
+[[data-declarations]] --[:CONTRASTS_WITH]--> [[nominal-typing]]  -- Structural sugar vs nominal declaration
+
+### Nominal Identity
+
+[[nominal-identity]] --[:CONTRASTS_WITH]--> [[structural-typing]]  -- Two notions of type identity
+[[nominal-identity]] --[:INFORMS]--> [[data-declarations]]  -- Whether data decls carry nominal identity
+[[nominal-identity]] --[:INFORMS]--> [[opaque-types]]  -- Opacity requires some nominal notion
+[[nominal-identity]] --[:INFORMS]--> [[module-system-exploration]]  -- Module boundaries as abstraction
+[[nominal-identity]] --[:EXTENDS]--> [[nominal-typing]]  -- Explores adding nominal identity to Yap
+[[nominal-identity]] --[:CONTRASTS_WITH]--> [[row-polymorphism]]  -- Nominal fights structural extensibility
+
+### Indexed Families & GADTs
+
+[[gadts]] --[:SPECIALIZES]--> [[indexed-families]]  -- GADTs are a special case of indexed families
+[[gadts]] --[:RELIES_ON]--> [[dependent-pattern-matching]]  -- Constructor matching refines indices
+[[gadts]] --[:EMULATES]--> [[dependent-types]]  -- Dependent types subsume GADT refinement
+[[gadts]] --[:USES]--> [[unification]]  -- Index unification during matching
+[[gadts]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Impossible branches via index constraints
+[[indexed-families]] --[:EXTENDS]--> [[inductive-types]]  -- Inductive types with varying indices
+[[indexed-families]] --[:RELIES_ON]--> [[dependent-pattern-matching]]  -- Index-refined matching
+[[indexed-families]] --[:USES]--> [[dependent-types]]  -- Indices are dependent type params
+[[indexed-families]] --[:CONTRASTS_WITH]--> [[type-type]]  -- Families need universe hierarchy
+[[indexed-families]] --[:CONTRASTS_WITH]--> [[equirecursive-types]]  -- Strict positivity vs equirecursion
+
+### Type Families & Functional Dependencies
+
+[[type-families]] --[:EMULATES]--> [[type-level-computation]]  -- Type families as type-level functions
+[[type-families]] --[:CONTRASTS_WITH]--> [[type-level-computation]]  -- Separate mechanism vs unified terms
+[[type-families]] --[:USES]--> [[nbe]]  -- Type-level reduction via evaluation
+[[type-families]] --[:INFORMS]--> [[type-level-computation]]  -- Capabilities Yap should reproduce
+[[type-families]] --[:COMPOSES_WITH]--> [[open-closed-variants]]  -- Open type families as open rows
+[[type-families]] --[:INFORMS]--> [[functional-dependencies]]  -- Overlapping solution space
+[[type-families]] --[:INFORMS]--> [[ghc-influence]]  -- GHC's primary type-level mechanism
+[[functional-dependencies]] --[:EMULATES]--> [[type-level-computation]]  -- Determinacy via dependent functions
+[[functional-dependencies]] --[:CONTRASTS_WITH]--> [[type-level-computation]]  -- Annotation vs computation
+[[functional-dependencies]] --[:INFORMS]--> [[implicit-resolution]]  -- Determinacy in implicit search
+[[functional-dependencies]] --[:INFORMS]--> [[implicit-resolution-solver]]  -- Solver determinacy
+[[functional-dependencies]] --[:COMPOSES_WITH]--> [[typeclass-emulation]]  -- Fundeps on implicit records
+[[functional-dependencies]] --[:USES]--> [[dependent-types]]  -- Expressed as dependent functions
+[[type-level-computation]] --[:USES]--> [[types-as-terms]]  -- Types are terms foundation
+[[type-level-computation]] --[:USES]--> [[type-type]]  -- Type : Type enables type-level functions
+[[type-level-computation]] --[:USES]--> [[nbe]]  -- NbE evaluates type-level functions
+[[type-level-computation]] --[:USES]--> [[unification]]  -- Type equality for computed types
+[[type-level-computation]] --[:SUBSUMES]--> [[type-families]]  -- Dependent functions subsume closed families
+[[type-level-computation]] --[:CONSTRAINS]--> [[equirecursive-types]]  -- Step budget limits computation
+[[type-level-computation]] --[:EXTENDS]--> [[dependent-types]]  -- Types computed from values
+[[type-level-computation]] --[:CONTRASTS_WITH]--> [[ghc-influence]]  -- No promotion needed
+
+### Typeclass Emulation & Implicits
+
+[[typeclass-coherence]] --[:APPLIES_TO]--> [[typeclass-emulation]]  -- Coherence concerns for implicit records
+[[typeclass-coherence]] --[:APPLIES_TO]--> [[implicit-resolution]]  -- First-match semantics
+[[typeclass-coherence]] --[:APPLIES_TO]--> [[implicit-resolution-solver]]  -- Solver selection policy
+[[typeclass-coherence]] --[:INFORMS]--> [[annotations]]  -- @ means implicit application, not override
+[[typeclass-coherence]] --[:CONTRASTS_WITH]--> [[ghc-influence]]  -- Haskell enforces global coherence
+[[superclasses]] --[:APPLIES_TO]--> [[typeclass-emulation]]  -- Superclass encoding pattern
+[[superclasses]] --[:USES]--> [[structural-records]]  -- Nested records encode hierarchy
+[[superclasses]] --[:USES]--> [[implicits]]  -- Implicit threading of superclass deps
+[[superclasses]] --[:INFORMS]--> [[implicit-resolution-solver]]  -- Auto-propagation of superclass implicits
+[[superclasses]] --[:ENCODES]--> [[lambda]]  -- Superclass is just a lambda
+[[dictionary-passing]] --[:IMPLEMENTS]--> [[typeclass-emulation]]  -- Records as dictionaries
+[[dictionary-passing]] --[:RELIES_ON]--> [[implicit-resolution]]  -- Dictionaries threaded via implicits
+[[dictionary-passing]] --[:RELIES_ON]--> [[implicits]]  -- Implicit Pi binders carry dictionaries
+[[dictionary-passing]] --[:USES]--> [[structural-records]]  -- Dictionaries are records
+[[dictionary-passing]] --[:APPLIES_TO]--> [[ffi]]  -- FFI arity includes dictionary args
+[[dictionary-passing]] --[:APPLIES_TO]--> [[ffi-saturation]]  -- Saturation must account for dictionaries
+[[dictionary-passing]] --[:INFORMS]--> [[indexing-strategies]]  -- Strategies as implicit dictionaries
+[[dictionary-passing]] --[:CONTRASTS_WITH]--> [[ghc-influence]]  -- GHC compiles to dictionaries; Yap starts with them
+
+### Implicits as Coeffects
+
+[[implicits-as-coeffects-exploration]] --[:EXTENDS]--> [[implicits-as-coeffects]]  -- Deeper exploration of the design sketch
+[[implicits-as-coeffects-exploration]] --[:EXTENDS]--> [[implicit-resolution]]  -- Coeffect model for implicit requirements
+[[implicits-as-coeffects-exploration]] --[:USES]--> [[petricek-orchard]]  -- Foundational coeffect paper
+[[implicits-as-coeffects-exploration]] --[:COMPOSES_WITH]--> [[shift-reset]]  -- Coeffects meet delimited continuations
+[[implicits-as-coeffects-exploration]] --[:INFORMS]--> [[modality-polymorphism]]  -- Graded modalities from coeffects
+[[implicits-as-coeffects-exploration]] --[:INFORMS]--> [[typeclass-emulation]]  -- Coeffect-based implicit model
+[[implicits-as-coeffects-exploration]] --[:CONTRASTS_WITH]--> [[implicits]]  -- Ad-hoc vs principled implicit tracking
+
+### Dependent Pattern Matching
+
+[[dependent-pattern-matching]] --[:EXTENDS]--> [[match]]  -- Adds type refinement to matching
+[[dependent-pattern-matching]] --[:REQUIRES]--> [[unification]]  -- Index unification during matching
+[[dependent-pattern-matching]] --[:RELIES_ON]--> [[sigma-types]]  -- Dependent pairs carry evidence
+[[dependent-pattern-matching]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Refined types affect coverage
+[[dependent-pattern-matching]] --[:USES]--> [[dependent-types]]  -- Types refined by pattern
+[[dependent-pattern-matching]] --[:RELIES_ON]--> [[nbe]]  -- Evaluate types under refinement
+[[dependent-pattern-matching]] --[:COMPOSES_WITH]--> [[gadts]]  -- GADT matching is dependent matching
+[[with-abstraction]] --[:ADDRESSES]--> [[dependent-pattern-matching]]  -- User-directed type refinement
+[[with-abstraction]] --[:CONTRASTS_WITH]--> [[case-tree-elaboration]]  -- User-directed vs compiler-directed
+[[with-abstraction]] --[:EXTENDS]--> [[match]]  -- Additional scrutinees in match arms
+[[with-abstraction]] --[:INFORMS]--> [[agda-influence]]  -- Agda's primary DPM mechanism
+[[with-abstraction]] --[:USES]--> [[unification]]  -- Type equalities from with-matching
+[[case-tree-elaboration]] --[:ADDRESSES]--> [[dependent-pattern-matching]]  -- Compiler-directed type refinement
+[[case-tree-elaboration]] --[:CONTRASTS_WITH]--> [[with-abstraction]]  -- Compiler-directed vs user-directed
+[[case-tree-elaboration]] --[:EXTENDS]--> [[pattern-matching-compilation]]  -- Semantic decision trees for types
+[[case-tree-elaboration]] --[:CONTRASTS_WITH]--> [[pattern-matching-compilation]]  -- Type checking vs code generation
+[[case-tree-elaboration]] --[:USES]--> [[unification]]  -- Index unification during splitting
+[[case-tree-elaboration]] --[:INFORMS]--> [[idris-2-influence]]  -- Idris 2's DPM approach
+[[case-tree-elaboration]] --[:INFORMS]--> [[lean-4-influence]]  -- Lean 4's DPM approach
+
+### Pattern Matching Extensions
+
+[[view-patterns]] --[:EXTENDS]--> [[match]]  -- Function-applied matching
+[[view-patterns]] --[:CONTRASTS_WITH]--> [[pattern-synonyms]]  -- Runtime computation vs static alias
+[[view-patterns]] --[:CONTRASTS_WITH]--> [[active-patterns]]  -- No failure protocol vs explicit failure
+[[view-patterns]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Views can simplify coverage
+[[view-patterns]] --[:DESUGARS_TO]--> [[pattern-matching-compilation]]  -- Desugars before clause matrix
+[[view-patterns]] --[:INFORMS]--> [[ghc-influence]]  -- Haskell ViewPatterns extension
+[[pattern-synonyms]] --[:EXTENDS]--> [[match]]  -- Named patterns for structural types
+[[pattern-synonyms]] --[:COMPOSES_WITH]--> [[structural-typing]]  -- Naming structural shapes
+[[pattern-synonyms]] --[:COMPOSES_WITH]--> [[variant-types]]  -- Named variant patterns
+[[pattern-synonyms]] --[:COMPOSES_WITH]--> [[structural-records]]  -- Named record patterns
+[[pattern-synonyms]] --[:INFORMS]--> [[data-declarations]]  -- Pattern names supplement data decls
+[[pattern-synonyms]] --[:DESUGARS_TO]--> [[pattern-matching-compilation]]  -- Desugars to structural patterns
+[[active-patterns]] --[:EXTENDS]--> [[match]]  -- User-defined recognizers
+[[active-patterns]] --[:EXTENDS]--> [[view-patterns]]  -- View patterns with failure protocol
+[[active-patterns]] --[:USES]--> [[variant-types]]  -- Partial patterns return option variant
+[[active-patterns]] --[:INFORMS]--> [[open-closed-variants]]  -- Complete vs partial active patterns
+[[active-patterns]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Complete patterns preserve coverage
+
+### Open/Closed Variants & Exhaustiveness
+
+[[open-closed-variants]] --[:APPLIES_TO]--> [[variant-types]]  -- Open vs closed row tails
+[[open-closed-variants]] --[:RELIES_ON]--> [[row-polymorphism]]  -- Row variables determine openness
+[[open-closed-variants]] --[:INFORMS]--> [[exhaustiveness-checking]]  -- Primary discriminant for coverage
+[[open-closed-variants]] --[:USES]--> [[unification]]  -- Row solving determines open/closed
+[[open-closed-variants]] --[:INFORMS]--> [[data-declarations]]  -- Data decls produce closed variants
+[[open-closed-variants]] --[:COMPOSES_WITH]--> [[type-families]]  -- Open families as open rows
+[[open-closed-variants]] --[:INFORMS]--> [[match]]  -- Fallback required for open variants
+[[exhaustiveness-checking]] --[:RELIES_ON]--> [[open-closed-variants]]  -- Open vs closed determines strategy
+[[exhaustiveness-checking]] --[:RELIES_ON]--> [[pattern-matching-compilation]]  -- Coverage from decision tree
+[[exhaustiveness-checking]] --[:APPLIES_TO]--> [[match]]  -- Surface match coverage
+[[exhaustiveness-checking]] --[:USES]--> [[variant-types]]  -- Tag sets determine coverage
+[[exhaustiveness-checking]] --[:INFORMS]--> [[dependent-pattern-matching]]  -- Refined types affect coverage
+
+### Customizable Data & Modules
+
+[[customizable-data-types]] --[:RELIES_ON]--> [[indexing-strategies]]  -- Pluggable backends
+[[customizable-data-types]] --[:RELIES_ON]--> [[rows-universal-substrate]]  -- Records as base abstraction
+[[customizable-data-types]] --[:USES]--> [[implicits]]  -- Strategy threading via implicits
+[[customizable-data-types]] --[:USES]--> [[dictionary-passing]]  -- Strategies as implicit dictionaries
+[[customizable-data-types]] --[:COMPOSES_WITH]--> [[ffi]]  -- FFI-specified backends
+[[customizable-data-types]] --[:EXTENDS]--> [[structural-records]]  -- Custom records with pluggable backends
+[[customizable-data-types]] --[:INFORMS]--> [[module-system-exploration]]  -- Abstraction boundaries for strategies
+[[indexing-strategies]] --[:APPLIES_TO]--> [[customizable-data-types]]  -- Strategy application
+[[indexing-strategies]] --[:USES]--> [[implicits]]  -- Strategies as implicit parameters
+[[indexing-strategies]] --[:USES]--> [[dictionary-passing]]  -- Strategy records as dictionaries
+[[indexing-strategies]] --[:COMPOSES_WITH]--> [[ffi]]  -- FFI-specified indexing
+[[indexing-strategies]] --[:INFORMS]--> [[structural-typing]]  -- Same type, different representation
+[[opaque-types]] --[:RELIES_ON]--> [[nominal-identity]]  -- Opacity requires nominal notion
+[[opaque-types]] --[:CONTRASTS_WITH]--> [[structural-typing]]  -- Hiding structure from consumers
+[[opaque-types]] --[:INFORMS]--> [[module-system-exploration]]  -- Module boundaries for opacity
+[[opaque-types]] --[:EXTENDS]--> [[nominal-typing]]  -- Layering nominal abstraction
+[[opaque-types]] --[:COMPOSES_WITH]--> [[data-declarations]]  -- Opaque wrappers for data types
+[[module-system-exploration]] --[:EXTENDS]--> [[module-system]]  -- Beyond file-level imports
+[[module-system-exploration]] --[:INFORMS]--> [[opaque-types]]  -- Module boundaries as abstraction
+[[module-system-exploration]] --[:INFORMS]--> [[nominal-identity]]  -- Modules introduce nominal boundaries
+[[module-system-exploration]] --[:USES]--> [[structural-typing]]  -- Row-typed signatures
+[[module-system-exploration]] --[:USES]--> [[row-polymorphism]]  -- Interface polymorphism via rows
+[[module-system-exploration]] --[:COMPOSES_WITH]--> [[typeclass-emulation]]  -- Modules as capability records
+[[module-system-exploration]] --[:INFORMS]--> [[customizable-data-types]]  -- Abstraction for strategies
+
+### Influence connections
+
+[[coinductivity]] --[:INFORMS]--> [[agda-influence]]  -- Agda's coinductive types
+[[codata]] --[:INFORMS]--> [[agda-influence]]  -- Agda's codata and copatterns
+[[inductive-types]] --[:INFORMS]--> [[agda-influence]]  -- Agda's core type former
+[[inductive-types]] --[:INFORMS]--> [[lean-4-influence]]  -- Lean's inductive types
+[[indexed-families]] --[:INFORMS]--> [[agda-influence]]  -- Agda's indexed data
+[[gadts]] --[:INFORMS]--> [[ghc-influence]]  -- GHC's GADT extension
+[[type-families]] --[:INFORMS]--> [[ghc-influence]]  -- GHC's type families
+[[functional-dependencies]] --[:INFORMS]--> [[ghc-influence]]  -- GHC's fundeps
+[[dictionary-passing]] --[:INFORMS]--> [[ghc-influence]]  -- GHC dictionary compilation
+[[dictionary-passing]] --[:INFORMS]--> [[idris-2-influence]]  -- Idris 2 dictionary passing
+[[pattern-synonyms]] --[:INFORMS]--> [[ghc-influence]]  -- GHC PatternSynonyms extension
+[[dependent-pattern-matching]] --[:INFORMS]--> [[agda-influence]]  -- Agda's DPM
+[[dependent-pattern-matching]] --[:INFORMS]--> [[idris-2-influence]]  -- Idris 2's DPM
+[[with-abstraction]] --[:INFORMS]--> [[agda-influence]]  -- Agda's with mechanism
+[[case-tree-elaboration]] --[:INFORMS]--> [[idris-2-influence]]  -- Idris 2's case trees
+[[case-tree-elaboration]] --[:INFORMS]--> [[lean-4-influence]]  -- Lean 4's case trees
+[[sized-types]] --[:INFORMS]--> [[agda-influence]]  -- Agda's sized types
+[[syntactic-guardedness]] --[:INFORMS]--> [[agda-influence]]  -- Agda's guardedness checker
+
+### Thread/queue connections
+
+[[recursion.thread]] --[:INCLUDES]--> [[coinductivity]]  -- Coinductivity is part of recursion thread
+[[recursion.thread]] --[:INCLUDES]--> [[nu-types]]  -- Nu types are part of recursion thread
+[[recursion.thread]] --[:INCLUDES]--> [[bisimulation-type-equality]]  -- Bisimulation is part of recursion thread
+[[recursion.thread]] --[:INCLUDES]--> [[productivity-checking]]
+[[recursion.thread]] --[:INCLUDES]--> [[sized-types]]
+[[recursion.thread]] --[:INCLUDES]--> [[syntactic-guardedness]]
+[[recursion.thread]] --[:INCLUDES]--> [[inductive-types]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[dependent-pattern-matching]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[with-abstraction]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[case-tree-elaboration]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[view-patterns]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-synonyms]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[active-patterns]]
+[[pattern-matching.thread]] --[:INCLUDES]--> [[open-closed-variants]]
+[[row-types.thread]] --[:INCLUDES]--> [[data-declarations]]
+[[row-types.thread]] --[:INCLUDES]--> [[open-closed-variants]]
+[[row-types.thread]] --[:INCLUDES]--> [[customizable-data-types]]
+[[row-types.thread]] --[:INCLUDES]--> [[indexing-strategies]]
+
+## Z3 → IVL transition
+
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[vc-normalization]]
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[vc-provenance]]
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[solver-module-layout]]
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[required-theory-support]]
+[[z3-replacement-decision]] --[:SUPERSEDES]--> [[milestone-5-explanations]]
+[[z3-replacement-decision]] --[:MOTIVATES]--> [[cdcl-t-solver]]
+[[z3-replacement-decision]] --[:MOTIVATES]--> [[vc-ir]]
+[[z3-replacement-decision]] --[:PRODUCES]--> [[m1-implementation]]
+[[z3-replacement-decision]] --[:PRODUCES]--> [[m2-implementation]]
+[[vc-ir]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]  -- IVL replaces Z3 Expr-based artefacts
+[[cdcl-t-solver]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- Custom CDCL(T) replaces Z3
+[[m1-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M1 delivered IVL boundary
+[[m2-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M2 delivered EUF + quantifiers + LIA

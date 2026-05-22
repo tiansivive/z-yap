@@ -22,4 +22,4 @@ Row **equality** for spines lives in `src/elaboration/unification/rows.ts` (`uni
 
 Contrast: homogeneous lists/maps use `Indexed` + `Array` (`src/elaboration/inference/lists.ts`, `dictionaries.ts`), outside pure `Schema` tail polymorphism.
 
-Related: [[row-unification.md]], [[row-data-structure.md]].
+Related: [[row-unification.md]], [[row-data-structure.md]], [[open-closed-variants]], [[data-declarations]], [[codata]].

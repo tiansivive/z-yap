@@ -16,8 +16,8 @@ tags:
 ---
 # Effects as modality
 
-No implementation maps algebraic-effect or capability annotations onto `Q.Multiplicity` or `Modal.Annotations`; `shift` / `reset` exist as `EB.Term` variants (`src/elaboration/syntax/term.ts`) with MIR lowering described in-repo (`docs/MIR-LOWERING.md`, `src/lowering/`), not as graded modalities.
+`shift` / `reset` exist as `EB.Term` variants (`src/elaboration/syntax/term.ts`) with MIR lowering in `src/lowering/continuations/`, separate from `Q.Multiplicity` / `Modal.Annotations`. Algebraic-effect or capability annotations are not wired onto those modality fields today.
 
-This note is a design peg only: reusing `Modal`/`Annotations` for effect indices would need modality discipline that elaboration and verification do not enforce today (`stripModalities` in `src/elaboration/elaborate.ts`; commented usage constraints in `src/elaboration/solver/solver.ts`).
+Exploratory peg: reusing `Modal`/`Annotations` for effect indices would intersect modality discipline in elaboration (`stripModalities` in `src/elaboration/elaborate.ts`) and the commented usage-constraint hooks in `src/elaboration/solver/solver.ts`.
 
-Related exploratory graph notes: `z-yap/zettels/implicits-as-coeffects.md`, `z-yap/zettels/shift-reset-mir-lowering.md`.
+Related: [[implicits-as-coeffects]], [[shift-reset-mir-lowering]].

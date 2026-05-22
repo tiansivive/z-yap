@@ -22,3 +22,5 @@ Exceptions are deliberately non-row **FFI containers**: lists become `App(Lit("A
 Lowering reuses one struct path for `StructApp` heads (`Patterns.StructApp` → `Struct.data`, `src/lowering/lower.ts`), while `Inj`/`Proj` go through `src/lowering/struct.ts`.
 
 The payoff is shared algorithms (traversal in `rows.ts`, unification cases, inference patterns) across products and sums; it does **not** imply structural subtyping—see [[structural-subtyping.md]], [[row-polymorphism.md]].
+
+Related: [[data-declarations]], [[customizable-data-types]], [[indexing-strategies]].

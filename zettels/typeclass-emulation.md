@@ -28,4 +28,4 @@ Dependent rows stay in the same unify path as term types — no separate class d
 
 Authoring hazard: duplicate instances of structurally compatible types; debugging = log `constraints` around solve (`module.ts` `expression` exposes debug tuple).
 
-Hub: [[implicits.md]], [[implicit-resolution-solver.md]], [[implicit-environment.md]].
+Hub: [[implicits.md]], [[implicit-resolution-solver.md]], [[implicit-environment.md]], [[typeclass-coherence]], [[superclasses]], [[dictionary-passing]].

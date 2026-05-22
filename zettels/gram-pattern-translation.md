@@ -6,6 +6,8 @@ tags:
 - mechanism
 - implemented
 - ast
+- pattern
+- compiler
 ---
 
 # Pattern graph translation (GRAM)

@@ -12,17 +12,12 @@ tags:
   - ai-session
   - ivl
 refs:
-  plans:
-    - .cursor/plans/SMT Solver M1 IR-50b94189.plan.md
-    - .cursor/plans/Milestone 1 IVL Boundary-50b94189.plan.md
-    - .cursor/plans/SMT Solver M2 Core-50b94189.plan.md
-    - .cursor/plans/M2 Missing Pieces-50b94189.plan.md
   transcript: 50b94189-e668-4c26-b421-b368ee851bb8
   branch: ivl-sat-solver
 ---
 # Session: M1 + M2 completion
 
-AI pair-programming session that implemented milestones 1 and 2 of the SMT solver plan (`docs/SMT-SOLVER.md`).
+AI pair-programming session that implemented milestones 1 and 2 of the in-house SMT solver (IVL boundary + CDCL(T) core).
 
 **M1 — IR boundary:** Defined the Intermediate Verification Language (IVL) as a Yap-owned, backend-neutral formula representation. Built sort/term/formula types, smart constructors, s-expr printer, DSL helpers, and a Z3 bridge adapter to keep the existing pipeline working during transition.
 

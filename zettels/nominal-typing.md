@@ -21,6 +21,8 @@ tags:
 
 **Yap:** compound data is encoded with **structural** rows (`EB.Row`, row patterns, `Proj`/`Inj`), Π, variants, etc. — identity comes from shape and unification, not from a separate nominal type symbol for each user `type` declaration in the nominal sense.
 
-Elaboration types live in `EB`/`NF`; there is no parallel nominal class table in `src/elaboration/shared/context.ts` beyond `imports` / `ffi` names for value-level binding.
+Elaboration types live in `EB`/`NF`. `src/elaboration/shared/context.ts` tracks `imports` / `ffi` for value-level names, not a parallel nominal type registry — compound identity is row/Π/variant shape plus unification.
 
-Contrast zettel only: nominal typing discipline is **not** what the core elaborator implements.
+Contrast zettel: documents nominal typing literature against Yap’s structural core.
+
+Related: [[nominal-identity]], [[opaque-types]], [[data-declarations]].

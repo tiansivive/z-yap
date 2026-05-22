@@ -7,6 +7,7 @@ tags:
 - lowering
 - reference
 - pattern
+- mir
 ---
 
 # STG analogy

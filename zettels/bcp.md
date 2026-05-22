@@ -5,6 +5,9 @@ tags:
   - mechanism
   - implemented
   - milestone
+  - solver
+  - runtime
+  - concept
 ---
 # Boolean Constraint Propagation
 

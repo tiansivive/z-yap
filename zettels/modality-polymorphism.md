@@ -17,8 +17,6 @@ tags:
 ---
 # Modality polymorphism
 
-There is no concrete syntax or elaboration support for binding over multiplicity variables (no modality metavariables in `src/elaboration/syntax/term.ts` beyond fixed `Q.Multiplicity` on `Modal.Annotations`).
+Surface and core syntax today fix multiplicity on `Modal.Annotations` as concrete `Q.Multiplicity` values (`src/elaboration/syntax/term.ts`)—no modality metavariables or grade-polymorphic binders yet.
 
-Roadmap prose in `.github/copilot-instructions.md` lists “modality polymorphism” among R&D items; no separate `ROADMAP.md` exists in this repo snapshot.
-
-Technically it would intersect commented usage constraints (`src/elaboration/solver/solver.ts`), zonking (`Sub`), and the decision to strip inferred modal types (`stripModalities` in `src/elaboration/elaborate.ts`). Until those pieces carry graded information through solving, polymorphism over grades remains unspecified.
+An exploratory extension would intersect commented usage constraints (`src/elaboration/solver/solver.ts`), zonking (`Sub`), and the `stripModalities` rewrite in `src/elaboration/elaborate.ts`: polymorphism over grades needs graded information to survive inference and solving end-to-end.

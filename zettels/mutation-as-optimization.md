@@ -1,3 +1,15 @@
+---
+tags:
+- principle
+- mutation
+- performance
+- solver
+- verification
+- sat
+- mechanism
+- code
+- implementation
+---
 # Mutation as Optimization
 
 In the solver codebase, raw `let` bindings, `while` loops, and in-place updates are treated as **optimizations**, not as default patterns.

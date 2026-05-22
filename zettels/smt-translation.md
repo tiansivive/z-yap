@@ -3,7 +3,7 @@ tags:
   [
     verification,
     normalization,
-    implemented,
+    deprecated,
     backend,
     sat,
     arithmetic,
@@ -20,9 +20,11 @@ tags:
     performance,
   ]
 ---
-# SMT translation (current)
+# SMT translation (Z3, deprecated)
 
-Implementation: `createTranslationTools` in `src/verification/V2/logic/translate.ts`, wired from `VerificationServiceV2` in `src/verification/V2/service.ts`.
+**Status:** Deprecated in the `ivl` worktree (ivl-sat-solver branch). Superseded by IVL-based translation in `src/verification/V2/logic/translate.ts` which produces `IVL.Term`/`IVL.Formula` instead of Z3 `Expr`. Still active in the main worktree pending merge.
+
+**Original implementation:** `createTranslationTools` in `src/verification/V2/logic/translate.ts` (main worktree), wired from `VerificationServiceV2` in `src/verification/V2/service.ts`.
 
 Inputs: `NF.Value` plus `EB.Context` and rigid-variable map `Record<number, Expr>` for quantified refinements.
 
@@ -32,6 +34,6 @@ Observed mappings in `translate.ts`: numeric literals → `Z3.Real.val`; `Sorts.
 
 `quantify` builds `Z3.ForAll`; for modal/liquid annotations it wraps `Z3.Implies(phi, vc)`.
 
-Reset/Shift NF forms: sort mapping and translation throw unsupported errors.
+Reset/Shift NF forms: sort mapping and translation throw unsupported errors (handled in ivl worktree via stub).
 
-Planned replacement: emit backend-neutral VC per `docs/SMT-SOLVER.md` §IR changes / §Translation boundary.
+Z3 adapter (`z3.adapter.ts`) in the ivl worktree can still translate IVL formulas to Z3 for cross-checking.

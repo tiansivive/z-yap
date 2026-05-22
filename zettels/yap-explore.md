@@ -18,8 +18,8 @@ tags:
 
 **Entry:** `pnpm yap explore` (default `--port 3333`) · wired in `scripts/cli.ts` → `src/cli/explore/server.ts`.
 
-**Behavior:** Plain `http` server serves `src/cli/explore/static/` (`index.html`, `app.js`, `style.css`) and proxies `/syntax/*` into `tooling/syntax-highlighting/`. **`POST /run`** parses JSON `{ source, deBruijn, parserRule, rawJson, vcFormat }` and returns JSON snapshots.
+**Behavior:** Plain `http` server serves `src/cli/explore/static/` (`index.html`, `app.js`, `style.css`) and proxies `/syntax/*` into `tooling/syntax-highlighting/`. **`POST /run`** parses JSON `{ source, deBruijn, parserRule, rawJson, ivlSimplify }` and returns JSON snapshots.
 
 **Pipeline wired in `src/cli/explore/pipeline.ts`:** Nearley parse (`ParserRule` `Ann` | `Script`) → `EB.Mod.expression` → constraint/meta/zonker debug → `NF.quote` / `NF.evaluate` → `EB.Mod.verify` (Z3 VC pretty or sexpr) → `lowerToMir` → GRAM `translate` + `eta` / `saturate` / `closureConvert` → JS/C/Erlang codegen emits.
 
-Wishlists mentioned elsewhere are **not** tracked by this repo snapshot; functionality is whatever the static UI + `/run` payload implement today.
+Explorer capabilities are whatever the static UI and `/run` payload implement today (`src/cli/explore/pipeline.ts`, `server.ts`).

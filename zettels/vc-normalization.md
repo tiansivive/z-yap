@@ -4,6 +4,7 @@ tags:
     verification,
     normalization,
     planned,
+    deprecated,
     sat,
     backend,
     ir,
@@ -17,6 +18,8 @@ tags:
   ]
 ---
 # VC Normalization
+
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
 
 **Status:** Described under `docs/SMT-SOLVER.md` (“Pass 1. VC normalization”, “Solver pipeline”, and `normalize.ts` in the proposed `src/verification/solver/` layout). **Not implemented** as a module in this repo — no `src/verification/solver/normalize.ts`.
 

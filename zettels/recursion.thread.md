@@ -5,6 +5,9 @@ tags:
 - type-system
 - unification
 - elaboration
+- normalization
+- problem
+- planned
 ---
 # Recursion
 

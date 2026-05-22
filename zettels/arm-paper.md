@@ -8,6 +8,8 @@ tags:
   - effect
   - type-system
   - quantifiers
+  - dependent
+  - language
 ---
 # ARM: Answer Refinement Modification
 
@@ -21,6 +23,6 @@ Key contributions:
 - Reduction to Constrained Horn Clauses (CHC) solving for automated verification
 - Soundness proof for the refinement-level answer modification
 
-Relevance to Yap: Yap already implements ATM via `answer.initial` / `answer.final` in the elaboration delimitation stack. ARM extends this to the verification dimension — exactly the gap that [[shift-reset-verification]] needs to fill for symbolic/open shifts. The `∀bubble. P(bubble) → φ(bubble)` formula shape in Yap's proposed verification is the local analog of ARM's answer refinement tracking.
+Relevance to Yap: Yap already implements ATM via `answer.initial` / `answer.final` in the elaboration delimitation stack. ARM extends this to the verification dimension — a natural reference for [[shift-reset-verification]] when symbolic/open shifts need refinement-level answer tracking. The `∀bubble. P(bubble) → φ(bubble)` formula shape in Yap's proposed verification is the local analog of ARM's answer refinement tracking.
 
 DOI: [10.1145/3632855](https://doi.org/10.1145/3632855)

@@ -24,6 +24,6 @@ tags:
 
 **Use as classifier:** Pi formation checks domain and codomain against `NF.Type` (`src/elaboration/inference/pi.ts`). Many `check.ts` branches require `NF.Patterns.Type` for type-level tuples, variants, etc.
 
-**Universes:** there is no separate universe tower in these files—predicative hierarchy is not encoded in the shown `NF.Type`/`Pi` pipeline. Anything beyond that is design documentation, not verified from code here.
+**Universes:** the elaborator uses a single classifier constant `NF.Type` (`Lit(Atom("Type"))`); Pi formation and checking branches key off that constant in `src/elaboration/inference/pi.ts` and `src/elaboration/check.ts`. A predicative hierarchy or separate universe tower would be an extension beyond what those modules encode today.
 
-Related: [[types-as-terms.md]], [[dependent-types.md]], [[pi-types.md]], [[nf-value.md]].
+Related: [[types-as-terms.md]], [[dependent-types.md]], [[pi-types.md]], [[nf-value.md]], [[type-level-computation]], [[indexed-families]].

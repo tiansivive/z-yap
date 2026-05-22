@@ -28,6 +28,6 @@ Delimited control in Yap spans **core typing** (`reset` introduces answer metas;
 
 **Runtime / NbE:** `src/elaboration/normalization/evaluation.v2.ts` evaluates `Shift`/`Reset` with an explicit work stack (tests in `src/elaboration/normalization/__tests__/evaluation.v2.test.ts`).
 
-**Docs and tests:** `docs/MIR-LOWERING.md` §7–8; lowering tests in `src/lowering/__tests__/lower.test.ts`; elaboration shift/reset tests in `src/elaboration/__tests__/shift-reset.test.ts` and `src/elaboration/inference/__tests__/shift-reset.test.ts`.
+**Tests:** lowering tests in `src/lowering/__tests__/lower.test.ts`; elaboration shift/reset tests in `src/elaboration/__tests__/shift-reset.test.ts` and `src/elaboration/inference/__tests__/shift-reset.test.ts`.
 
 Detail zettels: `answer-type-polymorphism.md`, `continuation-binders.md`, `nondeterminism-multishot.md`, `shift-reset-mir-lowering.md`.

@@ -19,6 +19,6 @@ tags:
 
 Type system for **coeffects**: annotations describe how a computation depends on context (whole-context and per-variable shapes), with indexed comonad semantics; examples include liveness, dataflow parameters, platform capabilities.
 
-**Yap:** Implicits are first-class in elaboration (`icit` on binders in pretty-printing via `@yap/shared/implicitness`; contexts accumulate entries in `src/elaboration/module.ts`). That is **informally** context-indexed checking, not a proof that Yap implements Petricek–Orchard–Mycroft’s calculus. See local zettel `implicits-as-coeffects.md` for deliberate analogy; no separate coeffect-indexed judgment appears in `src/elaboration/checking.v2/` as a standalone formalism.
+**Yap:** Implicits are first-class in elaboration (`icit` on binders via `@yap/shared/implicitness`; `ctx.implicits` grows via module `using` and block evaluation). Resolution is first-match unification over that ordered list (`solver.ts` / `resolveImplicit`), not a separate coeffect-indexed typing judgment in `checking.v2/`. See [[implicits-as-coeffects.md]] for the deliberate analogy to graded contexts.
 
 **Status:** `speculative` (conceptual bridge, not a claimed mechanization of the paper).

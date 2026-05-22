@@ -15,7 +15,7 @@ tags:
 ---
 # Saturation (Lowering)
 
-**MIR lowering (authoritative for execution IR):** Foreigns and primops share one accumulator (`LowerResult` `tag: "foreign" | "primop"`, `args`, `arity`). `App` lowering uses `Cont:sat` (`src/lowering/functions/app.ts`) to append arguments until `arity` is met, then `materialize` emits `Call(direct)` or `Expr` `PrimOp`; unsaturated heads become closure wrappers (`src/lowering/functions/materialize.ts`, `docs/MIR-LOWERING.md`).
+**MIR lowering (authoritative for execution IR):** Foreigns and primops share one accumulator (`LowerResult` `tag: "foreign" | "primop"`, `args`, `arity`). `App` lowering uses `Cont:sat` (`src/lowering/functions/app.ts`) to append arguments until `arity` is met, then `materialize` emits `Call(direct)` or `Expr` `PrimOp`; unsaturated heads become closure wrappers (`src/lowering/functions/materialize.ts`).
 
 Arity for primops is the `ARITIES` table in `src/lowering/shared/primops.ts` (`$add`, ..., `$not`). User `foreign` arity comes from elaboration (`src/elaboration/module.ts`) into `Declaration` consumed by `src/lowering/leaf.ts`.
 

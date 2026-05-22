@@ -6,12 +6,13 @@ tags:
 - sat
 - ir
 - project
+- ivl
+- quantifiers
 ---
 # Verification Backend
 
 From the current Z3-coupled verification through the planned VC IR boundary to an
-in-house CDCL(T) solver with pluggable theory support. The largest planned thread
-in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
+in-house CDCL(T) solver with pluggable theory support.
 
 ## Sequence
 
@@ -83,7 +84,7 @@ in Yap, spanning 5 milestones from docs/SMT-SOLVER.md.
     Correctness fix in synth.ts: Pi return closure used term body instead of
     synthesized body type.
 
-21. **Shift/reset verification stub** [[shift-reset-verification-stub]] — planned
+21. **Shift/reset verification stub** [[shift-reset-verification-stub]] — implemented
     Dummy pass-through: Reset transparent (verify inner term), Shift opaque
     (always true). Unblocks verification for programs with shift/reset.
     Superseded by [[shift-reset-verification]] once Bubble semantics lands.

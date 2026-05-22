@@ -17,10 +17,10 @@ tags:
 ---
 # Milestone 2: EUF + guarded quantifiers + linear arithmetic
 
-Roadmap slice from `docs/SMT-SOLVER.md` §Algorithms by milestone → Milestone 2.
+**Goal:** minimum CDCL(T) stack for liquid-style obligations once IVL literals exist.
 
-Deliverables named there: shared term arena, congruence closure, trigger engine, simplex + branch-and-bound, boolean/CDCL core—minimum solver stack for most liquid-style obligations.
+**Deliverables:** EUF congruence closure (`theories/euf/`), quantifier triggers and ematching (`quantifiers/`), linear real arithmetic (`theories/arithmetic/`), boolean CDCL core (`cdcl/`), orchestrated from `src/verification/solver/solver.ts`.
 
-Depends on Milestone 1 VC IR feeding literals/clauses (same doc §Recommendation ordering: VC IR boundary then EUF/CDCL scaffolding then linear arithmetic).
+Depends on Milestone 1 IVL feeding literals/clauses (normalize → Skolem → CNF → CDCL(T)).
 
-Not in this milestone per that section: obligation-linked UNSAT cores and counterexample UX (Milestone 5).
+Out of scope here: obligation-linked UNSAT cores and counterexample UX (Milestone 5).

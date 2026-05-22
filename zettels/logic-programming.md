@@ -16,6 +16,6 @@ tags:
 ---
 # Logic Programming
 
-**Codebase:** No references to logic programming, miniKanren, Prolog, narrowing, or relational search in Yap sources (repo search). Elaboration uses **deterministic unification** and constraint solving (`src/elaboration/unification/`, `src/elaboration/solver/`), not backtracking goal search.
+**Codebase:** Elaboration uses **deterministic unification** and constraint solving (`src/elaboration/unification/`, `src/elaboration/solver/`), not backtracking goal search. Logic-programming idioms (miniKanren, Prolog, narrowing, relational search) do not appear in Yap sources today.
 
-**Status:** Speculative note only — possible future ideas (relational metaprogramming, search for inhabitants) are **not** on the implemented path; any overlap with refinements (`src/verification/`) or GRAM would need a concrete design before this entry moves out of **speculative**.
+**Status:** Speculative — relational metaprogramming or inhabitant search would need a concrete design and explicit integration with refinements (`src/verification/`) or GRAM before leaving **speculative**.

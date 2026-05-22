@@ -17,8 +17,6 @@ tags:
 ---
 # Typing rules (documentation)
 
-There is **no** separate judgement calculus file in this repository (no `spec.md` under versioned paths checked). The maintained operational description is `src/elaboration/ARCHITECTURE.md`: dispatch tables for `infer` (`elaborate.ts` handlers) and `check` (`check.ts` patterns), meta lifecycle, unification overview, implicit pipeline, module statement order.
+Operational typing rules are encoded in implementation and tests rather than a standalone judgement-calculus file. **Inference** dispatches on `Src.Term` in `src/elaboration/elaborate.ts` into handlers under `src/elaboration/inference/`; **checking** matches on `NF.Value` / `EB.Term` shape in `src/elaboration/check.ts`. Meta lifecycle, unification, implicits, and module statement order follow the same code paths.
 
-Implementation follows those tables directly; tests under `src/elaboration/**/__tests__` and snapshots encode expected elaboration shapes.
-
-`ARCHITECTURE.md` also lists `inference.v2/` and `checking.v2/` in a module map — those directories are **not** present in the current tree (migration placeholder vs. reality drift).
+Tests under `src/elaboration/**/__tests__` and snapshots encode expected elaboration shapes — treat them as the contract alongside the modules above.

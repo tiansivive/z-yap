@@ -6,6 +6,8 @@ tags:
 - lowering
 - elaboration
 - type-system
+- mir
+- verification
 ---
 # Delimited Continuations
 

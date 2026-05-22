@@ -18,7 +18,7 @@ tags:
 
 # Closure conversion
 
-**MIR (`src/lowering/`):** `Functions.Lambda.lower` lifts each `EB.Term` lambda to a fresh MIR function whose parameters are `[env, formal]`; free variables are gathered by `shared/freevars.ts`, read out of an env record via `Instr.Read`, and packaged by `Closure.convert` / `bundle` in `functions/closures.ts` as `{ __fn: FuncRef, __env: record }` allocations (`docs/MIR-LOWERING.md` §3.6–3.7, §5).
+**MIR (`src/lowering/`):** `Functions.Lambda.lower` lifts each `EB.Term` lambda to a fresh MIR function whose parameters are `[env, formal]`; free variables are gathered by `shared/freevars.ts`, read out of an env record via `Instr.Read`, and packaged by `Closure.convert` / `bundle` in `functions/closures.ts` as `{ __fn: FuncRef, __env: record }` allocations.
 
 **GRAM (`src/GRAM/passes/closure.ts`):** closure enrichment is split: variable-length capture wiring uses imperative graph traversal (`capture`), because aggregate matching is outside single GRS rules; `closeRule` in the same file adds `:CLOSURE` nodes linked via `:BODY` / `:ENV`. Documented limitation and LoGRAM pointer: `src/GRAM/grs/README.md`.
 

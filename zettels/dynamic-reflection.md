@@ -20,6 +20,6 @@ tags:
 ---
 # Dynamic / Reflection
 
-Design space only: **runtime witnesses** or gradual boundaries that reconcile dynamic data with definitional equality and FFI. Nothing in `src/elaboration/`, `src/lowering/`, or `src/verification/` currently implements a reflection or dynamic-typing core (no dedicated AST forms or passes surfaced under obvious names).
+Exploratory design space: **runtime witnesses** or gradual boundaries that reconcile dynamic data with definitional equality and FFI.
 
-Adjacent implemented machinery: refinement / VC pipeline (`src/verification/`, `brainstorming/yap/` specs). Anything here would need representation choices (erased vs relevant evidence), elaboration rules, and backend lowering—none of that is wired end-to-end today.
+Yap today centers on static elaboration (`src/elaboration/`), MIR lowering (`src/lowering/`), and refinement verification (`src/verification/`). A reflection or dynamic-typing core would need representation choices (erased vs relevant evidence), elaboration rules, and backend lowering wired through those pipelines—an open intersection with the existing VC/refinement machinery rather than a separate stack.

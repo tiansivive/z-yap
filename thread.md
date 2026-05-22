@@ -158,3 +158,33 @@ quantification. Branch: `ivl-sat-solver`.
 
 [[verification-backend.thread]] -- shared_with -> [[delimited-continuations.thread]] — shift-reset-verification, shift-reset-verification-stub
 [[delimited-continuations.thread]] -- shared_with -> [[verification-backend.thread]] — shift-reset-verification
+
+---
+
+## session:shift-reset-stub-impl — 2026-05-21 [continuation, verification, ivl]
+
+Implementation of the shift/reset verification stub and z-yap alignment audit.
+Branch: `ivl-sat-solver`.
+
+### Implementation
+
+[[shift-reset-verification-stub]] implemented:
+- `synth.ts`: Reset transparent (recurse inner), Shift opaque (NF.Any + true)
+- `subtype.ts`: Any <: T and T <: Any cases at top of match (before Lit <: Lit)
+- `translate.ts`: Meta variables → uninterpreted constants instead of throwing
+
+Discovery: skolem metas leak into formula translation when refinement predicates
+are applied to expressions containing shift results (e.g. `1 + shift(resume 10)`).
+
+### Status changes
+
+[[shift-reset-verification-stub]] planned → implemented
+[[verification-backend]] planned → in-progress
+[[z3-replacement-decision]] planned → in-progress
+[[translation-boundary-vc]] planned → incomplete
+[[vc-ir]] planned → implemented
+[[smt-translation]] implemented → deprecated
+
+### Thread updates
+
+[[verification-backend.thread]] item 21 → implemented

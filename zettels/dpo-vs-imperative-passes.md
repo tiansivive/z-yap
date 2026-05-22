@@ -6,6 +6,8 @@ tags:
 - compiler
 - pattern
 - mechanism
+- ir
+- concept
 ---
 
 # DPO vs imperative passes

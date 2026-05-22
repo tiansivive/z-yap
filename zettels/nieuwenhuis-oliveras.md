@@ -19,6 +19,6 @@ tags:
 
 Rule-based Abstract DPLL with clause learning/backjumping; extension to DPLL(X)/DPLL(T) parametrizes propositional engine **X** with theory solver **T**, modeling propagation, conflicts, and lazy theory integration.
 
-**Yap:** Same boundary as Nelson–Oppen: Yap’s verification stack (`VerificationServiceV2` wiring in `docs/SMT-SOLVER.md`) produces obligations translated to Z3 `Expr`; CDCL(T) orchestration lives inside Z3. Useful when reading solver logs, explaining propagation vs. theory conflicts, or comparing `docs/SMT-SOLVER.md`’s planned VC-IR backend to today’s direct `translate.ts` construction.
+**Yap:** `VerificationServiceV2` produces obligations as **IVL** formulas; `src/verification/solver/` implements Abstract DPLL → CDCL(T) directly: `cdcl/core.ts` (clause learning, backjumping), `theories/theory.ts` (plugin interface), EUF and arithmetic plugins, and `quantifiers/` for lazy theory lemmas. Useful when reading [[solver-trace]] output, explaining Boolean propagation vs. theory conflicts, or comparing this architecture to industrial Z3/cvc5 (see [[de-moura-bjorner-z3]], [[barbosa-cvc5]]).
 
-**Status:** `implemented` (solver-side behavior backing Yap’s queries).
+**Status:** `implemented` — CDCL(T) orchestration is in-tree; see [[cdcl-t-solver]] and [[m2-implementation]].

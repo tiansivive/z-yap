@@ -20,8 +20,6 @@ tags:
   - generator
   - bugfix
 refs:
-  plans:
-    - .cursor/plans/SMT Solver M1 IR-50b94189.plan.md
   transcript: 50b94189-e668-4c26-b421-b368ee851bb8
   branch: ivl-sat-solver
 ---

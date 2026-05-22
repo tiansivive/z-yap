@@ -19,6 +19,6 @@ tags:
 ---
 # WHNF codification
 
-There is no `mode: "whnf" | "nf"` parameter on `NF.evaluate` or exported toggle in `evaluation.v2.ts`. Strength of normalization is implicit in `evaluateTerm` / `reduceAndPushStack` / `reduce` (e.g. `Abs` with `Mu` binder does not beta-reduce—result stays `Neutral(App …)` with comment “defer to unification”).
+`NF.evaluate` has a single entry point — strength of normalization is implicit in `evaluateTerm` / `reduceAndPushStack` / `reduce`. WHNF in Yap means: beta-reduce function redexes when the abstraction is not `Mu`; leave neutral metavar/foreign spines and deferred `Mu` heads as `Neutral` (e.g. `Abs` with `Mu` binder stays `Neutral(App …)` — “defer to unification” in `evaluation.v2.ts`).
 
-Codifying WHNF vs full NF at API boundaries would require design work plus tests; today only informal mentions appear (e.g. evaluation tests describe outcomes as WHNF).
+Evaluation tests (`src/elaboration/normalization/__tests__/evaluation.v2.test.ts`) document expected heads as WHNF in prose. A future explicit `mode: "whnf" | "nf"` toggle at API boundaries would make that contract machine-checkable; the planned tag reflects that codification work.

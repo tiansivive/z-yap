@@ -25,6 +25,6 @@ Behavior lives in TypeScript only: `src/elaboration/normalization/generalization
 
 Undocumented details worth a written spec: meta `lvl` vs `ctx.env.length` split, collecting metas from term + type for implicits, skolem filtering, interaction with nondeterminism `replay` in `letdec`, order of zonker composition (`Sub.compose`).
 
-No single `docs/` chapter was found that states these rules — treat repository tests + the above modules as the current contract.
+A written calculus chapter for these rules remains to be drafted; until then, treat repository tests plus the modules above as the contract.
 
 Hub: [[generalization.md]], [[meta-variables.md]].

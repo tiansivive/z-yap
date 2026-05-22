@@ -22,4 +22,4 @@ tags:
 
 Architectural survey of the CVC4 successor: cooperating theory engines, APIs (C++/Python/Java), features beyond core SMT-LIB (including higher-order and SyGuS-oriented tooling), and SMT-LIB benchmarking versus CVC4 and Z3.
 
-Today’s pipeline solves verification conditions through `z3-solver` (`scripts/cli.ts`, `src/elaboration/module.ts`, `src/verification/V2/logic/translate.ts`). `docs/SMT-SOLVER.md` treats Z3/cvc5-class backends as comparable targets once VC generation moves to a solver-neutral IR; this paper is the canonical cvc5 reference for that eventual port.
+Today's pipeline solves verification conditions through `z3-solver` on main (`scripts/cli.ts`, `src/elaboration/module.ts`, `src/verification/V2/logic/translate.ts`); IVL + adapters (`src/verification/solver/z3.adapter.ts`) aim at solver-neutral VC generation. Z3 and cvc5-class engines remain comparable port targets; this paper is the canonical cvc5 reference.

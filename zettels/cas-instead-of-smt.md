@@ -4,8 +4,8 @@ tags:
 ---
 # CAS instead of SMT
 
-`docs/TODO.md` (modalities / refinements bullet) shows “Implementing CAS instead of SMT?” as struck-through — it was considered, not adopted.
+Computer-algebra discharge (CAS instead of SMT) was considered early on and rejected in favor of SMT.
 
-Today the pipeline is SMT-first: `VerificationServiceV2` + `src/verification/V2/logic/translate.ts` + `z3-solver` (`src/verification/V2/service.ts`, `src/verification/V2/types.ts`). `docs/SMT-SOLVER.md` defines a VC IR + in-house CDCL(T) direction, not computer-algebra discharge.
+The pipeline is SMT-first: `VerificationServiceV2` + `src/verification/V2/logic/translate.ts` + `z3-solver` on main (`src/verification/V2/service.ts`, `src/verification/V2/types.ts`); the ivl branch adds IVL + in-house CDCL(T) (`src/verification/solver/`).
 
-Using a CAS alongside SMT would need a defined split of obligations, sound interfaces to dependent refinements, and fallbacks when no closed form exists — none of that exists as implemented code paths in `src/verification/`.
+A CAS sidecar would need a defined obligation split, sound interfaces to dependent refinements, and fallbacks when no closed form exists — out of scope for current `src/verification/` paths.

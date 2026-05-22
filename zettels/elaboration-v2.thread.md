@@ -6,12 +6,14 @@ tags:
 - inference
 - checking
 - migration
+- context
+- constraint
 ---
 # Elaboration V2
 
 The V2 elaboration pipeline: monad (reader + collector + MutState), bidirectional
-dispatch, context, and the gap between documentation and reality. V1 is deprecated
-but kept for reference.
+dispatch, and context. Inference and checking live under `src/elaboration/inference/`
+and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 
 ## Sequence
 

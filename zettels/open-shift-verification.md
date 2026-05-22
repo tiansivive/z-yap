@@ -17,6 +17,6 @@ The concrete bubble expansion (`φ[bubble := v₁] ∧ … ∧ φ[bubble := vₙ
 
 This is Yap's analog of ARM (Answer Refinement Modification) — tracking how the handler modifies the answer type's refinement through the continuation. The refinement on the answer type flows backward from `answer.final` to `answer.initial`, constraining what the continuation may return.
 
-No implementation planned yet. The Bubble design in [[bubble-semantics]] supports both concrete and symbolic modes (via the `values` list: non-empty for concrete, empty for symbolic) to avoid a future redesign when this becomes needed.
+Symbolic shift verification remains open design work. The Bubble design in [[bubble-semantics]] supports both concrete and symbolic modes (via the `values` list: non-empty for concrete, empty for symbolic) so concrete expansion need not be redesigned when symbolic quantification is added.
 
-Cross-module effects would also need effect signature export/import — currently out of scope since Yap has no module system, but the verification strategy should not preclude it.
+Cross-module effects would need effect signature export/import. Yap's module system is rudimentary (file-level imports, exports, FFI — see [[module-system]]); cross-module shift verification can follow as modules and effect signatures mature.

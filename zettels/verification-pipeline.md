@@ -33,8 +33,10 @@ Elaboration hook: `src/elaboration/module.ts` `letdec` calls `Verification.check
 
 Tests snapshot VC S-exprs: `src/verification/__tests__/check.test.ts`.
 
-## Planned (roadmap)
+## In-house solver (partial / branch-dependent)
 
-`docs/SMT-SOLVER.md`: replace direct Z3 construction with VC IR, add `src/verification/solver/` stack (normalize → quantifiers → CNF → CDCL(T)).
+`src/verification/solver/` exists on the ivl worktree path: IVL (`solver/ivl/`), formula normalization and Skolemization, CNF (`cnf.ts`), CDCL core (`cdcl/`), EUF (`theories/euf/`), linear arithmetic (`theories/arithmetic/`), quantifier engine (`quantifiers/`). **main** still emits Z3 `Expr` from `translate.ts` by default; wiring IVL end-to-end is branch/worktree dependent (see [[vc-ir.md]], [[verification-backend.md]]).
+
+**Still open:** dedicated string and row theories, obligation-linked UNSAT cores / counterexample UX (Milestone 5), pluggable `VerificationBackend` abstraction.
 
 Related zettels: `milestone-1-ir-boundary.md`, `milestone-2-euf-quant-lia.md`, `milestone-3-strings.md`, `milestone-4-rows.md`, `milestone-5-explanations.md`, `translation-boundary-vc.md`, `solver-module-layout.md`, `smt-translation.md`, `euf-theory.md`, `arithmetic-theory.md`, `string-theory.md`, `row-theory.md`, `theory-plugin-interface.md`, `cdcl-t-solver.md`, `vc-ir.md`.

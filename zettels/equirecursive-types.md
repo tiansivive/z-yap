@@ -24,14 +24,14 @@ tags:
 **Verified behavior**
 
 - **Unification-driven unfolding:** `src/elaboration/unification/unification.ts` unfolds μ when comparing against non-μ values and uses `NF.unfoldMu` on rigid applications where applicable (`src/elaboration/normalization/recursion.ts`).
-- **Evaluation stance:** reduction defers μ-head apps per `normalization/ARCHITECTURE.md` (neutral wrapping); stack evaluator implements the Mu binder path in `evaluation.v2.ts`.
+- **Evaluation stance:** `evaluation.v2.ts` wraps μ-head apps as neutral without unfolding on that step; stack evaluator implements the Mu binder path in the same module.
 - **Fuel:** `NF.evaluate` takes `maxSteps` default `10000000`; exceeding it throws (`src/elaboration/normalization/evaluation.v2.ts`)—this caps pathological loops but is engineering policy, not a proof of decidability.
 
 **Verified gaps**
 
 - **Occurs-check solutions:** meta binding throws instead of constructing μ (`bind` in `unification.ts`).
-- No separate bisimulation / Amadio–Cardelli-style equivalence module appears in `src/elaboration/`—congruence is whatever `unify` + evaluation implement today.
+- Congruence today is whatever `unify` + `evaluation.v2.ts` implement; a dedicated bisimulation / Amadio–Cardelli-style equivalence layer could be explored on top of that core.
 
 Treat full equirecursive **theory** as open; treat **implementation** as the files above.
 
-Related: [[mu-types.md]], [[mu-type-unification.md]], [[whnf-vs-full-normalization.md]], [[missing-spec-recursive-types.md]].
+Related: [[mu-types.md]], [[mu-type-unification.md]], [[whnf-vs-full-normalization.md]], [[missing-spec-recursive-types.md]], [[bisimulation-type-equality]], [[nu-types]], [[inductive-types]], [[coinductivity]].
