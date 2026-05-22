@@ -71,20 +71,58 @@ z-yap uses a thread/queue system for tracking work:
 ## Zettel conventions
 
 - One atomic idea per zettel
-- Tags in YAML frontmatter (see `VOCABULARY.md` for allowed tags)
+- Tags in YAML frontmatter (see `VOCABULARY.md` for the registry)
 - If you draft a tag not in `VOCABULARY.md`, register it — don't swap it for a "close enough" existing tag, that's a nuance loss
 - Connections live in `connections.md`, not in zettel bodies
+- `[[backlinks]]` in bodies are fine for Obsidian navigation
 - Format: `[[source]] --[:LABEL]--> [[target]]  -- optional note  @date`
+
+## Content quality
+
+### Bodies
+- **Self-contained** — a zettel body must be meaningful on its own, without knowing why it was created or what surrounds it
+- **No absence language** — don't write "not implemented", "no X exists", "there is no Y". State what Yap *does*, or frame speculative ideas as exploration ("one approach would be…")
+- **No internal doc links** — don't reference `docs/`, `brainstorming/`, `ARCHITECTURE.md`, `.cursor/plans/`, `.github/`. Those files are ephemeral. External URLs and `src/` code paths are fine
+- **No prescriptive tone** — "one approach would be X" not "Yap should add X"
+- **No narrating old docs** — "the design docs say X" → just state X as knowledge
+- **Classification lives in graph structure** — tags give facets, edges give position. Don't embed "this is a project management tool" in prose; express it as tag combinations + relationships
+
+### Tags
+- **Minimum 8 tags per zettel** — more is better; tags are atomic facets, not categories
+- **Epistemic status tags** — apply to design/implementation zettels (not pure reference/paper zettels). Use one of: `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`. These are orthogonal to readiness tags (`ready`, `blocked`, `needs-design`)
+- **Hub zettels** — overview zettels that aggregate a domain. Tag with `hub` and list children in the body with `Hub: [[child-1]], [[child-2]], …`
+- **Thread zettels** — parallel work concerns. Tag with `thread` and a lifecycle tag (`active`, `dormant`, `on-hold`, `spike`, `archived`). List members with `Thread: [[item-1]], …`
+
+### Deprecated content
+When a design decision is superseded, don't delete the old zettel — mark it:
+1. Add `deprecated` tag to frontmatter
+2. Add a banner at the top of the body: `**Superseded by [new approach] — see [[decision-zettel]].** Original content preserved below for reference.`
+3. Create a `SUPERSEDES` edge from the new zettel to the deprecated one
+
+### Architecture Decision Records (ADRs)
+Significant design shifts (e.g., replacing Z3 with IVL) get a dedicated ADR zettel:
+- Tag with `decision` + relevant domain tags
+- Body covers: the decision, scope, rationale, what was implemented, what remains
+- Self-contained — no references to external planning docs
+- Connected via `SUPERSEDES`/`MOTIVATES`/`IMPLEMENTS` edges to affected zettels
+- Log the decision in `thread.md` paper trail
 
 ## Scripts
 
-| Script | Language | Purpose |
-|--------|----------|---------|
-| `status.js` | Node.js | Combined thread + queue overview |
-| `threads.js` | Node.js | Detailed per-thread status with members |
-| `queue.js` | Node.js | Pending queue items |
-| `catalog.py` | Python | Full zettel catalog with connections |
-| `neighborhood.py` | Python | Single zettel's connection neighborhood |
+All scripts live in `scripts/`. Run from anywhere — paths are resolved relative to the script.
+
+| Script | Usage | Purpose |
+|--------|-------|---------|
+| `status.js` | `node scripts/status.js` | Cold-start: thread + queue overview |
+| `threads.js` | `node scripts/threads.js [--thread slug]` | Per-thread member listing |
+| `queue.js` | `node scripts/queue.js` | Pending queue items |
+| `catalog.js` | `node scripts/catalog.js [--tag\|--status\|--search val]` | Zettel inventory with filtering |
+| `neighborhood.js` | `node scripts/neighborhood.js <slug>` | All connections to/from a zettel (fuzzy match) |
+| `glossary.js` | `node scripts/glossary.js [search]` | Browse glossary terms |
+| `catalog.py` | `python3 scripts/catalog.py [--compact]` | Full catalog with connections (Python) |
+| `neighborhood.py` | `python3 scripts/neighborhood.py <slug>` | Neighborhood view (Python) |
+
+Shared utilities: `scripts/lib/parse.js` (parsing), `scripts/lib/colors.js` (ANSI).
 
 Markdown versions are auto-generated to `dist/` on push (GitHub Actions):
 `STATUS.md`, `THREADS.md`, `QUEUE.md`, `CATALOG.md`.
