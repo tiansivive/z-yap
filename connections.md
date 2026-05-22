@@ -1873,3 +1873,49 @@
 [[v1-test-cleanup]] --[:USES]--> [[test-utility]]  -- Ported tests use elaborateFrom
 [[v1-test-cleanup]] --[:FIXES]--> [[snapshot-testing]]  -- Removed stale vitest exclusions
 [[v1-test-cleanup]] --[:DETAILS]--> [[testing.thread]]  -- Thread item
+
+## Explorer evolution thread
+
+[[explorer-evolution.thread]] --[:EXTENDS]--> [[pipeline-explorer]]  -- Evolution roadmap for the explorer
+[[explorer-evolution.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Graph viz depends on GRAM substrate
+[[pipeline-explorer]] --[:INCLUDES]--> [[explorer-evolution.thread]]  -- Roadmap thread
+
+[[explorer-provenance-trace]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-provenance-trace]] --[:USES]--> [[provenance-system]]  -- Renders provenance stack as tree
+[[explorer-provenance-trace]] --[:USES]--> [[provenance-display]]  -- Replaces flat text with tree UI
+[[explorer-provenance-trace]] --[:ADDRESSES]--> [[error-causes]]  -- Traces errors to their elaboration origin
+[[explorer-provenance-trace]] --[:ENABLES]--> [[vc-provenance]]  -- Visual provenance enables richer VC debugging
+[[explorer-provenance-trace]] --[:PRECEDES]--> [[explorer-cross-highlighting]]  -- Provenance tree before cross-referencing
+
+[[explorer-cross-highlighting]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-cross-highlighting]] --[:USES]--> [[meta-variables]]  -- Meta IDs as cross-tab join keys
+[[explorer-cross-highlighting]] --[:USES]--> [[de-bruijn]]  -- Variable indices/levels as join keys
+[[explorer-cross-highlighting]] --[:COMPOSES_WITH]--> [[explorer-provenance-trace]]  -- Click provenance node → highlight in tabs
+[[explorer-cross-highlighting]] --[:COMPOSES_WITH]--> [[explorer-graph-viz]]  -- Selection synced with graph view
+[[explorer-cross-highlighting]] --[:FOLLOWS]--> [[explorer-provenance-trace]]  -- Sequence order
+
+[[explorer-diff-mode]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-diff-mode]] --[:COMPOSES_WITH]--> [[snapshot-testing]]  -- Diff mode complements snapshot-based testing
+[[explorer-diff-mode]] --[:ENABLES]--> [[gram]]  -- Visualize what a GRAM pass changed
+[[explorer-diff-mode]] --[:ENABLES]--> [[dpo-rewriting]]  -- Visualize DPO rule application effects
+[[explorer-diff-mode]] --[:FOLLOWS]--> [[explorer-cross-highlighting]]  -- Sequence order
+
+[[explorer-snippet-library]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-snippet-library]] --[:COMPOSES_WITH]--> [[integration-testing]]  -- Snippets double as smoke tests
+[[explorer-snippet-library]] --[:COMPOSES_WITH]--> [[repl]]  -- Similar curated-input concept
+[[explorer-snippet-library]] --[:FOLLOWS]--> [[explorer-diff-mode]]  -- Sequence order
+
+[[explorer-timing]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-timing]] --[:ADDRESSES]--> [[performance]]  -- Identifies pipeline bottlenecks
+[[explorer-timing]] --[:REPORTS]--> [[gram]]  -- Per-pass timing within GRAM
+[[explorer-timing]] --[:REPORTS]--> [[solver-dispatch]]  -- Solver timing breakdown
+[[explorer-timing]] --[:FOLLOWS]--> [[explorer-snippet-library]]  -- Sequence order
+
+[[explorer-graph-viz]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
+[[explorer-graph-viz]] --[:USES]--> [[gram]]  -- Renders GRAM property graph
+[[explorer-graph-viz]] --[:USES]--> [[mir-lowering]]  -- Renders MIR CFG
+[[explorer-graph-viz]] --[:USES]--> [[dpo-rewriting]]  -- Animates DPO rule application
+[[explorer-graph-viz]] --[:COMPOSES_WITH]--> [[explorer-cross-highlighting]]  -- Graph selection synced with tabs
+[[explorer-graph-viz]] --[:ADDRESSES]--> [[gram-additive-enrichment]]  -- Visualizes enrichment layers
+[[explorer-graph-viz]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Graph viz depends on GRAM substrate
+[[explorer-graph-viz]] --[:FOLLOWS]--> [[explorer-timing]]  -- Sequence order

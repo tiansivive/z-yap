@@ -35,7 +35,7 @@ tags:
 
 **Trace tab**: Displays the solver execution trace produced by `Solver.createTraced()` + `Trace.replay`. Shows step-by-step CDCL(T) execution: clause state, propagations, decisions, theory sub-steps (EUF merges, arithmetic bounds), quantifier rounds.
 
-**Config sidebar**: Parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle.
+**Config sidebar**: Snippet library (19 built-in examples across 5 groups), parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle.
 
 **Pipeline deps**: Nearley grammar, **`EB`** inference/display, **`NF`**, MIR lower/pretty, GRAM passes imported as **`@yap/gram`** (`tsconfig.json` path → `src/GRAM/index`), **`VerificationServiceV2`**, **`Build`** (IVL constructors), **`Solver`** (CDCL(T)), **`Trace`** (replay renderer), **`IVLPrint`** (s-expression printer).
 

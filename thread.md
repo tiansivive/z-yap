@@ -276,3 +276,50 @@ Branch: `i-dont-do-it-for-the-gram`.
 ### Thread updates
 
 [[verification-backend.thread]] item 22 added: selfification + first-order restriction
+
+---
+
+## session:explorer-evolution-thread — 2026-05-23 [explorer, tooling, display]
+
+Created the explorer evolution thread and 6 planned/speculative feature zettels.
+
+### New zettels
+
+[[explorer-evolution.thread]] — thread hub for explorer roadmap
+[[explorer-provenance-trace]] — provenance stack as navigable tree
+[[explorer-cross-highlighting]] — click-to-highlight across tabs via meta/var IDs
+[[explorer-diff-mode]] — stage diff and input diff side-by-side
+[[explorer-snippet-library]] — curated/saved inputs, shareable URLs
+[[explorer-timing]] — per-stage wall-clock measurement and waterfall
+[[explorer-graph-viz]] — d3-based GRAM/MIR graph rendering (speculative)
+
+### Thread updates
+
+[[explorer-evolution.thread]] created with 7 items (1 implemented, 5 planned, 1 speculative)
+README.md thread table updated
+
+---
+
+## session:snippet-library-impl — 2026-05-23 [explorer, tooling]
+
+Implemented the explorer snippet library.
+
+### Implementation
+
+[[explorer-snippet-library]] implemented:
+- 19 built-in snippets across 5 groups (Basics, Functions, Row types, Pattern matching, Blocks)
+- `<select>` dropdown in Config sidebar, built dynamically from `SNIPPETS` array
+- Selecting a snippet replaces editor content via CodeMirror dispatch
+- Entirely client-side, no server changes
+
+Files: `src/cli/explore/static/app.js`, `src/cli/explore/static/index.html`
+
+### Status changes
+
+[[explorer-snippet-library]] planned → implemented
+
+### Zettel updates
+
+[[explorer-snippet-library]] — body updated to reflect implementation
+[[explorer-evolution.thread]] — item 5 marked implemented
+[[pipeline-explorer]] — config sidebar description updated

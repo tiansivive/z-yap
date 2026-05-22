@@ -58,6 +58,7 @@ See `thread.md` for the session-by-session paper trail.
 | `gram-evolution.thread` | Graph IR, MIR bridge, future passes |
 | `elaboration-v2.thread` | Monad, pipeline, doc alignment |
 | `parser-migration.thread` | Tree-sitter, grammar alignment |
+| `explorer-evolution.thread` | Provenance viz, cross-highlighting, diff, snippets, timing, graph |
 
 Unassigned items live in `global-pending-queue`.
 

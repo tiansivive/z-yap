@@ -110,6 +110,10 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | `question` | An open question awaiting investigation |
 | `snapshot-testing` | Snapshot-based test approach (toMatchSnapshot, inline snapshots) |
 | `cleanup` | Removal of dead code, stale tests, outdated patterns |
+| `visualization` | Visual rendering of data structures, graphs, trees, timelines |
+| `interactivity` | User interaction: click, hover, select, navigate |
+| `comparison` | Side-by-side comparison, diffing, before/after analysis |
+| `debugging` | Debugging tools, diagnostic aids, root-cause analysis |
 
 ### Work Layer Tags
 
