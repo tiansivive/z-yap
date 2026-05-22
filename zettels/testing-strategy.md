@@ -25,7 +25,7 @@ refs:
 
 # Testing strategy
 
-Hub: [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]]
+Hub: [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[test-coverage-gaps]], [[v1-test-cleanup]]
 
 Yap's test suite spans every pipeline stage: parsing, elaboration, normalization, unification, lowering, GRAM rewriting, verification, and codegen. Vitest runs 67+ test files with parallel workers, coverage via `@vitest/coverage-v8`, and Codecov integration.
 

@@ -188,3 +188,44 @@ are applied to expressions containing shift results (e.g. `1 + shift(resume 10)`
 ### Thread updates
 
 [[verification-backend.thread]] item 21 → implemented
+
+---
+
+## session:test-cleanup-nf-clarification — 2026-05-22 [testing, normalization, continuation, tooling]
+
+Test infrastructure cleanup, NF.Value semantic clarification, and z-yap sync.
+Branch: `i-dont-do-it-for-the-gram`.
+
+### Codebase changes
+
+**NF.Value / Reset/Shift clarification:**
+- Confirmed Reset/Shift are EB.Term constructs only, not NF.Value constructors
+- Removed unreachable match arms from `quoting.ts`, `pretty.ts`, `verification/V2/logic/translate.ts`
+
+**Test cleanup:**
+- Deleted legacy `elaboration.test.ts` (824 lines, v1 API) and `solver.test.ts` (88 lines, v1 API)
+- Ported 8 pattern matching tests to `inference/__tests__/match.test.ts`
+- Cleaned vitest.config.mts exclusion entries
+
+**Config/tooling:**
+- `tsc.tsconfig.json`: added `@yap/gram` path aliases, excluded static assets
+- Convention added: never run bare `tsc --noEmit`, always use `pnpm typecheck`
+- Explorer pipeline derives GRAM before MIR
+
+### New zettels
+
+[[v1-test-cleanup]] — deletion of v1 test files, ported coverage, config changes
+[[test-coverage-gaps]] — inventory of 5 skipped test suites with blockers
+
+### Zettel updates
+
+[[nf-value]] — added "Not NF.Value" clarification for Reset/Shift (timeless domain boundary)
+[[shift-reset]] — updated NbE domain note, simplified test file listing
+[[snapshot-testing]] — removed stale `drift` tag (chronological paragraph removed)
+[[testing-strategy]] — added v1-test-cleanup and test-coverage-gaps to hub
+[[pipeline-explorer]] — integrated GRAM pipeline info into body
+[[testing.thread]] — added v1-test-cleanup and test-coverage-gaps as thread items
+
+### Thread updates
+
+[[testing.thread]] items added: v1-test-cleanup, test-coverage-gaps

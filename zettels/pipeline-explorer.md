@@ -38,3 +38,5 @@ tags:
 **Config sidebar**: Parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle.
 
 **Pipeline deps**: Nearley grammar, **`EB`** inference/display, **`NF`**, MIR lower/pretty, GRAM passes imported as **`@yap/gram`** (`tsconfig.json` path → `src/GRAM/index`), **`VerificationServiceV2`**, **`Build`** (IVL constructors), **`Solver`** (CDCL(T)), **`Trace`** (replay renderer), **`IVLPrint`** (s-expression printer).
+
+**GRAM pipeline**: The explorer derives GRAM output before MIR. EB.Term → GRAM translation → GRAM passes (saturation, shift-reset, pattern) → display, alongside MIR lowering. The `gram` tab shows the enriched property graph.

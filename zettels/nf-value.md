@@ -27,6 +27,8 @@ Defined in `src/elaboration/normalization/syntax/term.ts` as **`Types.Brand<…>
 - `External` (`name`, `arity`, `compute`, partial `args`)
 - `Existential` — comment: **verification only**
 
+**Not NF.Value:** `Reset` and `Shift` are `EB.Term` constructs only. They do not appear in the normal-form domain — NbE evaluates them during reduction, but the result is always a standard `NF.Value` (closure, neutral, literal, etc.), never a "Reset value" or "Shift value".
+
 **`NF.Closure`:** `Closure` | `PrimOp` | `Continuation` (fields per type).
 
 **Helpers / views in same file:** `Constructors.Rigid`, `Flex`, `StuckMatch`, neutral `Struct`/`Schema`/`Variant`/`Array` as `Neutral(App(Lit Atom, Row))`, `Type` / `Any` sentinels, `Patterns.*` for `ts-pattern`.

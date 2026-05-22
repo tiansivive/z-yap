@@ -26,8 +26,8 @@ Delimited control in Yap spans **core typing** (`reset` introduces answer metas;
 
 **Multishot typing vs lowering:** Multishot is **not** implemented inside the unifier as alternate worlds. Elaboration **accumulates** `NF.Value[]` per resumption meta; `src/elaboration/inference/statements.ts` `letdec` calls `replay` (`src/elaboration/solver/nondeterminism.ts`), which `Record.sequence`s those arrays into a Cartesian product of zonker fragments and runs `EB.solve` / `NF.generalize` once per combination, then unifies instantiated types across the rest. Lowering multishot is separate: `src/lowering/continuations/shift.ts` ends the shared resume block with `Terminator.Branch` on the resume index when `nextKCallIdx > 0`; `src/lowering/continuations/kcall.ts` emits each `k(arg)` as `Jump` into that block with a distinct index.
 
-**Runtime / NbE:** `src/elaboration/normalization/evaluation.v2.ts` evaluates `Shift`/`Reset` with an explicit work stack (tests in `src/elaboration/normalization/__tests__/evaluation.v2.test.ts`).
+**Runtime / NbE:** `src/elaboration/normalization/evaluation.v2.ts` evaluates `Shift`/`Reset` with an explicit work stack (tests in `src/elaboration/normalization/__tests__/evaluation.v2.test.ts`). Reset/Shift are EB.Term constructs only — they do not exist as NF.Value constructors. NbE reduces them during evaluation; the result is always a standard NF.Value.
 
-**Tests:** lowering tests in `src/lowering/__tests__/lower.test.ts`; elaboration shift/reset tests in `src/elaboration/__tests__/shift-reset.test.ts` and `src/elaboration/inference/__tests__/shift-reset.test.ts`.
+**Tests:** lowering in `src/lowering/__tests__/lower.test.ts`; GRAM pass in `src/GRAM/__tests__/shift-reset.test.ts` (single/multishot/discarded/embedded/nested resumptions, provenance preservation); elaboration inference in `src/elaboration/inference/__tests__/shift-reset.test.ts`.
 
 Detail zettels: `answer-type-polymorphism.md`, `continuation-binders.md`, `nondeterminism-multishot.md`, `shift-reset-mir-lowering.md`.

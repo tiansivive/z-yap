@@ -14,7 +14,7 @@ tags:
 
 # Testing
 
-Thread: [[testing-strategy]], [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]]
+Thread: [[testing-strategy]], [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[v1-test-cleanup]], [[test-coverage-gaps]]
 
 Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+ files across every pipeline stage. CI enforces lint, formatting, dead-code detection, type checking, and test coverage on every PR.
 

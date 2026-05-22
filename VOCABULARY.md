@@ -99,6 +99,8 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `concern` | A potential issue or trade-off worth tracking |
 | `goal` | An aspirational design target |
 | `question` | An open question awaiting investigation |
+| `snapshot-testing` | Snapshot-based test approach (toMatchSnapshot, inline snapshots) |
+| `cleanup` | Removal of dead code, stale tests, outdated patterns |
 
 ### Work Layer Tags
 

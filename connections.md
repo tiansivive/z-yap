@@ -1824,3 +1824,27 @@
 [[ci-pipeline]] --[:SUPPORTS]--> [[testing-strategy]]
 
 [[snapshot-testing]] --[:DETAILS]--> [[testing-strategy]]
+
+## Test coverage gaps
+
+[[test-coverage-gaps]] --[:DETECTS]--> [[v2-elaboration-pipeline]]  -- Missing modal inference (22/23), missing checking.v2 match
+[[test-coverage-gaps]] --[:DETECTS]--> [[nearley-parser]]  -- Bool literal grammar gap
+[[test-coverage-gaps]] --[:DEFERS]--> [[shift-reset]]  -- Elaboration-level tests skipped; GRAM tests pass
+[[test-coverage-gaps]] --[:DEFERS]--> [[repl]]  -- Integration test skipped (infrastructure)
+[[test-coverage-gaps]] --[:BLOCKS]--> [[modalities]]  -- Modal test blocked until inference.v2 modal.ts exists
+[[test-coverage-gaps]] --[:BLOCKS]--> [[pi-types]]  -- Dependent arg test blocked by Bool parsing + checking.v2 match
+[[test-coverage-gaps]] --[:DETAILS]--> [[testing-strategy]]  -- Inventory of skipped suites
+[[test-coverage-gaps]] --[:DISCOVERED_BY]--> [[v1-test-cleanup]]  -- Audit that created the gaps inventory
+[[testing-strategy]] --[:INCLUDES]--> [[test-coverage-gaps]]  -- Gap tracking
+[[testing-strategy]] --[:INCLUDES]--> [[v1-test-cleanup]]  -- Cleanup event
+
+## V1 test cleanup
+
+[[v1-test-cleanup]] --[:REVISES]--> [[snapshot-testing]]  -- Old tests used v1 API; ported coverage to v2 suites
+[[v1-test-cleanup]] --[:DEPRECATES]--> [[v1-elaboration-pipeline]]  -- Last v1 API test consumers removed
+[[v1-test-cleanup]] --[:MOTIVATES]--> [[test-coverage-gaps]]  -- Audit revealed skipped suites
+[[v1-test-cleanup]] --[:ADDRESSES]--> [[testing-strategy]]  -- Closes v1/v2 test drift
+[[v1-test-cleanup]] --[:ENRICHES]--> [[match]]  -- 8 pattern matching tests ported
+[[v1-test-cleanup]] --[:USES]--> [[test-utility]]  -- Ported tests use elaborateFrom
+[[v1-test-cleanup]] --[:FIXES]--> [[snapshot-testing]]  -- Removed stale vitest exclusions
+[[v1-test-cleanup]] --[:DETAILS]--> [[testing.thread]]  -- Thread item
