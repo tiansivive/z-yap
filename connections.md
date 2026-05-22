@@ -1775,3 +1775,52 @@
 [[cdcl-t-solver]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- Custom CDCL(T) replaces Z3
 [[m1-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M1 delivered IVL boundary
 [[m2-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M2 delivered EUF + quantifiers + LIA
+
+## Testing domain
+
+[[testing-strategy]] --[:INCLUDES]--> [[snapshot-testing]]
+[[testing-strategy]] --[:INCLUDES]--> [[fuzz-testing]]
+[[testing-strategy]] --[:INCLUDES]--> [[property-based-testing]]
+[[testing-strategy]] --[:INCLUDES]--> [[ci-pipeline]]
+[[testing-strategy]] --[:INCLUDES]--> [[integration-testing]]
+[[testing-strategy]] --[:INCLUDES]--> [[negative-testing]]
+[[testing-strategy]] --[:INCLUDES]--> [[solver-testing]]
+
+[[testing.thread]] --[:INCLUDES]--> [[testing-strategy]]
+[[testing.thread]] --[:INCLUDES]--> [[fuzz-testing]]
+[[testing.thread]] --[:INCLUDES]--> [[property-based-testing]]
+[[testing.thread]] --[:INCLUDES]--> [[integration-testing]]
+[[testing.thread]] --[:INCLUDES]--> [[negative-testing]]
+
+[[fuzz-testing]] --[:TARGETS]--> [[nearley-parser]]
+[[fuzz-testing]] --[:TARGETS]--> [[tree-sitter-parser]]
+[[fuzz-testing]] --[:TARGETS]--> [[cdcl-t-solver]]
+[[fuzz-testing]] --[:TARGETS]--> [[nbe]]
+[[fuzz-testing]] --[:INFORMS]--> [[exhaustiveness-checking]]
+
+[[property-based-testing]] --[:TARGETS]--> [[unification]]
+[[property-based-testing]] --[:TARGETS]--> [[nbe]]
+[[property-based-testing]] --[:TARGETS]--> [[cdcl-t-solver]]
+[[property-based-testing]] --[:TARGETS]--> [[row-types]]
+[[property-based-testing]] --[:EXTENDS]--> [[snapshot-testing]]
+
+[[integration-testing]] --[:USES]--> [[yap]]  -- REPL pipeline end-to-end
+[[integration-testing]] --[:CONCERNS]--> [[ffi]]
+[[integration-testing]] --[:CONCERNS]--> [[js-codegen]]
+[[integration-testing]] --[:CONCERNS]--> [[c-codegen]]
+[[integration-testing]] --[:CONCERNS]--> [[erlang-codegen]]
+
+[[negative-testing]] --[:TARGETS]--> [[match]]
+[[negative-testing]] --[:TARGETS]--> [[refinement-types]]
+[[negative-testing]] --[:TARGETS]--> [[termination-checking]]
+[[negative-testing]] --[:INFORMS]--> [[exhaustiveness-checking]]
+
+[[solver-testing]] --[:DETAILS]--> [[cdcl-t-solver]]
+[[solver-testing]] --[:DETAILS]--> [[e-matching]]
+[[solver-testing]] --[:DETAILS]--> [[arithmetic-theory]]
+[[solver-testing]] --[:USES]--> [[vc-ir]]
+
+[[ci-pipeline]] --[:USES]--> [[snapshot-testing]]
+[[ci-pipeline]] --[:SUPPORTS]--> [[testing-strategy]]
+
+[[snapshot-testing]] --[:DETAILS]--> [[testing-strategy]]

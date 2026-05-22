@@ -72,6 +72,7 @@ z-yap uses a thread/queue system for tracking work:
 
 - One atomic idea per zettel
 - Tags in YAML frontmatter (see `VOCABULARY.md` for allowed tags)
+- If you draft a tag not in `VOCABULARY.md`, register it — don't swap it for a "close enough" existing tag, that's a nuance loss
 - Connections live in `connections.md`, not in zettel bodies
 - Format: `[[source]] --[:LABEL]--> [[target]]  -- optional note  @date`
 

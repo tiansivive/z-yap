@@ -2,6 +2,8 @@
 
 Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registered vocabulary.
 
+**Tags are atomic facets, not categories.** If you drafted a tag that isn't in this vocabulary, that's a signal the vocabulary should grow — register the new tag here rather than replacing it with a similar existing one. Swapping a specific tag for a broader one (e.g. `automation` → `tooling`) destroys query precision. Each tag captures a distinct facet; "close enough" is a nuance loss.
+
 ## Tags
 
 | Tag | Description |
@@ -37,6 +39,7 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | `inference` | Type inference, generalization, implicit resolution |
 | `runtime` | Operational semantics, evaluation, CBV |
 | `tooling` | REPL, explorer, LSP, developer experience |
+| `automation` | CI/CD, GitHub Actions, automated checks, pre-commit hooks |
 | `compiler` | Compiler architecture, pipeline, passes |
 | `rewriting` | Term/graph rewriting, DPO, algebraic graph transformation |
 | `testing` | Test infrastructure, patterns, snapshot testing |
@@ -207,7 +210,7 @@ Tag and label vocabulary for z-yap. Kept roughly in sync with z-loom's registere
 | Elaboration | `constraint`, `solver`, `metavariable`, `generalization`, `context`, `closure`, `substitution` |
 | Compiler | `compiler`, `rewriting`, `backend`, `performance`, `ir`, `sat`, `graph`, `primitive`, `memory`, `allocation`, `mutation`, `ownership`, `uniqueness`, `reuse`, `refcounting`, `data-access`, `compilation` |
 | Verification | `verification`, `quantifiers`, `arithmetic`, `strings`, `ivl`, `observability` |
-| Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `cli`, `migration`, `explorer`, `generator` |
+| Infrastructure | `project`, `infrastructure`, `testing`, `tooling`, `automation`, `cli`, `migration`, `explorer`, `generator` |
 | Meta | `research`, `paper`, `gateway`, `reference`, `milestone`, `ai-session` |
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
 | Work Layer | `thread`, `queue`, `ready`, `blocked`, `needs-design` |
