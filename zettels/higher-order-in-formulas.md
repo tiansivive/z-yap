@@ -1,11 +1,10 @@
 ---
-tags:
-  [verification, type-system, decision, implemented, elaboration, dependent, modality, backend, ast, ffi, quantifiers, inference, reference, project, recursion]
+tags: [verification, type-system, decision, implemented, elaboration, dependent, modality, backend, ast, ffi, quantifiers, inference, reference, project, recursion]
 ---
 # Higher-order in formulas
 
-**Encoding:** `src/verification/V2/logic/translate.ts` models higher-order functions as SMT arrays (`mkFunction`) with `select` for `App`.
+**Encoding (`translate.ts`):** higher-order **values** use array-like **`Select`** — e.g. neutral lambdas map to **`Build.uninterpreted("Function")`** domains and **`App`** lowers via **`Build.select`** (parallel to older **`mkFunction` → `.select`** in the **Z3-direct** era documented in [[smt-translation]]).
 
-**Quantifiers:** `quantify` in `translate.ts` chooses a variable sort via `mkSort`. The sort `match` for the bound variable handles `Prim`, `Recursive`, `Row`, and `App`; a `Func` domain hits `.otherwise(() => { throw new Error("Unknown sort in logical formulas"); })`. So guarded `Z3.ForAll`/`Z3.Implies` loops in `check.ts` and `subtype.ts` assume first-order-ish parameter sorts that map to those cases, not arbitrary function-shaped quantifier domains.
+**Quantifiers:** **`quantify`** chooses binder sorts via **`mkSort`**; guarded domains handle **`Prim`**, **`Recursive`**, **`Row`**, **`App`**; **`Func`-shaped** sorts hit the `"Unknown sort in logical formulas"` branch. **`check` / `subtype`** wrap **`translation.quantify`** results with **`Build.forall`** / **`Build.implies`** (conceptually what **`Z3.ForAll` / `Z3.Implies`** did when translation emitted Z3 directly).
 
-**Fragment choice:** keep quantified domains first-order; use EUF-style applications (`mkFunction` + `select`) for higher-order **use** at the term level; avoid quantifying over function sorts.
+**Fragment choice:** keep quantified domains first-order; encode higher-order **applications** via **`Select`** at the term level; avoid quantifying over function sorts.

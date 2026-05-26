@@ -261,7 +261,7 @@ Branch: `i-dont-do-it-for-the-gram`.
 [[selfification]] --[:CONSTRAINS]--> [[first-order-restriction]]
 [[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]
 [[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]
-[[first-order-restriction]] --[:PRESERVES]--> [[ivl]]
+[[first-order-restriction]] --[:PRESERVES]--> [[vc-ir]]
 [[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]
 [[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]
 [[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]
@@ -349,3 +349,23 @@ Branch: `i-dont-do-it-for-the-gram`.
 ### Thread updates
 
 [[verification-backend.thread]] item 22 added: Syn-App-Ex modification (existing items renumbered)
+
+---
+
+## session:ivl-graph-alignment — 2026-05-25 [verification, ivl, documentation]
+
+Aligned z-yap with the **current IVL-backed VC pipeline** while keeping Z3-era paper and theory zettels historically accurate. Hubs ([[verification-pipeline]], [[translation-boundary-vc]], [[vc-ir]], [[verification-backend.thread]]) and related zettels state **`IVL.Formula`** / `translate.ts → IVL`; [[smt-translation]] is framed as **deprecated Z3-direct** with body preserved. Solver-theory notes (EUF, CDCL(T), arithmetic, strings, etc.) tie **industrial SMT** to both Z3/cvc5 survey papers and Yap’s **`src/verification/solver/`** implementation without flattening to “IVL only”. **[[m1-implementation]]** left untouched (milestone record).
+
+**Fix:** Replaced dead graph target `[[ivl]]` with `[[vc-ir]]` on the first-order-restriction edge (`connections.md` + corrected back-reference in prior session block).
+
+**[[connections.md]]:** New “Industrial SMT ↔ IVL / CDCL(T) context” edges (Z3/cvc5/EUF/Nelson–Oppen/strings → pipeline / theory / milestone stubs).
+
+**Lint:** Removed internal `docs/` path from [[verification-artefacts-revised]] per `init.md`.
+
+### Edges (summary; full set in connections.md)
+
+Industrial SMT papers and theory zettels linked to [[vc-ir]], [[verification-pipeline]], [[euf-theory]], [[milestone-3-strings]] as appropriate.
+
+### Thread updates
+
+[[verification-backend.thread]] — sequence refreshed (deprecated Z3 translation item, Syn-App-Ex item 23, selfification item 22).

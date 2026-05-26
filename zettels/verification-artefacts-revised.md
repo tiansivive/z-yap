@@ -20,19 +20,29 @@ tags:
 ---
 # VerificationArtefacts (revised shape)
 
-**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
+**Superseded as a *naming sketch* by committed **IVL** types — see [[vc-ir]], [[verification-pipeline]].** Original Z3-era and doc-sketch content preserved below.
 
 **Today (`src/verification/V2/types.ts`):**
+
+```ts
+export type VerificationArtefacts = { vc: IVL.Formula; nf?: NF.Value };
+export type Obligation = {
+	label: string;
+	expr: IVL.Formula;
+	context?: { term?: string; type?: string; description?: string | string[] };
+};
+```
+
+(`IVL` imported from `src/verification/solver/ivl/types.ts`.)
+
+**Previously (Z3-direct VC storage):**
 
 ```ts
 export type VerificationArtefacts = { vc: Expr; nf?: NF.Value };
 export type Obligation = { label: string; expr: Expr; context?: { ... } };
 ```
 
-`Expr` is from `z3-solver`.
+`Expr` from **`z3-solver`**.
 
-**Proposed (`docs/SMT-SOLVER.md` § “Required changes in verification types”):** `vc: VC.Formula`; `Obligation.expr` renamed to a `VC.Formula` field in the sketch; optional `nf?: NF.Value` retained for debugging; optional richer `context` on obligations for UI strings.
-
-**Why (per doc):** decouple VC generation from Z3 so the same `check` / `synth` / `subtype` algorithms can target a stable IR, then swap satisfiability engines.
-
-No `VC.Formula` type is committed in `types.ts` yet.
+**Earlier sketches** referred to a notional **`VC.Formula`** name; the realised IR type is **`IVL.Formula`**.
+**Why (unchanged intent):** decouple VC generation from a single backend so `check` / `synth` / `subtype` target a stable IR, then plug satisfiability engines ([[z3-replacement-decision]]).

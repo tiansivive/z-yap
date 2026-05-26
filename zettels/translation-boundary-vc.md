@@ -21,10 +21,10 @@ tags:
 ---
 # Translation boundary (VC IR)
 
-**Translation boundary target:** `TranslationTools` with `mkSort`, `translateTerm`, `translateFormula`, `quantify` — producing backend-neutral sorts/terms/formulas (IVL today) while keeping `createCheck` / `createSynth` / `createSubtype` wiring.
+**Intent:** VC generation (`TranslationTools`: `mkSort`, term/formula builders, `quantify`) targets a **solver-neutral IR** (**IVL**) so `createCheck` / `createSynth` / `createSubtype` stay stable when the proving engine changes. Earlier Yap built **`z3-solver`** `Expr` directly from `NF.Value` — superseded encoding lives under [[smt-translation]].
 
-**ivl worktree (ivl-sat-solver branch):** `createTranslationTools` in `src/verification/V2/logic/translate.ts` now produces IVL types (`IVL.Sort`, `IVL.Term`, `IVL.Formula`) via the `Build` module. No Z3 import. `quantify()` builds `Build.forall` + `Build.implies` for liquid/modal annotations.
+**Shape today:** `src/verification/V2/logic/translate.ts` emits **`IVL.Sort`**, **`IVL.Term`**, **`IVL.Formula`** via **`Build`**; **`quantify`** wraps modal/refinement payloads with **`Build.forall`** + **`Build.implies`** (see [[vc-ir]]).
 
-**main worktree:** still Z3-coupled — `createTranslationTools` returns `{ mkSort, translate: Expr builder, quantify }` using `z3-solver`; `quantify()` uses `Z3.ForAll` + `Implies`.
+**Z3 bridging:** **`z3.adapter.ts`** encodes IVL formulas into Z3 for cross-checking, regressions, and tooling paths that still allocate a **`z3-solver`** `Context`.
 
-**Further work:** `z3.adapter.ts` translates IVL formulas back to Z3 for cross-checking, off the default verification path. A pluggable `VerificationBackend` interface would formalize swapping IVL vs Z3 vs in-house `solve` without touching check/synth/subtype wiring.
+**Open design:** a small **`VerificationBackend`** (`solve` over IVL + obligations → result) formalizes swapping in-house **`solve`** vs external engines without rewriting VC emission ([[verification-backend]], [[verification-backend.thread]]).

@@ -19,7 +19,9 @@ tags:
 ---
 # Arithmetic theory
 
-**Implemented path:** `src/verification/V2/logic/translate.ts` maps numeric literals with `Z3.Real.val` and lowers `$add`, `$sub`, `$mul`, `$div`, `$mod`, and comparisons via `z3-solver` real arithmetic helpers (`OP_ADD` … `OP_LTE`). Sort mapping declares `Sorts.Num` as `Z3.Real.sort()` (see `src/verification/ARCHITECTURE.md` table).
+**Z3-direct era (superseded pipeline):** when `translate.ts` built **`z3-solver`** values directly ([[smt-translation]]), numeric literals used **`Z3.Real.val`**, **`Sorts.Num` → `Z3.Real.sort()`**, and primitives **`$add`…`$mod`**, comparisons via **`OP_ADD`…`OP_LTE`** helpers.
+
+**IVL emission (today):** the same surface numerics lower to **`Build.Real`**, **`Build.num`**, **`Build.arith`** in **`translate.ts`** (IVL).
 
 **In-house arithmetic (M2):** `src/verification/solver/theories/arithmetic/` — normalization to linear form (`normalize.ts`), arbitrary-precision rationals (`rational.ts`), fixed-tableau simplex with sliding bounds per Dutertre & de Moura (`simplex.ts`, `bounds.ts`), branch-and-bound for integer variables (`branch.ts`), and a `Theory`-conformant solver wrapper (`solver.ts`). Both literal polarities are registered so negated arithmetic atoms correctly tighten bounds. See [[m2-implementation]] for integration details.
 

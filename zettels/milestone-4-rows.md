@@ -24,6 +24,6 @@ tags:
 
 **Deliverables:** canonical row term representation, containment solver, open-row tail unification, emission of nested field obligations.
 
-**Semantic source:** `subtype.contains()` in verification; `translate.ts` still rejects row literals (`throw new Error("Row literals not supported yet")`) until row nodes emit IVL instead of failing translation.
+**Semantic source:** `subtype.contains()` in verification; **`translate.ts`/`term()` still throws on row-shaped literals** (“not supported yet”) — IVL carries row **sort**/term algebra, but emitting full row VC nodes for concrete values remains Milestone 4 work (not “IVL vs Z3”, but **translator + theory** gap).
 
 Depends on Milestone 2 solver scaffolding plus translator emitting row VC nodes.

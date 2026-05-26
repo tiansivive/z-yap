@@ -1848,7 +1848,7 @@
 
 [[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]  -- Restricts self-equality and quantification to first-order types  @2026-05-22
 [[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]  -- isFirstOrder top-level guard  @2026-05-22
-[[first-order-restriction]] --[:PRESERVES]--> [[ivl]]  -- Keeps IVL formulas in decidable QF-EUFLIA fragment  @2026-05-22
+[[first-order-restriction]] --[:PRESERVES]--> [[vc-ir]]  -- Keeps IVL formulas in decidable QF-EUFLIA fragment  @2026-05-22
 [[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Used in synth (selfify) and subtype (Pi parameter)  @2026-05-22
 [[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]  -- Standard Liquid Types convention  @2026-05-22
 
@@ -1860,6 +1860,14 @@
 [[syn-app-ex-modification]] --[:USES]--> [[selfification]]  -- check returns selfified nf for precision  @2026-05-24
 [[syn-app-ex-modification]] --[:INFORMS]--> [[knowles-flanagan-2010]]  -- Modifies their Syn-App-Ex rule  @2026-05-24
 [[syn-app-ex-modification]] --[:INCLUDES]--> [[verification-backend.thread]]  -- Thread item  @2026-05-24
+
+## Industrial SMT ↔ IVL / CDCL(T) context
+
+[[de-moura-bjorner-z3]] --[:INFORMS]--> [[vc-ir]]  -- Z3 architectural template parallels IR + theory stack  @2026-05-25
+[[barbosa-cvc5]] --[:INFORMS]--> [[vc-ir]]  -- Modern DPLL(T) survey parallels in-tree CDCL(T) shape  @2026-05-25
+[[liang-strings]] --[:INFORMS]--> [[milestone-3-strings]]  -- Target string-theory milestone  @2026-05-25
+[[reynolds-strings]] --[:INFORMS]--> [[milestone-3-strings]]  -- Context-dependent rewrites as future plugin  @2026-05-25
+[[nelson-oppen]] --[:DOCUMENTS]--> [[euf-theory]]  -- Theory combination behind EUF+LIA cooperation  @2026-05-25
 
 ## Selfification papers
 

@@ -11,20 +11,18 @@ tags:
 ---
 # Verification Backend
 
-From the current Z3-coupled verification through the planned VC IR boundary to an
-in-house CDCL(T) solver with pluggable theory support.
+Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR plus an **in-tree CDCL(T)** stack; **Z3** remains available via **`z3.adapter.ts`** and existing **`z3-solver`** wiring in tooling ([[translation-boundary-vc]], [[z3-replacement-decision]]). **Open:** string/row theories, richer provenance/explanations, formal **`VerificationBackend`** trait — see milestones 9–16 below.
 
 ## Sequence
 
-1. **Verification pipeline** [[verification-pipeline]] — implemented
-   VerificationServiceV2: check/synth/subtype. Translation from NF.Value via
-   translate.ts to Z3 Expr. Row literals and shift/reset throw unsupported.
+1. **Verification pipeline** [[verification-pipeline]] — implemented  
+   **`VerificationServiceV2`**: check/synth/subtype. **`translate.ts`** lowers **`NF.Value` → IVL**. Row **literals** in verification still unsupported at translation; Shift/Reset use **stub pass-through** until Bubble semantics completes.
 
-2. **Verification artefacts** [[verification-artefacts-revised]] — implemented
-   vc: Expr obligations labeled at runtime.
+2. **Verification artefacts** [[verification-artefacts-revised]] — implemented shape  
+   **`vc`** / obligation payloads are **`IVL.Formula`** today; labelled at runtime ([[verification-pipeline]]). Z3-era **`Expr`** record preserved in that zettel.
 
-3. **SMT translation** [[smt-translation]] — implemented
-   Numbers/strings/arrays patterns. Row literal throws. Shift/reset throws.
+3. **SMT translation (Z3-direct)** [[smt-translation]] — deprecated encoding  
+   Superseded by IVL emission; historic **`translate.ts` → Z3 `Expr`** detail kept in the zettel body ([[vc-ir]]).
 
 4. **Refinement types** [[refinement-types]] — incomplete
    Modalities + liquids. stripModalities means refinements may not survive
@@ -33,8 +31,8 @@ in-house CDCL(T) solver with pluggable theory support.
 5. **Refinement inference** [[refinement-inference]] — planned
    No separate metavariable pipeline for refinement templates/holes.
 
-6. **Translation boundary** [[translation-boundary-vc]] — partial
-   IVL types defined; z3.adapter.ts bridges. Full translate.ts rewrite deferred.
+6. **Translation boundary** [[translation-boundary-vc]] — implemented baseline  
+   **`translate.ts` → IVL** via **`Build`/`quantify`**; **`z3.adapter`** for Z3 crossings.
 
 7. **M1: IR boundary** [[milestone-1-ir-boundary]] — implemented
    IVL sorts/terms/formulas, builder, DSL, printer, CNF, normalize, skolem.
@@ -61,8 +59,8 @@ in-house CDCL(T) solver with pluggable theory support.
 13. **VC IR** [[vc-ir]], [[vc-normalization]], [[vc-provenance]] — partial
     IVL types and normalization implemented. Provenance tracking not yet done.
 
-14. **Z3 replacement decision** [[z3-replacement-decision]] — decision
-    Staged plan for moving away from Z3.
+14. **Z3 replacement decision** [[z3-replacement-decision]] — decision record  
+    Staged decoupling from Z3-monolithic coupling toward **IVL + CDCL(T)** (with adapters).
 
 15. **Theory requirements** [[required-formula-forms]], [[required-theory-support]] — reference
     Gap analysis: what formulas and theories are needed.
@@ -90,8 +88,11 @@ in-house CDCL(T) solver with pluggable theory support.
     Superseded by [[shift-reset-verification]] once Bubble semantics lands.
     _Shared with: delimited-continuations thread_
 
-22. **Selfification + first-order restriction** [[selfification]], [[first-order-restriction]] — implemented
-    selfify uses isFirstOrder as top-level guard; higher-order types skip selfification.
-    isFirstOrder unwraps Modal and Neutral, returns false for Pi/Lambda/Sigma.
-    Matches Liquid Haskell / Knowles-Flanagan convention. Prevents function-sorted
+22. **Selfification + first-order restriction** [[selfification]], [[first-order-restriction]] — implemented  
+    selfify uses isFirstOrder as top-level guard; higher-order types skip selfification.  
+    isFirstOrder unwraps Modal and Neutral, returns false for Pi/Lambda/Sigma.  
+    Matches Liquid Haskell / Knowles-Flanagan convention. Prevents function-sorted  
     atoms from entering IVL formulas.
+
+23. **Syn-App-Ex modification** [[syn-app-ex-modification]] — implemented  
+    Incorporate-uses **check** instead of synth+subtype for application arguments; extrinsic terms; optional **`nf`** precision through application chains (see zettel).

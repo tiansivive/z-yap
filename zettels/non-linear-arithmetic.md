@@ -4,10 +4,10 @@ tags:
 ---
 # Non-linear arithmetic
 
-**Surface / VC emission:** Primitives `$mul`, `$div`, `$mod` exist (`src/shared/lib/primitives.ts`) and reach Z3 through `translate.ts` `External` handling.
+**Surface / VC emission:** primitives **`$mul`**, **`$div`**, **`$mod`** exist (`src/shared/lib/primitives.ts`) and reach **IVL** through **`translate.ts`** `External` handling (historical Z3 path in [[smt-translation]]).
 
 **Solver policy (design):** treat full non-linear arithmetic as a long-term extension; keep `*`, `/`, `%` in VC IR; support linearizable cases first; rely on aggressive NbE ground folding so non-linear atoms are rarer.
 
 **In-house solver:** `src/verification/solver/theories/arithmetic/` targets **linear** (real) arithmetic (simplex + branch-and-bound). Non-linear atoms are not handled by that theory plugin.
 
-**Default backend (main):** Z3 handles non-linear reals/ints via its own engines when VCs still translate to Z3.
+**Heavy oracles:** **Z3**, via **`z3.adapter`** on translated IVL, remains the usual fallback for richer non-linear fragments when tooling opts into it ([[de-moura-bjorner-z3]]).

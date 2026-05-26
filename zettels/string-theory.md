@@ -27,6 +27,6 @@ tags:
 
 **Planned strategy:** flat concat normal forms; prefix/suffix decomposition on equations; arithmetic lemmas for lengths; reduce prefix/suffix/contains using concat equalities + fresh witnesses (e.g. `contains` via witnesses `u`, `v` with `s = concat(u, t, v)`).
 
-**IVL atoms:** `StrLen`, `StrConcat`, and (when added) `str.prefix`, `str.suffix`, `str.contains` alongside boolean connectives.
+**IVL / planned atoms:** richer **`StrConcat`**, **`StrLen`**, **`str.prefix`**, etc. are **targets** for Milestone 3 solver + translation wiring (see **`ivl/types.ts`** evolution alongside [[milestone-3-strings]]).
 
-**Current translation gap:** strings use an uninterpreted sort in `translate.ts` (`Sorts.String = Z3.Sort.declare("String")` on main); native string reasoning and full `$concat` lowering are not wired in the in-house stack yet.
+**Current translation gap:** string-like values remain **EUFlite / uninterpreted** in **`translate.ts`** (Z3-direct era used `Z3.Sort.declare("String")` — [[smt-translation]]); no dedicated **`theories/strings`** decision procedure yet in the Yap solver.

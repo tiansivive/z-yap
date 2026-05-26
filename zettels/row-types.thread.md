@@ -58,6 +58,5 @@ mechanism.
     Refactor away from nested App(Lit(Atom(...)), Row(...)). Touches lowering,
     NbE, unify, snapshots.
 
-14. **Row theory (verification)** [[row-theory]] — needs-design
-    IVL `RowTerm` and sort `Build.Row` exist; `translate.ts` still rejects
-    row-shaped NF values in formula `term()` (falls through to unsupported).
+14. **Row theory (verification)** [[row-theory]] — needs-design  
+    IVL row **sort**/**RowTerm** scaffolding exists; **`translate.ts`/`term()`** still throws on **concrete row literals** — Milestone 4 work is lowering + theory, not swapping IR ([[milestone-4-rows]]).

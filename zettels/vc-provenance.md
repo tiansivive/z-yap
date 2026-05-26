@@ -20,10 +20,10 @@ tags:
 ---
 # VC Provenance
 
-**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
+**Superseded as *fully realized pipeline* by the IVL/CDCL(T) direction — see [[z3-replacement-decision]].** Original framing preserved; obligation **types** updated below.
 
-**Status:** Motivation and pipeline hooks are outlined in `docs/SMT-SOLVER.md` (e.g. boolean lowering “attach origin metadata”, `Solver.assert(f, origin?: string)`, unsat cores, explanations milestone). **No** wiring in `src/verification/` binds Z3 literals or future VC nodes to elaboration provenance today beyond obligation **labels/context** recorded in `VerificationRuntime` (see `createRuntime` usage from `src/verification/V2/service.ts`).
+**Status:** Motivation and pipeline hooks remain outlined in `docs/SMT-SOLVER.md` (boolean-lowering origins, assert metadata, explanations milestone). **Full** provenance from conflicting **IVL/CDCL** lemmas back to source edits is **not** wired end-to-end beyond obligation **labels/context** in `VerificationRuntime`.
 
-**Current obligation shape:** `src/verification/V2/types.ts` — `Obligation` has `label`, `expr: Expr` (Z3), optional `context` with string snapshots (`term`, `type`, `description`).
+**Obligation shape (`src/verification/V2/types.ts`):** **`label`**, **`expr: IVL.Formula`**, optional **`context`** (string snapshots of `term`, `type`, `description`). Paths that still feed **Z3** operate on formulas produced by **`z3.adapter.ts`**, not on a separate parallel VC AST.
 
-**Doc direction:** propagate handles from VC generation through normalization and SAT so unsat cores and CLI errors map back to obligations and source structure without reading Z3 logs.
+**Doc direction:** propagate handles from IVL generation through normalization / Tseitin / CDCL so Milestone 5 tooling can cite obligation IDs without spelunking raw Z3 logs ([[milestone-5-explanations]]).

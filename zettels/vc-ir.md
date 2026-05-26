@@ -20,16 +20,12 @@ tags:
 ---
 # VC IR
 
-**Status:** Implemented as the IVL (Intermediate Verification Language) in `src/verification/solver/ivl/`.
+Yap historically stored verification conditions as **`z3-solver`** **`Expr`**; the **IVL** module (`src/verification/solver/ivl/`) is the owned VC IR (**Intermediate Verification Language**). **`VerificationArtefacts.vc`** is **`IVL.Formula`**; the in-tree CDCL(T) solver consumes IVL (`src/verification/solver/`). **`z3.adapter.ts`** translates IVL to Z3 where useful.
 
-**Types (`types.ts`):** Sorts: `Bool`, `Int`, `Real`, `String`, `Unit`, `Fn`, `Uninterpreted`. Terms: variables, constants, numeric/string/bool literals, `Arith`, `Select` (function application), `StrLen`, `StrConcat`. Formulas: `True`/`False`, `Atom` (predicates), `Not`, `And`, `Or`, `Implies`, `Forall`, `Exists` with trigger lists.
+**Types (`ivl/types.ts`):** **`Sort`** — `Bool`, `Int`, `Real`, `String`, `Unit`, `Row`, **`Fn`** (arrow), **`Uninterpreted`**. **`RowTerm`** — empty, **`Extend`**, or tail **`Var`**. **`Term`** — `Var`, `Const`, numeric/string/boolean literals (`Num`, `Str`, `Bool`), `Arith`, `App`, `Select`, **`Row`**. **`Formula`** — `True`, `False`, `Atom`, `Not`, `And`, `Or`, `Implies`, `Forall`, `Exists` (optional **triggers** on `Forall`). (Targeted atoms like richer string primitives remain **milestones** — see [[milestone-3-strings]].)
 
-**Builder (`build.ts`):** `Build.var_`, `Build.const_`, `Build.num`, `Build.str`, `Build.arith`, `Build.and`, `Build.or`, `Build.implies`, `Build.forall`, `Build.exists`, etc. Algebraic simplification toggleable via `Build.simplify` flag.
+**Builder (`build.ts`):** smart constructors (`Build.var_`, `Build.num`, `Build.forall`, …); **`Build.simplify`** toggles algebraic rewrites.
 
-**Printer (`print.ts`):** S-expression output for formulas and terms.
+**Printer (`print.ts`):** S-expressions for tests and explorers.
 
-**Pipeline:** `translate.ts` produces IVL from `NF.Value`. `normalize.ts` handles formula normalization. `skolem.ts` skolemizes existentials. `cnf.ts` converts to CNF for the CDCL core. `quantifier.ts` handles trigger-based instantiation preparation.
-
-**Current code (`ivl` worktree):** `VerificationArtefacts.vc` is `IVL.Formula`. The CDCL(T) solver in `src/verification/solver/` consumes IVL directly.
-
-**main worktree:** `VerificationArtefacts.vc` is still Z3 `Expr`; IVL types exist but are not wired as the default.
+**Pipeline:** **`translate.ts` → IVL**; **`normalize`**, **`skolem`**, **`cnf`**; **`solve`** ([[m1-implementation]], [[m2-implementation]]). String/row **theories** in the solver are still **mostly future work** alongside IR support ([[verification-pipeline]]).

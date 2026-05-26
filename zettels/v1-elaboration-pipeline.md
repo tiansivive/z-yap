@@ -25,6 +25,5 @@ tags:
 - Canonical elaboration effect: `src/elaboration/shared/monad.v2.ts` — `Elaboration<A>`, `Do`, `track`, `fail`, constraint collection.
 - Term inference entry: `src/elaboration/elaborate.ts` — returns `AST = [EB.Term, NF.Value, Q.Usages]` using `V2.Do` + dispatch to `src/elaboration/inference/*`.
 - Checking: `src/elaboration/check.ts` — `V2.Do` + `NF` type-shape dispatch.
-- Module driver `src/elaboration/module.ts` still wraps elaboration steps in **`fp-ts` `Either` / `pipe`** for statement sequencing, Z3 (`VerificationServiceV2`), and solver glue — orthogonal to the inference monad shape.
-
+- Module driver `src/elaboration/module.ts` still wraps elaboration steps in **`fp-ts` `Either` / `pipe`** for statement sequencing, runs **`VerificationServiceV2`** (**IVL** obligations), and may still allocate **`z3-solver`** for auxiliary checks beside the CDCL(T) path — orthogonal to the inference monad shape.
 Inference modules live under `src/elaboration/inference/` (not a separate `inference.v2/` directory); “V1 vs V2” in older prose often means API style, not a second infer tree.
