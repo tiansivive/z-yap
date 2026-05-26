@@ -323,3 +323,29 @@ Files: `src/cli/explore/static/app.js`, `src/cli/explore/static/index.html`
 [[explorer-snippet-library]] — body updated to reflect implementation
 [[explorer-evolution.thread]] — item 5 marked implemented
 [[pipeline-explorer]] — config sidebar description updated
+
+## session:syn-app-ex-zettel — 2026-05-24 [verification, type-system, decision]
+
+Restored dropped comment in synth.ts (noCapture) and extracted the Syn-App-Ex modification rationale into a z-yap zettel.
+Branch: `i-dont-do-it-for-the-gram`.
+
+### Codebase changes
+
+**synth.ts comment restored:**
+- `noCapture` usage in Lit synthesis re-annotated with "why" comment (dropped in Milestone 1 commit)
+
+### New zettels
+
+[[syn-app-ex-modification]] — why incorporate uses check instead of synth+subtype, extrinsic terms, selfified nf propagation
+
+### Edges
+
+[[syn-app-ex-modification]] --[:REVISES]--> [[application]]
+[[syn-app-ex-modification]] --[:RELIES_ON]--> [[bidirectional-checking]]
+[[syn-app-ex-modification]] --[:RELIES_ON]--> [[verification-pipeline]]
+[[syn-app-ex-modification]] --[:USES]--> [[selfification]]
+[[syn-app-ex-modification]] --[:INFORMS]--> [[knowles-flanagan-2010]]
+
+### Thread updates
+
+[[verification-backend.thread]] item 22 added: Syn-App-Ex modification (existing items renumbered)

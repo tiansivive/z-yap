@@ -1852,6 +1852,15 @@
 [[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Used in synth (selfify) and subtype (Pi parameter)  @2026-05-22
 [[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]  -- Standard Liquid Types convention  @2026-05-22
 
+## Syn-App-Ex modification
+
+[[syn-app-ex-modification]] --[:REVISES]--> [[application]]  -- Uses check instead of synth+subtype for arguments  @2026-05-24
+[[syn-app-ex-modification]] --[:RELIES_ON]--> [[bidirectional-checking]]  -- check provides expected type for extrinsic terms  @2026-05-24
+[[syn-app-ex-modification]] --[:RELIES_ON]--> [[verification-pipeline]]  -- incorporate fn in synth.ts  @2026-05-24
+[[syn-app-ex-modification]] --[:USES]--> [[selfification]]  -- check returns selfified nf for precision  @2026-05-24
+[[syn-app-ex-modification]] --[:INFORMS]--> [[knowles-flanagan-2010]]  -- Modifies their Syn-App-Ex rule  @2026-05-24
+[[syn-app-ex-modification]] --[:INCLUDES]--> [[verification-backend.thread]]  -- Thread item  @2026-05-24
+
 ## Selfification papers
 
 [[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]  -- Coined the term  @2026-05-22
