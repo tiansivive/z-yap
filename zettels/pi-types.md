@@ -1,36 +1,30 @@
 ---
 tags:
+- concept
 - type-system
 - dependent
-- concept
+- elaboration
 - syntax
 - implemented
-- elaboration
 - inference
-- parser
-- modality
-- ast
-- quantifiers
 - checking
 - normalization
-- sugar
-- display
-- testing
+- unification
+- modality
+- quantifiers
 ---
 # Pi types
 
-**AST:** Dependent Π is a single elaboration node: `Abs` with `binding.type === "Pi"` (`src/elaboration/syntax/term.ts`). Builder `EB.Constructors.Pi(variable, icit, annotation, body)`. NF counterpart `NF.Patterns.Pi` / `NF.Constructors.Pi` (`src/elaboration/normalization/syntax/term.ts`).
+Dependent function space — the universal quantifier in Yap's type theory. A Pi type `(x : A) -> B x` binds a variable in the codomain, allowing the return type to depend on the argument value. Non-dependent functions (`A -> B`) are the special case where the body ignores the binder.
 
-**Surface syntax:** Nearley builds `Src.Term` nodes `{ type: "pi", variable, annotation, body, icit }` or `{ type: "arrow", lhs, rhs, icit }` from `Pi` / `PiTail` (`src/parser/processors.ts`, `src/parser/grammar.ne`). The domain side is a `ModalType`, so modalities/quantities attach to the domain **type** via the modal grammar, not as a separate Pi-only token.
+Pi shares the `Abs` node with all other binders, discriminated by `binding.type === "Pi"`. The normal-form counterpart is `NF.Abs` with `binder.type === "Pi"` carrying a closure over the codomain.
 
-**Inference:** `src/elaboration/inference/pi.ts` checks `annotation` against `NF.Type`, evaluates it, extends context with `{ type: "Pi", variable }`, checks `body` at `NF.Type`, returns type `NF.Type`.
+Surface syntax offers two forms: explicit `(x : A) -> B` via the Pi nonterminal, and non-dependent `A -> B` via Arrow. Both elaborate to the same core `Abs` with a Pi binding. Modalities (multiplicities) attach to the domain type through the ModalType grammar production — they are a property of the domain, not a Pi-specific annotation.
 
-**Checking:** `src/elaboration/check.ts` pairs surface `lambda` with `NF.Patterns.Pi` (matching `icit`), checks the body under `NF.apply` of the Pi closure to a fresh rigid.
+In Yap's bidirectional elaboration, Pi plays a dual role:
+- **Inference** checks the domain against Type, extends the context with a Pi binder, and checks the codomain against Type — producing a type-level Pi.
+- **Checking** pairs a surface lambda with an expected Pi type by matching icitness, then checks the lambda body against the Pi's codomain applied to a fresh rigid variable.
 
-**Unification:** Pi–Pi case in `src/elaboration/unification/unification.ts` unifies annotations, then bodies under extended level (same pattern as Lambda–Lambda).
+Implicit Pi (`@` icitness) triggers implicit argument insertion during application inference — the elaborator instantiates implicit Pis with fresh meta-variables before processing the explicit argument.
 
-**NbE:** quote applies Pi to a fresh rigid (`src/elaboration/normalization/`); evaluation builds closures for `Abs` (`src/elaboration/normalization/evaluation.v2.ts`).
-
-**Lowering:** `src/lowering/lower.ts` dispatches runtime `Lambda`, not Pi; type-level `Abs` is not in the lowering match (non-lambda `Abs` would fall through to `notImplemented` if reached—erased programs should not ship raw Π to MIR).
-
-Related: [[sigma-types.md]] (existential packaging of rows), [[type-type.md]], [[modalities.md]].
+At lowering, Pi types are erased. The runtime sees Lambda (closures), not Pi. Type-level Abs nodes do not appear in MIR.

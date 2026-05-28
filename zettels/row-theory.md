@@ -1,28 +1,28 @@
 ---
 tags:
-  [
-    verification,
-    row-types,
-    dependent,
-    needs-design,
-    mechanism,
-    sat,
-    normalization,
-    inference,
-    backend,
-    compiler,
-    pattern,
-    principle,
-    performance,
-    tracing,
-  ]
+  - verification
+  - row-types
+  - dependent
+  - needs-design
+  - mechanism
+  - sat
+  - principle
+  - backend
 ---
-# Row theory (solver)
+# Row theory
 
-**IVL row algebra** lives in `src/verification/solver/ivl/types.ts`: `IVL.RowTerm` is `Empty`, label `Extend` (value + rest), or tail `Var`. Sort mapping in `src/verification/V2/logic/translate.ts` maps atom `Row` and `NF.Patterns.Row` to `Build.Row`.
+Row reasoning in verification must be *structural* — aligned with how rows work in elaboration — rather than encoded as opaque terms in a generic theory like EUF or arrays.
 
-**Elaboration rows** use `R.Row` / `Row.unify` in `src/elaboration/unification/rows.ts` — shape equality and flex tails, aligned with structural checking.
+## The principle
 
-**Verification gap:** `translate.ts` `term()` walks literals, apps, vars, and externals; row-shaped `NF.Value` terms hit the final `.otherwise` and raise `"Unsupported expression type in verification"`. Sort-level `Row` is wired; embedding concrete row values into `IVL.Term` `{ tag: "Row", row: … }` is the remaining design (canonical extension order, tail unification, field obligations), ideally aligned with `subtype.contains()` in `src/verification/V2/subtype.ts` rather than a generic array theory.
+Elaboration's row semantics are label-based: rows decompose by label, unify field-wise, and handle openness through row variables solved against extensions. The verification side must respect the same structure. If rows are flattened into uninterpreted sorts or encoded as array-like sequences, the solver loses the structural information that makes row reasoning precise — label identity, extension order, tail unification.
 
-**Z3 bridge:** `z3.adapter.ts` declares a `Row` sort for parity tests; the native CDCL stack interns row sorts in the EUF arena (`solver.ts` `.with({ tag: "Row" }, …)`).
+This is one of the key motivations for the owned-solver direction ([[z3-replacement-decision]], [[required-theory-support]]): Z3 has no native row theory, so row-typed formulas degrade to uninterpreted sorts and lose structural precision. An owned engine can host a theory plugin that shares the same row vocabulary as elaboration.
+
+## IVL representation
+
+IVL includes row terms (`Empty`, label `Extend` with value + rest, tail `Var`) mirroring elaboration's `R.Row` structure. This gives the solver's row reasoning the same decomposition primitives that unification uses.
+
+## Open design
+
+The specific shape of a row theory plugin — whether it's a dedicated CDCL(T) theory, an encoding into existing theories, or something else entirely — is open. What's settled is the *alignment principle*: whatever mechanism handles rows in verification must preserve the structural semantics that elaboration establishes.

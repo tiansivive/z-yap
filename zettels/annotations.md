@@ -1,29 +1,23 @@
 ---
 tags:
+- concept
 - syntax
 - elaboration
-- inference
 - checking
 - type-system
-- parser
-- ast
-- mechanism
+- implemented
+- inference
 - dependent
 - normalization
-- monad
-- implemented
-- compiler
-- error-handling
+- parser
+- ast
 ---
+# Type annotations
 
-# Annotations
+The `expr : Type` form — Yap's mechanism for switching from inference to checking mode. The annotation type is checked against Type (ensuring it's a valid type), evaluated to a normal form, and then the annotated expression is **checked** against that normal form rather than inferred.
 
-Surface form **`expr : TypeExpr`** (Nearley nonterminal `Ann`, left-associated so nested annotations parse as `(expr : A) : B`).
+This is the bidirectional hook: without an annotation, the elaborator must synthesize a type from the expression's structure. With an annotation, it can check the expression against a known type, enabling the elaborator to push type information downward into subexpressions. This is critical for dependent types where synthesis alone cannot pin types (e.g., a bare lambda has no way to synthesize its domain type without an expected Pi).
 
-Grammar: `Ann -> Ann %colon TypeExpr {% P.Annotation %}` chained through `TypeExpr` … `Atom`, with parenthesized atoms peeling via `Parens[Ann]` (`src/parser/grammar.ne`). Postprocessor builds `{ type: "annotation", term, ann }` plus span (`src/parser/processors.ts` `Annotation`, `Annotate`).
+The annotation form does not survive into EB.Term — there is no "annotation" constructor in the core syntax. The annotation's effect is purely elaboration-time: it determines the mode (check vs infer) and the expected type, then produces the same core term that checking would produce.
 
-Elaboration: `src/elaboration/elaborate.ts` dispatches `annotation` to `EB.Annotation.infer`. Implementation (`src/elaboration/inference/annotations.ts`): `check(ann, NF.Type)`, evaluate annotation head with `NF.evaluate`, then **`check(term, nf)`**—the ascribed expression is checked against that normal form, not merely inferred and compared. Produces an `EB.Term` with the ascribed type’s `NF.Value`; there is no separate “annotation” node in `src/elaboration/syntax/term.ts` core terms.
-
-Bidirectional hook: switches the subject from inference-first to checking-first for `term`, while still treating `ann` as a full term at kind `Type`.
-
-Detail: dependent Pi binders inside `ann` see earlier context like any type (`pi-types.md`). Metavariable solving still applies globally (`solver.md`). Stripping modalities from inferred types preserves user-written modalities on annotated types (`stripModalities` in `src/elaboration/elaborate.ts`).
+Modality stripping preserves user-written modalities on annotated types: `stripModalities` ensures that annotations with modality information do not lose that information when the inferred type is used downstream.

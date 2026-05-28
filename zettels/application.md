@@ -1,25 +1,25 @@
 ---
 tags:
+- concept
 - syntax
 - elaboration
 - inference
-- type-system
 - dependent
-- mechanism
+- implemented
+- type-system
 - parser
 - ast
-- implemented
-- monad
 - normalization
-- codegen
+- metavariable
 ---
-
 # Application
 
-Surface **`fn arg`** (explicit) and **`fn @ arg`** (implicit). Grammar: left-recursive `App` over `Atom`, `{% P.Application("Explicit") %}` / `{% P.Application("Implicit") %}` (`src/parser/grammar.ne`). AST: `{ type: "application", fn, arg, icit }` (`src/parser/terms.ts`, `src/parser/processors.ts` `App`).
+The elimination form for functions: `fn arg` (explicit) and `fn @ arg` (implicit). Application drives type-directed elaboration — the function position is inferred first, and its type determines how the argument is processed.
 
-Elaboration: `EB.Application.infer` (`src/elaboration/inference/applications.ts`). Infers function position (for explicit apps, runs `EB.Icit.insert.gen` first so implicit Π heads get instantiated). Builds Π-type via `mkPi`: reads `NF.Abs` with `Pi` binder when icitness matches; otherwise emits metavariable Π skeleton and **`assign`** constraint (`tell("constraint", …)`). Computes result type with `NF.apply` on the Π closure and codomain.
+For explicit applications, implicit argument insertion runs first: if the function's inferred type is a Pi with implicit icitness, the elaborator inserts fresh meta-variable arguments for each implicit Pi before reaching the explicit argument. This is the mechanism by which implicit parameters are filled automatically.
 
-Projection/injection use **`Atom %dot Identifier`** (`Projection`), not `App`, per grammar (`grammar.ne`).
+When the function's type is not yet a Pi (e.g., it's a meta-variable), the elaborator constructs a Pi skeleton — a fresh meta for the domain, a fresh meta for the codomain closure — and emits an assign constraint tying the function's type to this synthesized Pi. The constraint solver later ensures consistency.
 
-Lower-level evaluation semantics live outside this inference rule ([[application-evaluation.md]], [[nf-value.md]]).
+The result type is computed by applying the Pi's codomain closure to the argument value (`NF.apply`), which is how dependent return types work — the return type can mention the argument.
+
+Projection (`x.label`) and injection (`x.label value`) are separate syntactic forms, not application — they have their own grammar productions and elaboration paths.

@@ -416,7 +416,7 @@
 [[knot-tying]] --[:ENABLES]--> [[mu-type-unification]]  -- Recursive self-reference
 [[knot-tying]] --[:INSTANTIATES]--> [[nbe]]  -- Placeholder entry
 [[error-causes]] --[:REPORTS]--> [[unification-algorithm]]  -- Type error rendering
-[[error-causes]] --[:USES]--> [[nf-display]]  -- Zonked NF in messages
+[[error-causes]] --[:USES]--> [[pretty-printing]]  -- Zonked NF in error messages
 [[error-propagation]] --[:USES]--> [[error-causes]]  -- Lifts into monad
 [[error-propagation]] --[:USES]--> [[provenance-system]]  -- Carries trace
 [[error-propagation]] --[:PROPAGATES_VIA]--> [[elaboration-monad]]  -- V2.fail + yield
@@ -427,10 +427,10 @@
 [[provenance-display]] --[:USES]--> [[provenance-system]]  -- Stack rendering
 [[provenance-display]] --[:USES]--> [[pretty-printing]]  -- Term display
 [[provenance-display]] --[:REPORTS]--> [[error-causes]]  -- Error paths
-[[pretty-printing]] --[:USES]--> [[nf-display]]  -- NF rendering
+[[pretty-printing]] --[:USES]--> [[nf-value]]  -- Renders normal forms
 [[pretty-printing]] --[:REPORTS]--> [[elaboration]]  -- Human-readable output
-[[nf-display]] --[:USES]--> [[quoting]]  -- NF → EB → render
-[[nf-display]] --[:USES]--> [[zonking]]  -- Resolves metas before display
+[[pretty-printing]] --[:USES]--> [[quoting]]  -- NF → EB → render
+[[pretty-printing]] --[:USES]--> [[zonking]]  -- Resolves metas before display
 [[src-term]] --[:PRODUCES]--> [[eb-term]]  -- Via elaboration
 [[eb-term]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Via evaluation
 [[nf-value]] --[:QUOTES_TO]--> [[eb-term]]  -- Via quoting
@@ -2053,3 +2053,106 @@
 [[ffi-saturation-gram]] --[:INCLUDED_IN]--> [[gram-evolution.thread]]  -- GRAM saturation pass
 [[vacuous-ivl-vcs]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Tautological VCs from selfification
 [[nf-closure-display]] --[:ADDRESSES]--> [[normalization]]  -- Closure display in NbE output
+
+## Elaboration core / AST quality rework  @2026-05-28
+
+### AST pipeline
+[[ast-pipeline]] --[:DEFINES]--> [[src-term]]  -- Surface layer of three-layer design
+[[ast-pipeline]] --[:DEFINES]--> [[eb-term]]  -- Core layer of three-layer design
+[[ast-pipeline]] --[:DEFINES]--> [[nf-value]]  -- Semantic layer of three-layer design
+[[ast-pipeline]] --[:RELIES_ON]--> [[nbe]]  -- Eval/quote cycle is the engine
+[[ast-pipeline]] --[:RELIES_ON]--> [[dependent-types]]  -- Types-as-terms requires shared representation
+[[ast-pipeline]] --[:RELIES_ON]--> [[unified-binder]]  -- Single Abs node across all layers
+[[ast-pipeline]] --[:ENABLES]--> [[unification-algorithm]]  -- NF.Value is the comparison currency
+[[ast-pipeline]] --[:ENABLES]--> [[quoting]]  -- NF → EB readback
+[[ast-pipeline]] --[:ENABLES]--> [[bidirectional-checking]]  -- Expected types are NF.Value
+
+### Unified binder
+[[unified-binder]] --[:CONSTRAINS]--> [[eb-term]]  -- All binders share Abs in EB.Term
+[[unified-binder]] --[:CONSTRAINS]--> [[nf-value]]  -- All binders share Abs in NF.Value
+[[unified-binder]] --[:ENABLES]--> [[dependent-types]]  -- Types and terms in one binder node
+[[unified-binder]] --[:RELIES_ON]--> [[types-as-terms]]  -- Follows from types-as-terms principle
+[[unified-binder]] --[:APPLIES_TO]--> [[pi-types]]  -- Pi uses Abs with binding.type Pi
+[[unified-binder]] --[:APPLIES_TO]--> [[sigma-types]]  -- Sigma uses Abs with binding.type Sigma
+[[unified-binder]] --[:APPLIES_TO]--> [[lambda]]  -- Lambda uses Abs with binding.type Lambda
+[[unified-binder]] --[:APPLIES_TO]--> [[mu-types]]  -- Mu uses Abs with binding.type Mu
+[[unified-binder]] --[:ENABLES]--> [[nbe]]  -- Uniform closure construction for all binders
+[[unified-binder]] --[:ENABLES]--> [[unification-algorithm]]  -- Structural comparison under fresh rigids
+
+### Closure type zettels
+[[closures]] --[:INCLUDES]--> [[standard-closure]]  -- Core NbE closure
+[[closures]] --[:INCLUDES]--> [[primop-closure]]  -- FFI/primitive closure
+[[closures]] --[:INCLUDES]--> [[continuation-closure]]  -- Delimited continuation closure
+[[standard-closure]] --[:IMPLEMENTS]--> [[nbe]]  -- Lazy substitution for all binders
+[[standard-closure]] --[:RELIES_ON]--> [[elaboration-context]]  -- Captures ctx at binding time
+[[standard-closure]] --[:RELIES_ON]--> [[eb-term]]  -- Body is an EB.Term
+[[standard-closure]] --[:ENABLES]--> [[lambda]]  -- Lambda bodies are standard closures
+[[standard-closure]] --[:ENABLES]--> [[pi-types]]  -- Pi codomains are standard closures
+[[standard-closure]] --[:ENABLES]--> [[sigma-types]]  -- Sigma bodies are standard closures
+[[standard-closure]] --[:ENABLES]--> [[mu-types]]  -- Mu bodies are standard closures
+[[primop-closure]] --[:IMPLEMENTS]--> [[ffi]]  -- Built-in and foreign operations
+[[primop-closure]] --[:RELIES_ON]--> [[nf-value]]  -- Args and result are NF.Value
+[[primop-closure]] --[:PRODUCES]--> [[neutrals]]  -- Neutral when arg is stuck
+[[continuation-closure]] --[:IMPLEMENTS]--> [[shift-reset]]  -- Captured delimited continuation
+[[continuation-closure]] --[:RELIES_ON]--> [[nf-value]]  -- Captured frames and results
+[[continuation-closure]] --[:ENABLES]--> [[nondeterminism-multishot]]  -- Multishot via reapplication
+[[continuation-closure]] --[:RELIES_ON]--> [[cbv-evaluation]]  -- Captures work stack frames
+
+### Application evaluation dispatch
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[standard-closure]]  -- Extend ctx and evaluate body
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[primop-closure]]  -- Accumulate and fire when saturated
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[continuation-closure]]  -- Restore frames and replay
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[neutrals]]  -- Grow spine when head is stuck
+[[application-evaluation]] --[:DISPATCHES_ON]--> [[mu-types]]  -- Mu stays neutral, no unfold
+[[application-evaluation]] --[:IMPLEMENTS]--> [[cbv-evaluation]]  -- Drives CBV discipline
+
+### Holes and metas relationship
+[[holes]] --[:INSTANTIATES]--> [[meta-variables]]  -- Each hole allocates fresh metas
+[[holes]] --[:CONTRASTS_WITH]--> [[meta-variables]]  -- User-facing vs internal machinery
+[[holes]] --[:RELIES_ON]--> [[unification-algorithm]]  -- Solving fills hole metas
+[[holes]] --[:RELIES_ON]--> [[constraint-solving]]  -- Constraint solving fills hole metas
+[[holes]] --[:DESUGARS_TO]--> [[eb-term]]  -- Holes become meta Var nodes in core
+
+### Annotations as bidirectional hook
+[[annotations]] --[:ENABLES]--> [[bidirectional-checking]]  -- Switches infer → check mode
+[[annotations]] --[:RELIES_ON]--> [[nf-value]]  -- Annotation evaluated to NF before checking
+[[annotations]] --[:RELIES_ON]--> [[pi-types]]  -- Annotation often provides expected Pi type
+[[annotations]] --[:COMPOSES_WITH]--> [[modalities]]  -- stripModalities preserves user modalities
+
+### Block generalization
+[[blocks]] --[:RELIES_ON]--> [[generalization]]  -- Let-dec runs NF.generalize/instantiate
+[[blocks]] --[:RELIES_ON]--> [[meta-variables]]  -- Generalization operates on unsolved metas
+[[blocks]] --[:RELIES_ON]--> [[elaboration-context]]  -- Statement threading extends context
+
+### Match elaboration
+[[match]] --[:RELIES_ON]--> [[unification-algorithm]]  -- Arm types unified via assign constraints
+[[match]] --[:RELIES_ON]--> [[nf-value]]  -- Scrutinee evaluated to NF for matching
+[[match]] --[:LOWERS_TO]--> [[pattern-matching-compilation]]  -- Maranget clause-matrix at MIR level
+
+### Dependent types hub connections
+[[dependent-types]] --[:RELIES_ON]--> [[unified-binder]]  -- All binders share Abs
+[[dependent-types]] --[:RELIES_ON]--> [[types-as-terms]]  -- Types and terms share syntax
+[[dependent-types]] --[:RELIES_ON]--> [[type-type]]  -- Single universe classifier
+[[dependent-types]] --[:INCLUDES]--> [[pi-types]]  -- Universal quantifier
+[[dependent-types]] --[:INCLUDES]--> [[sigma-types]]  -- Existential quantifier
+[[dependent-types]] --[:INCLUDES]--> [[mu-types]]  -- Recursive self-reference
+
+### Sigma types and bindings
+[[sigma-types]] --[:RELIES_ON]--> [[sigma-bindings]]  -- ctx.sigma provides field references
+[[sigma-bindings]] --[:RELIES_ON]--> [[elaboration-context]]  -- ctx.sigma is a context component
+[[sigma-bindings]] --[:ENABLES]--> [[nbe]]  -- extendSigmaEnv for label vars during eval
+
+### Closures hub ↔ lowering
+[[closure-conversion]] --[:CONSUMES]--> [[closures]]  -- Lifts closures to MIR functions
+[[closure-conversion]] --[:CONSUMES]--> [[standard-closure]]  -- Standard closures become MIR env+fn pairs
+[[closure-conversion]] --[:RELIES_ON]--> [[lambda]]  -- Only lambda closures survive to lowering
+
+### Type : Type connections
+[[type-type]] --[:CONTRASTS_WITH]--> [[system-f]]  -- Single universe vs stratified
+[[type-type]] --[:ENABLES]--> [[pi-types]]  -- Domain/codomain checked at Type
+[[type-type]] --[:ENABLES]--> [[sigma-types]]  -- Row types classified by Type
+
+### AST layer contrasts
+[[src-term]] --[:RELIES_ON]--> [[ast-pipeline]]  -- First layer of the pipeline
+[[eb-term]] --[:RELIES_ON]--> [[ast-pipeline]]  -- Second layer of the pipeline
+[[nf-value]] --[:RELIES_ON]--> [[ast-pipeline]]  -- Third layer of the pipeline

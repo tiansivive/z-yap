@@ -1,19 +1,26 @@
 ---
 tags:
-  [ast, ir, elaboration, code, dependent, row-types, modality, continuation, recursion, syntax, inference, implemented]
+- concept
+- elaboration
+- ast
+- syntax
+- dependent
+- ir
+- row-types
+- modality
+- continuation
+- recursion
+- inference
+- implemented
 ---
 # EB.Term
 
-Branded elaboration-core syntax: `export type Term = Types.Brand<…, Constructor & { id: number }>` (`src/elaboration/syntax/term.ts`). `EB.mk` / `EB.Constructors.*` allocate monotonically increasing `id` via module `currentId`.
+The elaboration core syntax — Yap's intermediate representation between the surface AST (Src.Term) and the semantic domain (NF.Value). Every term produced by the elaborator is an EB.Term; every term consumed by NbE evaluation is an EB.Term.
 
-**Constructors (`type` field):** `Lit`, `Var`, `Abs`, `App`, `Row`, `Proj`, `Inj`, `Match`, `Block`, `Modal`, `Reset`, `Shift`.
+EB.Term is a branded type with a monotonically increasing `id` field, giving each node a unique identity throughout the elaboration pipeline. This enables identity-based operations (memoization, provenance tracking, diagnostic labeling) without structural comparison.
 
-**Variables:** `Bound` (de Bruijn index), `Free`, `Foreign`, `Label`, `Meta` (`val` + `lvl`).
+Constructors cover the full core language: `Lit`, `Var`, `Abs`, `App`, `Row`, `Proj`, `Inj`, `Match`, `Block`, `Modal`, `Reset`, `Shift`. Surface sugar (struct, schema, variant, array) desugars to `App` of a literal atom to a `Row` — there are no dedicated container constructors. This uniform App+Row encoding means that structural type operations (projection, injection, pattern matching) dispatch on the atom label rather than the constructor, keeping the core language small.
 
-**Bindings under `Abs`:** `Let`, `Lambda`, `Mu`, `Pi`, `Sigma` — each carries `annotation: Term`.
+Variables carry their own discriminant: `Bound` (de Bruijn index), `Free`, `Foreign`, `Label` (sigma field reference), and `Meta` (unsolved unknown). Patterns for Match cover `Binder`, `Var`, `Lit`, `Row`, `Struct`, `Variant`, `List`, `Wildcard`. Block statements are `Expression`, `Let`, or `Using`.
 
-**Patterns** (for `Match`): `Binder`, `Var`, `Lit`, `Row`, `Struct`, `Variant`, `List`, `Wildcard`.
-
-**Statements** (for `Block`): `Expression`, `Let` (`annotation: NF.Value`), `Using`.
-
-Surface struct/schema/variant/array often lower to `App` of a literal atom to a `Row` (`Constructors.Struct`, `.Schema`, `.Variant`, `.Array`).
+All binders (Pi, Sigma, Lambda, Mu, Let) share the single `Abs` node — see unified-binder for the design rationale.

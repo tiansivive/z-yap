@@ -1,29 +1,32 @@
 ---
 tags:
+- concept
 - normalization
-- mechanism
-- implemented
 - elaboration
-- inference
 - unification
 - dependent
+- implemented
+- inference
 - type-system
 - ir
 - ast
+- metavariable
 - modality
 - ffi
 - recursion
-- reference
-- code
 ---
-# Neutrals (`NF.Neutral`)
+# Neutral terms
 
-`NF.Value` uses a **single wrapper** `{ type: "Neutral"; value: Value }` (`src/elaboration/normalization/syntax/term.ts`), not a separate head+spine record. `unwrapNeutral` strips nested `Neutral` layers (`evaluation.v2.ts`).
+Stuck computation in Yap's NbE. A neutral term is an NF.Value that cannot reduce further because its head is unknown — typically an unsolved meta-variable, a free variable, or a blocked elimination.
 
-Typical neutral **heads** inside: `Var` (incl. unsolved **`Meta`** via `Neutral(Var(meta))` in the meta-var branch of `evaluateTerm`), or **spined** shapes built with `NF.Constructors.App` under `Neutral`.
+Yap uses a single-wrapper representation: `{ type: "Neutral"; value: Value }`. There is no separate head+spine structure — a neutral application is `Neutral(App(head, arg, icit))`, a stuck match is `Neutral(App(λ-closure, scrutinee))`, a blocked projection or injection is `Neutral(App(λ-closure, base))`. Nested neutral wrapping accumulates for deeply stuck spines; `unwrapNeutral` strips layers when needed.
 
-**Examples from `reduceAndPushStack`:** applying to a neutral pushes `Neutral(App(head, arg, icit))`. **µ:** `Abs` with `Mu` binder reifies as neutral `App`. **Stuck match:** `NF.Constructors.StuckMatch` is `Neutral(App(λ $scrutinee. body, scrutinee))` (`syntax/term.ts`). **Blocked projection/injection:** `projectValue` / `injectValue` return `Neutral(App(λclosure, base))` when row structure is unknown or head is neutral.
+This design trades structural clarity (a head+spine would make the stuck head immediately visible) for simplicity (one wrapper, one pattern to match). The trade-off works because Yap's unification and forcing mechanisms handle neutrals uniformly — they don't need to distinguish spine structure from head structure.
 
-**Modal / flex:** `NF.Patterns.Flex` and zonker-driven `force` interact with neutrals during unification-facing code paths (`evaluation.v2.ts`).
+Neutrals arise from:
+- **Unsolved metas**: `Neutral(Var(meta))` — the canonical case. Solving the meta (via unification/zonking) unsticks the term.
+- **Free variables**: rigid variables introduced by binders during type checking.
+- **Blocked elimination**: projection/injection on a neutral base; match on a neutral scrutinee.
+- **Mu application**: applying a Mu-binder Abs produces a neutral App rather than unfolding, preventing infinite expansion during normalization.
 
-See also: [[application-evaluation.md]], [[nf-value.md]], [[nbe.md]], [[de-bruijn-levels.md]].
+The flex/rigid distinction in unification operates on neutrals: a flex neutral has an unsolved meta at its head (solvable), while a rigid neutral has a bound variable (structural).

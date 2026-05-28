@@ -2,36 +2,25 @@
 tags:
 - concept
 - type-system
+- recursion
 - elaboration
 - normalization
 - unification
-- recursion
-- ast
-- incomplete
+- implemented
 - inference
-- solver
+- ast
 - substitution
 - evaluation
-- syntax
-- migration
-- reference
+- incomplete
 ---
 # Mu types
 
-**AST:** `Abs` with `binding.type === "Mu"` plus `source: string` (debug/origin label in EB) (`src/elaboration/syntax/term.ts`). NF binder mirrors fields (`src/elaboration/normalization/syntax/term.ts`).
+Equirecursive types — Yap's mechanism for recursive type definitions. A mu type `μα. T` binds a type variable that may appear in its own body, representing types like recursive lists, trees, or self-referential records.
 
-**Recursive lets:** `src/elaboration/inference/statements.ts` wraps the inferred definition in `EB.Constructors.Mu` when the listener records a `Mu` binder for that variable.
+Mu shares the `Abs` node with all other binders, discriminated by `binding.type === "Mu"`. It carries a `source` string for debug/origin labeling. Recursive let-bound definitions wrap their inferred type in a Mu when the definition references itself.
 
-**Evaluation:** `evaluation.v2.ts` reduces an application whose head is `Abs(Mu)` to neutral/stuck form without unfolding μ for that step; computation paths that need expansion call `NF.unfoldMu` where wired.
+The key evaluation design: mu types stay neutral during NbE. Applying a Mu-binder Abs does not eagerly unfold — it produces a neutral App. This prevents infinite unfolding during normalization. Expansion happens only when needed, specifically during unification, where the unfold-and-recurse strategy drives comparison of recursive types.
 
-**Unification (`src/elaboration/unification/unification.ts`):**
+The occurs check in unification currently throws when it detects a cyclic meta-variable solution. The natural completion of that path is constructing the solution as a mu type (`μα. ...`), which would allow the solver to express recursive type solutions directly rather than failing.
 
-- Mu–Mu: unify annotations then bodies under fresh rigid (same structure as Pi–Pi).
-- Mu versus other values: unfold via `NF.apply(mu.binder, mu.closure, mu)` inside `EB.unfoldMu` context and recurse.
-- App–App without flex metas: tries `NF.unfoldMu` on either side before structural App unification.
-
-**Occurs check:** when the occurs check fails, `bind` currently throws (`Unification: Occurs check failed. Need to implement mu type` in `src/elaboration/unification/unification.ts`); constructing recursive meta solutions as μ types is the natural completion of that path.
-
-**Tests:** `src/elaboration/unification/__tests__/unification.v2.test.ts` covers Mu–Mu agreement and unfolding scenarios.
-
-Related: [[mu-type-unification.md]], [[equirecursive-types.md]], [[missing-spec-recursive-types.md]], [[nf-value.md]], [[nu-types]], [[bisimulation-type-equality]], [[inductive-types]], [[coinductivity]].
+See mu-type-unification for the specific equality-checking strategy. See equirecursive-types for the broader design context including bisimulation and fuel-capped approaches.

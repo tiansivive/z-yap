@@ -1,28 +1,22 @@
 ---
 tags:
-  [
-    row-types,
-    dependent,
-    elaboration,
-    inference,
-    normalization,
-    type-system,
-    unification,
-    context,
-    mechanism,
-    syntax,
-    parser,
-    implemented,
-  ]
+- mechanism
+- elaboration
+- dependent
+- row-types
+- context
+- implemented
+- inference
+- normalization
+- unification
+- type-system
 ---
-# Sigma bindings (`ctx.sigma`)
+# Sigma bindings (ctx.sigma)
 
-`Sigma` in `src/elaboration/shared/context.ts`: `{ term: EB.Term; nf: NF.Value; ann: NF.Value; multiplicity: Q.Multiplicity; isAnnotation?: boolean }`.
+The elaboration mechanism that makes dependent field references work in structural records. When elaborating a row (struct or schema), each field's value is registered in `ctx.sigma` — a map from label names to their elaborated term, normal form, annotation, and multiplicity. Subsequent fields can then reference earlier fields by `:label` syntax, which resolves through ctx.sigma during variable lookup.
 
-**Population:** `EB.extendSigma(ctx, label, value, isAnnotation?)` writes one key. `EB.Rows.inSigmaContext(row, f, isAnnotation?)` (`src/elaboration/inference/rows.ts`) `yield*`s `extract(row, lvl)` then `V2.local` reducing `entries(bindings)` with `extendSigma` before running `f`. Used from row inference (`infer`) and struct inference (`src/elaboration/inference/structs.ts` via `inSigmaContext` + `collect`). Checking path: `EB.Rows.inSigmaContext` / `collect` in `src/elaboration/check.ts` for row-like checking.
+Population happens via `extendSigma`, called during row inference and struct inference. The `inSigmaContext` helper extracts row bindings and extends the sigma context before running elaboration of the row body, threading the extended context through the V2 monad's local scope.
 
-**Use:** `:label` source variables resolve through `lookup` → `ctx.sigma[name]` → `EB.Var` with `type: "Label"`. NbE reads `ctx.sigma` for label vars in `src/elaboration/normalization/evaluation.v2.ts`; `extendSigmaEnv` merges row values into sigma when reducing struct/schema-like values.
+NbE reads ctx.sigma for label variables during evaluation: `extendSigmaEnv` merges row values into the sigma context when reducing struct/schema-like values, enabling dependent computation at the type level.
 
-**Limitation:** comment in `rows.ts`: sigma should become a stack for nested row types — current map is flat.
-
-Sigma behavior lives in `check.ts`, `inference/rows.ts`, `inference/structs.ts`, and normalization (`evaluation.v2.ts`, `extendSigmaEnv`) as above—the v2 elaboration path uses these modules rather than a separate `checking.v2/` tree.
+The limitation: ctx.sigma is a flat map, not a stack. Nested dependent records (a record with a field that is itself a dependent record) cannot properly scope inner field references without shadowing outer ones. The intended fix is a sigma stack, noted as a TODO.

@@ -1,6 +1,7 @@
 ---
 tags:
   - open
+  - bug
   - verification
   - elaboration
   - inference
@@ -10,8 +11,8 @@ tags:
 
 # Verification unconstrained meta
 
-The variant match explorer snippet produces "Unconstrained meta variable in verification" during VC translation or solver validation.
+The variant match explorer snippet (`\x -> match x | #nil a -> 0 | #cons {el, rest} -> 1`) crashes at `NF.generalize` — `ctx.metas[?15]` is undefined. Even bypassing generalize, multiple unsolved metas (`?3`, `?6`, `?8`, `?9`) remain outside the zonker and trigger "Unconstrained meta variable in verification" in `translate.ts`.
 
-**Suspected cause:** A meta created during elaboration (possibly from variant type inference) survives zonking and reaches the IVL translation. The module zonker fix ([[module-zonker-fix]]) may resolve this if the meta was in the told-but-dropped zonker.
+**Not resolved by** [[module-zonker-fix]] — `toldZonker` is empty for this snippet (no let-generalization path). The issue is deeper: metas created during variant row constraint solving don't propagate back into `ctx.metas` or the final zonker.
 
-**Status:** Open — needs verification after the zonker fix is exercised by the specific snippet.
+**Status:** Open — requires investigation into meta propagation during variant/row elaboration and unification.

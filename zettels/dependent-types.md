@@ -2,34 +2,33 @@
 tags:
 - concept
 - type-system
+- dependent
 - elaboration
+- hub
+- implemented
 - normalization
 - unification
-- verification
 - syntax
-- dependent
 - quantifiers
 - inference
-- implemented
 - ast
-- monad
-- parser
 - row-types
+- modality
 ---
-# Dependent types
+# Dependent types (hub)
 
-A type that may mention values (e.g. the codomain depends on the domain witness). In Yap’s core, dependence lives under `Abs` binders: **Pi** is dependent function space, **Sigma** packages a row witness and a body that can use earlier fields (`EB.Binding` in `src/elaboration/syntax/term.ts`).
+Types that may mention values — the organizing principle of Yap's type theory. A dependent type is one where the type of a later component can refer to the value of an earlier component: a function's return type can depend on its argument (Pi), a record field's type can depend on earlier fields (Sigma), a recursive type can refer to itself (Mu).
 
-**Syntax / core terms:** Pi, Sigma, and runtime Lambda share the `Abs` node; discrimination is `binding.type` (`Pi` | `Sigma` | `Lambda` | `Mu` | `Let`). NF mirrors this (`NF.Binder` in `src/elaboration/normalization/syntax/term.ts`).
+In Yap, dependent types are realized through several interlocking design decisions:
 
-**Checking:** `src/elaboration/check.ts` matches surface lambdas against `NF.Patterns.Pi` (explicit and implicit Π introduction).
+- **Unified binder**: All binder types (Pi, Sigma, Lambda, Mu, Let) share a single `Abs` node, discriminated by `binding.type`. See unified-binder for the rationale.
+- **Types as terms**: Types and programs share the same syntax (EB.Term) and semantic domain (NF.Value). There is no separate type language. See types-as-terms.
+- **Type : Type**: A single universe classifier with no hierarchy. See type-type.
+- **NbE equality**: Definitional type equality is decided by normalizing both sides to NF.Value and comparing structurally via unification — not by name tables or nominal identity.
 
-**Inference:** `src/elaboration/inference/pi.ts` checks the domain against `NF.Type`, binds a Pi in context, checks the body at `NF.Type`.
+The dependent binder types:
+- **Pi** — dependent function space (universal quantifier). See pi-types.
+- **Sigma** — dependent record type (existential quantifier). See sigma-types.
+- **Mu** — equirecursive types (self-reference). See mu-types.
 
-**Equality:** definitional comparison goes through normalization/unification on `NF.Value` (Pi/Sigma/Mu clauses in `src/elaboration/unification/unification.ts`), not a nominal type-name table.
-
-**NbE / evaluation:** `src/elaboration/normalization/evaluation.v2.ts` evaluates `Abs` bodies under extended contexts; sigma rows extend `ctx.sigma` for label-backed references (`src/elaboration/shared/context.ts`).
-
-**Verification:** modalities and liquid formulas attach via `NF.Modal` / elaboration hooks (`stripModalities` in `src/elaboration/elaborate.ts` keeps inference and refinement passes separated).
-
-Related: [[pi-types.md]], [[sigma-types.md]], [[types-as-terms.md]], [[bidirectional-checking-decision.md]].
+Composition: dependent types interact with row polymorphism (dependent rows), modalities (graded domain multiplicities), and refinement types (liquid predicates on dependent function domains/codomains).

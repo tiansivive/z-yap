@@ -1,24 +1,23 @@
 ---
 tags:
-  [
-    type-system,
-    elaboration,
-    normalization,
-    unification,
-    recursion,
-    dependent,
-    mechanism,
-    ast,
-    code,
-    reference,
-    migration,
-    implemented,
-  ]
+- mechanism
+- unification
+- recursion
+- type-system
+- elaboration
+- decision
+- implemented
+- normalization
+- dependent
 ---
 # Mu-type unification
 
-**`Mu` vs `Mu`** (`src/elaboration/unification/unification.ts`): same pattern as **`Pi`** — unify binder annotations at **`lvl`**, compose substitution, then unify bodies **`NF.apply(mu.binder, mu.closure, NF.Constructors.Rigid(lvl))`** at **`lvl + 1`**.
+The strategy for checking equality of equirecursive types during unification. Yap uses an unfold-and-recurse approach rather than coinductive bisimulation or eager global unfolding.
 
-**`Mu` vs other (and symmetric)**: unfold **`NF.apply(mu.binder, mu.closure, mu)`**, run remaining unification inside **`V2.local(ctx => EB.unfoldMu(ctx, { type: "Mu", variable: mu.binder.variable }, mu), …)`** so **`src/elaboration/shared/context.ts`** **`unfoldMu`** prepends an env entry (μ body in the environment for the recursive step).
+**Mu vs Mu**: same pattern as Pi — unify binder annotations at the current level, then apply both closures to a fresh rigid variable and unify the bodies at the next level. This compares the "shape" of two recursive types structurally.
 
-**`App` vs `App`**: if no flex in head/arg positions, **`NF.unfoldMu(left)`** / **`NF.unfoldMu(right)`** (`src/elaboration/normalization/recursion.ts`) — if either is **`Some`**, **`unify`** the unfolded spine pair; else structural **`func`** + **`arg`**. Additional arms unfold a single **`App`** when **`NF.unfoldMu(app)`** is **`Some`**.
+**Mu vs other**: unfold the mu by applying its closure to itself (`NF.apply(mu.binder, mu.closure, mu)`), then continue unification with the unfolded body. The elaboration context records the unfolding via `unfoldMu` to prevent infinite loops — the mu body appears in the environment for the recursive step.
+
+**App vs App**: when neither head has a flex meta, attempt `NF.unfoldMu` on either side. If unfolding produces a result, unify the unfolded pair; otherwise fall through to structural function+argument comparison.
+
+This approach is simpler than full bisimulation but sufficient for the current type system. The equirecursive-types zettel discusses the design space including fuel-capped unfolding and the path toward bisimulation-based equality.

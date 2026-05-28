@@ -1,27 +1,25 @@
 ---
 tags:
+- concept
 - syntax
 - elaboration
 - dependent
 - inference
-- mechanism
+- implemented
 - parser
 - ast
 - normalization
-- implemented
-- monad
 - lowering
-- codegen
+- closure
 ---
-
 # Lambda
 
-Surface **`\x -> body`** (explicit Π introduction) and **`\x => body`** (implicit), grammar `Lambda -> %backslash … %arrow|%fatArrow … TypeExpr` via `{% P.Lambda("Explicit"|"Implicit") %}` (`src/parser/grammar.ne`). Multi-parameter lists desugar to nested single binders inside `Lam` (`src/parser/processors.ts` `reduceRight`).
+The introduction form for functions — `\x -> body` (explicit) and `\x => body` (implicit). Multi-parameter lambdas desugar to nested single-binder lambdas during parsing. Parameters may carry optional type annotations; unannotated parameters get a fresh type meta during inference.
 
-Optional type annotation on parameters: `Param -> Identifier | Parens[TypedParam]` with `TypedParam -> Identifier %colon TypeExpr {% P.Param %}`; `annotation?` on `Src` lambda (`src/parser/terms.ts`).
+Lambda shares the `Abs` node with Pi, Sigma, Mu, and Let, discriminated by `binding.type === "Lambda"`. It is the runtime-surviving counterpart of Pi — Pi is the formation rule (the type), Lambda is the introduction (the value). Application is the elimination form.
 
-Elaboration: `EB.Lambda.infer` (`src/elaboration/inference/lambda.ts`). Domain: `check(annotation, NF.Type)` when present, else fresh type meta. Extends context with `EB.bind` `Lambda`, infers body, runs `EB.Icit.insert.gen` on body result, emits `EB.Constructors.Lambda` and Π type `NF.Constructors.Pi` with `NF.closeVal` on body type.
+Inference of a lambda produces both the core term (`EB.Constructors.Lambda`) and a Pi type: the domain comes from the annotation (or a fresh meta), the codomain is closed over with `NF.closeVal`. Implicit insertion (`EB.Icit.insert.gen`) runs on the body result so that implicitly-typed return values get their implicit Pis.
 
-Core shape: encoded as `Abs` with `binding: { type: "Lambda", … }` (`src/elaboration/syntax/term.ts` `Constructors.Lambda`).
+Explicit vs implicit icitness matters at the checking boundary: a surface lambda only checks against a Pi type when their icit markers agree. Mismatched icitness falls through to the general infer-then-assign path.
 
-Application pairing: `application.md`, `implicit-resolution.md`. Lowering/closure conversion: `closure-conversion.md`.
+At lowering, lambda is the only binder that produces runtime code — closure conversion lifts lambda bodies to MIR functions with captured environments.

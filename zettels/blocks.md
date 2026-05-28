@@ -1,25 +1,22 @@
 ---
 tags:
+- concept
 - syntax
 - elaboration
+- inference
+- generalization
+- implemented
 - parser
 - ast
 - polymorphism
-- generalization
-- monad
-- tracing
-- implemented
-- migration
-- inference
 - dependent
 ---
-
 # Blocks
 
-Surface **`{ stmt₁; … ; stmtₙ; return expr; }`** or **`{ return expr; }`**. Grammar `Block -> Curly[ Many[Statement,%semicolon] %semicolon Return:? ]` (`src/parser/grammar.ne`). Processor `P.Block` builds `{ type: "block", statements, return? }` (`src/parser/processors.ts`).
+Yap's block expression: `{ stmt₁; …; stmtₙ; return expr; }`. Blocks thread elaboration context through a sequence of statements, each potentially extending the context for subsequent statements.
 
-Statements parsed: bare `TypeExpr` (as expression statement via `P.Expr`), `let`, `using`, `foreign` (`grammar.ne` `Statement`). Elaboration consumes blocks through `EB.Block.infer` (`src/elaboration/inference/block.ts`): folds statements with `EB.Stmt.infer`, threads context on `Let`, applies **`EB.Stmt.letdec`** which runs **`NF.generalize` / `NF.instantiate`** (`src/elaboration/inference/statements.ts`). Missing tail `return`: synthesizes unit block (`Lit.Atom("Unit")`) per `inferReturn`.
+Statements can be bare expressions (evaluated for effect), `let` bindings (extend context with a new variable), or `using` declarations (bring implicits into scope). The `foreign` statement form parses but is not yet elaborated.
 
-Gap: **`foreign`** parses (`P.Foreign`) but `EB.Stmt.infer` only handles `let`, `expression`, `using`; other statement shapes hit `"Not implemented yet"` (`src/elaboration/inference/statements.ts`).
+The key design feature is **statement-level generalization**: each `let` binding runs through `letdec`, which applies `NF.generalize` and `NF.instantiate` to the bound term's type. This is where let-polymorphism happens — a let-bound definition gets a polymorphic type that is instantiated at each use site, rather than being monomorphized at the binding site.
 
-Core term: `EB.Constructors.Block` (`src/elaboration/syntax/term.ts`). Detail: generalization mechanics (`generalization.md`), provenance tracing (`provenance-system.md`).
+When the trailing `return` is omitted, the block synthesizes a unit value (`Lit.Atom("Unit")`). This makes expression-statement-only blocks (used for side effects) well-typed without explicit returns.

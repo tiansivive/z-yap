@@ -1,36 +1,26 @@
 ---
 tags:
+- concept
 - elaboration
+- metavariable
 - inference
 - unification
+- implemented
 - normalization
 - type-system
-- mechanism
-- concept
 - ast
 - compiler
-- code
 - substitution
 - dependent
-- metavariable
-- reference
-- implemented
-status: implemented
 ---
 # Meta-variables
 
-Representation: `EB.Meta` `{ type: "Meta"; val: number; lvl: number }`. Allocation: `freshMeta` / `EB.freshMeta` (`src/elaboration/shared/supply.ts`) bumps monotonic `counts.meta`, registers `{ meta, ann }` under `V2.tell("meta", …)` consumed into `ctx.metas`.
+The internal unknowns of Yap's elaboration. A meta-variable represents a value or type that is not yet determined — it will be solved by unification, constraint solving, or left unsolved (producing an error or a polymorphic binding).
 
-Elaborated occurrence: `EB.Var(meta)`. Normal form flex: `NF.Var({ type: "Meta", … })`.
+Representation: each meta carries a numeric ID (monotonically allocated via a supply) and a de Bruijn level recording the scope in which it was created. The level is critical for generalization — only metas created at or above the current scope boundary are eligible for generalization into implicit Pis.
 
-Solved values live in `ctx.zonker: Subst` (`src/elaboration/shared/context.ts`), mapping meta id → `NF.Value`. `collectMetasNF` / `collectMetasEB` (`shared/metas.ts`) traverse terms skipping zonked metas.
+Meta-variables appear in both EB.Term (as `Var` with `Meta` kind) and NF.Value (as `Var` with `Meta` kind, often wrapped in `Neutral`). In normal form, an unsolved meta is a neutral term — computation is stuck waiting for a solution.
 
-Implicit holes: implicit `Pi` synthesis introduces metas and `resolve` constraints (`implicits.ts`).
+Solutions live in the zonker (`ctx.zonker`), a substitution map from meta IDs to NF.Values. When a meta is solved (via unification's `bind`), the solution is recorded in the zonker. Subsequent evaluation and quoting chase the zonker to resolve metas, and traversals like `collectMetasNF` skip already-zonked metas.
 
-Let-bound metas generalize only when `lvl >= ctx.env.length` (`generalization.ts`).
-
-Instantiation passes: `NF.instantiate` / `EB.Icit.instantiate` (`generalization.ts`, `implicits.ts`) fill or preserve metas depending on zonker, scope level, and annotations.
-
-Verification holes: `check.ts` `{ type: "hole" }` also allocates type-level metas.
-
-Hubs tie facets: elaboration constraints (`solver.ts`), normalization (`NF.force`, `NF.quote`), verification (separate pipeline).
+Metas arise from multiple sources: hole elaboration (user-written `_`), implicit argument insertion (implicit Pi parameters), type inference (unknown function domains), and constraint generation. The elaboration monad threads the meta store and supply through the computation.

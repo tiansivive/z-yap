@@ -1,8 +1,8 @@
 ---
 tags:
+- concept
 - syntax
 - ast
-- concept
 - parser
 - elaboration
 - implemented
@@ -12,23 +12,13 @@ tags:
 - modality
 - continuation
 - inference
-- migration
-- lowering
-- codegen
-- testing
-- reference
-- mir
-- compiler
 ---
+# Src.Term
 
-# Src.Term (source AST)
+The surface AST — Yap's representation of parsed source code before elaboration. Every Src.Term carries source location via `WithLocation`, preserving provenance from the original text through to diagnostics and error messages.
 
-Definition: **`export type Term = WithLocation<Bare>`** in **`src/parser/terms.ts`** (`WithLocation` from **`@yap/shared/provenance`**).
+Src.Term retains all user-facing forms including sugar that the core language does not have: `list`, `tuple`, `struct`, `dict`, `tagged`, `variant`, `row`, `injection`, `projection`, as well as `modal`, `reset`, `shift`, `resume`. These desugar or elaborate into the smaller set of EB.Term constructors during elaboration.
 
-**`Bare`** discriminant union (field summary): **`lit`**, **`var`**, **`hole`**, **`arrow`**, **`lambda`**, **`pi`**, **`application`**, **`annotation`**, **`list`**, **`tuple`**, **`struct`**, **`dict`**, **`tagged`**, **`variant`**, **`row`**, **`injection`**, **`projection`**, **`match`**, **`block`**, **`modal`**, **`reset`**, **`shift`**, **`resume`**.
+Variables are `{ type: "name" | "label"; value: string }` — named, not yet resolved to de Bruijn indices. Rows carry their polymorphic structure. Statements include `expression`, `let`, `using`, and `foreign` (though foreign elaboration is not yet implemented).
 
-**`Variable`**: `WithLocation<{ type: "name" | "label"; value: string }>`. **`Row`**: `WithLocation<R.Row<Term, Variable>>`. **`Statement`**: `expression` \| `let` (optional `annotation`, `multiplicity`, `liquid`) \| `using` \| `foreign`. Module/script/import/export types at bottom of **`terms.ts`**.
-
-Consumers: **`src/elaboration/elaborate.ts`** pattern-matches `Src.Term` into **`EB.*.infer`**; pretty-printer **`src/parser/pretty.ts`**.
-
-Crosswalk to core: **`src-to-eb-transformation.md`**, **`eb-term.md`**.
+The boundary between Src.Term and EB.Term is the elaboration dispatcher, which pattern-matches on `term.type` to route each surface form to its inference or checking handler. This is the point where names become indices, sugar becomes core, and types get synthesized or checked.

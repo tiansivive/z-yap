@@ -1,27 +1,27 @@
 ---
 tags:
-- lowering
-- graph
-- ir
-- mechanism
-- implemented
-- ast
-- pattern
-- compiler
+  - lowering
+  - graph
+  - ir
+  - mechanism
+  - implemented
+  - pattern
+  - compiler
 ---
-
 # Pattern graph translation (GRAM)
 
-**Code:** `walkPattern` / `walkPatternRow` in `src/GRAM/translate.ts`.
+Phase 1 of pattern matching in GRAM. Converts opaque `EB.Pattern` AST blobs into explicit graph nodes during translation, making pattern structure graph-queryable rather than hidden inside node payloads.
 
-Phase 1 of pattern matching in GRAM. Converts opaque `EB.Pattern` AST blobs into explicit graph nodes during translation:
+## Node types
 
 - **`pat:variant`** — `{ label }` with `:payload` edge to inner pattern
 - **`pat:struct`** — with `:field` edges (labeled) to field patterns
-- **`pat:lit`** — `{ value }` (the literal object, e.g. `{ type: "Num", value: 0 }`)
+- **`pat:lit`** — `{ value }` (the literal object)
 - **`pat:binder`** — `{ name, level }`, pushes onto the de Bruijn binder stack
 - **`pat:wildcard`** — empty payload
 
-Case nodes link to their pattern root via `:pattern`. The translation makes pattern structure *graph-queryable* — no longer opaque blobs hidden inside node payloads.
+Case nodes link to their pattern root via `:pattern`.
 
-Key design: `pat:binder` nodes participate in the binder stack (same stack as lambdas and let bindings). This means closure conversion downstream automatically captures variables bound by patterns, with no special handling needed.
+## Key design
+
+`pat:binder` nodes participate in the binder stack — the same stack as lambdas and let bindings. This means closure conversion downstream automatically captures variables bound by patterns, with no special handling needed. Pattern binders and lambda binders are structurally identical from the graph's perspective.

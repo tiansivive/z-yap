@@ -1,29 +1,27 @@
 ---
 tags:
+- concept
 - normalization
 - elaboration
-- mechanism
+- closure
+- hub
 - implemented
-- ir
 - dependent
 - inference
 - continuation
 - ffi
-- lowering
-- ast
-- runtime
-- code
+- ir
 ---
-# Closures (NbE)
+# Closures (hub)
 
-`NF.Closure` (`src/elaboration/normalization/syntax/term.ts`) is a tagged union:
+NF.Closure is the deferred-substitution mechanism at the heart of Yap's NbE. Every binder in the semantic domain (`NF.Abs`) carries a closure rather than a substituted body — computation is delayed until the binder is eliminated (applied, projected, matched against).
 
-- **`{ type: "Closure"; ctx: EB.Context; term: EB.Term }`** — body not evaluated until elimination; constructed for λ/Π/Σ/µ binders in `evaluateTerm` via `NF.Constructors.Closure(ctx, body)`.
-- **`{ type: "PrimOp"; ctx; term; arity; compute }`** — saturated via `extend`-style env slicing and `compute(...args)` in `reduceAndPushStack` / `apply`.
-- **`{ type: "Continuation"; ctx; term; frames: NF.StackFrame[]; results: NF.Value[] }`** — built when evaluating `EB.Shift`: captures suffix of `globalWorkStack` until the nearest `Delimiter`, plus `globalResultStack` suffix (`evaluation.v2.ts`).
+Yap's closure representation is a three-variant tagged union, each serving a distinct domain:
 
-Applying an `Abs` closure calls `EB.extend` for ordinary binders or `EB.extendSigmaEnv` when the binder is `Sigma` (requires argument `NF.Value` with `type: "Row"`).
+- **Standard closure** (`type: "Closure"`) — an EB.Term body paired with a captured elaboration context. The core NbE mechanism: lambda, Pi, Sigma, and Mu binders all produce standard closures during evaluation. See standard-closure.
+- **PrimOp closure** (`type: "PrimOp"`) — a closure for primitive/external operations that accumulates arguments until saturated, then invokes a native compute function. The FFI and built-in operation mechanism. See primop-closure.
+- **Continuation closure** (`type: "Continuation"`) — a closure that captures evaluation stack frames and result values from a delimited shift. The multishot continuation mechanism. See continuation-closure.
 
-`NF.closeVal` (`quoting.ts`) quotes a value at `ctx.env.length + 1` into a `Closure` carrying the current context.
+Application dispatches on closure kind: standard closures extend the context and evaluate the body; PrimOps collect arguments and fire when saturated; continuations restore captured frames and replay. This dispatch taxonomy is detailed in application-evaluation.
 
-See also: [[application-evaluation.md]], [[knot-tying.md]], [[nf-value.md]], [[nbe.md]].
+`NF.closeVal` (in quoting) provides the inverse: given an NF.Value, quote it into an EB.Term and wrap it as a standard closure with the current context — used for readback under binders.

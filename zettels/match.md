@@ -1,29 +1,23 @@
 ---
 tags:
+- concept
 - syntax
 - elaboration
+- inference
 - lowering
-- mir
-- mechanism
+- implemented
 - parser
 - ast
 - dependent
-- implemented
-- codegen
 - compiler
-- inference
-- monad
-- error-handling
+- incomplete
 ---
-
 # Match
 
-Surface **`match scrutinee | pat -> arm | …`**, grammar `Match -> "match" %space:+ TypeExpr Alt:+` with `Alt` → bar, pattern, arrow, rhs (`src/parser/grammar.ne`). Processor `P.Match` / `P.Alternative` (`src/parser/processors.ts`). `Src` node `{ type: "match", scrutinee, alternatives }` (`src/parser/terms.ts`).
+Pattern matching in Yap: `match scrutinee | pat -> arm | …`. The scrutinee is inferred, then each arm's pattern is elaborated (extending context with pattern binders), and the arm body is inferred. Arm result types are unified via assign constraints — all arms must agree on a common result type.
 
-Elaboration: `EB.Match.infer` (`src/elaboration/inference/match.ts`). Infers scrutinee; each arm elaborates pattern via `EB.Patterns` helpers, extends context with binders, infers RHS; unifies alternative result types (`tell("constraint", { type: "assign", … })`); builds `EB.Constructors.Match`. Open work noted in-file: dependent narrowing / variant-return typing (“TODO” comments).
+Pattern forms include binders, variables, literals, rows, structs, variants, lists, and wildcards. Pattern elaboration builds the bindings that extend the context for the arm body, connecting surface pattern syntax to the elaboration context.
 
-Lowering: `src/lowering/lower.ts` routes `Match` to `matching/`; header documents **Maranget-style clause-matrix compilation**. Fallback block emits `"non-exhaustive match"` string (`src/lowering/matching/index.ts`). Detail graph: `pattern-matching-compilation.md`, `maranget-paper.md`.
+At lowering, match compiles via Maranget-style clause-matrix compilation — a standard approach that decomposes multi-pattern matches into decision trees. Non-exhaustive matches currently emit a fallback block with a runtime error string rather than a compile-time exhaustiveness check.
 
-Elaboration in `match.ts` infers and unifies arms but leaves exhaustiveness and reachability analysis to future work—coverage diagnostics would live alongside the existing `EB.Match.infer` path.
-
-Related: [[dependent-pattern-matching]], [[exhaustiveness-checking]], [[view-patterns]], [[pattern-synonyms]], [[active-patterns]], [[open-closed-variants]], [[pattern-matching-compilation]].
+Open design work: dependent narrowing (refining types based on pattern match outcomes) and variant-return typing (using the matched variant structure to inform the return type). Exhaustiveness and reachability analysis are also future work — coverage diagnostics would complement the existing inference path.

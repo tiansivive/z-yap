@@ -65,10 +65,10 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
     Intentional NbE representation. Promoted to backlog/improvement (config toggle).
 
 13. **Verification unconstrained meta** [[verification-unconstrained-meta]] — open
-    Variant match snippet: "Unconstrained meta variable in verification". Downstream from elaboration; may be resolved by module zonker fix.
+    Variant match snippet: crashes at generalize (`ctx.metas[?15]` undefined), and unsolved metas (`?3`, `?6`, `?8`, `?9`) remain outside zonker. Not resolved by module zonker fix — deeper meta propagation issue in variant row elaboration.
 
-14. **Verification rigid mismatch** [[verification-rigid-mismatch]] — open
-    Let binding snippet: "Rigid variables do not match in subtype". May be resolved by module zonker fix.
+14. **Verification rigid mismatch** [[verification-rigid-mismatch]] — implemented
+    Let binding snippet: resolved by module zonker fix. Full pipeline completes, type is `Num`, verification sat.
 
 15. **Test rename** [[explorer-audit-test-rename]] — planned
     Rename `implicit-app-eval.test.ts` to reflect actual coverage (wrapLambda / nested implicit binders).

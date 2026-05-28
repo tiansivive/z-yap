@@ -1,29 +1,25 @@
 ---
 tags:
-  [
-    planned,
-    ready,
-    elaboration,
-    syntax,
-    ast,
-    row-types,
-    type-system,
-    lowering,
-    normalization,
-    inference,
-    parser,
-    mir,
-    pattern,
-    mechanism,
-    display,
-    migration,
-  ]
+  - planned
+  - elaboration
+  - syntax
+  - ast
+  - row-types
+  - type-system
+  - lowering
+  - normalization
+  - inference
+  - mechanism
+  - migration
 ---
-
 # Dedicated row constructors (internal EB)
 
-Nearley surface syntax already distinguishes families (`Struct`, `Tuple`, `Variant`, `list`, … in `src/parser/grammar.ne`; CST kinds `struct`, `tuple`, `variant`, … feed `src/elaboration/elaborate.ts` via `EB.Struct.infer`, `EB.Tuples.infer`, `EB.Variant.infer`, …).
+Surface syntax already distinguishes type-level families — struct, tuple, variant, list — and elaboration dispatches them to separate modules. Internally, however, `EB.Term` encodes several of these families as binary `App` wrapped around literal atoms plus `Row`: `App("Explicit", Lit(Atom("Schema")), Row(row))` and similarly for Struct, Variant, Array.
 
-Internally, **`EB.Term` still encodes several type-level rows as binary `App`** wrapped around literal atoms plus `Row`: see `EB.Constructors.Schema`, `.Struct`, `.Variant`, `.Array` in `src/elaboration/syntax/term.ts` (`App("Explicit", Lit(Atom("Schema")), Row(row))`, etc.). **`NF`/lowering** therefore keeps matching `App` heads — `src/lowering/patterns.ts` defines `StructApp`, `TypeLevelSchema`, `TypeLevelVariant`, `TypeLevelArray` pattern objects for `ts-pattern`.
+## The tension
 
-A planned refactor would introduce dedicated **`EB.Term` variants** (or equivalent) for those families so traces, unify heads, and lowers avoid recovering intent from nested `App`. That touches **`src/lowering/patterns.ts`**, NbE/unify dispatch, and snapshots; it aligns conceptually with **spineful applications** (same AST-shape churn class) but is a separate change.
+Downstream code — unification, lowering, display, pattern matching — must recover the *intent* (is this a struct? a variant? an array?) by pattern-matching on the literal atom inside the nested App. This works but is fragile: the family identity is implicit in the structure rather than explicit in the AST. Lowering defines dedicated pattern objects (`StructApp`, `TypeLevelSchema`, `TypeLevelVariant`, `TypeLevelArray`) precisely because the raw encoding doesn't carry family identity directly.
+
+## Planned fix
+
+Introduce dedicated `EB.Term` variants (or equivalent) for the row-based families so family identity is explicit in the AST node type. This would eliminate the need to recover intent from nested structure, simplify unification dispatch, and make traces and error messages more direct. The change touches the same AST-shape surface as spineful applications but is a separate refactor.

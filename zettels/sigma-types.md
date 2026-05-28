@@ -1,33 +1,26 @@
 ---
 tags:
+- concept
 - type-system
 - dependent
 - row-types
-- concept
-- implemented
 - elaboration
-- syntax
-- ast
+- implemented
 - normalization
 - unification
 - inference
 - context
-- mir
-- codegen
-- error-handling
 ---
 # Sigma types
 
-**AST:** `Abs` with `binding.type === "Sigma"` (`src/elaboration/syntax/term.ts`); `EB.Constructors.Sigma`. NF: `NF.Constructors.Sigma` / `NF.Patterns.Sigma`.
+Dependent record type — the existential quantifier in Yap's type theory. A Sigma type packages a row-typed witness together with a body type that can depend on the witness fields. This is how Yap types structural records with inter-field dependencies: later fields can reference earlier fields by label.
 
-**Role:** Packages a row-typed witness and a body type that can depend on that row (dependent record/type schema pattern). Checking a surface `struct` at `NF.Type` produces a Sigma wrapping the row and a `Schema` body (`src/elaboration/check.ts` around the `struct` / `NF.Patterns.Type` case).
+Sigma shares the `Abs` node with all other binders, discriminated by `binding.type === "Sigma"`. Checking a surface struct at Type produces a Sigma wrapping the row and a Schema body. The dual of Pi — Pi is universal (functions), Sigma is existential (records).
 
-**Label back-references:** Source variables with `variable.type === "label"` resolve through `ctx.sigma` in `src/elaboration/shared/context.ts` `lookup`, returning a `Var` with `Variable` kind `Label` and the stored normal form. Row evaluation seeds `sigma` when elaborating row fields (`src/elaboration/normalization/evaluation.v2.ts`).
+Sigma closures differ from Pi closures in how they handle substitution: the sigma body lives in an extended row context rather than a standard de Bruijn binder. Quoting applies the sigma closure to its annotation (the row) rather than bumping the de Bruijn level, because dependency flows through field labels, not positional binding.
 
-**Unification:** Sigma–Sigma in `src/elaboration/unification/unification.ts` unifies annotations, then applies each sigma closure to its annotation before unifying bodies. Special cases relate `Schema` and `Sigma` by applying the sigma closure to the schema’s row argument (same file).
+Unification of Sigma types unifies annotations first, then applies each sigma closure to its annotation before unifying bodies. A special case relates Schema and Sigma by applying the sigma closure to the schema's row argument.
 
-**Quoting nuance:** `src/elaboration/normalization/quoting.ts` notes sigma bodies are not under a de Bruijn binder in the same way as Pi—application uses the sigma environment, not `lvl` bump.
+The label-reference mechanism that makes field-to-field dependency work at elaboration time is ctx.sigma — see sigma-bindings for that mechanism.
 
-**Known gap (code comment):** `src/elaboration/inference/rows.ts` TODO on stacking nested sigma environments for nested row types.
-
-Related: [[sigma-bindings.md]], [[structural-records.md]], [[row-data-structure.md]], [[eb-term.md]].
+Known limitation: ctx.sigma is a flat map. Nested row types (a record whose field is itself a dependent record) would need a sigma stack to properly scope inner field references.
