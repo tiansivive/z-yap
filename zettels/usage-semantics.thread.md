@@ -1,48 +1,42 @@
 ---
 tags:
-- thread
-- modality
-- multiplicity
-- type-system
-- elaboration
-- verification
-- inference
-- principle
+  - thread
+  - modality
+  - multiplicity
+  - type-system
+  - elaboration
+  - verification
+  - inference
+  - principle
 ---
 # Usage Semantics
 
-QTT-adjacent multiplicities (Zero/One/Many), modal representation, usage inference,
-and enforcement. From surface annotations through elaboration's Modal wrappers to
-verification's liquid refinements. The central tension: usage constraints are commented
-out everywhere, and modalities are stripped from inferred types.
+QTT-inspired multiplicities, modal representation, usage inference, and enforcement.
+From surface annotations through elaboration's Modal wrappers to verification's
+modal phase.
 
 ## Sequence
 
-1. **Modal representation** [[modalities]] — incomplete
-   Surface usage qualifiers + liquid refinements -> Modal in EB/NF. Semiring
-   multiplicities. Inference threads Q.Usages but strips modal wrappers from
-   synthesized types.
+1. **Modal type theory** [[modal-type-theory]] — reference
+   Graded modal type theory as a framework. Atkey's QTT calculus, Brady's Idris 2.
 
-2. **Modality drift** [[modality-drift]] — documented
-   Central "where things live" tension: EB, NF, inference, verification alignment.
+2. **Modality system** [[modality-system]] — concept
+   Yap's dual-dimension design: quantity + liquid in one Modal wrapper, extensible.
 
-3. **QTT usage collection** [[qtt-usage-collection]] — deferred
-   Wire `usage` constraints into solver; uncomment `tell` sites.
+3. **Usage semantics** [[usage-semantics]] — concept
+   {0, 1, ω} semiring multiplicities, QTT/Idris inspiration, composition rules.
 
-4. **Usages deferred** [[usages-deferred]] — deferred
-   Same deferred-solver story as QTT collection.
+4. **Verification modal phase** [[verification-modal-phase]] — decision
+   Modal checking in verification, not inline during elaboration. Jhala/Vazou precedent.
 
-5. **Modality enforcement** [[modality-enforcement]] — needs-design
-   Aggregates solver + verification + context gaps. Wire usage constraints,
-   align variable lookup / sigma multiplicity.
+5. **Modalities hub** [[modalities]] — hub
+   Domain entry point. Links theory, system, semantics, decisions, extensions.
 
-6. **Modality polymorphism** [[modality-polymorphism]] — needs-design
-   Graded info through solving, policy on stripModalities. Depends on
-   enforcement + zonking.
+6. **Modality polymorphism** [[modality-polymorphism]] — speculative
+   Polymorphism over grades. Requires grade metavariables and solving infrastructure.
 
 7. **Effects as modality** [[effects-as-modality]] — speculative
-   No mapping from effects to graded modalities today. Points at shift-reset
-   lowering as separate mechanism.
+   Effect indices as a third modality dimension alongside quantity and liquid.
 
 8. **QTT paper** [[idris-1-qtt-paper]] — reference
-   Brady's QTT paper. Yap's multiplicity types live in the same neighbourhood.
+   Brady's QTT in Idris 2 (ECOOP 2021). Primary implementation precedent.

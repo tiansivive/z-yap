@@ -99,7 +99,11 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | `refcounting` | Reference counting, drop/dup, RC optimization |
 | `data-access` | Structural operations: read, update, CRUD on records/variants |
 | `observability` | Runtime inspection of internal solver/engine state, step-by-step traces |
+| `bug` | A known defect in current behavior |
 | `bugfix` | A concrete correctness fix for a discovered defect |
+| `improvement` | A non-critical enhancement to existing functionality |
+| `tech-debt` | Suboptimal implementation, missing cleanup, known shortcut worth revisiting |
+| `backlog` | Feature, capability, or enhancement not yet built |
 | `explorer` | Pipeline explorer web dashboard (`pnpm yap explore`) |
 | `generator` | Generator functions (`function*`/`yield`) as control flow mechanism |
 | `exploration` | Open-ended design exploration, not yet committed |
@@ -225,6 +229,9 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | `GATES` | Source flag/toggle controls whether target behavior is active |
 | `FIXES` | Source corrects a defect in target |
 | `DISCOVERED_BY` | Source issue was discovered via/during target |
+| `DETAILS` | Source provides detailed rationale for target |
+| `GROUNDED_IN` | Source design grounded in target theory/research |
+| `DEFINES` | Source defines the contract/shape of target |
 
 ## Tag Groups
 
@@ -242,4 +249,4 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
 | Work Layer | `thread`, `queue`, `hub`, `adr`, `ready`, `blocked`, `needs-design` |
 | Thread Lifecycle | `active`, `dormant`, `on-hold`, `spike`, `archived` |
-| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift`, `bugfix` |
+| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift`, `bugfix`, `bug`, `improvement`, `tech-debt`, `backlog` |

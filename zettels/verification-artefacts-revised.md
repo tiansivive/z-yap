@@ -1,48 +1,14 @@
 ---
 tags:
-  [
-    verification,
-    concept,
-    planned,
-    deprecated,
-    ir,
-    normalization,
-    dependent,
-    backend,
-    sat,
-    milestone,
-    migration,
-    type-system,
-    language,
-    arithmetic,
-    strings,
-  ]
+  - verification
+  - deprecated
+  - ir
+  - ivl
+  - migration
+  - backend
 ---
 # VerificationArtefacts (revised shape)
 
-**Superseded as a *naming sketch* by committed **IVL** types — see [[vc-ir]], [[verification-pipeline]].** Original Z3-era and doc-sketch content preserved below.
+**Superseded by [[ivl-boundary]]** — the artefact type migration and its design rationale are now captured there.
 
-**Today (`src/verification/V2/types.ts`):**
-
-```ts
-export type VerificationArtefacts = { vc: IVL.Formula; nf?: NF.Value };
-export type Obligation = {
-	label: string;
-	expr: IVL.Formula;
-	context?: { term?: string; type?: string; description?: string | string[] };
-};
-```
-
-(`IVL` imported from `src/verification/solver/ivl/types.ts`.)
-
-**Previously (Z3-direct VC storage):**
-
-```ts
-export type VerificationArtefacts = { vc: Expr; nf?: NF.Value };
-export type Obligation = { label: string; expr: Expr; context?: { ... } };
-```
-
-`Expr` from **`z3-solver`**.
-
-**Earlier sketches** referred to a notional **`VC.Formula`** name; the realised IR type is **`IVL.Formula`**.
-**Why (unchanged intent):** decouple VC generation from a single backend so `check` / `synth` / `subtype` target a stable IR, then plug satisfiability engines ([[z3-replacement-decision]]).
+This zettel originally recorded the type change from Z3-native `Expr` to `IVL.Formula` in `VerificationArtefacts` and `Obligation`. That migration was the first milestone deliverable ([[m1-implementation]]) and the artefact shape is documented in [[ivl-boundary]].

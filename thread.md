@@ -369,3 +369,85 @@ Industrial SMT papers and theory zettels linked to [[vc-ir]], [[verification-pip
 ### Thread updates
 
 [[verification-backend.thread]] — sequence refreshed (deprecated Z3 translation item, Syn-App-Ex item 23, selfification item 22).
+
+---
+
+## session:explorer-audit — 2026-05-27 [explorer, bugfix, elaboration, lowering, normalization, verification]
+
+Systematic audit of all 19 explorer snippets through the full compiler pipeline. Surfaced and fixed 8 issues; identified 2 design gaps and 4 deferred/open items.
+
+### New thread
+
+SPAWN [[explorer-audit.thread]] — tracks the full audit workstream (15 items, 8 implemented, 2 needs-design, 2 open, 2 deferred, 1 planned).
+
+### New zettels
+
+- [[stuck-quoting-fix]] — `NF.quote` infinite recursion on stuck proj/inj with `deBruijn: "both"`
+- [[explorer-snippet-syntax-fixes]] — four snippets had wrong surface syntax
+- [[bridge-type-erasure]] — PI/SIGMA/VAR_META missing from bridge dispatch
+- [[bridge-label-resolution]] — VAR_LABEL (`:x` references) missing from bridge dispatch
+- [[pattern-row-binder-fix]] — `walkPatternRow` didn't push binder for row variable tails
+- [[wraplambda-fix]] — `Rigid(0)` + unextended ctx in nested implicit Pi wrappers
+- [[implicit-generalization-semantics]] — decision: unconstrained implicits generalize, not default to Type
+- [[module-zonker-fix]] — told zonker from `letdec` dropped by `module.ts` `listen()`
+- [[bridge-closure-capture]] — curried closures return bare FuncRef without capture bundling (needs-design)
+- [[bridge-struct-dispatch]] — struct match emits string comparison instead of field dispatch (needs-design)
+- [[vacuous-ivl-vcs]] — most VCs are tautologies `(= x x)` (deferred)
+- [[nf-closure-display]] — closure wrappers noisy in NF display (deferred)
+- [[verification-unconstrained-meta]] — unconstrained meta in variant match verification (open, may resolve via zonker fix)
+- [[verification-rigid-mismatch]] — rigid mismatch in let binding verification (open, may resolve via zonker fix)
+
+### Updated zettels
+
+- [[gram-to-mir-bridge]] — status `planned` → `implemented`; noted known gaps
+- [[pipeline-explorer]] — added audit reference
+
+### Edges (summary; full set in connections.md)
+
+[[explorer-audit.thread]] --[:INCLUDES]--> all 14 member zettels
+[[explorer-audit.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]], [[elaboration-v2.thread]], [[pattern-matching.thread]], [[explorer-evolution.thread]]
+Individual zettels connected via FIXES/ADDRESSES/MODIFIES/REVEALS/INFORMS/USES/MAY_RESOLVE_VIA to relevant domain zettels.
+
+### Thread updates
+
+[[gram-to-mir-bridge]] status → implemented
+[[explorer-audit.thread]] created with 15-item sequence
+
+---
+
+## session:worklist-tags — 2026-05-28 [infrastructure, tooling, meta]
+
+Introduced **tag-based worklists** as a third work-layer pattern alongside threads and queues. Unordered bags of items defined by tag membership (`tech-debt`, `backlog`, `bug`), discovered via adjacency during work, with scripts for on-demand catalogs.
+
+### New vocabulary
+
+Registered tags: `tech-debt`, `backlog`, `bug`, `improvement`.
+
+### New zettels
+
+- [[ffi-saturation-gram]] — GRAM saturation pass for foreign/primop refs (implemented)
+- [[ffi-saturation-mir]] — deprecated MIR lowering saturation mechanism
+
+### Updated zettels
+
+- [[nf-closure-display]] — rewritten: not a bug, intentional NbE display; retagged backlog/improvement
+- [[vacuous-ivl-vcs]] — rewritten: expected selfification behavior; retagged backlog/improvement
+- [[block-level-using-gap]] — added `bug` tag
+- [[documentation-debt]] — added `tech-debt` tag
+- [[whnf-codification]] — added `tech-debt` tag
+- [[where-clauses]], [[lsp]], [[repl]], [[module-system]], [[dynamic-reflection]], [[spineful-applications]] — added `backlog` tag
+- [[ffi-saturation]] — deleted; split into gram/mir versions
+- [[explorer-audit.thread]] — dropped items #11, #12 (`[~]`)
+- [[global-pending-queue]] — resolved [[type-erasure]] (graduated to threads), [[ffi-saturation]] (split)
+- [[thread-queue-system]] — documented tag-based worklist pattern
+
+### New connections
+
+[[type-erasure]] --[:INCLUDED_IN]--> [[usage-semantics.thread]], [[gram-evolution.thread]]
+[[ffi-saturation-gram]] --[:SUPERSEDES]--> [[ffi-saturation-mir]]
+[[ffi-saturation-gram]] --[:INCLUDED_IN]--> [[gram-evolution.thread]]
+
+### Infrastructure
+
+- [[manifest.yaml]] — fixed scripts section (was `catalog.py`, now lists all JS scripts)
+- New scripts: `tech-debt.js`, `backlog.js`, `bugs.js` — tag-filtered catalogs with thread context

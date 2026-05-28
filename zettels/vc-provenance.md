@@ -1,29 +1,32 @@
 ---
 tags:
-  [
-    verification,
-    tracing,
-    planned,
-    deprecated,
-    sat,
-    backend,
-    ir,
-    error-handling,
-    display,
-    milestone,
-    infrastructure,
-    principle,
-    dependent,
-    testing,
-    cli,
-  ]
+  - verification
+  - tracing
+  - principle
+  - sat
+  - ir
+  - ivl
+  - error-handling
+  - display
+  - milestone
+  - infrastructure
+  - dependent
+  - backend
 ---
-# VC Provenance
+# VC provenance
 
-**Superseded as *fully realized pipeline* by the IVL/CDCL(T) direction — see [[z3-replacement-decision]].** Original framing preserved; obligation **types** updated below.
+Obligations carry provenance so that solver results (satisfiable, unsatisfiable, unknown) can be traced back to the source-level construct that generated them.
 
-**Status:** Motivation and pipeline hooks remain outlined in `docs/SMT-SOLVER.md` (boolean-lowering origins, assert metadata, explanations milestone). **Full** provenance from conflicting **IVL/CDCL** lemmas back to source edits is **not** wired end-to-end beyond obligation **labels/context** in `VerificationRuntime`.
+## Obligation shape
 
-**Obligation shape (`src/verification/V2/types.ts`):** **`label`**, **`expr: IVL.Formula`**, optional **`context`** (string snapshots of `term`, `type`, `description`). Paths that still feed **Z3** operate on formulas produced by **`z3.adapter.ts`**, not on a separate parallel VC AST.
+Each obligation has a **label** (human-readable origin: "subtype check at line N", "refinement on let binding"), an **expr** (the IVL formula), and optional **context** (snapshots of term, type, and description strings for display). The label and context are attached at VC emission time in `check`/`synth`/`subtype` and flow unchanged through normalization, Skolemization, CNF lowering, and into the solver.
 
-**Doc direction:** propagate handles from IVL generation through normalization / Tseitin / CDCL so Milestone 5 tooling can cite obligation IDs without spelunking raw Z3 logs ([[milestone-5-explanations]]).
+## The end-to-end propagation problem
+
+The hard part is preserving provenance *through* the solver. Tseitin encoding introduces proxy variables; CDCL learns conflict clauses that combine atoms from multiple obligations; theory propagations (EUF merges, arithmetic bound tightenings) derive new facts with mixed origins. Tracing an unsatisfiable result back to the minimal set of obligations that contributed — an UNSAT core — requires each solver step to record its justification.
+
+## Design principle
+
+The verification pipeline should propagate obligation handles from IVL generation through every lowering and solving stage, so tooling can cite obligation IDs rather than requiring users to interpret raw solver traces. This is the bridge between "the solver says unsat" and "your refinement on `f` at line 12 conflicts with the bound on `x` at line 8."
+
+Currently, obligation labels reach the solver entry point. Wiring them through CDCL conflict analysis and theory explanations to produce minimal UNSAT cores is milestone work ([[milestone-5-explanations]]).

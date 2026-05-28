@@ -36,7 +36,15 @@ connections:
   format: pseudo-cypher
 
 scripts:
-  catalog: scripts/catalog.py
+  catalog: scripts/catalog.js
+  glossary: scripts/glossary.js
+  queue: scripts/queue.js
+  status: scripts/status.js
+  threads: scripts/threads.js
+  neighborhood: scripts/neighborhood.js
+  tech-debt: scripts/tech-debt.js
+  backlog: scripts/backlog.js
+  bugs: scripts/bugs.js
 
 dist:
   path: dist/

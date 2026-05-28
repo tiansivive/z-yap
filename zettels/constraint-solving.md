@@ -1,26 +1,26 @@
 ---
 tags:
-  [
-    mechanism,
-    elaboration,
-    unification,
-    normalization,
-    inference,
-    monad,
-    compiler,
-    row-types,
-    quantifiers,
-    error-handling,
-    tracing,
-    implemented,
-  ]
+  - concept
+  - elaboration
+  - unification
+  - inference
+  - mechanism
+  - type-system
+  - dependent
+  - compiler
 ---
 # Constraint solving
 
-**Emission:** `V2.tell("constraint", …)` appends provenance-stamped constraints to the monad collector (`src/elaboration/shared/monad.v2.ts`). `assign` obligations default `lvl` to `ctx.env.length`.
+Constraint solving is the mechanism by which Yap's elaborator resolves type-level unknowns introduced during elaboration. Rather than failing or committing immediately when the elaborator encounters a gap — an unsolved metavariable, an implicit argument needing evidence, a type mismatch requiring unification — it emits a **constraint** and continues.
 
-**Solve:** `EB.solve` (`src/elaboration/solver/solver.ts`) partitions constraints: all `assign` rows are solved sequentially via `U.unify(left, right, lvl, subst)` with a zonker-augmented context; composed result is merged into `ctx.zonker`. Then `resolve` rows map implicit-holes to `EB.Term` by searching `ctx.implicits`, using `U.unify` and **skipping** candidates whose success substitution is non-empty (avoids prematurely fixing other metas — comment in `resolve`).
+## Constraint kinds
 
-**Let pipeline:** `letdec` (`inference/statements.ts`) runs `V2.listen()` → `EB.solve(constraints)` under `V2.local` → `NF.generalize` on `NF.force(…)` → `NF.instantiate` → implicit wrap (`Icit`). Module-level lets follow the same sketch in `module.ts`.
+**Assign** constraints represent type equalities: "these two types must unify." They arise from bidirectional checking mismatches, application argument/parameter pairs, and annotation boundaries. Solving an assign constraint produces a substitution mapping metavariables to their solutions.
 
-**Zonking:** substitution lives in `ctx.zonker` (`context.ts`); `NF.force` consults it during normalization.
+**Resolve** constraints represent implicit evidence obligations: "find an implicit value of this type." They arise when elaboration encounters an implicit Pi and inserts a fresh metavariable as a placeholder. Solving a resolve constraint searches the implicit environment for a candidate whose type unifies with the obligation.
+
+## Role in elaboration
+
+Constraint solving sits between elaboration (which produces constraints) and generalization (which abstracts over unsolved metavariables at let boundaries). The solver consumes a batch of constraints and produces two outputs: a **zonker** (substitution mapping solved metas to their values) and **resolutions** (mapping implicit metas to their evidence terms). These outputs feed into generalization, which decides which remaining metas become polymorphic binders.
+
+The separation between constraint emission and solving is a deliberate design choice ([[deferred-constraint-solving]]) — Yap does not solve constraints eagerly at each mismatch site.

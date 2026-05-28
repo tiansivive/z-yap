@@ -14,6 +14,7 @@ tags:
   - continuation
   - error-handling
   - verification
+  - tech-debt
 ---
 # Documentation debt
 
@@ -26,7 +27,7 @@ Drift between user-facing prose and the compiler tree shows up in several places
 
 **FAQ / roadmap drift (themes):**
 - "Coming soon" language can contradict shift/reset and other shipped paths.
-- Multiplicity / usage roadmap wording may not match deferred solver integration ([[usages-deferred]]).
+- Multiplicity / usage roadmap wording may not match deferred solver integration ([[verification-modal-phase]]).
 
 **Agent / architecture prose drift (themes):**
 - References to `inference.v2/` / `checking.v2/` directory names vs live `inference/` + `check.ts` ([[v2-elaboration-pipeline]], [[tmp-pipeline-stub]]).

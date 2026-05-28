@@ -6,6 +6,7 @@ tags:
 - syntax
 - ast
 - problem
+- bug
 - incomplete
 - migration
 - compiler

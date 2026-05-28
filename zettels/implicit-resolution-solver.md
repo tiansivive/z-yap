@@ -1,29 +1,27 @@
 ---
 tags:
-- elaboration
-- solver
-- unification
-- inference
-- mechanism
-- normalization
-- type-system
-- compiler
-- code
-- performance
-- principle
-- testing
-- monad
-- implemented
-status: implemented
+  - concept
+  - elaboration
+  - inference
+  - unification
+  - mechanism
+  - type-system
+  - dependent
+  - compiler
+  - principle
 ---
-# Solver: `resolve` constraints
+# Resolution via unification
 
-File: `src/elaboration/solver/solver.ts`.
+Implicit arguments in Yap are resolved by unifying the expected type against candidates from the implicit environment. This is proof search: the implicit environment is a context of available evidence, and a successful unification match means a candidate *is* evidence for the required type.
 
-`solve`: partition constraints into `assign` vs `resolve`. Process all `assign` via `U.unify` with context `zonker` composed into local reader state (`_solve`). Then `resolve(resolveConstraints, zonkedCtx)`.
+## How it works
 
-Per `resolve` constraint: if `ctx.zonker[meta.val]` already set, skip. Else `lookup(implicits, nf)` walks the **front** of `implicits`: `U.unify(nf, candidateTy, env.length, Sub.empty)(ctx)`. On `Right(subst)`, accept only if `_.isEmpty(subst)` — non-empty substitution retries the tail so one implicit choice does not prematurely solve other metas (comment references Idris 2 / Lean-style behavior).
+When elaboration encounters an implicit Pi type, it inserts a fresh metavariable as a placeholder and emits a `resolve` constraint carrying the expected type and a snapshot of the current implicit environment. Later, the solver walks the candidates in order, unifying the obligation type against each candidate's type. The first candidate that unifies successfully is selected as evidence.
 
-If no candidate, constraint is skipped without error; unresolved metas may remain for zonking / default instantiation paths in `implicits.ts` `instantiate`.
+## Semantic meaning
 
-Hub: [[implicit-resolution.md]], [[generalization.md]].
+Resolution is **selection**, not computation. The solver is choosing from existing evidence in scope, not deriving new type-level facts. This distinction is enforced by the [[empty-subst-guard]]: if unification succeeds but produces a substitution that grounds metavariables beyond the one being resolved, the candidate is rejected. A candidate that "works" but has side effects on unrelated metas was too powerful — it was computing, not selecting.
+
+## Relationship to typeclasses
+
+This mechanism is the foundation for Yap's implicit/typeclass story. `using` declarations populate the implicit environment; resolution searches it. The quality of resolution depends on the environment's contents and ordering. Coherence ([[typeclass-coherence]]), functional dependencies ([[functional-dependencies]]), and superclass propagation ([[superclasses]]) all refine how candidates enter and are prioritized in this search.

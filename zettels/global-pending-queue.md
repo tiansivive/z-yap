@@ -30,7 +30,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[module-system]] — grammar drift, qualified/hiding shapes not produced by Nearley
 - [ ] [[block-level-using-gap]] — implicit scoping bug: module `using` updates implicits but block inference does not
 - [ ] [[documentation-debt]] — README/FAQ drift, enumerated in brainstorming/yap/KNOWN-DOC-ISSUES.md
-- [ ] [[type-erasure]] — no principled erasure across backends
+- [x] [[type-erasure]] — graduated to usage-semantics + gram-evolution threads
 - [ ] [[dynamic-reflection]] — design-space only, runtime witness / gradual typing
-- [ ] [[ffi-saturation]] — MIR saturation concern for FFI applications
+- [x] [[ffi-saturation]] — split into [[ffi-saturation-gram]] (implemented) and [[ffi-saturation-mir]] (deprecated)
 - [ ] [[whnf-codification]] — no explicit WHNF vs full-NF API flag; modes are implicit

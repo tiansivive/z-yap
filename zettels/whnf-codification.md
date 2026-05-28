@@ -15,6 +15,7 @@ tags:
     reference,
     principle,
     pattern,
+    tech-debt,
   ]
 ---
 # WHNF codification

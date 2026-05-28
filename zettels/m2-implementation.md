@@ -85,8 +85,8 @@ The `Theory` interface exposes both `assert`/`check` (silent) and `assertTrace`/
 
 ## Implementation decisions
 
-1. **Theory.assert inline during BCP**: Each literal assignment immediately informs theories, not batched after propagation. `checkTheories` runs before every decision — this catches theory conflicts that BCP alone can't see.
+Extracted as standalone ADR zettels for reuse and independent traversal:
 
-2. **Dual polarity registration for arithmetic**: Both `x+y ≤ 5` and its negation `x+y > 5` are registered as atoms with corresponding bound updates. Without this, negated arithmetic literals had no effect on the simplex tableau.
-
-3. **Complementary atom encoding in quantifier lemmas**: When the quantifier engine instantiates `∀x. f(x) ≠ 1` as `f(a) ≠ 1`, it needs the literal for `f(a) ≠ 1`. If only `f(a) = 1` is in the atom table, `encodeLemma` finds the complementary atom and negates its literal rather than failing.
+1. [[inline-theory-assert]] — Theory.assert inline during BCP, not batched after propagation.
+2. [[dual-polarity-registration]] — Both polarities registered as atoms for arithmetic bound tracking.
+3. [[complementary-atom-encoding]] — Quantifier lemma encoder resolves complement atoms lazily.

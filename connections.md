@@ -93,7 +93,7 @@
 [[mir-lowering]] --[:ERASES]--> [[pi-types]]  -- Types not preserved in MIR
 [[mir-lowering]] --[:TRAVERSES]--> [[eb-term]]  -- Pattern-match walk
 [[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]  -- Stubs prevent integration
-[[usages-deferred]] --[:DEPRECATES]--> [[qtt-usage-collection]]  -- Move to verification
+[[verification-modal-phase]] --[:FOLLOWS]--> [[elaboration]]  -- Modal checking after full inference
 [[module-system]] --[:RELIES_ON]--> [[v1-elaboration-pipeline]]  -- Not yet wired to v2
 [[compile-orchestration]] --[:DELEGATES_TO]--> [[v1-elaboration-pipeline]]  -- Current delegation
 [[compile-orchestration]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- On-demand
@@ -117,10 +117,9 @@
 [[variant-types]] --[:USES]--> [[row-polymorphism]]  -- Row-backed unions
 [[variant-types]] --[:DUAL_OF]--> [[structural-records]]  -- Sum vs product over rows
 [[variant-types]] --[:MIRRORS]--> [[structural-records]]  -- Row-backed dual
-[[modality-enforcement]] --[:FOLLOWS]--> [[modalities]]  -- Requires modality definitions
-[[modality-enforcement]] --[:ADDRESSES]--> [[modalities]]  -- Enforcement gap
+[[verification-modal-phase]] --[:ADDRESSES]--> [[modalities]]  -- How modal obligations are discharged
 [[modality-polymorphism]] --[:EXTENDS]--> [[modalities]]  -- Polymorphism over modalities
-[[modality-polymorphism]] --[:REQUIRES]--> [[modality-enforcement]]  -- Depends on enforcement
+[[modality-polymorphism]] --[:REQUIRES]--> [[verification-modal-phase]]  -- Depends on enforcement being functional
 [[refinement-inference]] --[:EXTENDS]--> [[refinement-types]]  -- Inferred refinements
 [[refinement-inference]] --[:REVISES]--> [[modalities]]  -- Strip → template revision
 [[structural-records]] --[:USES]--> [[row-polymorphism]]  -- Open-tail row structure
@@ -188,9 +187,12 @@
 [[ffi]] --[:RELIES_ON]--> [[mir-lowering]]  -- Saturation
 [[ffi]] --[:LACKS]--> [[type-erasure]]  -- Needs dummy type args
 [[ffi]] --[:TRANSLATES_TO]--> [[js-codegen]]  -- Curried JS functions
-[[ffi-saturation]] --[:EXTENDS]--> [[ffi]]  -- Partial application handling
-[[ffi-saturation]] --[:RELIES_ON]--> [[mir-lowering]]  -- Lowering step
-[[ffi-saturation]] --[:PRESERVES]--> [[lambda]]  -- Calling convention via closures
+[[ffi-saturation-gram]] --[:EXTENDS]--> [[ffi]]  -- GRAM saturation pass for foreign/primop refs
+[[ffi-saturation-gram]] --[:RELIES_ON]--> [[gram]]  -- Operates on enriched GRAM graph
+[[ffi-saturation-gram]] --[:PRESERVES]--> [[lambda]]  -- Calling convention via closures
+[[ffi-saturation-gram]] --[:SUPERSEDES]--> [[ffi-saturation-mir]]  -- GRAM pass replaces MIR lowering mechanism
+[[ffi-saturation-mir]] --[:EXTENDS]--> [[ffi]]  -- Deprecated MIR lowering saturation
+[[ffi-saturation-mir]] --[:RELIES_ON]--> [[mir-lowering]]  -- Part of deprecated direct lowering path
 [[module-system]] --[:PRODUCES]--> [[elaboration-context]]  -- Interface tables
 [[mutual-recursion]] --[:EXTENDS]--> [[module-system]]  -- Multi-pass elaboration
 [[cbv-evaluation]] --[:IMPLEMENTS]--> [[yap]]  -- Runtime semantics
@@ -226,14 +228,14 @@
 [[pattern-matching-compilation]] --[:DISPATCHES_ON]--> [[match]]  -- Pattern shape
 [[saturation]] --[:REWRITES]--> [[application]]  -- App chains → primop nodes
 [[zonking]] --[:RELIES_ON]--> [[meta-variables]]  -- Applies subst to metas
-[[zonking]] --[:FOLLOWS]--> [[solver]]  -- After solving
+[[zonking]] --[:FOLLOWS]--> [[constraint-solver]]  -- After solving
 [[zonking]] --[:ZONKS]--> [[meta-variables]]  -- Resolves unknowns
 [[zonking]] --[:TRAVERSES]--> [[eb-term]]  -- Walks replacing metas
-[[solver]] --[:USES]--> [[unification]]  -- Assign constraints → unify
-[[solver]] --[:USES]--> [[nondeterminism]]  -- Multishot replay
-[[solver]] --[:RESOLVES]--> [[constraint-types]]  -- Processes queue
-[[solver]] --[:DELEGATES_TO]--> [[unification-algorithm]]  -- Assign constraints
-[[solver]] --[:DELEGATES_TO]--> [[implicit-resolution-solver]]  -- Resolve constraints
+[[constraint-solver]] --[:USES]--> [[unification]]  -- Assign constraints → unify
+[[constraint-solver]] --[:USES]--> [[nondeterminism]]  -- Multishot replay
+[[constraint-solver]] --[:RESOLVES]--> [[constraint-types]]  -- Processes queue
+[[constraint-solver]] --[:DELEGATES_TO]--> [[unification-algorithm]]  -- Assign constraints
+[[constraint-solver]] --[:DELEGATES_TO]--> [[implicit-resolution-solver]]  -- Resolve constraints
 [[nondeterminism]] --[:ENABLES]--> [[shift-reset]]  -- Multishot continuations
 [[nondeterminism]] --[:INSTANTIATES]--> [[meta-variables]]  -- Solution combinations
 [[whnf-vs-full-normalization]] --[:CONSTRAINS]--> [[elaboration]]  -- WHNF only in elab
@@ -248,7 +250,7 @@
 [[elaboration-context]] --[:INCLUDES]--> [[implicit-environment]]  -- Δ in context
 [[elaboration-context]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- Reader component
 [[monad-split]] --[:REVISES]--> [[elaboration-monad]]  -- Addresses coupling
-[[usages-deferred]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- Analysis moves post-elab
+[[verification-modal-phase]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- Modal obligations discharged in verification
 [[types-as-terms]] --[:ENABLES]--> [[type-type]]  -- Types compute as terms
 [[types-as-terms]] --[:RELIES_ON]--> [[dependent-types]]  -- Dependency required
 [[types-as-terms]] --[:NORMALIZES_TO]--> [[nf-value]]  -- Types evaluate like terms
@@ -256,8 +258,23 @@
 [[levels-vs-indices]] --[:APPLIES_TO]--> [[nbe]]  -- Levels for evaluation
 [[deferred-constraint-solving]] --[:ENABLES]--> [[generalization]]  -- Metas generalized before solving
 [[deferred-constraint-solving]] --[:ENABLES]--> [[implicit-resolution]]  -- Full context for resolution
-[[deferred-constraint-solving]] --[:RELIES_ON]--> [[solver-dispatch]]  -- Batch processing at let boundaries
+[[deferred-constraint-solving]] --[:RELIES_ON]--> [[constraint-solver]]  -- Batch processing at let boundaries
 [[deferred-constraint-solving]] --[:RESOLVES]--> [[constraint-types]]  -- At let boundaries
+[[deferred-constraint-solving]] --[:CONTRASTS_WITH]--> [[eager-constraint-solving]]  -- Deferred vs classical eager approach
+[[eager-constraint-solving]] --[:CONTRASTS_WITH]--> [[deferred-constraint-solving]]  -- Classical vs deferred approach
+
+## Constraint solver design
+
+[[constraint-solving]] --[:DELEGATES_TO]--> [[constraint-solver]]  -- Concept realized by the solver
+[[constraint-solver]] --[:IMPLEMENTS]--> [[constraint-solving]]  -- Solver realizes the concept
+[[assign-before-resolve]] --[:CONSTRAINS]--> [[constraint-solver]]  -- Ordering invariant
+[[empty-subst-guard]] --[:CONSTRAINS]--> [[constraint-solver]]  -- Resolution acceptance rule
+[[empty-subst-guard]] --[:CONSTRAINS]--> [[implicit-resolution-solver]]  -- Selection-not-computation semantics
+[[assign-before-resolve]] --[:COMPOSES_WITH]--> [[empty-subst-guard]]  -- Complementary invariants
+[[implicit-resolution-solver]] --[:IMPLEMENTS]--> [[constraint-solving]]  -- Resolution as proof search via unification
+[[implicit-resolution-solver]] --[:USES]--> [[unification-algorithm]]  -- Candidate matching by unification
+[[idris-2-influence]] --[:INSPIRES]--> [[empty-subst-guard]]  -- Empty-subst invariant
+[[idris-2-influence]] --[:INSPIRES]--> [[assign-before-resolve]]  -- Ordering discipline
 [[branded-types]] --[:CONSTRAINS]--> [[eb-term]]  -- Type-level separation
 [[branded-types]] --[:CONSTRAINS]--> [[nf-value]]  -- Prevents mixing
 [[generator-monad]] --[:IMPLEMENTS]--> [[elaboration-monad]]  -- Generator yield protocol
@@ -290,7 +307,7 @@
 [[idris-2-influence]] --[:INSPIRES]--> [[meta-variables]]  -- Contextual metas
 [[idris-2-influence]] --[:INSPIRES]--> [[bidirectional-checking]]  -- TT core
 [[idris-2-influence]] --[:INSPIRES]--> [[dependent-types]]  -- Dependent TT
-[[idris-2-influence]] --[:INSPIRES]--> [[solver]]  -- Unification approach
+[[idris-2-influence]] --[:INSPIRES]--> [[constraint-solver]]  -- Unification approach
 [[agda-influence]] --[:INSPIRES]--> [[meta-variables]]  -- Pattern unification
 [[agda-influence]] --[:INSPIRES]--> [[dependent-types]]  -- Dependent types
 [[agda-influence]] --[:INSPIRES]--> [[nbe]]  -- Evaluation-based normalization
@@ -318,8 +335,8 @@
 [[typing-rules]] --[:ENCODES]--> [[yap]]  -- Formal rules in spec.md
 [[typing-rules]] --[:FORMS]--> [[pi-types]]  -- Type-theoretic foundation
 [[typing-rules]] --[:COMPOSES_WITH]--> [[bidirectional-checking]]  -- Mode drives rule selection
-[[modality-drift]] --[:ADDRESSES]--> [[modalities]]  -- Annotation vs type former
-[[modality-drift]] --[:MOTIVATES]--> [[modality-enforcement]]  -- Gap needs fixing
+[[usage-semantics]] --[:IMPLEMENTS]--> [[modal-type-theory]]  -- QTT semiring in Yap
+[[modality-system]] --[:IMPLEMENTS]--> [[modal-type-theory]]  -- Multi-dimension modal design
 [[block-level-using-gap]] --[:APPLIES_TO]--> [[blocks]]  -- Using in block scope
 [[block-level-using-gap]] --[:APPLIES_TO]--> [[implicit-environment]]  -- Block-local Δ
 [[block-level-using-gap]] --[:DETECTS]--> [[module-system]]  -- Gap in implementation
@@ -347,11 +364,9 @@
 [[row-unification-mechanism]] --[:EXTENDS]--> [[unification-algorithm]]  -- Row extension
 [[row-unification-mechanism]] --[:DELEGATES_TO]--> [[row-rewriting]]  -- Label lookup
 [[row-unification-mechanism]] --[:INSTANTIATES]--> [[meta-variables]]  -- Fresh row metas
-[[constraint-types]] --[:ENABLES]--> [[solver-dispatch]]  -- Typed constraints
-[[constraint-types]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Assign vs resolve
-[[solver-dispatch]] --[:USES]--> [[unification-algorithm]]  -- Assign → unify
-[[solver-dispatch]] --[:USES]--> [[implicit-resolution-solver]]  -- Resolve → Δ lookup
-[[solver-dispatch]] --[:RESOLVES]--> [[constraint-types]]  -- Processes queue
+[[constraint-types]] --[:ENABLES]--> [[constraint-solver]]  -- Typed constraints
+[[constraint-types]] --[:DISPATCHES_ON]--> [[constraint-solver]]  -- Assign vs resolve
+[[constraint-solver]] --[:USES]--> [[implicit-resolution-solver]]  -- Resolve → Δ lookup
 [[implicit-resolution-solver]] --[:IMPLEMENTS]--> [[implicit-resolution]]  -- Solver-side mechanism
 [[implicit-resolution-solver]] --[:USES]--> [[unification-algorithm]]  -- Candidate matching
 [[implicit-resolution-solver]] --[:PRESERVES]--> [[generalization]]  -- Rejects subst-producing candidates
@@ -385,7 +400,7 @@
 [[context-operations]] --[:ENABLES]--> [[elaboration-context]]  -- Bind, extend, augment, prune
 [[context-operations]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- All phases
 [[nondeterminism-multishot]] --[:ENABLES]--> [[shift-reset]]  -- Multishot continuations
-[[nondeterminism-multishot]] --[:USES]--> [[solver-dispatch]]  -- Runs after solving
+[[nondeterminism-multishot]] --[:USES]--> [[constraint-solver]]  -- Runs after solving
 [[nondeterminism-multishot]] --[:INSTANTIATES]--> [[meta-variables]]  -- Solution combinations
 [[trampoline-evaluator]] --[:IMPLEMENTS]--> [[nbe]]  -- Stack-safe evaluation
 [[trampoline-evaluator]] --[:ADDRESSES]--> [[nbe]]  -- Stack overflow prevention
@@ -427,7 +442,7 @@
 [[src-to-eb-transformation]] --[:INSTANTIATES]--> [[meta-variables]]  -- Holes, implicit args
 [[test-utility]] --[:USES]--> [[parser-processors]]  -- Parses input
 [[test-utility]] --[:USES]--> [[elaboration-monad]]  -- V2.Do pipeline
-[[test-utility]] --[:USES]--> [[solver-dispatch]]  -- Solve constraints
+[[test-utility]] --[:USES]--> [[constraint-solver]]  -- Solve constraints
 [[test-utility]] --[:SNAPSHOTS]--> [[elaboration]]  -- Pretty + structure output
 [[snapshot-testing]] --[:USES]--> [[test-utility]]  -- elaborateFrom
 [[snapshot-testing]] --[:SNAPSHOTS]--> [[pretty-printing]]  -- Inline snapshots
@@ -450,12 +465,12 @@
 [[translation-boundary-vc]] --[:SUPERSEDES]--> [[smt-translation]]  -- New translation tools
 [[translation-boundary-vc]] --[:CONSUMES]--> [[nf-value]]  -- NF.Value input
 [[translation-boundary-vc]] --[:DELEGATES_TO]--> [[vc-ir]]  -- Produces VC types
-[[verification-artefacts-revised]] --[:SUPERSEDES]--> [[verification-pipeline]]  -- New artefact type
+[[ivl-boundary]] --[:DEFINES]--> [[vc-ir]]  -- IVL IR contract
 [[cdcl-t-solver]] --[:IMPLEMENTS]--> [[verification-pipeline]]  -- Replaces Z3
 [[cdcl-t-solver]] --[:CONSUMES]--> [[boolean-lowering-cnf]]  -- CNF clauses
 [[cdcl-t-solver]] --[:DELEGATES_TO]--> [[theory-plugin-interface]]  -- Theory propagation
 [[theory-plugin-interface]] --[:ENABLES]--> [[cdcl-t-solver]]  -- Modular theories
-[[verification-backend]] --[:SUPERSEDES]--> [[verification-pipeline]]  -- New backend API
+[[verification-backend]] --[:SPECIALIZES]--> [[verification-pipeline]]  -- Backend subsystem of the pipeline
 [[verification-backend]] --[:WRAPS]--> [[cdcl-t-solver]]  -- Simple API
 [[euf-theory]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Congruence closure
 [[euf-theory]] --[:ENABLES]--> [[quantifier-engine]]  -- Trigger matching
@@ -522,8 +537,7 @@
 [[unification-algorithm]] --[:IMPLEMENTS]--> [[sigma-types]]  -- Sigma-Sigma equality checking case
 [[unification-algorithm]] --[:IMPLEMENTS]--> [[variant-types]]  -- Variant-Variant equality checking case
 [[row-unification-mechanism]] --[:IMPLEMENTS]--> [[row-polymorphism]]  -- Type-level row unification
-[[solver-dispatch]] --[:RESOLVES]--> [[implicit-resolution]]  -- Resolve type → Δ lookup
-[[solver-dispatch]] --[:ENABLES]--> [[deferred-constraint-solving]]  -- Batch processing at let boundaries
+[[constraint-solver]] --[:ENABLES]--> [[deferred-constraint-solving]]  -- Batch processing at let boundaries
 [[substitution-system]] --[:ZONKS]--> [[holes]]  -- Fresh metas after solving
 [[sigma-bindings]] --[:IMPLEMENTS]--> [[sigma-types]]  -- Dependent field references
 [[sigma-bindings]] --[:ENABLES]--> [[structural-records]]  -- Field-to-field dependency
@@ -564,7 +578,7 @@
 [[elaboration-context]] --[:THREADS_THROUGH]--> [[pi-types]]  -- Binder extension
 [[elaboration-context]] --[:THREADS_THROUGH]--> [[match]]  -- Binder extension
 [[elaboration-monad]] --[:ENABLES]--> [[shift-reset]]  -- Via MutState.skolems
-[[solver]] --[:ENABLES]--> [[implicit-resolution]]  -- Δ lookup phase
+[[constraint-solver]] --[:ENABLES]--> [[implicit-resolution]]  -- Δ lookup phase
 [[smt-translation]] --[:TRANSLATES_TO]--> [[refinement-types]]  -- Verification conditions
 
 ### 1 ↔ 8 (Pipeline ↔ Implementation)
@@ -634,7 +648,7 @@
 ### Implicit resolution
 
 [[implicit-resolution]] --[:DISPATCHES_ON]--> [[constraint-types]]  -- Resolve → Δ, assign → unify
-[[implicit-resolution]] --[:DELEGATES_TO]--> [[solver-dispatch]]  -- Batch processing
+[[implicit-resolution]] --[:DELEGATES_TO]--> [[constraint-solver]]  -- Batch processing
 [[implicit-resolution]] --[:PRESERVES]--> [[generalization]]  -- Rejects subst-producing candidates
 [[implicit-resolution]] --[:INSTANTIATES]--> [[meta-variables]]  -- Insertion creates fresh unknowns
 [[implicit-resolution]] --[:RESOLVES]--> [[deferred-constraint-solving]]  -- At let boundaries
@@ -662,7 +676,7 @@
 [[bidirectional-checking]] --[:INTRODUCES]--> [[pi-types]]  -- Types in check mode
 [[bidirectional-checking]] --[:ELIMINATES]--> [[pi-types]]  -- Types in infer mode
 [[bidirectional-checking]] --[:DISPATCHES_ON]--> [[elaboration]]  -- Check vs infer mode
-[[bidirectional-checking]] --[:DELEGATES_TO]--> [[solver]]  -- At let boundaries
+[[bidirectional-checking]] --[:DELEGATES_TO]--> [[constraint-solver]]  -- At let boundaries
 [[bidirectional-checking]] --[:COERCES_TO]--> [[pi-types]]  -- Infer to check mode switch
 
 ### Equirecursive types
@@ -687,7 +701,7 @@
 [[type-erasure]] --[:ADDRESSES]--> [[ffi]]  -- Dummy type args
 [[type-erasure]] --[:ENABLES]--> [[js-codegen]]  -- Cleaner codegen
 [[multishot-serialization]] --[:MOTIVATES]--> [[selective-cps]]  -- Alternative approach
-[[usages-deferred]] --[:ADDRESSES]--> [[modality-enforcement]]  -- Enforcement gap
+[[usage-semantics]] --[:GROUNDED_IN]--> [[idris-1-qtt-paper]]  -- Idris 2 implementation precedent
 [[structural-row-based-types]] --[:REJECTS]--> [[nominal-typing]]  -- Not primary type discipline
 [[koka-influence]] --[:INSPIRES]--> [[effects-as-modality]]  -- Effect tracking model
 [[closures]] --[:ENABLES]--> [[nbe]]  -- Evaluation without substitution
@@ -775,8 +789,8 @@
 
 ### Batch 5 — Decisions
 
-[[modality-drift]] --[:CONTRASTS_WITH]--> [[typing-rules]]  -- Type former vs annotation inconsistency
-[[mutual-recursion]] --[:REQUIRES]--> [[solver]]  -- Multi-pass constraint solving
+[[modality-system]] --[:EXTENDS]--> [[modalities]]  -- Design details of the modal wrapper
+[[mutual-recursion]] --[:REQUIRES]--> [[constraint-solver]]  -- Multi-pass constraint solving
 
 ### Batch 8b — Sigma/De Bruijn/Closures
 
@@ -789,7 +803,7 @@
 [[variable-evaluation-dispatch]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Meta, Bound, Free, Label, Foreign
 [[application-evaluation]] --[:DISPATCHES_ON]--> [[nf-value]]  -- Abs → closure, External → partial, PrimOp → δ
 [[nondeterminism-multishot]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.nondeterminism
-[[nondeterminism-multishot]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Solution emptiness check
+[[nondeterminism-multishot]] --[:DISPATCHES_ON]--> [[constraint-solver]]  -- Solution emptiness check
 [[knot-tying]] --[:WRAPS]--> [[nbe]]  -- Placeholder entry mutated after evaluation
 [[evaluation-step-limit]] --[:ADDRESSES]--> [[nbe]]  -- Non-termination prevention
 
@@ -847,7 +861,7 @@
 
 ### 5 — Decisions
 
-[[modality-drift]] --[:DETECTS]--> [[modalities]]  -- Type former vs annotation inconsistency
+[[usage-semantics]] --[:EXTENDS]--> [[modalities]]  -- Quantity dimension of the modal system
 
 ## Batch-Internal Expansion (Round 4)  @2026-05-17
 
@@ -888,8 +902,8 @@
 [[vc-ir]] --[:ENCODES]--> [[verification-pipeline]]  -- All formula forms from current verification
 [[vc-normalization]] --[:TRAVERSES]--> [[vc-ir]]  -- Walk and simplify formulas
 [[boolean-lowering-cnf]] --[:ENCODES]--> [[vc-ir]]  -- Origin metadata for provenance
-[[verification-artefacts-revised]] --[:ENCODES]--> [[vc-ir]]  -- VC.Formula replaces Expr
-[[verification-artefacts-revised]] --[:INCLUDES]--> [[vc-ir]]  -- vc field is VC.Formula
+[[ivl-boundary]] --[:ENCODES]--> [[vc-ir]]  -- IVL.Formula replaces Expr
+[[ivl-boundary]] --[:INCLUDES]--> [[vc-ir]]  -- vc field is IVL.Formula
 [[required-formula-forms]] --[:ENCODES]--> [[verification-pipeline]]  -- Existing verification capabilities
 
 ### Batch 1 — Pipeline
@@ -900,7 +914,7 @@
 
 [[closures]] --[:PRESERVES]--> [[nbe]]  -- Lexical scope captured at binding site
 [[nondeterminism]] --[:THREADS_THROUGH]--> [[elaboration-monad]]  -- MutState.nondeterminism.solution
-[[nondeterminism]] --[:DISPATCHES_ON]--> [[solver-dispatch]]  -- Solution emptiness (single vs replay)
+[[nondeterminism]] --[:DISPATCHES_ON]--> [[constraint-solver]]  -- Solution emptiness (single vs replay)
 
 ## GRAM Architecture Principles  @2026-05-18
 
@@ -1055,11 +1069,11 @@
 ## Thread: Usage Semantics  @2026-05-18
 
 [[usage-semantics.thread]] --[:INCLUDES]--> [[modalities]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-drift]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-enforcement]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modal-type-theory]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-system]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[usage-semantics]]
+[[usage-semantics.thread]] --[:INCLUDES]--> [[verification-modal-phase]]
 [[usage-semantics.thread]] --[:INCLUDES]--> [[modality-polymorphism]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[qtt-usage-collection]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[usages-deferred]]
 [[usage-semantics.thread]] --[:INCLUDES]--> [[effects-as-modality]]
 [[usage-semantics.thread]] --[:INCLUDES]--> [[idris-1-qtt-paper]]
 
@@ -1096,8 +1110,7 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[milestone-3-strings]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[milestone-4-rows]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[milestone-5-explanations]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[solver]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[solver-dispatch]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[constraint-solver]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[solver-module-layout]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-ir]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-normalization]]
@@ -1106,6 +1119,12 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[required-formula-forms]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[required-theory-support]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[verification-backend]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[ivl-boundary]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[bidir-subtype-verification]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[z3-adapter-strategy]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[inline-theory-assert]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[dual-polarity-registration]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[complementary-atom-encoding]]
 
 ## Thread: GRAM Evolution  @2026-05-18
 
@@ -1139,6 +1158,13 @@
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[monad-split]]
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-let-polymorphism]]
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-sigma-types]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[constraint-solver]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[constraint-solving]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[deferred-constraint-solving]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[eager-constraint-solving]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[assign-before-resolve]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[empty-subst-guard]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[implicit-resolution-solver]]
 
 ## Thread: Parser Migration  @2026-05-18
 
@@ -1165,7 +1191,7 @@
 [[global-pending-queue]] --[:INCLUDES]--> [[documentation-debt]]
 [[global-pending-queue]] --[:INCLUDES]--> [[type-erasure]]
 [[global-pending-queue]] --[:INCLUDES]--> [[dynamic-reflection]]
-[[global-pending-queue]] --[:INCLUDES]--> [[ffi-saturation]]
+[[global-pending-queue]] --[:INCLUDES]--> [[ffi-saturation-gram]]
 [[global-pending-queue]] --[:INCLUDES]--> [[whnf-codification]]
 
 ## CRUD enrichment, strategies, and research references  @2026-05-18
@@ -1175,7 +1201,7 @@
 [[gram-crud-enrichment]] --[:CONSUMES]--> [[modalities]]  -- Multiplicity drives mode selection
 [[gram-crud-enrichment]] --[:ANNOTATES]--> [[projection]]  -- proj → Read (always safe, no mode needed)
 [[gram-crud-enrichment]] --[:ANNOTATES]--> [[injection]]  -- inj → Update (mode from multiplicity)
-[[gram-crud-enrichment]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Conservative defaults until enforcement works
+[[gram-crud-enrichment]] --[:RELIES_ON]--> [[verification-modal-phase]]  -- Conservative defaults until enforcement works
 [[gram-crud-enrichment]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Adds edges, never replaces
 [[gram-crud-enrichment]] --[:INSTANTIATES]--> [[compilation-by-selection]]  -- Backends choose whether to read modes
 [[gram-crud-enrichment]] --[:MIRRORS]--> [[mir-lowering]]  -- MIR §6.4 Read/Update is the same concept in CFG form
@@ -1190,13 +1216,13 @@
 [[crud-strategy-choice]] --[:DEFERS]--> [[constructor-context-strategy]]  -- Phase C: speculative/post-LoGRAM
 [[crud-strategy-choice]] --[:CONTRASTS_WITH]--> [[pattern-algorithm-choice]]  -- Same pattern: pick strategy, defer alternatives
 [[crud-strategy-choice]] --[:RELIES_ON]--> [[modalities]]  -- Strategy depends on multiplicity system
-[[crud-strategy-choice]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Full benefit requires enforcement
+[[crud-strategy-choice]] --[:RELIES_ON]--> [[verification-modal-phase]]  -- Full benefit requires modal enforcement
 
 ### Mode annotation strategy (Phase A)
 [[mode-annotation-strategy]] --[:APPLIES_TO]--> [[gram-crud-enrichment]]  -- Simplest enrichment pass
 [[mode-annotation-strategy]] --[:CONSUMES]--> [[modalities]]  -- Reads quantity from modal nodes
 [[mode-annotation-strategy]] --[:PRODUCES]--> [[gram]]  -- access_mode edges on inj nodes
-[[mode-annotation-strategy]] --[:RELIES_ON]--> [[modality-enforcement]]  -- Conservative defaults without it
+[[mode-annotation-strategy]] --[:RELIES_ON]--> [[verification-modal-phase]]  -- Conservative defaults without enforcement
 [[mode-annotation-strategy]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Pure annotation, no deletion
 [[mode-annotation-strategy]] --[:CONTRASTS_WITH]--> [[reuse-analysis-strategy]]  -- Different concern: ownership vs allocation
 [[mode-annotation-strategy]] --[:CONTRASTS_WITH]--> [[constructor-context-strategy]]  -- Different concern: ownership vs construction pattern
@@ -1259,7 +1285,7 @@
 [[gram-evolution.thread]] --[:SHARED_WITH]--> [[usage-semantics.thread]]  -- CRUD depends on multiplicity
 
 ### Cross-domain edges
-[[modality-enforcement]] --[:BLOCKS]--> [[gram-crud-enrichment]]  -- Conservative defaults without enforcement
+[[verification-modal-phase]] --[:BLOCKS]--> [[gram-crud-enrichment]]  -- Conservative defaults until modal enforcement lands
 [[koka-influence]] --[:INSPIRES]--> [[perceus-reuse-analysis]]  -- Same ecosystem
 [[koka-influence]] --[:INSPIRES]--> [[gram-crud-enrichment]]  -- FBIP concept origin
 [[koka-influence]] --[:INSPIRES]--> [[constructor-context-strategy]]  -- FP² constructor contexts
@@ -1619,7 +1645,7 @@
 [[dictionary-passing]] --[:RELIES_ON]--> [[implicits]]  -- Implicit Pi binders carry dictionaries
 [[dictionary-passing]] --[:USES]--> [[structural-records]]  -- Dictionaries are records
 [[dictionary-passing]] --[:APPLIES_TO]--> [[ffi]]  -- FFI arity includes dictionary args
-[[dictionary-passing]] --[:APPLIES_TO]--> [[ffi-saturation]]  -- Saturation must account for dictionaries
+[[dictionary-passing]] --[:APPLIES_TO]--> [[ffi-saturation-gram]]  -- Saturation must account for dictionaries
 [[dictionary-passing]] --[:INFORMS]--> [[indexing-strategies]]  -- Strategies as implicit dictionaries
 [[dictionary-passing]] --[:CONTRASTS_WITH]--> [[ghc-influence]]  -- GHC compiles to dictionaries; Yap starts with them
 
@@ -1762,10 +1788,7 @@
 ## Z3 → IVL transition
 
 [[z3-replacement-decision]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[vc-normalization]]
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[vc-provenance]]
 [[z3-replacement-decision]] --[:SUPERSEDES]--> [[solver-module-layout]]
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[required-theory-support]]
 [[z3-replacement-decision]] --[:SUPERSEDES]--> [[milestone-5-explanations]]
 [[z3-replacement-decision]] --[:MOTIVATES]--> [[cdcl-t-solver]]
 [[z3-replacement-decision]] --[:MOTIVATES]--> [[vc-ir]]
@@ -1775,6 +1798,38 @@
 [[cdcl-t-solver]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- Custom CDCL(T) replaces Z3
 [[m1-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M1 delivered IVL boundary
 [[m2-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M2 delivered EUF + quantifiers + LIA
+[[required-theory-support]] --[:MOTIVATES]--> [[z3-replacement-decision]]  -- Row theory gap drove the decision
+
+## Verification backend design
+
+[[ivl-boundary]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- IVL is the core deliverable
+[[ivl-boundary]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]  -- Replaces the artefact shape record
+[[ivl-boundary]] --[:ENABLES]--> [[verification-backend]]  -- Pluggable boundary for backend swap
+[[m1-implementation]] --[:PRODUCES]--> [[ivl-boundary]]  -- M1 delivered IVL types
+
+[[bidir-subtype-verification]] --[:IMPLEMENTS]--> [[verification-backend]]  -- VC generation strategy
+[[bidir-subtype-verification]] --[:USES]--> [[ivl-boundary]]  -- Emits IVL.Formula obligations
+[[bidir-subtype-verification]] --[:PRODUCES]--> [[vc-provenance]]  -- Obligations carry provenance
+[[bidir-subtype-verification]] --[:GROUNDED_IN]--> [[refinement-types]]  -- Liquid type theory
+
+[[z3-adapter-strategy]] --[:CONSUMES]--> [[ivl-boundary]]  -- Translates IVL to Z3
+[[z3-adapter-strategy]] --[:IMPLEMENTS]--> [[verification-backend]]  -- One backend consumer
+[[z3-adapter-strategy]] --[:ENABLES]--> [[solver-testing]]  -- Differential testing
+[[m1-implementation]] --[:PRODUCES]--> [[z3-adapter-strategy]]  -- Adapter built in M1
+
+## Implementation decisions (ADRs from M2)
+
+[[inline-theory-assert]] --[:CONSTRAINS]--> [[theory-plugin-interface]]  -- How theories receive literals
+[[inline-theory-assert]] --[:DETAILS]--> [[m2-implementation]]  -- Extracted from M2 record
+[[cdcl-t-solver]] --[:FOLLOWS]--> [[inline-theory-assert]]  -- Core loop follows this pattern
+
+[[dual-polarity-registration]] --[:CONSTRAINS]--> [[theory-plugin-interface]]  -- Atom registration rule
+[[dual-polarity-registration]] --[:DETAILS]--> [[m2-implementation]]  -- Extracted from M2 record
+[[dual-polarity-registration]] --[:APPLIES_TO]--> [[arithmetic-theory]]  -- Specific to arithmetic
+
+[[complementary-atom-encoding]] --[:CONSTRAINS]--> [[theory-plugin-interface]]  -- Lemma encoding rule
+[[complementary-atom-encoding]] --[:DETAILS]--> [[m2-implementation]]  -- Extracted from M2 record
+[[complementary-atom-encoding]] --[:APPLIES_TO]--> [[quantifier-engine]]  -- Specific to quantifiers
 
 ## Testing domain
 
@@ -1925,7 +1980,7 @@
 [[explorer-timing]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
 [[explorer-timing]] --[:ADDRESSES]--> [[performance]]  -- Identifies pipeline bottlenecks
 [[explorer-timing]] --[:REPORTS]--> [[gram]]  -- Per-pass timing within GRAM
-[[explorer-timing]] --[:REPORTS]--> [[solver-dispatch]]  -- Solver timing breakdown
+[[explorer-timing]] --[:REPORTS]--> [[constraint-solver]]  -- Solver timing breakdown
 [[explorer-timing]] --[:FOLLOWS]--> [[explorer-snippet-library]]  -- Sequence order
 
 [[explorer-graph-viz]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
@@ -1936,3 +1991,65 @@
 [[explorer-graph-viz]] --[:ADDRESSES]--> [[gram-additive-enrichment]]  -- Visualizes enrichment layers
 [[explorer-graph-viz]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Graph viz depends on GRAM substrate
 [[explorer-graph-viz]] --[:FOLLOWS]--> [[explorer-timing]]  -- Sequence order
+
+## Explorer Audit
+
+[[explorer-audit.thread]] --[:INCLUDES]--> [[stuck-quoting-fix]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[explorer-snippet-syntax-fixes]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-type-erasure]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-label-resolution]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[pattern-row-binder-fix]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[wraplambda-fix]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[implicit-generalization-semantics]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[module-zonker-fix]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-struct-dispatch]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[verification-unconstrained-meta]]  -- Thread member
+[[explorer-audit.thread]] --[:INCLUDES]--> [[verification-rigid-mismatch]]  -- Thread member
+[[explorer-audit.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Bridge fixes
+[[explorer-audit.thread]] --[:SHARED_WITH]--> [[elaboration-v2.thread]]  -- Monad/zonker fixes
+[[explorer-audit.thread]] --[:SHARED_WITH]--> [[pattern-matching.thread]]  -- Struct dispatch, row binders
+[[explorer-audit.thread]] --[:SHARED_WITH]--> [[explorer-evolution.thread]]  -- Snippet fixes, pipeline
+
+[[stuck-quoting-fix]] --[:FIXES]--> [[pipeline-explorer]]  -- Segfault on stuck projection/injection quoting
+[[stuck-quoting-fix]] --[:MODIFIES]--> [[normalization]]  -- New StuckProj/StuckInj patterns in quoting
+
+[[explorer-snippet-syntax-fixes]] --[:FIXES]--> [[explorer-snippet-library]]  -- Four snippets had wrong syntax
+
+[[bridge-type-erasure]] --[:FIXES]--> [[gram-to-mir-bridge]]  -- PI/SIGMA/VAR_META dispatch
+[[bridge-type-erasure]] --[:ADDRESSES]--> [[type-erasure]]  -- Interim erasure until QTT
+
+[[bridge-label-resolution]] --[:FIXES]--> [[gram-to-mir-bridge]]  -- VAR_LABEL dispatch
+[[bridge-label-resolution]] --[:USES]--> [[row-types]]  -- Dependent struct field references
+
+[[pattern-row-binder-fix]] --[:FIXES]--> [[gram]]  -- walkPatternRow de Bruijn alignment
+[[pattern-row-binder-fix]] --[:USES]--> [[row-types]]  -- Row variable tail in patterns
+
+[[wraplambda-fix]] --[:FIXES]--> [[implicits]]  -- Rigid(0) + unextended ctx
+[[wraplambda-fix]] --[:REVEALS]--> [[implicit-generalization-semantics]]  -- Bug only triggers with dependent annotations
+
+[[implicit-generalization-semantics]] --[:INFORMS]--> [[implicits]]  -- Unconstrained implicits generalize
+[[implicit-generalization-semantics]] --[:INFORMS]--> [[let-polymorphism]]  -- Consistent with let-generalization
+
+[[module-zonker-fix]] --[:FIXES]--> [[elaboration-monad]]  -- Told zonker dropped by listen()
+[[module-zonker-fix]] --[:ADDRESSES]--> [[meta-variables]]  -- Prevents leaked meta re-generalization
+
+[[bridge-closure-capture]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Curried return calling convention
+[[bridge-closure-capture]] --[:ADDRESSES]--> [[closures]]  -- Capture threading for nested closures
+
+[[bridge-struct-dispatch]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Struct pattern compilation
+[[bridge-struct-dispatch]] --[:ADDRESSES]--> [[pattern-matching]]  -- Struct vs variant dispatch paths
+
+[[verification-unconstrained-meta]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Unsolved meta reaches IVL
+[[verification-unconstrained-meta]] --[:MAY_RESOLVE_VIA]--> [[module-zonker-fix]]  -- Zonker fix may solve it
+
+[[verification-rigid-mismatch]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Rigid comparison failure
+[[verification-rigid-mismatch]] --[:MAY_RESOLVE_VIA]--> [[module-zonker-fix]]  -- Zonker fix may solve it
+
+## Tag-based worklist edges
+
+[[type-erasure]] --[:INCLUDED_IN]--> [[usage-semantics.thread]]  -- QTT drives principled erasure
+[[type-erasure]] --[:INCLUDED_IN]--> [[gram-evolution.thread]]  -- GRAM bridge handles interim erasure
+[[ffi-saturation-gram]] --[:INCLUDED_IN]--> [[gram-evolution.thread]]  -- GRAM saturation pass
+[[vacuous-ivl-vcs]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Tautological VCs from selfification
+[[nf-closure-display]] --[:ADDRESSES]--> [[normalization]]  -- Closure display in NbE output

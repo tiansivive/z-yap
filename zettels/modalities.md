@@ -1,37 +1,39 @@
 ---
 tags:
-  [
-    type-system,
-    elaboration,
-    inference,
-    normalization,
-    verification,
-    syntax,
-    modality,
-    multiplicity,
-    dependent,
-    concept,
-    pattern,
-    incomplete,
-    project,
-  ]
+  - type-system
+  - modality
+  - multiplicity
+  - dependent
+  - concept
+  - hub
+  - verification
+  - elaboration
 ---
-# Modalities (multiplicity + liquid)
+# Modalities
 
-Surface syntax parses usage qualifiers (`<0>`, `<1>`, `<*>`) together with optional liquid refinements; see `src/parser/__tests__/usages.test.ts`.
+Hub: [[usage-semantics.thread]]
 
-Elaborated core syntax stores them as `EB.Term` nodes `{ type: "Modal", term, modalities }` where `modalities: Modal.Annotations<EB.Term>` is `{ quantity: Q.Multiplicity; liquid: EB.Term }` from `src/verification/modalities/shared.ts` (`src/elaboration/syntax/term.ts`).
+Modal type theory applied to Yap's type system. Modalities constrain how values are used, tracked, and verified.
 
-Normal-form types mirror that shape as `NF.Value` `{ type: "Modal", value, modalities }` with `Modal.Annotations<NF.Value>` (`src/elaboration/normalization/syntax/term.ts`).
+## Domain
 
-Multiplicities are the semiring `{ Zero, One, Many }` in `src/shared/modalities/multiplicity.ts` (`Q.SR`, `Q.display`, vector ops `add` / `multiply`).
+- **Theory:** [[modal-type-theory]] — graded modal type theory as a framework; Atkey's QTT calculus
+- **Yap's system:** [[modality-system]] — dual modalities (quantity + liquid), extensible design
+- **Usage semantics:** [[usage-semantics]] — {0, 1, ω} multiplicities, semiring, QTT/Idris inspiration
+- **Modal phase:** [[verification-modal-phase]] — modal checking in verification, not elaboration
 
-Inference returns `[EB.Term, NF.Value, Q.Usages]` (`src/elaboration/elaborate.ts`), but `infer` applies `stripModalities` to the synthesized type so modal wrappers do not remain on inferred types; the comment there states modality verification is intended as a separate concern (`stripModalities` in `src/elaboration/elaborate.ts`).
+## Extensions (speculative / planned)
 
-`EB.Modal.infer` (`src/elaboration/inference/modal.ts`) checks liquid predicates with `EB.Liquid.typecheck` / `Liquid.Predicate.Neutral` and attaches `EB.Constructors.Modal`.
+- **Modality polymorphism:** [[modality-polymorphism]] — polymorphism over grades
+- **Effects as modality:** [[effects-as-modality]] — effect indices as a third modality dimension
 
-Elaboration constraint solving (`src/elaboration/solver/solver.ts`) only handles `assign` and `resolve`; a `usage` constraint variant exists only commented out. Corresponding `V2.tell("constraint", { type: "usage", … })` call sites in `check.ts`, `lambda.ts`, `statements.ts`, `block.ts` are commented.
+## References
 
-Variable lookup returns usage vectors of zeros for bound variables and leaves multiplicity on sigma entries unresolved (`QUESTION` in `src/elaboration/shared/context.ts` lookup).
+- [[idris-1-qtt-paper]] — Brady's QTT in Idris 2 (ECOOP 2021)
+- [[petricek-orchard]] — coeffect framework
 
-Verification consumes `quantity` when extracting modal annotations (`extractModalities`, modal subtyping in `src/verification/V2/subtype.ts`) and checks liquid refinements under `NF.Modal`; QTT-style multiplicity checking beyond that extraction remains an open extension of the same pass.
+## Downstream consumers
+
+- [[refinement-types]] — liquid predicates compose with quantity in `Modal`
+- [[gram-crud-enrichment]] — multiplicity drives CRUD access mode selection
+- [[verification-pipeline]] — modal obligations discharged in verification pass

@@ -1,18 +1,17 @@
 ---
 tags:
 - lowering
-- speculative
 - ir
 - graph
 - compiler
 - mir
-- planned
+- implemented
 - codegen
 ---
 
 # GRAM → MIR bridge
 
-Speculative direction: the enriched GRAM graph (after all passes) contains enough information to mechanically emit MIR's `Module` structure.
+The enriched GRAM graph (after all passes) contains enough information to mechanically emit MIR's `Module` structure. Implemented in `src/GRAM/bridge/`; the explorer uses `GRAM.Bridge.emit` as the canonical MIR source.
 
 **Mapping:**
 - `closure` + `env` + `func` nodes → MIR `Function` (lifted, with `[env, x]` params)
@@ -26,4 +25,6 @@ Speculative direction: the enriched GRAM graph (after all passes) contains enoug
 2. Clarifies architectural roles: GRAM = canonical semantic graph with multiple views; MIR = one sequential operational materialization.
 3. Provides a migration path: existing codegen (JS/C/Erlang) already consumes MIR. The bridge lets them work unchanged while GRAM becomes the source of truth upstream.
 
-**Status:** Exploratory. Executable codegen today goes through `lowerToMir` from `EB.Term`; a GRAM→MIR emitter would sit between enriched graph passes and existing `Codegen/v2/` backends.
+**Status:** Implemented. The bridge (`src/GRAM/bridge/emit.ts`) is the canonical MIR source for the explorer pipeline. The old direct `lowerToMir` path (`src/lowering/`) is deprecated.
+
+**Known gaps:** Closure capture for curried returns ([[bridge-closure-capture]]), struct match dispatch ([[bridge-struct-dispatch]]).

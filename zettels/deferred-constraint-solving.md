@@ -1,28 +1,30 @@
 ---
 tags:
-  [
-    mechanism,
-    elaboration,
-    inference,
-    unification,
-    monad,
-    pattern,
-    dependent,
-    compiler,
-    normalization,
-    error-handling,
-    reference,
-    implemented,
-  ]
+  - decision
+  - elaboration
+  - inference
+  - unification
+  - mechanism
+  - pattern
+  - dependent
+  - compiler
+  - error-handling
+  - principle
 ---
 # Deferred constraint solving
 
-Unification obligations are **accumulated** in the `Elaboration` writer (`collector.constraints`) until an explicit boundary drains them.
+**Decision:** Yap accumulates constraints during elaboration and solves them at let/module boundaries, rather than solving eagerly at each mismatch site.
 
-**`let` declarations:** After `EB.check.gen` inside a local binding, `EB.Stmt.letdec` (`inference/statements.ts`) snapshots `constraints` and `metas` via `V2.listen()`, then calls `EB.solve` on that batch before `NF.generalize` / `NF.instantiate`. Nondeterministic unification branches can be replayed through `replay` (`solver/nondeterminism.ts`) when `MutState.nondeterminism.solution` is populated.
+## Rationale
 
-**Top-level expressions:** `expression` in `module.ts` runs the same listen → `solve` → `generalize` → `instantiate` → `Icit.wrapLambda` path for a bare statement body.
+**Error resilience.** Deferring constraints means elaboration can process an entire file — all function bodies, all let bindings — before any solving occurs. If function A has a type error, functions B, C, and D are still fully elaborated and their constraints solved independently. In an eager system, a unification failure halts traversal of that branch; in Yap's deferred system, the failure is contained to the solve phase of A's let boundary.
 
-**Implicits:** `resolve` constraints defer picking evidence until after assignment solving so zonkers reflect forced types (`solver.ts` `resolve`).
+**Separation of concerns.** Elaboration traversal focuses on structural decomposition (checking, synthesis, application, etc.) without interleaving solver logic. The solver is a distinct phase with its own invariants ([[assign-before-resolve]], [[empty-subst-guard]]). This makes both easier to reason about and extend independently.
 
-This differs from eagerly unifying at every mismatch site; batching couples directly to let-polymorphism (`NF.generalize` filters metas by `lvl` vs `ctx.env.length` in `normalization/generalization.ts`).
+**Extensibility.** Adding new constraint kinds (e.g. usage constraints for QTT, new resolution strategies) requires only a new constraint type and a handler in the solver — not changes to the elaboration traversal.
+
+## How it works
+
+The elaboration monad accumulates constraints in its writer channel. At let/module boundaries, the accumulated constraints are drained via `listen`, passed to the solver, and the resulting substitution is merged into the context's zonker. Generalization then abstracts over any metas that remain unsolved after solving.
+
+Both deferred and eager approaches support let-polymorphism — the choice between them is not about expressiveness but about engineering properties. See [[eager-constraint-solving]] for the contrast.
