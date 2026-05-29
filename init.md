@@ -81,7 +81,13 @@ z-yap uses a thread/queue system for tracking work:
 
 ### Bodies
 - **Self-contained** — a zettel body must be meaningful on its own, without knowing why it was created or what surrounds it
-- **No absence language** — don't write "not implemented", "no X exists", "there is no Y". State what Yap *does*, or frame speculative ideas as exploration ("one approach would be…")
+- **Prose economy** — every clause must carry design knowledge. Drop clauses that add nothing once the positive statement covers it ("Container types encode as App+Row, ~~no dedicated constructors~~" — the second clause is redundant). The test: remove the clause; does the sentence lose information? If not, cut it.
+- **Negative framing — context-dependent** — negative language is sometimes the point:
+  - **Legitimate**: design contrasts ("Annotations erase before EB.Term"), positioning ("not a proof assistant"), domain boundaries ("Reset/Shift exist only in EB.Term"). The negation IS the knowledge.
+  - **Status reports**: "not yet implemented", "currently throws", "TODO", "FIXME" — ephemeral, will become false. Status belongs in tags (`incomplete`, `planned`), not prose.
+  - **Redundant negation**: "not inherited from JavaScript" after already stating the positive mechanism — adds nothing, cut it.
+  - **Confusing "what this isn't"**: "There is no WHNF mode flag" — a future reader asks "why are you telling me about something that doesn't exist?" Lead with the positive design instead.
+  - **The test**: would a reader with no context about this conversation find the sentence informative, or puzzling?
 - **No internal doc links** — don't reference `docs/`, `brainstorming/`, `ARCHITECTURE.md`, `.cursor/plans/`, `.github/`. Those files are ephemeral. External URLs and `src/` code paths are fine
 - **No prescriptive tone** — "one approach would be X" not "Yap should add X"
 - **No narrating old docs** — "the design docs say X" → just state X as knowledge

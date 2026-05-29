@@ -1,23 +1,26 @@
 ---
 tags:
+- decision
+- evaluation
 - normalization
 - elaboration
-- runtime
-- evaluation
-- inference
 - lowering
 - codegen
 - dependent
 - modality
-- speculative
-- implemented
+- exploration
 ---
-# Strict vs Lazy
+# Strict vs lazy
 
-The v2 NbE evaluator evaluates composite subterms eagerly in fixed order — `App` evaluates function and argument before reduction, match scrutinizes before alternatives, row extensions evaluate field values before tails (`src/elaboration/normalization/evaluation.v2.ts`; see sibling note `cbv-evaluation.md` in this vault).
+Yap's NbE evaluator is strict (CBV) — see cbv-evaluation for the justification (shift/reset, effects, predictable types). This is settled: the compile-time evaluator must be strict because the type theory depends on it.
 
-That semantics is **kernel / tooling** behaviour (`NF.evaluate`). It does **not** automatically describe every host artefact: lowering emits explicit MIR sequences (`src/lowering/lower.ts`), and legacy JS codegen prints lambdas/applications (`src/Codegen/terms.ts`) whose observability depends on emitted structure plus JS rules.
+The runtime evaluation strategy is a separate question. Lowering emits strict MIR with explicit evaluation order, and the target backends (JS, C, Erlang) are all strict by default — the path of least resistance is strict end-to-end.
 
-**Deliberate lowering choice:** administrative beta-redexes are **not** collapsed during MIR lowering so source→MIR stays transparent (contrast with NbE beta in `evaluation.v2.ts`).
+But laziness is powerful. Memoized or lazy evaluation could enable:
+- Avoiding computation of unused arguments (thunking)
+- Infinite data structures and productive corecursion
+- More natural expression of certain algorithms (streams, generators)
 
-A global lazy or memoized evaluation strategy would cut across normalization, lowering, and backends — an exploratory axis, not part of the current pipeline (`speculative` if pursued).
+Options: strict-by-default, opt-in laziness annotations, or lazy-by-default with strictness annotations (Haskell-style). The modality system could potentially encode evaluation strategy as a type-level property.
+
+A deliberate lowering choice supports this openness: administrative beta-redexes are NOT collapsed during MIR lowering, keeping the source→MIR translation transparent. This means the lowering layer doesn't bake in assumptions about reduction that would foreclose lazy alternatives.

@@ -64,8 +64,8 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
 12. ~~**NF closure display** [[nf-closure-display]]~~ — `[~]` dropped
     Intentional NbE representation. Promoted to backlog/improvement (config toggle).
 
-13. **Verification unconstrained meta** [[verification-unconstrained-meta]] — open
-    Variant match snippet: crashes at generalize (`ctx.metas[?15]` undefined), and unsolved metas (`?3`, `?6`, `?8`, `?9`) remain outside zonker. Not resolved by module zonker fix — deeper meta propagation issue in variant row elaboration.
+13. **Solver meta propagation fix** [[verification-unconstrained-meta]] — implemented
+    Variant match snippet: metas created during row rewrite in solver were orphaned. Fixed by adding `V2.listen()` after solve to capture solver-created metas.
 
 14. **Verification rigid mismatch** [[verification-rigid-mismatch]] — implemented
     Let binding snippet: resolved by module zonker fix. Full pipeline completes, type is `Num`, verification sat.

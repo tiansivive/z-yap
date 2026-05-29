@@ -104,6 +104,23 @@ These govern what "good" looks like. Apply them during assessment (Phase 1-2).
 - A dispatch table of modules and their locations
 - A plan with completion checkboxes
 
+### Prose economy and negative framing
+
+Zettels are written for future agents and people with no context about why the zettel was created. Every sentence must carry design knowledge. Apply these per-sentence:
+
+**Trim redundant clauses.** If removing a clause loses no information, cut it. "Container types encode as App+Row, no dedicated constructors" — the second clause is redundant; the first already states the design. The test: does the sentence lose knowledge without the clause?
+
+**Negative framing is context-dependent.** Some negations are the point; others are noise. Classify before acting:
+
+| Kind | Example | Action |
+|------|---------|--------|
+| **Legitimate contrast** | "Annotations erase before EB.Term", "not a proof assistant", "exist only in EB.Term" | **Keep** — the negation IS the design knowledge |
+| **Status report** | "not yet implemented", "currently throws", "TODO", "FIXME", "future work" | **Remove** — ephemeral; use tags (`incomplete`, `planned`) |
+| **Redundant negation** | "not inherited from JavaScript" after stating the positive mechanism | **Remove** — positive statement already covers it |
+| **Confusing "what this isn't"** | "There is no WHNF mode flag" | **Rewrite** — lead with positive design; future reader would ask "why tell me about something that doesn't exist?" |
+
+**The future-reader test.** Before keeping any sentence, ask: would someone reading this zettel with no knowledge of the conversation, backlog, or current implementation state find this sentence informative? If they'd find it confusing, redundant, or ephemeral — fix it.
+
 ### Structural patterns
 
 **Milestones stay as milestone records** — paper trail of what was built. Design knowledge gets extracted into separate linked zettels. The milestone records what happened; the design zettels capture why.
@@ -163,3 +180,9 @@ Patterns learned from prior cluster rework sessions. Apply these during all phas
 - **Verify factual claims externally.** If a zettel asserts something about PL theory (e.g. "eager solving breaks let-polymorphism"), verify it via web search before writing it into the ZK. The ZK must be accurate, not just well-structured.
 
 - **The user decides framing, not the agent.** Propose actions, but the user chooses the decomposition. The user may see splits, merges, or reframings that the agent's assessment missed. Iterate until the user says to execute.
+
+- **Audit rewrites for prose quality after execution.** Bulk rewrites can introduce systematic prose issues (over-aggressive tag removal, blanket negative-framing cleanup, redundant clauses). After executing a cluster, re-read each file through the "future reader" lens and fix issues before moving on. Catching patterns early prevents compounding across clusters.
+
+- **Negative framing requires judgment, not rules.** A blanket "remove all negative language" overcorrects — design contrasts, erasure facts, and domain boundaries are legitimate negations. A blanket "keep all negatives" under-corrects — status reports and redundant clauses survive. Classify each instance individually (see "Prose economy and negative framing" above).
+
+- **Overconnecting beats sparsity.** A missed connection is a failed search query. When adding zettels or rewriting, connect to every relevant zettel in the neighborhood — not just the obvious parent/child links. Cross-domain connections are especially valuable.

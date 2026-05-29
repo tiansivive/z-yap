@@ -19,4 +19,4 @@ Population happens via `extendSigma`, called during row inference and struct inf
 
 NbE reads ctx.sigma for label variables during evaluation: `extendSigmaEnv` merges row values into the sigma context when reducing struct/schema-like values, enabling dependent computation at the type level.
 
-The limitation: ctx.sigma is a flat map, not a stack. Nested dependent records (a record with a field that is itself a dependent record) cannot properly scope inner field references without shadowing outer ones. The intended fix is a sigma stack, noted as a TODO.
+ctx.sigma is a flat map keyed by label. Nested dependent records (a record with a field that is itself a dependent record) cannot properly scope inner field references without shadowing outer ones. The resolution is a sigma stack — scoped context frames rather than a single flat namespace.

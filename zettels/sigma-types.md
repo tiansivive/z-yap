@@ -23,4 +23,4 @@ Unification of Sigma types unifies annotations first, then applies each sigma cl
 
 The label-reference mechanism that makes field-to-field dependency work at elaboration time is ctx.sigma — see sigma-bindings for that mechanism.
 
-Known limitation: ctx.sigma is a flat map. Nested row types (a record whose field is itself a dependent record) would need a sigma stack to properly scope inner field references.
+ctx.sigma is a flat map. Nested dependent records (a record whose field is itself a dependent record) require a sigma stack to properly scope inner field references — the flat map cannot distinguish inner from outer label bindings.

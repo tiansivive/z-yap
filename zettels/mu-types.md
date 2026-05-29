@@ -21,6 +21,6 @@ Mu shares the `Abs` node with all other binders, discriminated by `binding.type 
 
 The key evaluation design: mu types stay neutral during NbE. Applying a Mu-binder Abs does not eagerly unfold — it produces a neutral App. This prevents infinite unfolding during normalization. Expansion happens only when needed, specifically during unification, where the unfold-and-recurse strategy drives comparison of recursive types.
 
-The occurs check in unification currently throws when it detects a cyclic meta-variable solution. The natural completion of that path is constructing the solution as a mu type (`μα. ...`), which would allow the solver to express recursive type solutions directly rather than failing.
+Cyclic meta-variable solutions trigger the occurs check; the solver rejects rather than building a μ-type solution. An alternative is to solve cyclic metas as μ-types (`μα. …`), expressing recursive type solutions directly.
 
 See mu-type-unification for the specific equality-checking strategy. See equirecursive-types for the broader design context including bisimulation and fuel-capped approaches.

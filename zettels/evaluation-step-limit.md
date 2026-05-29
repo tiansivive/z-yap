@@ -1,22 +1,22 @@
 ---
 tags:
-  [
-    normalization,
-    elaboration,
-    performance,
-    mechanism,
-    error-handling,
-    implemented,
-    recursion,
-    runtime,
-    inference,
-    tracing,
-    testing,
-    ir,
-  ]
+- mechanism
+- normalization
+- elaboration
+- performance
+- evaluation
+- implemented
+- recursion
+- error-handling
 ---
 # Evaluation step limit
 
-`NF.evaluate` (`src/elaboration/normalization/evaluation.v2.ts`) takes optional `maxSteps` (default `10_000_000`). Each iteration of the driver loop that drains `globalWorkStack` increments a counter; beyond the limit it throws ``Evaluation exceeded maximum steps (${maxSteps}). Possible infinite loop in: ${EB.Display.Term(term, ctx)}``.
+An engineering safety net against non-termination in NbE. The evaluator's driver loop increments a counter on each iteration; exceeding the limit (default 10 million steps) throws an error with the offending term displayed.
 
-Continuation replay inside `apply` when forcing a captured continuation (`closure.type === "Continuation"`) uses a separate inner loop with its own counter and fixed `maxSteps = 10_000_000`; overrun throws `Continuation replay exceeded maximum steps` (no term embedded).
+Two separate limits operate:
+- **Main evaluator**: counts iterations of the work stack drain loop. Catches infinite evaluation from recursive types, divergent type-level computation, or unbounded unfolding.
+- **Continuation replay**: when applying a captured continuation closure, a separate inner loop with its own counter and fixed 10M limit prevents runaway resumption chains.
+
+This is not a semantic design — it's pragmatic non-termination prevention. The limit is high enough to never trigger on well-formed programs (10M steps covers deeply nested elaboration) but catches genuine divergence. The error message includes the term being evaluated, aiding diagnosis.
+
+The step limit complements the trampoline architecture: the trampoline prevents stack overflow (bounded depth), the step limit prevents heap exhaustion (bounded steps).

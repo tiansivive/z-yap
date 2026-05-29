@@ -33,7 +33,11 @@ Stripped impl-map framing, promoted design rationale.
 Rewrote: eb-term (concept), nf-value (concept), src-term (concept), pi-types, sigma-types, sigma-bindings (mechanism), mu-types, mu-type-unification (mechanism), closures (hub), neutrals, application-evaluation (mechanism), lambda, blocks, match, annotations, application, holes (user feature + design potential), meta-variables, dependent-types (hub), type-type (decision).
 Removed: nf-display (pure code walkthrough, redirected edges to pretty-printing).
 Created: ast-pipeline (three-layer Src→EB→NF design), unified-binder (shared Abs decision), standard-closure, primop-closure, continuation-closure.
-Stripped impl-map framing throughout. Promoted design rationale: unified binder, Type:Type decision, NbE closure taxonomy, neutral single-wrapper, bidirectional annotation hook, equirecursive unfold-and-recurse, sigma flat-map limitation. Preserved applicable domain-crossing tags.
+
+### 7. Normalization / evaluation (~7 zettels + hub + adjacent) — DONE
+Rewrote: nbe (hub), cbv-evaluation (decision — shift/reset + effects justify CBV), quoting (readback mechanism), whnf-vs-full-normalization (one evaluator, emergent WHNF), variable-evaluation-dispatch (variable resolution taxonomy), trampoline-evaluator (stack-safe architecture), knot-tying (placeholder-mutate recursion pattern), evaluation-step-limit (engineering safety).
+Also rewrote adjacent: strict-vs-lazy (compile-time CBV settled; runtime laziness open question).
+No removals, no new zettels — cluster was already well-decomposed, just impl-map presentation.
 
 ---
 
@@ -77,7 +81,7 @@ Stripped impl-map framing throughout. Promoted design rationale: unified binder,
 
 ---
 
-## IMPL-MAP (101) — grouped by domain
+## IMPL-MAP (94) — grouped by domain
 
 ### Unification / row (~10)
 unification-algorithm.md, flex-flex-unification.md, flex-rigid-unification.md,
@@ -88,11 +92,6 @@ row-unification-mechanism.md, row-rewriting.md, row-data-structure.md, label-loo
 bidirectional-checking.md, generalization.md, implicits.md, implicit-resolution.md,
 implicit-environment.md, constraint-types.md, nondeterminism.md, zonking.md,
 elaboration-context.md, elaboration-monad.md, generator-monad.md, context-operations.md
-
-### Normalization / evaluation (~7)
-cbv-evaluation.md, quoting.md, whnf-vs-full-normalization.md,
-variable-evaluation-dispatch.md, trampoline-evaluator.md, knot-tying.md,
-evaluation-step-limit.md
 
 ### Verification solver (~12)
 cdcl-t-solver.md, boolean-lowering-cnf.md, tseitin-cnf.md, congruence-closure.md,

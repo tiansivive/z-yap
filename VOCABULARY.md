@@ -118,6 +118,8 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | `interactivity` | User interaction: click, hover, select, navigate |
 | `comparison` | Side-by-side comparison, diffing, before/after analysis |
 | `debugging` | Debugging tools, diagnostic aids, root-cause analysis |
+| `limitation` | A known architectural constraint or design boundary that may be revisited |
+| `stabilization` | Focused effort to fix/document issues surfaced by new visibility |
 
 ### Work Layer Tags
 
@@ -249,4 +251,4 @@ This file is a **registry**, not a constraint. It records tags and labels that h
 | Representation | `ast`, `display`, `error-handling`, `tracing`, `monad` |
 | Work Layer | `thread`, `queue`, `hub`, `adr`, `ready`, `blocked`, `needs-design` |
 | Thread Lifecycle | `active`, `dormant`, `on-hold`, `spike`, `archived` |
-| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift`, `bugfix`, `bug`, `improvement`, `tech-debt`, `backlog` |
+| Status | `implemented`, `in-progress`, `planned`, `speculative`, `deprecated`, `rejected`, `deferred`, `incomplete`, `drift`, `bugfix`, `bug`, `improvement`, `tech-debt`, `backlog`, `limitation`, `stabilization` |

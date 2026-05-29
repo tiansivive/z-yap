@@ -1,27 +1,24 @@
 ---
 tags:
+- decision
 - normalization
 - elaboration
-- mechanism
+- evaluation
 - implemented
 - inference
-- lowering
-- runtime
-- ir
 - dependent
 - continuation
-- evaluation
-- code
-- reference
+- effect
 ---
-# CBV Evaluation
+# CBV evaluation
 
-The v2 NbE evaluator is **strict on subterms that it actually evaluates**: `App` evaluates both sides before `reduceAndPushStack`; `Proj` evaluates the base then projects; `Inj` evaluates base and injected value; `Match` evaluates the scrutinee before `matchingAndPushStack`; row extensions in `evalRowPush` evaluate the field **before** the tail (push order yields **right-to-left** completion over extensions); block `Let` evaluates the bound value before the rest of the block (`processStatementsAndPush`).
+Yap's NbE evaluator uses call-by-value: composite subterms are evaluated eagerly in a fixed order before reduction. Application evaluates function and argument before dispatching. Match evaluates the scrutinee before alternatives. Row extensions evaluate field values before tails. Block let-bindings evaluate the bound value before continuing.
 
-That ordering is fixed by explicit `Eval` / `Cont` scheduling in `src/elaboration/normalization/evaluation.v2.ts` — the work stack and continuation frames encode call-by-value discipline directly in the evaluator.
+The evaluation order is fixed by explicit `Eval` / `Cont` frame scheduling on the work stack — deterministic and independent of host-language evaluation order.
 
-Shift/reset (`EB.Shift`, `EB.Reset`) interact with the same work stack: `Reset` pushes a `Delimiter`; `Shift` captures frames up to it into `NF.Closure` `{ type: "Continuation", ... }` and resumes via `reduceAndPushStack` / `apply`.
+The justification for CBV in NbE:
+- **Delimited continuations**: shift/reset semantics are evaluation-order-dependent. The frames captured by shift, and the point at which reset delimits, depend on which subterms have been evaluated. A lazy evaluator would capture different frames, producing incorrect normal forms.
+- **Effects and modalities**: Yap has effectful computation where the order of evaluation matters for type-level reasoning. Strict evaluation gives predictable, reproducible types.
+- **Predictability**: CBV produces normal forms that match programmer intuition — arguments are evaluated before being passed, fields are evaluated before being stored.
 
-Do **not** infer host-language (JS) evaluation order from this alone — this describes **`NF.evaluate` over `EB.Term`**.
-
-See also: [[application-evaluation.md]], [[closures.md]], [[nbe.md]].
+This is the **compile-time** (NbE) evaluation strategy, not a statement about runtime behavior. The NbE evaluator models the language's intended semantics for the purpose of type comparison. See strict-vs-lazy for the runtime evaluation strategy question.

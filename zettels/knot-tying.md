@@ -1,25 +1,24 @@
 ---
 tags:
-- normalization
 - mechanism
-- implemented
-- recursion
+- normalization
 - elaboration
+- recursion
+- evaluation
+- implemented
 - inference
 - dependent
-- runtime
-- ir
-- ast
-- error-handling
-- performance
-- reference
 ---
-# Knot-Tying (Recursive Evaluation)
+# Knot-tying
 
-**Imported recursion (`EB.Var` free):** For `{ type: "Var", variable: { type: "Free" } }`, `evaluateTerm` builds `entry` at `ctx.env.length` with placeholder `nf: NF.Var(Bound lvl)`, extends `ctx.env`, pushes a **`Cont`** that assigns `entry.nf = result`, then evaluates `imports[name][0]` in the extended context (`evaluation.v2.ts`). The placeholder cell is mutated once the body’s NF is known.
+The placeholder-and-mutate pattern that enables recursive evaluation in NbE. When a definition may reference itself (directly or through imports), the evaluator creates a placeholder entry in the environment, evaluates the body in a context that includes the placeholder, then mutates the placeholder with the actual result. This breaks the circularity: the body can reference the binding before its value is known.
 
-**Block `Let`:** same pattern — `entry.nf` starts as **`NF.Var({ type: "Bound", lvl: ctx.env.length })`** (no `Neutral` wrapper yet), continuation assigns the evaluated value before continuing statements (`processStatementsAndPush`).
+Three cases use this pattern:
 
-**µ bindings:** reading `Bound` where the env binder is **`Mu`** returns **`Neutral(entry.nf)`** instead of the plain `nf`, blocking unfolding during normalization (`evaluateTerm` bound-var branch).
+- **Imported definitions** (Free variables): the environment entry starts as `NF.Var(Bound lvl)` — a placeholder. A `Cont` frame is pushed that will assign `entry.nf = result` once evaluation completes. The imported definition evaluates in the extended context, and any self-references resolve to the placeholder (a neutral term) until the continuation fires.
 
-See also: [[closures.md]], [[cbv-evaluation.md]], [[nf-value.md]], [[application-evaluation.md]].
+- **Block let-bindings**: same pattern — the entry's `nf` starts as a bound variable placeholder, and a continuation assigns the evaluated value before the rest of the block continues. This is what enables recursive let-bound definitions to typecheck and evaluate.
+
+- **Mu bindings**: when reading a Bound variable whose binder is Mu, the evaluator wraps the result in `Neutral(entry.nf)` instead of returning the plain NF. This blocks unfolding during normalization — the mu body can reference itself, but each reference produces a neutral rather than triggering re-evaluation. Unfolding only happens in unification, where it's controlled.
+
+The pattern relies on mutable cells in the environment — a controlled use of mutation in an otherwise functional evaluation pipeline.

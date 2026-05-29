@@ -1,28 +1,27 @@
 ---
 tags:
-  [
-    normalization,
-    elaboration,
-    mechanism,
-    implemented,
-    ast,
-    ffi,
-    unification,
-    inference,
-    syntax,
-    dependent,
-    row-types,
-    modality,
-    runtime,
-    continuation,
-  ]
+- mechanism
+- normalization
+- elaboration
+- evaluation
+- implemented
+- ffi
+- unification
+- inference
+- dependent
+- metavariable
+- row-types
+- modality
+- continuation
 ---
 # Variable evaluation dispatch
 
-`evaluateTerm` in `src/elaboration/normalization/evaluation.v2.ts` matches `EB.Term` `Var` shapes:
+How each variable kind resolves to an NF.Value during NbE evaluation. Variables are the entry points from syntax into the semantic domain — each kind has a distinct resolution path reflecting its origin and semantics:
 
-- **Label** — `ctx.sigma[name]` supplies cached `nf` or evaluates `term`.
-- **Free** — `ctx.imports[name]`; extends env with a let binder, pushes `Cont` to assign `entry.nf` after eval (knot).
-- **Meta** — `skolems[val]` from `V2.MutState` re-queues eval of the skolem term; else if `ctx.zonker[val]` missing pushes `Neutral(Var meta)`; else `NF.quote` the zonked value and eval the quote.
-- **Bound** — env entry: if binder head is `Mu`, pushes `Neutral(entry.nf)`; else pushes `entry.nf`.
-- **Foreign** — `ctx.ffi[name]`; arity 0 runs `compute()`, else `NF.Constructors.External(…)`.
+- **Bound** — looked up in the environment (`ctx.env`). If the binder head is Mu, the result is wrapped in Neutral to block recursive unfolding. Otherwise the stored NF.Value is used directly.
+- **Free** — resolved via `ctx.imports`. The imported definition is evaluated in an extended context using the knot-tying pattern (placeholder mutation for recursive imports).
+- **Meta** — three-way dispatch: (1) if present in skolems (`V2.MutState`), re-evaluate the skolem term; (2) if present in `ctx.zonker`, quote the solution and re-evaluate; (3) otherwise produce `Neutral(Var(meta))` — the meta is unsolved and computation is stuck.
+- **Label** — resolved via `ctx.sigma` (the sigma bindings map). Returns the cached normal form for the field, or evaluates the stored term if not yet evaluated.
+- **Foreign** — resolved via `ctx.ffi`. If arity is 0, the compute function fires immediately. Otherwise an `NF.External` value is produced, awaiting arguments.
+
+The Meta path is the most consequential: it determines whether a type-level computation can proceed (zonked), needs to be deferred (neutral), or is in a skolem-checking context (re-evaluate). This is where the elaborator's incremental solving interacts with normalization.

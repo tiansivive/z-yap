@@ -1,28 +1,29 @@
 ---
 tags:
+- concept
 - normalization
 - elaboration
-- concept
+- hub
 - implemented
 - inference
 - verification
 - dependent
 - type-system
-- ir
-- ast
-- monad
-- testing
-- reference
-- mechanism
+- unification
+- evaluation
 ---
 # Normalisation by Evaluation (NbE) (hub)
 
-**Evaluate:** `NF.evaluate(ctx, term, maxSteps?, skolems?)` in `src/elaboration/normalization/evaluation.v2.ts` — stack interpreter (`globalWorkStack`, `globalResultStack`) over `EB.Term` producing `NF.Value`.
+Yap's approach to definitional type equality: evaluate terms into a semantic domain (NF.Value), then compare structurally via unification. NbE replaces syntactic normalization (rewrite rules on syntax) with semantic normalization (interpret into a domain, read back to syntax).
 
-**Quote / readback:** `NF.quote(ctx, lvl, val)` in `src/elaboration/normalization/quoting.ts` rebuilds `EB.Term`, converting bound **levels** to **indices** and chasing `ctx.zonker` for metas.
+The two directions:
+- **Evaluate** (`NF.evaluate`): EB.Term → NF.Value. Performs computation — beta reduction, delta expansion, row operations — producing closures for binders and neutrals for stuck computation.
+- **Quote** (`NF.quote`): NF.Value → EB.Term. Reads back semantic values into syntax, converting de Bruijn levels to indices and chasing the zonker for solved metas. See quoting.
 
-Used throughout inference and checking (`NF.evaluate` / `NF.quote` call sites under `src/elaboration/inference/*`, `check.ts`, `implicits.ts`, etc.). Definitional comparison is distributed: callers evaluate to `NF.Value`, then unification (`src/elaboration/unification/unification.ts`) compares semantic values directly rather than quoting both sides back to `EB.Term` in one shared helper.
+The eval/quote cycle is the engine of the elaborator: evaluate to compare semantically (unification operates on NF.Values), quote to produce syntactic output (for display, further elaboration, or lowering).
 
-Semantic domain basics: closures and neutral-wrapped stuck spines (`syntax/term.ts`); binders introduce `NF.Abs` + `NF.Closure`.
+Evaluation strategy is call-by-value — see cbv-evaluation. The evaluator uses a trampoline architecture (explicit work/result stacks) for stack safety — see trampoline-evaluator. Recursive definitions use a knot-tying pattern — see knot-tying.
 
-Detail: [[application-evaluation.md]], [[cbv-evaluation.md]], [[closures.md]], [[neutrals.md]], [[nf-value.md]], [[de-bruijn.md]], [[quoting.md]], [[knot-tying.md]], [[type-level-computation]], [[bisimulation-type-equality]].
+The semantic domain (NF.Value) consists of closures (deferred computation under binders) and neutrals (stuck computation on unknown heads). See closures, neutrals, nf-value.
+
+Children: cbv-evaluation, quoting, trampoline-evaluator, knot-tying, variable-evaluation-dispatch, whnf-vs-full-normalization, evaluation-step-limit, application-evaluation, closures, neutrals.

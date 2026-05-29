@@ -1,24 +1,25 @@
 ---
 tags:
-  [
-    normalization,
-    elaboration,
-    concept,
-    inference,
-    unification,
-    mechanism,
-    implemented,
-    dependent,
-    recursion,
-    decision,
-    performance,
-    problem,
-    ir,
-    testing,
-  ]
+- decision
+- normalization
+- elaboration
+- evaluation
+- implemented
+- inference
+- unification
+- dependent
+- recursion
 ---
 # WHNF vs full normalization
 
-The evaluator is one function (`NF.evaluate`) without an explicit mode flag (`src/elaboration/normalization/evaluation.v2.ts`). Beta reduction runs for non-`Mu` `Abs` via `reduceAndPushStack` (extends context and enqueues body eval). Some heads stay weak: neutral metavar/foreign applications accumulate `Neutral` / partial `External`; `Mu` abstraction refuses unfold during reduce.
+`NF.evaluate` is a single evaluator with no reduction-depth switch — it reduces until the semantic domain blocks further progress. What looks like weak head normal form is emergent: some terms cannot reduce further because their head is unknown.
 
-Tests (`src/elaboration/normalization/__tests__/evaluation.v2.test.ts`) describe expected heads as WHNF in prose. Unification and inference share the same `NF.evaluate` path — full normalization depth is whatever `reduce` / `reduceAndPushStack` perform for each head, not a second evaluator module.
+Terms that stay "weak" (unreduced under binders or with stuck heads):
+- **Neutral metas**: unsolved meta-variables produce `Neutral(Var(meta))` — computation is stuck until the meta is solved.
+- **Neutral free variables**: rigid variables from binders — no reduction possible.
+- **Mu application**: mu-binder Abs produces neutral App rather than unfolding, preventing infinite expansion.
+- **Partial externals**: foreign functions with fewer arguments than their arity stay as partial `External` values.
+
+The consequence: unification and inference share the same evaluator. Normalization depth is whatever the evaluator achieves for each head. If a term's head is known (a closure, a literal), it reduces. If it's unknown (a meta, a free variable), it stays neutral. The evaluator doesn't decide; the semantic domain does.
+
+This design is simpler than an evaluator with configurable reduction depth, at the cost of not being able to "stop early" for performance. The evaluation-step-limit provides the engineering safety net against non-termination.

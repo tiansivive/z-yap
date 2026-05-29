@@ -451,3 +451,39 @@ Registered tags: `tech-debt`, `backlog`, `bug`, `improvement`.
 
 - [[manifest.yaml]] — fixed scripts section (was `catalog.py`, now lists all JS scripts)
 - New scripts: `tech-debt.js`, `backlog.js`, `bugs.js` — tag-filtered catalogs with thread context
+
+---
+
+## Session: Pipeline Stabilization — integration test audit  @2026-05-29
+
+Audited `language-tour.test.ts.snap` end-to-end across all passes (elaboration → normalization → GRAM → MIR → codegen). Flagged 13 issues, classified as bugs, architectural limitations, or backlog items. Created new thread and zettels.
+
+### New vocabulary
+
+- `limitation` — architectural constraint or design boundary, distinct from `bug` (defect)
+- `stabilization` — focused fix/document effort after new visibility
+
+### New zettels
+
+- [[pipeline-stabilization.thread]] — thread hub for all issues surfaced by the integration audit
+- [[eq-normalization-bug]] — `$eq` returns wrong result on equal literals (bug, planned)
+- [[letpoly-implicit-escape]] — generalization leaks block-internal metas (bug, planned)
+- [[maplist-schema-unification]] — mu-type schema row order mismatch (bug, needs-design)
+- [[length-recursive-debruijn]] — recursive call resolves as wrong de Bruijn index (bug, planned)
+- [[fst-closure-annotation]] — annotation swaps type parameters, possibly display-only (bug, planned)
+- [[sigma-quoting-match]] — sigma body match can't reduce on symbolic binder (limitation, incomplete)
+- [[sigma-quoting-field-ref]] — sigma body field ref resolves to type not value (limitation, incomplete)
+- [[bridge-free-var-unknown]] — bridge emits `unknown` for var:free (bug, planned)
+- [[bridge-label-closure-gap]] — label self-ref under match scope produces undefined (bug, planned)
+
+### Connected existing zettels
+
+- [[bridge-struct-dispatch]] — connected to stabilization thread (backlog)
+- [[bridge-closure-capture]] — connected to stabilization thread (backlog)
+- [[type-erasure]] — connected to stabilization thread (backlog)
+
+### New connections
+
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> 12 items (9 new + 3 existing backlog)
+[[pipeline-stabilization.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]], [[recursion.thread]], [[row-types.thread]]
+Plus 30+ mechanism/context connections (see connections.md §Pipeline Stabilization)

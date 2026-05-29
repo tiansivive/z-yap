@@ -2156,3 +2156,125 @@
 [[src-term]] --[:RELIES_ON]--> [[ast-pipeline]]  -- First layer of the pipeline
 [[eb-term]] --[:RELIES_ON]--> [[ast-pipeline]]  -- Second layer of the pipeline
 [[nf-value]] --[:RELIES_ON]--> [[ast-pipeline]]  -- Third layer of the pipeline
+
+## Normalization / evaluation quality rework  @2026-05-28
+
+### NbE hub children
+[[nbe]] --[:INCLUDES]--> [[cbv-evaluation]]  -- Evaluation strategy
+[[nbe]] --[:INCLUDES]--> [[quoting]]  -- Readback direction
+[[nbe]] --[:INCLUDES]--> [[trampoline-evaluator]]  -- Stack-safe architecture
+[[nbe]] --[:INCLUDES]--> [[knot-tying]]  -- Recursive evaluation pattern
+[[nbe]] --[:INCLUDES]--> [[variable-evaluation-dispatch]]  -- Variable resolution
+[[nbe]] --[:INCLUDES]--> [[whnf-vs-full-normalization]]  -- One evaluator, emergent WHNF
+[[nbe]] --[:INCLUDES]--> [[evaluation-step-limit]]  -- Non-termination guard
+[[nbe]] --[:INCLUDES]--> [[application-evaluation]]  -- Application dispatch
+[[nbe]] --[:INCLUDES]--> [[closures]]  -- Deferred substitution
+[[nbe]] --[:INCLUDES]--> [[neutrals]]  -- Stuck computation
+
+### CBV evaluation
+[[cbv-evaluation]] --[:RELIES_ON]--> [[trampoline-evaluator]]  -- Frame scheduling encodes CBV order
+[[cbv-evaluation]] --[:RELIES_ON]--> [[shift-reset]]  -- Continuations require strict order
+[[cbv-evaluation]] --[:CONTRASTS_WITH]--> [[strict-vs-lazy]]  -- Compile-time settled, runtime open
+[[cbv-evaluation]] --[:ENABLES]--> [[nf-value]]  -- Produces predictable normal forms
+[[cbv-evaluation]] --[:ENABLES]--> [[unification-algorithm]]  -- Deterministic comparison
+
+### Quoting
+[[quoting]] --[:RELIES_ON]--> [[de-bruijn-levels]]  -- Levels in NF.Value
+[[quoting]] --[:RELIES_ON]--> [[de-bruijn-indices]]  -- Indices in EB.Term
+[[quoting]] --[:RELIES_ON]--> [[level-to-index-conversion]]  -- Level → index at the boundary
+[[quoting]] --[:RELIES_ON]--> [[meta-variables]]  -- Chases zonker for solved metas
+[[quoting]] --[:RELIES_ON]--> [[sigma-bindings]]  -- Sigma applies annotation not fresh rigid
+[[quoting]] --[:CONTRASTS_WITH]--> [[cbv-evaluation]]  -- Quote is inverse of evaluate
+
+### WHNF design
+[[whnf-vs-full-normalization]] --[:RELIES_ON]--> [[neutrals]]  -- WHNF is emergent from neutral blocking
+[[whnf-vs-full-normalization]] --[:RELIES_ON]--> [[mu-types]]  -- Mu stays neutral
+[[whnf-vs-full-normalization]] --[:RELIES_ON]--> [[evaluation-step-limit]]  -- Safety net for one-evaluator design
+
+### Variable dispatch connections
+[[variable-evaluation-dispatch]] --[:RELIES_ON]--> [[sigma-bindings]]  -- Label variables → ctx.sigma
+[[variable-evaluation-dispatch]] --[:RELIES_ON]--> [[knot-tying]]  -- Free variables use placeholder pattern
+[[variable-evaluation-dispatch]] --[:RELIES_ON]--> [[meta-variables]]  -- Meta resolution: skolem/zonker/neutral
+[[variable-evaluation-dispatch]] --[:RELIES_ON]--> [[neutrals]]  -- Unsolved metas → neutral
+[[variable-evaluation-dispatch]] --[:RELIES_ON]--> [[ffi]]  -- Foreign variables → ctx.ffi
+
+### Trampoline architecture
+[[trampoline-evaluator]] --[:RELIES_ON]--> [[evaluation-step-limit]]  -- Step limit complements trampoline
+[[trampoline-evaluator]] --[:ENABLES]--> [[shift-reset]]  -- Delimiter frames on work stack
+[[trampoline-evaluator]] --[:ENABLES]--> [[continuation-closure]]  -- Frame capture from work stack
+
+### Knot-tying
+[[knot-tying]] --[:ENABLES]--> [[blocks]]  -- Recursive let-bindings
+[[knot-tying]] --[:ENABLES]--> [[mu-types]]  -- Mu bindings wrap in Neutral
+[[knot-tying]] --[:RELIES_ON]--> [[nf-value]]  -- Placeholder mutation in env entries
+[[knot-tying]] --[:RELIES_ON]--> [[elaboration-context]]  -- Environment extension for placeholders
+
+### Strict vs lazy (updated)
+[[strict-vs-lazy]] --[:RELIES_ON]--> [[cbv-evaluation]]  -- NbE is settled as CBV
+[[strict-vs-lazy]] --[:COMPOSES_WITH]--> [[modalities]]  -- Modality system could encode eval strategy
+[[strict-vs-lazy]] --[:APPLIES_TO]--> [[lowering]]  -- Lowering preserves source order
+[[strict-vs-lazy]] --[:APPLIES_TO]--> [[codegen]]  -- Backend eval strategy
+
+## Pipeline Stabilization  @2026-05-29
+
+### Thread structure
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[eq-normalization-bug]]  -- $eq returns wrong result on equal literals
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[letpoly-implicit-escape]]  -- Generalization leaks block-internal metas
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[maplist-schema-unification]]  -- Mu-type schema row order mismatch
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[length-recursive-debruijn]]  -- Recursive call resolves as wrong de Bruijn index
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[fst-closure-annotation]]  -- Annotation swaps type parameters
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[sigma-quoting-match]]  -- Sigma body match can't reduce on symbolic binder
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[sigma-quoting-field-ref]]  -- Sigma body field ref resolves to type not value
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-free-var-unknown]]  -- Bridge var:free → unknown
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-label-closure-gap]]  -- Label self-ref under match scope
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-struct-dispatch]]  -- Backlog: struct pattern dispatch
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Backlog: curried closure capture
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[type-erasure]]  -- Backlog: type-only let erasure
+
+### Thread cross-references
+[[pipeline-stabilization.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Bridge bugs overlap
+[[pipeline-stabilization.thread]] --[:SHARED_WITH]--> [[recursion.thread]]  -- Recursive binding bugs overlap
+[[pipeline-stabilization.thread]] --[:SHARED_WITH]--> [[row-types.thread]]  -- Row/schema unification bug
+
+### $eq normalization bug
+[[eq-normalization-bug]] --[:APPLIES_TO]--> [[primitive-signature]]  -- $eq is a registered primop
+[[eq-normalization-bug]] --[:RELIES_ON]--> [[nbe]]  -- Bug fires during normalization
+[[eq-normalization-bug]] --[:RELIES_ON]--> [[cbv-evaluation]]  -- Primop compute runs under CBV evaluation
+[[eq-normalization-bug]] --[:RELIES_ON]--> [[application-evaluation]]  -- PrimOps dispatch is application evaluation
+
+### Let-poly implicit escape
+[[letpoly-implicit-escape]] --[:APPLIES_TO]--> [[generalization]]  -- Meta escape at block boundary
+[[letpoly-implicit-escape]] --[:APPLIES_TO]--> [[blocks]]  -- Block scoping of let-bound metas
+[[letpoly-implicit-escape]] --[:RELIES_ON]--> [[missing-spec-let-polymorphism]]  -- Area with spec gaps
+[[letpoly-implicit-escape]] --[:RELIES_ON]--> [[implicit-generalization-semantics]]  -- Implicit wrapping decision
+[[letpoly-implicit-escape]] --[:RELIES_ON]--> [[wraplambda-fix]]  -- Annotation synthesis may contribute
+
+### mapList Schema unification
+[[maplist-schema-unification]] --[:APPLIES_TO]--> [[row-unification]]  -- Row comparison step fails
+[[maplist-schema-unification]] --[:APPLIES_TO]--> [[mu-types]]  -- Mu-type unfolding is likely upstream
+[[maplist-schema-unification]] --[:RELIES_ON]--> [[nbe]]  -- Unfolding happens during evaluation
+
+### length recursive de Bruijn
+[[length-recursive-debruijn]] --[:RELIES_ON]--> [[knot-tying]]  -- Recursive binder pattern
+[[length-recursive-debruijn]] --[:RELIES_ON]--> [[elaboration-context]]  -- De Bruijn depth management
+[[length-recursive-debruijn]] --[:APPLIES_TO]--> [[blocks]]  -- Block-level recursive bindings
+
+### fst closure annotation
+[[fst-closure-annotation]] --[:RELIES_ON]--> [[wraplambda-fix]]  -- Annotation synthesis for nested lambdas
+[[fst-closure-annotation]] --[:RELIES_ON]--> [[implicit-generalization-semantics]]  -- Implicit parameter ordering
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[quoting]]  -- Readback produces wrong annotations
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[nf-closure-display]]  -- Closure annotation display
+
+### Sigma quoting limitations
+[[sigma-quoting-match]] --[:APPLIES_TO]--> [[sigma-types]]  -- Sigma body quoting
+[[sigma-quoting-match]] --[:APPLIES_TO]--> [[quoting]]  -- Readback limitation
+[[sigma-quoting-match]] --[:RELIES_ON]--> [[sigma-bindings]]  -- Sigma binding strategy
+[[sigma-quoting-field-ref]] --[:APPLIES_TO]--> [[sigma-types]]  -- Field ref substitution
+[[sigma-quoting-field-ref]] --[:APPLIES_TO]--> [[quoting]]  -- Readback type-for-value
+[[sigma-quoting-field-ref]] --[:RELIES_ON]--> [[sigma-bindings]]  -- Same binding strategy
+[[sigma-quoting-match]] --[:COMPOSES_WITH]--> [[sigma-quoting-field-ref]]  -- Same root cause, different manifestation
+
+### Bridge bugs
+[[bridge-free-var-unknown]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Var resolution gap
+[[bridge-label-closure-gap]] --[:EXTENDS]--> [[bridge-label-resolution]]  -- Edge case of prior fix
+[[bridge-label-closure-gap]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Scope resolution under match

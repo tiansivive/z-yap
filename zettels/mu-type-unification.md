@@ -20,4 +20,4 @@ The strategy for checking equality of equirecursive types during unification. Ya
 
 **App vs App**: when neither head has a flex meta, attempt `NF.unfoldMu` on either side. If unfolding produces a result, unify the unfolded pair; otherwise fall through to structural function+argument comparison.
 
-This approach is simpler than full bisimulation but sufficient for the current type system. The equirecursive-types zettel discusses the design space including fuel-capped unfolding and the path toward bisimulation-based equality.
+This approach trades bisimulation completeness for simplicity; it handles the recursive types Yap's type system produces in practice. The equirecursive-types zettel discusses the broader design space including fuel-capped unfolding and bisimulation-based equality.

@@ -1,23 +1,26 @@
 ---
 tags:
-  [
-    normalization,
-    elaboration,
-    mechanism,
-    implemented,
-    ast,
-    ir,
-    dependent,
-    row-types,
-    modality,
-    continuation,
-    recursion,
-    inference,
-    unification,
-  ]
+- mechanism
+- normalization
+- elaboration
+- implemented
+- ast
+- dependent
+- row-types
+- modality
+- continuation
+- recursion
+- inference
+- unification
 ---
 # Quoting
 
-`NF.quote(ctx, lvl, val)` (`src/elaboration/normalization/quoting.ts`) maps `NF.Value` to `EB.Term`. Bound levels map to De Bruijn indices with `lvl - v.lvl - 1`. Metas recurse through `ctx.zonker` when set, else stay as `EB.Constructors.Var`. `Neutral` delegates to its head. `Lambda` / `Pi` / `Mu` apply the closure with `NF.Constructors.Rigid(lvl)` and quote at `lvl + 1`; `Sigma` applies with `binder.annotation` (no level bump per comment—sigma body lives in extended row context).
+Readback from the semantic domain to syntax: `NF.quote` maps NF.Value back to EB.Term. This is the reverse direction of NbE evaluation — together, evaluate and quote form the eval/quote cycle that drives definitional equality.
 
-Rows, `App`, `Modal`, `External`, `Reset`, and `Shift` have direct clauses. `NF.Patterns.StuckMatch` rebuilds `EB.Match` from the closure’s scrutinee term (FIXME in source). Unsupported shapes throw including `NF.display(nf, ctx)` in the message.
+The core operation at the boundary is **level-to-index conversion**: bound variables in NF.Value carry de Bruijn levels (absolute position in the context), but EB.Term uses de Bruijn indices (relative distance to binder). Quoting converts via `lvl - v.lvl - 1`.
+
+Under binders (Lambda, Pi, Mu), quoting applies the closure to a fresh rigid variable at the current level, then quotes the result at the next level. This is how NbE "opens" a binder for readback — the fresh rigid becomes a bound variable in the quoted output. Sigma is a special case: the closure is applied to the binder's annotation (the row) rather than a fresh rigid, because sigma dependency flows through field labels, not positional binding.
+
+Meta-variables are resolved during quoting: if the meta is solved (present in `ctx.zonker`), quoting recurses through the solution. Unsolved metas stay as `EB.Var` nodes. This means quoting performs zonking inline — the result is a fully zonked EB.Term.
+
+Neutral terms delegate to their wrapped head. Stuck matches (StuckMatch) rebuild an `EB.Match` from the closure's scrutinee.
