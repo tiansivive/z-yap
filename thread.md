@@ -851,3 +851,88 @@ RESOLVED [[sigma-quoting-match]] — limitation → implemented (symbolic row pr
 Fixed the sigma quoting bug in `src/elaboration/normalization/quoting.ts`. The root cause: sigma quoting applied the closure to the concrete type annotation row (`binder.annotation`), so label references resolved to field types (collapsing dependencies) and matches over fields crashed ("No alternative matched") because the scrutinee was a type like `Bool` rather than a symbolic value.
 
 The fix constructs a symbolic NF.Row where each field is a neutral label variable (`NF.Neutral(NF.Var({ type: "Label", name: label }))`), analogous to how Pi quoting applies to `Rigid(lvl)`. This produces the right inputs for the existing StuckMatch mechanism: matches over label neutrals get stuck instead of crashing, and label references preserve through readback. Both [[sigma-quoting-field-ref]] and [[sigma-quoting-match]] resolved by the same change.
+
+---
+
+## Session: Thread hygiene — concept vs work item separation  @2026-06-01
+
+Audited all thread members for untagged (`~`) items in `threads.js` output. Found 27 zettels connected via `INCLUDES` that lacked maturity tags — most were concept, decision, hub, or reference zettels misclassified as work items. Applied three remedies:
+
+1. **Clear removes (16):** Concept/decision/hub/reference zettels re-wired from `INCLUDES` to semantic edges (`RELIES_ON`, `DOCUMENTS`, `REFERENCES`, `CONTRASTS_WITH`, `USES`).
+2. **Clear keeps (6):** Genuine work items given `planned` maturity tag.
+3. **Borderline splits (5):** Concept zettels with `needs-design` split into concept (re-wired as `RELIES_ON`) + new design zettel (kept as `INCLUDES` work item with `planned` + `needs-design`).
+
+Also changed `threads.js` default maturity from `"open"` to `"~"` so untagged zettels no longer appear misleadingly as open work items.
+
+### Script changes
+
+- `threads.js`: default maturity `"open"` → `"~"`, symbol `"○"` → `" "`
+
+### Vocabulary additions
+
+New labels: `DOCUMENTS`, `REFERENCES`.
+New tag: `design`.
+
+### Re-wired connections (concept zettels removed from INCLUDES)
+
+[[explorer-audit.thread]] --[:DOCUMENTS]--> [[implicit-generalization-semantics]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[crud-strategy-choice]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-additive-enrichment]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-dataflow-semantics]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[dpo-vs-imperative-passes]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[compilation-by-selection]]
+[[pattern-matching.thread]] --[:RELIES_ON]--> [[pattern-algorithm-choice]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modalities]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modal-type-theory]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modality-system]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[verification-modal-phase]]
+[[usage-semantics.thread]] --[:REFERENCES]--> [[idris-1-qtt-paper]]
+[[verification-backend.thread]] --[:RELIES_ON]--> [[vc-normalization]]
+[[verification-backend.thread]] --[:REFERENCES]--> [[required-formula-forms]]
+[[verification-backend.thread]] --[:RELIES_ON]--> [[required-theory-support]]
+[[verification-backend.thread]] --[:RELIES_ON]--> [[verification-backend]]
+[[row-types.thread]] --[:RELIES_ON]--> [[row-theory]]
+[[row-types.thread]] --[:RELIES_ON]--> [[open-closed-variants]]
+[[pattern-matching.thread]] --[:RELIES_ON]--> [[open-closed-variants]]
+[[recursion.thread]] --[:RELIES_ON]--> [[bisimulation-type-equality]]
+[[recursion.thread]] --[:DOCUMENTS]--> [[sigma-vs-codata-label-refs]]
+
+### Maturity tags added
+
+[[fuzz-testing]] +planned
+[[property-based-testing]] +planned
+[[integration-testing]] +planned
+[[negative-testing]] +planned
+[[sigma-codata-syntax-proposal]] +planned
+[[vc-provenance]] +planned
+
+### New design zettels (borderline concept → design split)
+
+SPAWN [[design-open-closed-variant-semantics]] — design: variant openness semantics (pattern-matching, row-types threads)
+SPAWN [[design-bisimulation-equality]] — design: bisimulation-based μ-type equality (recursion thread)
+SPAWN [[design-row-theory-verification]] — design: row theory for verification backend (row-types thread)
+SPAWN [[design-vc-normalization]] — design: VC normalization pass (verification-backend thread)
+SPAWN [[design-sigma-codata-label-refs]] — design: sigma vs codata field ref semantics (recursion thread)
+
+### Design zettel connections
+
+[[design-open-closed-variant-semantics]] --[:ADDRESSES]--> [[open-closed-variants]]
+[[design-bisimulation-equality]] --[:ADDRESSES]--> [[bisimulation-type-equality]]
+[[design-row-theory-verification]] --[:ADDRESSES]--> [[row-theory]]
+[[design-vc-normalization]] --[:ADDRESSES]--> [[vc-normalization]]
+[[design-sigma-codata-label-refs]] --[:ADDRESSES]--> [[sigma-vs-codata-label-refs]]
+
+### Prior session changes (included in same commit)
+
+Re-wired 7 constraint-solving concept zettels from `INCLUDES` to semantic edges on [[elaboration-v2.thread]]:
+[[elaboration-v2.thread]] --[:USES]--> [[constraint-solver]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[constraint-solving]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[deferred-constraint-solving]]
+[[elaboration-v2.thread]] --[:CONTRASTS_WITH]--> [[eager-constraint-solving]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[assign-before-resolve]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[empty-subst-guard]]
+[[elaboration-v2.thread]] --[:USES]--> [[implicit-resolution-solver]]
+
+### Summary
+
+Established a clean separation between knowledge (concept/decision/reference zettels) and active work (design/implementation zettels) in thread membership. Concept zettels remain connected to threads via semantic edges (`RELIES_ON`, `DOCUMENTS`, `REFERENCES`) — they inform the thread's domain but are not tracked as work items. For borderline cases (concepts with `needs-design`), new design zettels capture the active work while the concept zettel retains pure knowledge. This eliminates misleading "open" statuses in thread listings and makes the work layer an accurate representation of actionable items.

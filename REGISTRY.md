@@ -26,6 +26,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `goal` | An aspirational design target |
 | `problem` | An identified difficulty or challenge |
 | `proposal` | A structured design proposal with options and trade-offs |
+| `design` | A design task requiring exploration and decisions before implementation |
 
 ## Type theory tags
 
@@ -289,3 +290,5 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `DETAILS` | Source provides detailed rationale for target |
 | `GROUNDED_IN` | Source design grounded in target theory/research |
 | `DEFINES` | Source defines the contract/shape of target |
+| `DOCUMENTS` | Source documents a decision or rationale from target |
+| `REFERENCES` | Source references target as supporting material |

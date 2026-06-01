@@ -9,6 +9,7 @@ tags:
     exploration,
     elaboration,
     parser,
+    planned,
   ]
 refs:
   - src: src/__tests__/integration/examples-readme.repl.test.ts

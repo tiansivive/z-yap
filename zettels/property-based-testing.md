@@ -10,6 +10,7 @@ tags:
     solver,
     goal,
     infrastructure,
+    planned,
   ]
 refs:
   - url: https://github.com/dubzzz/fast-check

@@ -1,14 +1,12 @@
 /**
- * Obsidian Swimlane Kanban renderer.
+ * Obsidian Kanban renderer.
  *
- * Produces a markdown file compatible with the Swimlane Kanban plugin.
- * H1 headings = swimlanes (threads), H2 headings = columns, list items = cards.
+ * Produces a markdown file compatible with the obsidian-kanban plugin.
+ * H2 headings = columns, H3 headings = thread groupings within columns.
  *
  * @param {Array} threads — thread objects with columns of enriched members
- * @returns {string} Markdown document with swimlane-kanban frontmatter
+ * @returns {string} Markdown document with kanban-plugin frontmatter
  */
-
-import { classifyColumn } from "./render.js";
 
 const COLUMNS = ["backlog", "ready", "in-progress", "blocked", "done"];
 
@@ -25,30 +23,21 @@ const renderItem = (item) => {
   return `- [${checked}] [[${item.slug}|${item.title}]]`;
 };
 
-const renderThreadSection = (thread) => {
-  const lines = [`# ${thread.title}`];
+export const renderObsidian = (threads) => {
+  const frontmatter = "---\nkanban-plugin: basic\n---\n\n";
 
+  const lines = [];
   for (const col of COLUMNS) {
-    const items = thread.columns[col] ?? [];
-    lines.push(`## ${COLUMN_LABELS[col]}`);
-    if (items.length) {
+    lines.push(`## ${COLUMN_LABELS[col]}\n`);
+
+    for (const thread of threads) {
+      const items = thread.columns[col] ?? [];
+      if (!items.length) continue;
+      lines.push(`### ${thread.title}`);
       lines.push(...items.map(renderItem));
+      lines.push("");
     }
-    lines.push("");
   }
 
-  return lines.join("\n");
-};
-
-export const renderObsidian = (threads) => {
-  const frontmatter = [
-    "---",
-    "swimlane-kanban: board",
-    "---",
-    "",
-  ].join("\n");
-
-  const body = threads.map(renderThreadSection).join("\n");
-
-  return frontmatter + body;
+  return frontmatter + lines.join("\n");
 };

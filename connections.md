@@ -1063,19 +1063,19 @@
 [[row-types.thread]] --[:INCLUDES]--> [[tagged-values]]
 [[row-types.thread]] --[:INCLUDES]--> [[lists]]
 [[row-types.thread]] --[:INCLUDES]--> [[dedicated-row-constructors]]
-[[row-types.thread]] --[:INCLUDES]--> [[row-theory]]
+[[row-types.thread]] --[:RELIES_ON]--> [[row-theory]]  -- Structural row reasoning principle
 [[row-types.thread]] --[:INCLUDES]--> [[label-lookup]]
 
 ## Thread: Usage Semantics  @2026-05-18
 
-[[usage-semantics.thread]] --[:INCLUDES]--> [[modalities]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[modal-type-theory]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[modality-system]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modalities]]  -- Hub concept
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modal-type-theory]]  -- Foundational theory
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[modality-system]]  -- Yap's modality design
 [[usage-semantics.thread]] --[:INCLUDES]--> [[usage-semantics]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[verification-modal-phase]]
+[[usage-semantics.thread]] --[:RELIES_ON]--> [[verification-modal-phase]]  -- Modal phase decision
 [[usage-semantics.thread]] --[:INCLUDES]--> [[modality-polymorphism]]
 [[usage-semantics.thread]] --[:INCLUDES]--> [[effects-as-modality]]
-[[usage-semantics.thread]] --[:INCLUDES]--> [[idris-1-qtt-paper]]
+[[usage-semantics.thread]] --[:REFERENCES]--> [[idris-1-qtt-paper]]  -- QTT paper reference
 
 ## Thread: Recursion  @2026-05-18
 
@@ -1092,7 +1092,7 @@
 [[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-matching-compilation]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[gram-pattern-translation]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[gram-pattern-pass]]
-[[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-algorithm-choice]]
+[[pattern-matching.thread]] --[:RELIES_ON]--> [[pattern-algorithm-choice]]  -- Settled Maranget decision
 [[pattern-matching.thread]] --[:INCLUDES]--> [[maranget-paper]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[exhaustiveness-checking]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[functional-patterns]]
@@ -1113,12 +1113,12 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[constraint-solver]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[solver-module-layout]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-ir]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[vc-normalization]]
+[[verification-backend.thread]] --[:RELIES_ON]--> [[vc-normalization]]  -- Normalization mechanism
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-provenance]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[z3-replacement-decision]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[required-formula-forms]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[required-theory-support]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[verification-backend]]
+[[verification-backend.thread]] --[:REFERENCES]--> [[required-formula-forms]]  -- Deprecated Z3-era reference
+[[verification-backend.thread]] --[:RELIES_ON]--> [[required-theory-support]]  -- Theory requirements
+[[verification-backend.thread]] --[:RELIES_ON]--> [[verification-backend]]  -- Hub zettel
 [[verification-backend.thread]] --[:INCLUDES]--> [[ivl-boundary]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[bidir-subtype-verification]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[z3-adapter-strategy]]
@@ -1129,9 +1129,9 @@
 ## Thread: GRAM Evolution  @2026-05-18
 
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram]]
-[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-additive-enrichment]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-additive-enrichment]]  -- Foundational invariant
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-as-s-expressions]]
-[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-dataflow-semantics]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-dataflow-semantics]]  -- Partial-order principle
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-interpreter]]
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-next-steps]]
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-step-1]]
@@ -1140,9 +1140,9 @@
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-pattern-translation]]
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-shift-reset-pass]]
 [[gram-evolution.thread]] --[:INCLUDES]--> [[dpo-rewriting]]
-[[gram-evolution.thread]] --[:INCLUDES]--> [[dpo-vs-imperative-passes]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[dpo-vs-imperative-passes]]  -- Pass classification decision
 [[gram-evolution.thread]] --[:INCLUDES]--> [[logram]]
-[[gram-evolution.thread]] --[:INCLUDES]--> [[compilation-by-selection]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[compilation-by-selection]]  -- Backend selection architecture
 
 ## Thread: Elaboration V2  @2026-05-18
 
@@ -1280,7 +1280,7 @@
 [[gram-next-steps]] --[:INCLUDES]--> [[gram-crud-enrichment]]  -- Planned pass (phase 5)
 [[gram-next-steps]] --[:INCLUDES]--> [[lambda-lifting]]  -- Planned pass (phase 4)
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-crud-enrichment]]
-[[gram-evolution.thread]] --[:INCLUDES]--> [[crud-strategy-choice]]
+[[gram-evolution.thread]] --[:RELIES_ON]--> [[crud-strategy-choice]]  -- Phased decision informing CRUD enrichment
 [[gram-evolution.thread]] --[:INCLUDES]--> [[lambda-lifting]]
 [[gram-evolution.thread]] --[:SHARED_WITH]--> [[usage-semantics.thread]]  -- CRUD depends on multiplicity
 
@@ -1768,7 +1768,7 @@
 
 [[recursion.thread]] --[:INCLUDES]--> [[coinductivity]]  -- Coinductivity is part of recursion thread
 [[recursion.thread]] --[:INCLUDES]--> [[nu-types]]  -- Nu types are part of recursion thread
-[[recursion.thread]] --[:INCLUDES]--> [[bisimulation-type-equality]]  -- Bisimulation is part of recursion thread
+[[recursion.thread]] --[:RELIES_ON]--> [[bisimulation-type-equality]]  -- Concept: coinductive type equality
 [[recursion.thread]] --[:INCLUDES]--> [[productivity-checking]]
 [[recursion.thread]] --[:INCLUDES]--> [[sized-types]]
 [[recursion.thread]] --[:INCLUDES]--> [[syntactic-guardedness]]
@@ -1779,9 +1779,9 @@
 [[pattern-matching.thread]] --[:INCLUDES]--> [[view-patterns]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[pattern-synonyms]]
 [[pattern-matching.thread]] --[:INCLUDES]--> [[active-patterns]]
-[[pattern-matching.thread]] --[:INCLUDES]--> [[open-closed-variants]]
+[[pattern-matching.thread]] --[:RELIES_ON]--> [[open-closed-variants]]  -- Concept: variant openness
 [[row-types.thread]] --[:INCLUDES]--> [[data-declarations]]
-[[row-types.thread]] --[:INCLUDES]--> [[open-closed-variants]]
+[[row-types.thread]] --[:RELIES_ON]--> [[open-closed-variants]]  -- Concept: variant openness
 [[row-types.thread]] --[:INCLUDES]--> [[customizable-data-types]]
 [[row-types.thread]] --[:INCLUDES]--> [[indexing-strategies]]
 
@@ -2000,7 +2000,7 @@
 [[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-label-resolution]]  -- Thread member
 [[explorer-audit.thread]] --[:INCLUDES]--> [[pattern-row-binder-fix]]  -- Thread member
 [[explorer-audit.thread]] --[:INCLUDES]--> [[wraplambda-fix]]  -- Thread member
-[[explorer-audit.thread]] --[:INCLUDES]--> [[implicit-generalization-semantics]]  -- Thread member
+[[explorer-audit.thread]] --[:DOCUMENTS]--> [[implicit-generalization-semantics]]  -- Decision from audit
 [[explorer-audit.thread]] --[:INCLUDES]--> [[module-zonker-fix]]  -- Thread member
 [[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Thread member
 [[explorer-audit.thread]] --[:INCLUDES]--> [[bridge-struct-dispatch]]  -- Thread member
@@ -2358,10 +2358,28 @@
 [[row-types.thread]] --[:INCLUDES]--> [[sigma-checking-infer-constrain]]  -- Sigma checking bug  @2026-05-31
 [[row-types.thread]] --[:INCLUDES]--> [[sigma-codata-syntax-proposal]]  -- Syntax proposal  @2026-05-31
 [[recursion.thread]] --[:INCLUDES]--> [[codata-vs-coinductive-types]]  -- Codata vs coinductive types  @2026-05-31
-[[recursion.thread]] --[:INCLUDES]--> [[sigma-vs-codata-label-refs]]  -- Sigma/codata label ref duality  @2026-05-31
+[[recursion.thread]] --[:DOCUMENTS]--> [[sigma-vs-codata-label-refs]]  -- Knowledge: sigma/codata duality  @2026-05-31
 
 ### Sigma quoting fix  @2026-05-31
 [[sigma-quoting-field-ref]] --[:GROUNDED_IN]--> [[sigma-architecture]]  -- Symbolic row mirrors Pi's Rigid(lvl) in the two-step architecture
 [[sigma-quoting-match]] --[:GROUNDED_IN]--> [[sigma-architecture]]  -- StuckMatch requires symbolic neutrals from the row abstraction
 [[sigma-quoting-field-ref]] --[:MIRRORS]--> [[quoting]]  -- Symbolic application during readback, analogous to Pi quoting
 [[sigma-quoting-match]] --[:MIRRORS]--> [[quoting]]  -- Symbolic application during readback, analogous to Pi quoting
+
+## Thread cleanup: concept → design zettel splits  @2026-06-01
+
+### Design zettels and their concept targets
+[[design-open-closed-variant-semantics]] --[:ADDRESSES]--> [[open-closed-variants]]  -- Design task for the concept
+[[design-bisimulation-equality]] --[:ADDRESSES]--> [[bisimulation-type-equality]]  -- Design task for the concept
+[[design-row-theory-verification]] --[:ADDRESSES]--> [[row-theory]]  -- Design task for the concept
+[[design-vc-normalization]] --[:ADDRESSES]--> [[vc-normalization]]  -- Design task for the concept
+[[design-sigma-codata-label-refs]] --[:ADDRESSES]--> [[sigma-vs-codata-label-refs]]  -- Design task for the concept
+[[design-sigma-codata-label-refs]] --[:RELIES_ON]--> [[sigma-codata-syntax-proposal]]  -- Syntax proposal feeds this design
+
+### Thread membership for new design zettels
+[[pattern-matching.thread]] --[:INCLUDES]--> [[design-open-closed-variant-semantics]]  -- Design work item  @2026-06-01
+[[row-types.thread]] --[:INCLUDES]--> [[design-open-closed-variant-semantics]]  -- Design work item  @2026-06-01
+[[recursion.thread]] --[:INCLUDES]--> [[design-bisimulation-equality]]  -- Design work item  @2026-06-01
+[[row-types.thread]] --[:INCLUDES]--> [[design-row-theory-verification]]  -- Design work item  @2026-06-01
+[[verification-backend.thread]] --[:INCLUDES]--> [[design-vc-normalization]]  -- Design work item  @2026-06-01
+[[recursion.thread]] --[:INCLUDES]--> [[design-sigma-codata-label-refs]]  -- Design work item  @2026-06-01

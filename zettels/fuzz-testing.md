@@ -10,6 +10,7 @@ tags:
     compiler,
     verification,
     exploration,
+    planned,
   ]
 refs:
   - url: https://github.com/dubzzz/fast-check

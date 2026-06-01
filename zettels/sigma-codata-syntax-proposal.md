@@ -12,6 +12,7 @@ tags:
 - parser
 - elaboration
 - codata
+- planned
 ---
 # Syntax proposal: distinct sigils for sigma and codata references
 
