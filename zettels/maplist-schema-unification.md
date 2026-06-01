@@ -1,19 +1,26 @@
 ---
 tags:
   - bug
-  - needs-design
+  - bugfix
+  - implemented
   - elaboration
+  - checking
+  - normalization
+  - quoting
+  - de-bruijn
+  - pattern
   - row-types
   - recursion
-  - normalization
 ---
 
 # mapList Schema unification failure
 
-Recursive `mapList` definition fails to elaborate with "Cannot unify L2 with L6" on cons cell schemas whose labels appear in different order. Source defines `mapList` over a `List a` type (mu-type with `Nil`/`Cons` variants), applying `f` to each element.
+Recursive `mapList` over `List a` fails to elaborate with "Cannot unify L2 with L6" when the match is checked against a polymorphic return type containing a type variable.
 
-Row unification itself is well-tested and handles ordered rows correctly. The failure is more likely upstream — in how `mu`-type unfolding reconstructs the schema rows for the cons cell variant. When a mu-type unfolds, the inner row must be re-expressed in terms of the unfolded application; if the unfolding produces labels in a different order than the original constructor, the structural row comparison fails even though the label sets are identical.
+Root cause: `check.ts` quotes the expected return type to `EB.Term` at the pre-pattern-binder de Bruijn level, then re-evaluates it inside each match branch after pattern binders have extended the context. De Bruijn indices in the quoted term are relative to the shorter env, so they resolve to wrong entries in the extended env. Concretely, if `b` is at index 2 before pattern binders and the variant pattern introduces 4 binders (two struct fields + two row variables), `b` shifts to index 6 but the quoted term still reads index 2 — resolving to `xs` (Rigid level 6) instead of `b` (Rigid level 2).
 
-**Discovered via:** integration pipeline test snapshot audit (`language-tour.test.ts.snap`, test: "polymorphic list operations" → `mapList`). The `map` function with a simpler structure succeeds; only `mapList` with full recursive mu-types triggers the failure.
+The quote-evaluate round-trip exists to support dependent match return types (scrutinee narrowing), where the return type references the scrutinee and must be re-evaluated in a context where the scrutinee's type has been refined per branch. The fix moves the quoting inside the branch body, after pattern binders have been added, so the de Bruijn indices align with the extended context. Dependent matching (e.g. `match x | 0 -> Num | _ -> String`) continues to work because the round-trip itself is preserved — only its position in the pipeline changes.
 
-**Investigation direction:** Check how `NbE.evaluate` unfolds mu-type applications and whether the resulting variant schema rows preserve label order. The issue may also surface in pattern matching over mu-types with multiple constructors.
+The bug triggers when a match is checked (not inferred) against a type containing a type variable, and the pattern introduces binders. Inferred matches and matches against constant return types (e.g. `Num`) are unaffected.
+
+Introduced in commit `5aa4638` (Dec 2025) when the general match-check-with-narrowing path was added. No pre-existing test covered the specific combination of checked match + polymorphic return type + destructuring pattern.

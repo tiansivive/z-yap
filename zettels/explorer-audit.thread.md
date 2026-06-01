@@ -1,7 +1,7 @@
 ---
 tags:
   - thread
-  - active
+  - archived
   - explorer
   - bugfix
   - testing
@@ -54,9 +54,11 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
 
 9. **Bridge closure capture** [[bridge-closure-capture]] — needs-design
    Curried closures return bare `FuncRef` without bundling captures.
+   _Tracked on [[pipeline-stabilization.thread]] #12._
 
 10. **Bridge struct dispatch** [[bridge-struct-dispatch]] — needs-design
     Struct match emits empty-string branch test; multi-alt struct patterns need field projection.
+    _Tracked on [[pipeline-stabilization.thread]] #11._
 
 11. ~~**Vacuous IVL verification conditions** [[vacuous-ivl-vcs]]~~ — `[~]` dropped
     Expected behavior from selfification on unrefinable terms. Promoted to backlog/improvement.
@@ -70,5 +72,5 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
 14. **Verification rigid mismatch** [[verification-rigid-mismatch]] — implemented
     Let binding snippet: resolved by module zonker fix. Full pipeline completes, type is `Num`, verification sat.
 
-15. **Test rename** [[explorer-audit-test-rename]] — planned
-    Rename `implicit-app-eval.test.ts` to reflect actual coverage (wrapLambda / nested implicit binders).
+15. ~~**Test rename** — deferred~~
+    Rename `implicit-app-eval.test.ts` to reflect actual coverage. Low priority; deferred.

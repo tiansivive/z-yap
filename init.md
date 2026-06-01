@@ -21,7 +21,7 @@ containing ~250 atomic design notes about Yap's type system, elaboration pipelin
 compiler architecture, and verification backend.
 
 Key files:
-- `VOCABULARY.md` — tag and label vocabulary
+- `REGISTRY.md` — tag and label registry
 - `connections.md` — all edges in pseudo-Cypher format
 - `thread.md` — append-only paper trail of work sessions
 - `manifest.yaml` — federation metadata
@@ -71,8 +71,8 @@ z-yap uses a thread/queue system for tracking work:
 ## Zettel conventions
 
 - One atomic idea per zettel
-- Tags in YAML frontmatter (see `VOCABULARY.md` for the registry)
-- If you draft a tag not in `VOCABULARY.md`, register it — don't swap it for a "close enough" existing tag, that's a nuance loss
+- Tags in YAML frontmatter (see `REGISTRY.md`)
+- If you draft a tag not in `REGISTRY.md`, coin it and add it — don't swap for a "close enough" existing tag, that's a nuance loss
 - Connections live in `connections.md`, not in zettel bodies
 - `[[backlinks]]` in bodies are fine for Obsidian navigation
 - Format: `[[source]] --[:LABEL]--> [[target]]  -- optional note  @date`

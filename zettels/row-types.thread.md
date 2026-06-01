@@ -58,5 +58,13 @@ mechanism.
     Refactor away from nested App(Lit(Atom(...)), Row(...)). Touches lowering,
     NbE, unify, snapshots.
 
-14. **Row theory (verification)** [[row-theory]] — needs-design  
-    IVL row **sort**/**RowTerm** scaffolding exists; **`translate.ts`/`term()`** still throws on **concrete row literals** — Milestone 4 work is lowering + theory, not swapping IR ([[milestone-4-rows]]).
+14. **Row theory (verification)** [[row-theory]] — needs-design
+    IVL row **sort**/**RowTerm** scaffolding exists; **`translate.ts`/`term()`** still throws on **concrete row literals** — Milestone 4 work is lowering + theory, not swapping IR ([[milestone-4-rows]]).
+
+15. **Sigma checking fix** [[sigma-checking-infer-constrain]] — implemented
+    `check([struct, Sigma])` infers for values, applies sigma closure, then re-checks
+    against the resulting type. Preserves bidirectional checking for singleton types.
+
+16. **Sigma/codata syntax proposal** [[sigma-codata-syntax-proposal]] — needs-design
+    Separate sigils for sigma (dependent type-level refs) and codata (value-level self-ref).
+    Candidates: `:`, `&`, `*`, `\`, `^`. Decision deferred pending codata/nu commitment.

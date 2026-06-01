@@ -40,7 +40,7 @@ The rework follows a strict 4-phase process. Do NOT skip phases or combine them.
 1. Read ALL zettels in the cluster
 2. Read their connections in `z-yap/connections.md`
 3. Read adjacent/related zettels referenced in those connections
-4. Check `z-yap/VOCABULARY.md` for relevant tags and labels
+4. Check `z-yap/REGISTRY.md` for relevant tags and labels
 
 For each zettel, identify:
 - **Current state** — what it says now, what's stale, what's accurate
@@ -81,7 +81,7 @@ Iterate until the user says to execute.
    - Add edges for new zettels
    - Deduplicate any resulting duplicate edges
    - Add new zettels to relevant thread INCLUDES
-4. Register new labels in `z-yap/VOCABULARY.md` if needed
+4. Register new tags/labels in `z-yap/REGISTRY.md` if needed
 5. Check for dangling references: grep deleted zettel names across `z-yap/zettels/` and fix any found
 6. Update `z-yap/tmp/zettel-quality-backlog.md` — move the cluster to "Completed"
 
@@ -164,8 +164,8 @@ Zettels are written for future agents and people with no context about why the z
 
 ### Tag and label hygiene
 
-- Use existing vocabulary first. Check `VOCABULARY.md` before coining new tags/labels.
-- New labels need registration in `VOCABULARY.md`.
+- Check `REGISTRY.md` before coining new tags/labels — not to constrain, but to avoid synonyms.
+- New tags and labels need registration in `REGISTRY.md`.
 - Tags are atomic facets: `:Project:Software`, not `:SoftwareProject`.
 - `deprecated`, `deferred`, `incomplete`, `planned` handle status — don't write status into prose.
 

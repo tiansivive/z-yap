@@ -20,7 +20,7 @@ backend:
 
 entry_points:
   readme: README.md
-  vocabulary: VOCABULARY.md
+  registry: REGISTRY.md
   paper_trail: thread.md
   agent_init: init.md
 

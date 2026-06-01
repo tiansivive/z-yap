@@ -1,20 +1,21 @@
 ---
 tags:
-  - bug
-  - planned
+  - bugfix
+  - implemented
   - elaboration
   - recursion
-  - normalization
   - lowering
   - graph
+  - compiler
+  - codegen
 ---
 
 # length recursive de Bruijn index bug
 
-Inside the `Cons` branch of a match expression, the recursive call to `length` resolves as de Bruijn index I6 (i.e. bound variable at depth 6), when it should be a free variable reference. This produces an invalid GRAM node with no `:refers_to` edge, which cascades to `unknown` in MIR and codegen.
+Recursive self-references inside match alternatives produced `var:bound` GRAM nodes with no `:refers_to` edge, cascading to `unknown` in MIR and codegen. Two independent causes:
 
-The context extension for recursive binders inside match alternatives is the likely culprit: match branches extend the context with their own pattern binders, shifting the de Bruijn depth, but the recursive function's own binding may not be correctly accounted for during this extension. The recursive binder sits at one depth, match alternatives add their own pattern variables, and the lookup for the recursive name hits the wrong index.
+**1. Missing variant pattern rest row binder.** GRAM's `walkPattern` for variant patterns walked the matched tag's payload but ignored `ext.row` (the rest row variable, e.g. `$row_21`). Elaboration binds rest row variables, so the GRAM binder stack was short by one per variant pattern. Fixed by calling `walkPatternRow` on the variant's rest row after walking the payload.
 
-**Discovered via:** integration pipeline test snapshot audit (`language-tour.test.ts.snap`, test: "recursive list length" → `length`). The elaborated term shows `I6` in the recursive call position; GRAM shows `var:bound` with no `:refers_to`; MIR/codegen emit `unknown`.
+**2. Module-level let-dec not in GRAM binder stack.** Each module-level let-dec is compiled independently by `GRAM.Pipeline.compile`. The term's binder stack starts empty, so recursive self-references (de Bruijn indices that escape the term's own binders) had no resolution target. Fixed by accepting `parentBinders` in `translate`, which creates `stmt:let` nodes and pushes them onto the binder stack at init — same mechanism `abs` and `mu` use for their own binders.
 
-**Related pattern:** This is a general fragility of context extension for recursive binders under match (and likely any scope-introducing form). Other recursive functions that work may avoid this by having fewer pattern binders or simpler match structures.
+Both causes compound: the missing rest row binder shifts index arithmetic, and the missing parent binder removes the resolution target. Together, index 6 for `length` fell outside the 5-element GRAM binder stack (should have been 7: 2 lambdas + 4 pattern binders + 1 parent).

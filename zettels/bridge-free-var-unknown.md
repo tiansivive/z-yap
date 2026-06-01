@@ -1,7 +1,8 @@
 ---
 tags:
   - bug
-  - planned
+  - implemented
+  - bugfix
   - lowering
   - graph
   - mir
@@ -11,12 +12,10 @@ tags:
 
 # Bridge free var → unknown
 
-The GRAM→MIR bridge emits `unknown` for `var:free` node references. When GRAM contains a free variable (e.g. a top-level function referenced from another definition), the bridge doesn't resolve it to a MIR variable name — it falls through to an `unknown` placeholder.
+The GRAM→MIR bridge emitted `unknown` for `var:free` definition nodes.
 
-Observed in multiple integration test snapshots: any definition that references another top-level binding by name shows `unknown` in MIR and codegen where the free variable reference should appear.
+**Root cause:** `Leaves.free` in `src/GRAM/bridge/leaves.ts` followed a `:refers_to` edge from the `VAR_FREE` definition node, but definition nodes are *targets* of `:refers_to`, not sources. The edge doesn't exist, so `target` was `undefined` and the name fell back to `"unknown"`. The variable name was already present on the node's own `payload.name` (set by `intern` in `translate.ts`).
 
-**Root cause:** The bridge's variable resolution (`closures.ts` / `emit.ts`) handles `var:bound` (de Bruijn, with `:refers_to` edges) and `var:meta` but lacks a dispatch case for `var:free`. Free variables in GRAM carry their name but have no `:refers_to` edge to follow, so the bridge needs a separate resolution path — likely looking up the name in the module-level scope.
+**Fix:** Changed `Leaves.free` to read `payload.name` directly from the node instead of following a non-existent edge. Same pattern as `Leaves.label`.
 
-**Impact:** Any multi-definition module where one function calls another produces broken MIR/codegen. Single-definition modules and self-recursive functions (which use bound variables) are unaffected.
-
-**Note:** The integration test harness also masks this partially — the test runs single-expression scripts through `runScript`, so free-variable cross-references only appear when a block defines multiple functions.
+**Impact:** Fixed MIR/codegen output for any multi-binding script where one definition references another. 25 integration test snapshots updated.

@@ -1,7 +1,8 @@
 ---
 tags:
   - bug
-  - planned
+  - implemented
+  - bugfix
   - normalization
   - primitive
   - evaluation
@@ -10,10 +11,12 @@ tags:
 
 # $eq normalization bug
 
-`FFI.$eq` returns `false` for equal numeric literals during NbE evaluation. Observed in integration pipeline snapshots: `areEqual @Num @EqNum 10 10` normalizes to `false`, `displayIfEqual 5 5` normalizes to `"Not equal"`.
+`FFI.$eq` returned `false` for equal numeric literals during NbE evaluation. `areEqual @Num @EqNum 10 10` normalized to `false`, `displayIfEqual 5 5` normalized to `"Not equal"`.
 
-The primop compute function fires (the result is a concrete boolean, not a neutral), so the arity-saturation path works correctly. The defect is in the `$eq` entry of `PrimOps` (`src/shared/lib/primitives.ts`): the compute function likely compares `NF.Value` structures (lodash `isEqual` or `===`) instead of extracting and comparing the wrapped numeric payloads.
+**Root cause:** `$eq` and `$neq` in `PrimOps` (`src/shared/lib/primitives.ts`) used `lodash.isEqual` on full `NF.Value` objects. Every `NF.Value` carries a unique `id` field from `mk(nextId())`, so two structurally identical literals (e.g. `Lit.Num(10)`) always compared as unequal. All other comparison primops (`$lt`, `$gt`, etc.) extracted `.value.value` before comparing and were unaffected.
 
-**Discovered via:** integration pipeline test snapshot audit (`language-tour.test.ts.snap`, tests: "traits with implicits" → `same`, "multiple constraints" → `msg`).
+**Fix:** Introduced an `equality` helper that extracts the `Literal` payload (`.value`) before comparing with `isEqual`, bypassing the identity field. Applied to both `$eq` and `$neq`. Same pattern as `comparison`, `arithmetic`, and `logical`.
 
-**Impact:** Any program using `$eq` at the type level (e.g. typeclass-style `Eq` instances evaluated during normalization) produces wrong results. Runtime codegen is unaffected since codegen emits the operator directly.
+**Discovered via:** integration pipeline test snapshot audit (`typeclasses.test.ts`, tests: "traits with implicits" → `same`, "multiple constraints" → `msg`).
+
+**Verified via:** runtime instrumentation confirmed `isEqual(x, y)` returning `false` for `{id:1468, type:"Lit", value:{type:"Num", value:10}}` vs `{id:1470, type:"Lit", value:{type:"Num", value:10}}`. Post-fix: `equality` returns `true`.

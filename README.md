@@ -33,7 +33,7 @@ The implementation lives at [tiansivive/yap](https://github.com/tiansivive/yap).
 z-yap/
   manifest.yaml          # Federation metadata and entry points
   README.md              # This file
-  VOCABULARY.md          # Tags, labels, groups
+  REGISTRY.md            # Tags, labels (descriptive registry)
   connections.md         # All edges in pseudo-Cypher format
   thread.md              # Append-only paper trail of work sessions
   zettels/               # Atomic design notes (markdown + frontmatter)

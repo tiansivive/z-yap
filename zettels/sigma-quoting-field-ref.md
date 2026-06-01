@@ -1,20 +1,21 @@
 ---
 tags:
-  - limitation
-  - incomplete
+  - bugfix
+  - implemented
   - normalization
   - dependent
   - type-system
+  - elaboration
+  - closure
+  - row-types
 ---
 
-# Sigma quoting: field ref substitution
+# Sigma quoting: symbolic row application preserves field references
 
-When quoting a sigma type whose body references an earlier field (e.g. `:fst`), the readback resolves the field reference to the field's **type** rather than a symbolic projection of the field's **value**. The normalized type shows `:fst` replaced by `Num` (the type of `:fst`) instead of a de Bruijn reference to the first field.
+Sigma quoting in `src/elaboration/normalization/quoting.ts` applies the sigma closure to recover the body for readback. The original implementation applied the closure to `binder.annotation` — the concrete type row (e.g. `[fst: Type, snd: :fst]`). This meant label references in the body resolved to the field's *type annotation* rather than a symbolic value, collapsing `snd: :fst` into `snd: Type` and losing the dependency.
 
-Example: `OrderedPair` with `{:fst: Num, :snd: Num}` where `:snd` depends on `:fst` — normalized type shows `:snd: Num` everywhere because `:fst` was substituted with `Num` (its type annotation) rather than preserved as a field reference.
+The fix constructs a **symbolic NF.Row** where each field's value is `NF.Neutral(NF.Var({ type: "Label", name: label }))` — a neutral label variable. Applying the closure with this symbolic row preserves label references as neutrals through evaluation, analogous to how Pi quoting applies to `Rigid(lvl)` to preserve the de Bruijn binder.
 
-Root cause: `quoting.ts` applies the sigma closure to the row annotation entry for that field rather than a fresh rigid variable. The row annotation entry is the type of the field, so the body evaluates with the type where it expects the value.
+After the fix, `Σ($sig: [snd: :fst, fst: Type]). Schema [snd: :fst, fst: Type]` correctly preserves `:fst` in the body during readback.
 
-This is the same sigma quoting strategy limitation as [[sigma-quoting-match]] but manifesting as type-for-value substitution rather than match failure.
-
-**Scope:** Affects any sigma type where the dependent body references an earlier field's value, not just its type. Simple dependent records (where the dependency is only on the type, not the value) are unaffected.
+Same root cause as [[sigma-quoting-match]] — both resolved by the symbolic row approach.

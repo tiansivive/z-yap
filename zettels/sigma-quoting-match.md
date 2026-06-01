@@ -1,18 +1,21 @@
 ---
 tags:
-  - limitation
-  - incomplete
+  - bugfix
+  - implemented
   - normalization
   - dependent
   - type-system
+  - elaboration
+  - closure
+  - row-types
 ---
 
-# Sigma quoting: match over fields
+# Sigma quoting: match over fields produces StuckMatch
 
-When a dependent record (sigma type) has a second component whose type depends on the first component through a match expression, quoting the sigma body fails at normalization time. The closure for the dependent type applies the row annotation to the match, but the match evaluator has no concrete value to scrutinize — only the sigma-bound variable — so it falls through with "Match: No alternative matched".
+When a sigma body contains a match over a field reference (e.g. `match :fst | true -> Num | false -> String`), quoting needs to evaluate the body without a concrete scrutinee. The original implementation applied the closure to the concrete type annotation row, giving the match a type like `Bool` as its scrutinee — no branch matches, so evaluation crashed with "Match: No alternative matched".
 
-Example: `exampleP2`'s `OrderedPair` has second field `:snd` whose type depends on `:fst` via a match dispatching on `:fst`'s tag. The sigma closure receives the row annotation and attempts to evaluate the match, but since `:fst` is a symbolic sigma binder (not a concrete value), the match cannot reduce.
+The fix applies the closure to a **symbolic NF.Row** of label neutrals (`NF.Neutral(NF.Var({ type: "Label", name }))`). A match over a neutral scrutinee produces a `StuckMatch` — the evaluator's standard mechanism for representing unreducible match expressions. The match stays in the quoted body as `match :fst | true -> Num | false -> String` rather than crashing.
 
-This is an architectural limitation of the current sigma quoting strategy: sigma bodies are evaluated by applying the closure to the field's annotation type rather than a symbolic fresh variable. Match expressions in the body need a concrete scrutinee to reduce, but sigma quoting can't provide one.
+This is the same fix as [[sigma-quoting-field-ref]]: both stem from applying the closure to concrete annotations rather than symbolic neutrals.
 
-**Scope:** Affects any sigma type where the dependent field's type involves a match/case over an earlier field.
+`StuckMatch` is the existing NbE mechanism for suspended pattern matches (`src/elaboration/normalization/syntax/term.ts`). The sigma fix merely ensures sigma quoting produces the right inputs for it.

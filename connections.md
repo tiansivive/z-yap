@@ -2247,7 +2247,8 @@
 [[letpoly-implicit-escape]] --[:APPLIES_TO]--> [[blocks]]  -- Block scoping of let-bound metas
 [[letpoly-implicit-escape]] --[:RELIES_ON]--> [[missing-spec-let-polymorphism]]  -- Area with spec gaps
 [[letpoly-implicit-escape]] --[:RELIES_ON]--> [[implicit-generalization-semantics]]  -- Implicit wrapping decision
-[[letpoly-implicit-escape]] --[:RELIES_ON]--> [[wraplambda-fix]]  -- Annotation synthesis may contribute
+[[module-zonker-fix]] --[:FIXES]--> [[letpoly-implicit-escape]]  -- Zonker propagation stopped meta escape  @2026-05-29
+[[fst-closure-annotation]] --[:FIXES]--> [[letpoly-implicit-escape]]  -- Ann EB.Term fix resolved stale closure annotations  @2026-05-29
 
 ### mapList Schema unification
 [[maplist-schema-unification]] --[:APPLIES_TO]--> [[row-unification]]  -- Row comparison step fails
@@ -2258,12 +2259,19 @@
 [[length-recursive-debruijn]] --[:RELIES_ON]--> [[knot-tying]]  -- Recursive binder pattern
 [[length-recursive-debruijn]] --[:RELIES_ON]--> [[elaboration-context]]  -- De Bruijn depth management
 [[length-recursive-debruijn]] --[:APPLIES_TO]--> [[blocks]]  -- Block-level recursive bindings
+[[length-recursive-debruijn]] --[:FIXES]--> [[gram]]  -- Variant pattern rest row binder + parent binder stack  @2026-05-29
+[[length-recursive-debruijn]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Unresolved var:bound cascaded to unknown in MIR  @2026-05-29
+[[length-recursive-debruijn]] --[:DISCOVERED_BY]--> [[pipeline-stabilization.thread]]  @2026-05-29
 
 ### fst closure annotation
-[[fst-closure-annotation]] --[:RELIES_ON]--> [[wraplambda-fix]]  -- Annotation synthesis for nested lambdas
+[[fst-closure-annotation]] --[:FOLLOWS]--> [[wraplambda-fix]]  -- Same problem space: stale closure context after implicit wrapping  @2026-05-29
 [[fst-closure-annotation]] --[:RELIES_ON]--> [[implicit-generalization-semantics]]  -- Implicit parameter ordering
-[[fst-closure-annotation]] --[:APPLIES_TO]--> [[quoting]]  -- Readback produces wrong annotations
-[[fst-closure-annotation]] --[:APPLIES_TO]--> [[nf-closure-display]]  -- Closure annotation display
+[[fst-closure-annotation]] --[:FIXES]--> [[annotations]]  -- Ann now carries EB.Term instead of NF.Value  @2026-05-29
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[quoting]]  -- Fix quotes Pi to EB.Term at construction site
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[nf-closure-display]]  -- Stale closure annotations no longer appear in Ann nodes
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[eb-term]]  -- Changed Ann.ann field from NF.Value to EB.Term  @2026-05-29
+[[fst-closure-annotation]] --[:APPLIES_TO]--> [[nf-value]]  -- Ann no longer captures NF.Value closures  @2026-05-29
+[[fst-closure-annotation]] --[:DISCOVERED_BY]--> [[pipeline-stabilization.thread]]  @2026-05-29
 
 ### Sigma quoting limitations
 [[sigma-quoting-match]] --[:APPLIES_TO]--> [[sigma-types]]  -- Sigma body quoting
@@ -2278,3 +2286,82 @@
 [[bridge-free-var-unknown]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Var resolution gap
 [[bridge-label-closure-gap]] --[:EXTENDS]--> [[bridge-label-resolution]]  -- Edge case of prior fix
 [[bridge-label-closure-gap]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Scope resolution under match
+
+### Bridge forward label references
+[[bridge-forward-label-refs]] --[:DISCOVERED_BY]--> [[bridge-label-closure-gap]]  -- Surfaced during #9 investigation  @2026-05-29
+[[bridge-label-resolution]] --[:LACKS]--> [[bridge-forward-label-refs]]  -- Current left-to-right pass handles backward refs only  @2026-05-29
+[[bridge-forward-label-refs]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Struct field emission ordering  @2026-05-29
+
+### GRAM type uniformity
+[[gram-type-uniformity]] --[:APPLIES_TO]--> [[gram]]  -- Uniform type representation across GRAM nodes  @2026-05-29
+[[gram-type-uniformity]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Bridge needs consistent type format for type-driven lowering  @2026-05-29
+[[gram-type-uniformity]] --[:MOTIVATES]--> [[eb-term]]  -- EB.Term as candidate uniform representation  @2026-05-29
+[[gram-type-uniformity]] --[:MOTIVATES]--> [[nf-value]]  -- NF.Value as candidate uniform representation  @2026-05-29
+[[fst-closure-annotation]] --[:MOTIVATES]--> [[gram-type-uniformity]]  -- Fix demonstrated stale-closure risk of NF.Value in type slots  @2026-05-29
+
+### mapList Schema unification
+[[maplist-schema-unification]] --[:FIXES]--> [[bidirectional-checking]]  -- Match-check quoted return type at wrong de Bruijn level  @2026-05-29
+[[maplist-schema-unification]] --[:RELIES_ON]--> [[quoting]]  -- Quote-evaluate round-trip for scrutinee narrowing  @2026-05-29
+[[maplist-schema-unification]] --[:RELIES_ON]--> [[de-bruijn-indices]]  -- Indices shift when pattern binders extend context  @2026-05-29
+[[maplist-schema-unification]] --[:RELIES_ON]--> [[de-bruijn-levels]]  -- Levels are stable; NF.Value unaffected by binder extension  @2026-05-29
+[[maplist-schema-unification]] --[:APPLIES_TO]--> [[match]]  -- Checked match branches with polymorphic return type  @2026-05-29
+[[maplist-schema-unification]] --[:APPLIES_TO]--> [[dependent-pattern-matching]]  -- Scrutinee narrowing preserved by fix  @2026-05-29
+[[maplist-schema-unification]] --[:DISCOVERED_BY]--> [[pipeline-stabilization.thread]]  @2026-05-29
+[[maplist-schema-unification]] --[:FOLLOWS]--> [[fst-closure-annotation]]  -- Same class of bug: stale de Bruijn context in type slots  @2026-05-29
+
+### Sigma architecture and mechanics
+[[sigma-architecture]] --[:DETAILS]--> [[sigma-types]]  -- Two-step row abstraction mechanics  @2026-05-31
+[[sigma-architecture]] --[:DETAILS]--> [[sigma-bindings]]  -- How ctx.sigma implements the abstraction  @2026-05-31
+[[sigma-architecture]] --[:RELIES_ON]--> [[standard-closure]]  -- Reuses closure capture from Abs  @2026-05-31
+[[sigma-architecture]] --[:CONTRASTS_WITH]--> [[pi-types]]  -- Row-of-labels vs single de Bruijn variable  @2026-05-31
+[[sigma-architecture]] --[:APPLIES_TO]--> [[unified-binder]]  -- Why sigma shares the Abs node  @2026-05-31
+
+### Sigma value semantics
+[[sigma-value-semantics]] --[:DETAILS]--> [[sigma-types]]  -- Clarifies field ref semantics  @2026-05-31
+[[sigma-value-semantics]] --[:MIRRORS]--> [[pi-types]]  -- Pi codomain analogy  @2026-05-31
+[[sigma-value-semantics]] --[:RELIES_ON]--> [[singleton-types]]  -- Numbers as types make Num-dependent sigma coherent  @2026-05-31
+[[sigma-value-semantics]] --[:COMPOSES_WITH]--> [[refinement-types]]  -- Field refs in refinement predicates  @2026-05-31
+
+### Singleton types
+[[singleton-types]] --[:ENABLES]--> [[sigma-value-semantics]]  -- Singletons give sigma over Num its meaning  @2026-05-31
+[[singleton-types]] --[:RELIES_ON]--> [[bidirectional-checking]]  -- Emerges from bidir checking cases  @2026-05-31
+[[singleton-types]] --[:COMPOSES_WITH]--> [[sigma-types]]  -- Singleton + sigma interaction  @2026-05-31
+
+### Sigma checking bug
+[[sigma-checking-infer-constrain]] --[:APPLIES_TO]--> [[sigma-types]]  -- Affects sigma checking  @2026-05-31
+[[sigma-checking-infer-constrain]] --[:APPLIES_TO]--> [[sigma-bindings]]  -- Sigma apply in check path  @2026-05-31
+[[sigma-checking-infer-constrain]] --[:RELIES_ON]--> [[singleton-types]]  -- Singletons expose the bug  @2026-05-31
+[[sigma-checking-infer-constrain]] --[:APPLIES_TO]--> [[bidirectional-checking]]  -- Infer-then-constrain loses bidir info  @2026-05-31
+
+### Sigma vs codata label refs
+[[sigma-vs-codata-label-refs]] --[:DETAILS]--> [[sigma-types]]  -- Sigma side of the duality  @2026-05-31
+[[sigma-vs-codata-label-refs]] --[:DETAILS]--> [[codata]]  -- Codata side of the duality  @2026-05-31
+[[sigma-vs-codata-label-refs]] --[:APPLIES_TO]--> [[label-lookup]]  -- Both route through ctx.sigma  @2026-05-31
+[[sigma-vs-codata-label-refs]] --[:MOTIVATES]--> [[nu-types]]  -- Codata refs motivate nu adoption  @2026-05-31
+[[sigma-vs-codata-label-refs]] --[:MOTIVATES]--> [[sigma-codata-syntax-proposal]]  -- Motivates syntax split  @2026-05-31
+[[sigma-vs-codata-label-refs]] --[:COMPOSES_WITH]--> [[mutual-recursion]]  -- Flat-row sigma parallels mutual letrec  @2026-05-31
+
+### Codata vs coinductive types
+[[codata-vs-coinductive-types]] --[:DETAILS]--> [[codata]]  -- Distinguishes codata paradigm from coinductive types  @2026-05-31
+[[codata-vs-coinductive-types]] --[:DETAILS]--> [[coinductivity]]  -- Coinductive type theory side  @2026-05-31
+[[codata-vs-coinductive-types]] --[:DETAILS]--> [[nu-types]]  -- Where nu sits between codata and coinductivity  @2026-05-31
+[[codata-vs-coinductive-types]] --[:APPLIES_TO]--> [[structural-records]]  -- Records as codata via projections  @2026-05-31
+
+### Syntax proposal
+[[sigma-codata-syntax-proposal]] --[:APPLIES_TO]--> [[sigma-types]]  -- Sigma sigil  @2026-05-31
+[[sigma-codata-syntax-proposal]] --[:APPLIES_TO]--> [[codata]]  -- Codata sigil  @2026-05-31
+[[sigma-codata-syntax-proposal]] --[:APPLIES_TO]--> [[label-lookup]]  -- Parser and lookup changes  @2026-05-31
+[[sigma-codata-syntax-proposal]] --[:RELIES_ON]--> [[sigma-vs-codata-label-refs]]  -- Theoretical basis  @2026-05-31
+[[sigma-codata-syntax-proposal]] --[:RELIES_ON]--> [[codata-vs-coinductive-types]]  -- Codata vs full coinductivity informs scope  @2026-05-31
+
+### Thread membership
+[[row-types.thread]] --[:INCLUDES]--> [[sigma-checking-infer-constrain]]  -- Sigma checking bug  @2026-05-31
+[[row-types.thread]] --[:INCLUDES]--> [[sigma-codata-syntax-proposal]]  -- Syntax proposal  @2026-05-31
+[[recursion.thread]] --[:INCLUDES]--> [[codata-vs-coinductive-types]]  -- Codata vs coinductive types  @2026-05-31
+[[recursion.thread]] --[:INCLUDES]--> [[sigma-vs-codata-label-refs]]  -- Sigma/codata label ref duality  @2026-05-31
+
+### Sigma quoting fix  @2026-05-31
+[[sigma-quoting-field-ref]] --[:GROUNDED_IN]--> [[sigma-architecture]]  -- Symbolic row mirrors Pi's Rigid(lvl) in the two-step architecture
+[[sigma-quoting-match]] --[:GROUNDED_IN]--> [[sigma-architecture]]  -- StuckMatch requires symbolic neutrals from the row abstraction
+[[sigma-quoting-field-ref]] --[:MIRRORS]--> [[quoting]]  -- Symbolic application during readback, analogous to Pi quoting
+[[sigma-quoting-match]] --[:MIRRORS]--> [[quoting]]  -- Symbolic application during readback, analogous to Pi quoting

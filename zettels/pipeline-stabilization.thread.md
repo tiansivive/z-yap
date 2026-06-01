@@ -23,36 +23,36 @@ invisible when each pass was tested in isolation._
 
 ## Sequence
 
-1. **$eq normalization** [[eq-normalization-bug]] — bug, planned
-   PrimOps `$eq` compute returns wrong result on equal literals. `5 == 5` → `false`.
+1. ~~**$eq normalization** [[eq-normalization-bug]] — bug, **implemented**~~
+   `lodash.isEqual` compared full `NF.Value` (including unique `id`). Fixed: compare `.value` payloads only.
 
-2. **Let-poly implicit escape** [[letpoly-implicit-escape]] — bug, planned
-   Generalization leaks block-internal metas. `let x: Num = { ... }` gets `Π(a: Type) => Num`.
+2. ~~**Let-poly implicit escape** [[letpoly-implicit-escape]] — bug, implemented~~
+   Resolved by composition of [[module-zonker-fix]] (zonker propagation) and [[fst-closure-annotation]] (Ann EB.Term fix).
 
-3. **mapList Schema unification** [[maplist-schema-unification]] — bug, needs-design
-   Recursive `mapList` fails on cons cell schema rows with same labels in different order.
-   Row unification is well-tested; issue likely upstream.
+3. ~~**mapList Schema unification** [[maplist-schema-unification]] — bug, **implemented**~~
+   Match-check quoted return type at pre-pattern-binder level; indices misaligned after binder extension. Fixed: quote inside branch at extended level.
 
-4. **length recursive de Bruijn** [[length-recursive-debruijn]] — bug, planned
-   Recursive call resolves as invalid de Bruijn index inside match alternative.
-   Context extension for recursive binders in match branches.
+4. ~~**length recursive de Bruijn** [[length-recursive-debruijn]] — bug, **implemented**~~
+   Two causes: variant pattern rest row not pushed as GRAM binder, and module-level let-dec missing from binder stack. Fixed both in `translate.ts` and `walkPattern`.
 
-5. **fst closure annotation** [[fst-closure-annotation]] — bug, planned
-   Inferred polymorphic function annotations swap type parameters.
-   Possibly display-only; causes downstream verification errors.
+5. ~~**fst closure annotation** [[fst-closure-annotation]] — bug, implemented~~
+   Ann nodes now carry `EB.Term` (quoted Pi) instead of `NF.Value`. Consumers evaluate in their current context, fixing stale closure resolution.
 
-6. **Sigma quoting: match over fields** [[sigma-quoting-match]] — limitation, incomplete
-   Sigma closure applied to row annotation can't evaluate field-dependent matches.
+6. ~~**Sigma quoting: match over fields** [[sigma-quoting-match]] — bugfix, **implemented**~~
+   Fixed: symbolic row application produces StuckMatch neutrals instead of crashing.
 
-7. **Sigma quoting: field ref substitution** [[sigma-quoting-field-ref]] — limitation, incomplete
-   `:fst` in sigma body resolves to field type instead of field value during readback.
+7. ~~**Sigma quoting: field ref substitution** [[sigma-quoting-field-ref]] — bugfix, **implemented**~~
+   Fixed: symbolic row application preserves label references through readback.
 
-8. **Bridge: free var → unknown** [[bridge-free-var-unknown]] — bug, planned
-   Bridge emits `unknown` for `var:free` references instead of the variable name.
+8. ~~**Bridge: free var → unknown** [[bridge-free-var-unknown]] — bug, **implemented**~~
+   `Leaves.free` followed non-existent `:refers_to` edge instead of reading `payload.name`.
 
 9. **Bridge: label resolution in closures** [[bridge-label-closure-gap]] — bug, planned
    `:field` self-refs inside match bodies within struct fields produce undefined MIR vars.
    Edge case of [[bridge-label-resolution]].
+   - 9a. **Forward label references** [[bridge-forward-label-refs]] — bug, planned, needs-design
+     Left-to-right field emission means forward `:label` refs resolve to unbound names.
+     Requires dependency ordering pass (topological sort by label refs).
 
 10. **Type-only let erasure** [[type-erasure]] — backlog
     Top-level type defs produce `return v0` undefined. Partial erasure doesn't cover
