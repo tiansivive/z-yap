@@ -1158,13 +1158,13 @@
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[monad-split]]
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-let-polymorphism]]
 [[elaboration-v2.thread]] --[:INCLUDES]--> [[missing-spec-sigma-types]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[constraint-solver]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[constraint-solving]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[deferred-constraint-solving]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[eager-constraint-solving]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[assign-before-resolve]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[empty-subst-guard]]
-[[elaboration-v2.thread]] --[:INCLUDES]--> [[implicit-resolution-solver]]
+[[elaboration-v2.thread]] --[:USES]--> [[constraint-solver]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[constraint-solving]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[deferred-constraint-solving]]
+[[elaboration-v2.thread]] --[:CONTRASTS_WITH]--> [[eager-constraint-solving]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[assign-before-resolve]]
+[[elaboration-v2.thread]] --[:RELIES_ON]--> [[empty-subst-guard]]
+[[elaboration-v2.thread]] --[:USES]--> [[implicit-resolution-solver]]
 
 ## Thread: Parser Migration  @2026-05-18
 
