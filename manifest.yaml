@@ -16,7 +16,6 @@ federation:
 backend:
   current: github
   github_repo: tiansivive/z-yap
-  neo4j_endpoint: null
 
 entry_points:
   readme: README.md
