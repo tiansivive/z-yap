@@ -121,12 +121,30 @@ All scripts live in `scripts/`. Run from anywhere — paths are resolved relativ
 |--------|-------|---------|
 | `status.js` | `node scripts/status.js` | Cold-start: thread + queue overview |
 | `threads.js` | `node scripts/threads.js [--thread slug]` | Per-thread member listing |
+| | `node scripts/threads.js --html [--open]` | Kanban board → `dist/threads.html` (with flyout) |
+| | `node scripts/threads.js --obsidian` | Obsidian kanban → `dist/threads.kanban.md` |
+| | `node scripts/threads.js --markdown` | Plain markdown table output |
+| | `node scripts/threads.js --pending` | Only non-implemented items |
 | `queue.js` | `node scripts/queue.js` | Pending queue items |
 | `catalog.js` | `node scripts/catalog.js [--tag\|--status\|--search val\|--markdown]` | Zettel inventory with filtering |
 | `neighborhood.js` | `node scripts/neighborhood.js <slug>` | All connections to/from a zettel (fuzzy match) |
 | `glossary.js` | `node scripts/glossary.js [search]` | Browse glossary terms |
 
 Shared utilities: `scripts/lib/parse.js` (parsing), `scripts/lib/colors.js` (ANSI).
+Kanban rendering: `scripts/kanban/render.js` (HTML), `scripts/kanban/obsidian.js` (Obsidian).
+
+### Generated artifacts
 
 Markdown versions are auto-generated to `dist/` on push (GitHub Actions):
 `STATUS.md`, `THREADS.md`, `QUEUE.md`, `CATALOG.md`.
+
+Kanban boards are generated to `dist/` on commit (pre-commit hook):
+`threads.html` (interactive, with zettel flyout), `threads.kanban.md` (Obsidian Kanban plugin).
+
+### Pre-commit hook
+
+To activate the hook that regenerates kanban artifacts on each commit:
+
+```bash
+git config --local core.hooksPath scripts/hooks
+```

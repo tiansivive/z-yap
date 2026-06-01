@@ -37,8 +37,10 @@ z-yap/
   connections.md         # All edges in pseudo-Cypher format
   thread.md              # Append-only paper trail of work sessions
   zettels/               # Atomic design notes (markdown + frontmatter)
-  scripts/               # Catalog generation, neighborhood view
-  dist/                  # CI-generated indexes
+  scripts/               # CLI tools, kanban renderers, git hooks
+    kanban/              # HTML + Obsidian kanban renderers
+    hooks/               # Git hooks (pre-commit)
+  dist/                  # Generated artifacts (CI + pre-commit hook)
 ```
 
 ## Work threads
@@ -110,13 +112,20 @@ z-loom resolves `loom://@yap/...` to this repository via the yap Gateway node.
 | Script | Lang | Purpose |
 |--------|------|---------|
 | `status.js` | Node.js | Thread + queue summary (quick overview) |
-| `threads.js` | Node.js | Detailed per-thread member listing |
+| `threads.js` | Node.js | Per-thread member listing (`--html` `--obsidian` `--markdown` `--pending`) |
 | `queue.js` | Node.js | Pending queue items |
 | `catalog.js` | Node.js | Zettel inventory with `--tag`/`--status`/`--search`/`--markdown` filtering |
 | `neighborhood.js` | Node.js | All connections to/from a zettel (fuzzy slug match) |
 | `glossary.js` | Node.js | Browse glossary terms |
 
+Kanban rendering lives in `scripts/kanban/` — `render.js` (HTML with flyout), `obsidian.js` (Obsidian Kanban plugin).
+
 Markdown versions auto-generated to `dist/` on push to main (GitHub Actions).
+Kanban boards (`threads.html`, `threads.kanban.md`) auto-generated on commit via pre-commit hook.
+
+```bash
+git config --local core.hooksPath scripts/hooks   # activate the hook
+```
 
 ## License
 

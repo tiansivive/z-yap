@@ -2,7 +2,8 @@
  * Obsidian Kanban renderer.
  *
  * Produces a markdown file compatible with the obsidian-kanban plugin.
- * H2 headings = columns, H3 headings = thread groupings within columns.
+ * Columns = status (Backlog, Ready, In Progress, Blocked, Done).
+ * Thread names appear as delimiter cards within each column.
  *
  * @param {Array} threads — thread objects with columns of enriched members
  * @returns {string} Markdown document with kanban-plugin frontmatter
@@ -33,10 +34,10 @@ export const renderObsidian = (threads) => {
     for (const thread of threads) {
       const items = thread.columns[col] ?? [];
       if (!items.length) continue;
-      lines.push(`### ${thread.title}`);
+      lines.push(`- [ ] **${thread.title}**`);
       lines.push(...items.map(renderItem));
-      lines.push("");
     }
+    lines.push("");
   }
 
   return frontmatter + lines.join("\n");

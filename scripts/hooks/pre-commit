@@ -4,7 +4,5 @@
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 
-node "$ROOT/scripts/threads.js" --html 2>&1
-node "$ROOT/scripts/threads.js" --obsidian 2>&1
-
-git add "$ROOT/dist/threads.html" "$ROOT/dist/threads.kanban.md" 2>/dev/null
+node "$ROOT/scripts/threads.js" --html
+node "$ROOT/scripts/threads.js" --obsidian
