@@ -20,4 +20,4 @@ tags:
 
 **CLI wiring:** `src/cli/explore/pipeline.ts` imports GRAM translate, η, saturate, closure, and MIR `lowerToMir` for side-by-side artifacts.
 
-**Self-hosted passes (speculative):** Graph passes today ship as TypeScript under `src/GRAM/passes/`. A surface-language pass DSL that loads rewrite rules from `.yap` sources would need its own bootstrap story (compiler interpreting Yap-authored rules).
+**Self-hosted passes:** [[programmable-gram-passes]] provides the design — user-written DPO rewrite rules as Yap values, dispatched by a Kernel meta-pass that walks modal annotations on `EB.Term`. Rule definitions evaluate via NbE; the existing match/rewrite engine in `src/GRAM/grs/` runs them. The architectural choice that puts extensibility at the modal layer rather than in the elaborator is captured in [[extensibility-via-modalities.adr]].

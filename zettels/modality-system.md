@@ -26,6 +26,8 @@ Both dimensions live in `Modal.Annotations`, which wraps `EB.Term` and `NF.Value
 
 The dual-dimension design is intentionally open:
 
+**Compiler lowering** — a `gram` dimension carries user-written DPO rewrite rules consumed by a Kernel pass during graph lowering. The architectural pattern — modal dimensions as the extension surface, with each downstream subsystem reading the dimensions it understands — is captured as ADR in [[extensibility-via-modalities.adr]] and instantiated by [[programmable-gram-passes]].
+
 **Effects as modality** — effect indices (what side effects a computation may perform) could be a third dimension in the same wrapper, tracked and verified alongside quantity and liquid. This is speculative; see [[effects-as-modality]].
 
 **User-defined modalities** — in principle, any property that forms a suitable algebraic structure (a semiring or similar) could be added as a modality dimension: security levels, approximation bounds, resource budgets. This is further out and unexplored.

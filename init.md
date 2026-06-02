@@ -67,6 +67,14 @@ z-yap uses a thread/queue system for tracking work:
    - Edge lines for graph traversal
    - SPAWN/ENQUEUE/RESOLVED actions
    - Brief narrative summary
+6. **If the session produced significant design discussion**, create a session zettel:
+   - File: `zettels/<topic>.session.md`
+   - Tag with `ai-session` + relevant domain tags
+   - Add `session:<UUID>` to `refs` in frontmatter
+   - Body: one-paragraph summary of what was discussed, decided, and produced
+   - Connections: `produced`, `informed-by`, `resolved` edges to affected zettels
+   - Copy the transcript JSONL to `sessions/<UUID>.jsonl`
+   - Add an `includes` edge from `[[sessions.hub]]`
 
 ## Zettel conventions
 

@@ -936,3 +936,88 @@ Re-wired 7 constraint-solving concept zettels from `INCLUDES` to semantic edges 
 ### Summary
 
 Established a clean separation between knowledge (concept/decision/reference zettels) and active work (design/implementation zettels) in thread membership. Concept zettels remain connected to threads via semantic edges (`RELIES_ON`, `DOCUMENTS`, `REFERENCES`) — they inform the thread's domain but are not tracked as work items. For borderline cases (concepts with `needs-design`), new design zettels capture the active work while the concept zettel retains pure knowledge. This eliminates misleading "open" statuses in thread listings and makes the work layer an accurate representation of actionable items.
+
+---
+
+## Session: Bubble Semantics Phase 1 Implementation
+
+Date: 2026-06-01
+
+### Changes
+
+Implemented `Bubble` constructor for `EB.Term`, replacing the `Var(Meta(skolem))` + `state.skolems` indirection at shift use sites.
+
+**Milestone 1**: Added `Bubble` to `EB.Term` union, `Constructors.Bubble` factory, `CtorPatterns.Bubble`, and `Patterns.Bubble` in lowering.
+
+**Milestone 2**: Modified `shift.ts` to produce `EB.Constructors.Bubble(skolem.val, A, [], Shift(body))` instead of `EB.Constructors.Var(skolem)`.
+
+**Milestone 3**: Added `Bubble` cases to all 7 traversal passes:
+- `pretty.ts` — display as `bubble#ID (shift ...)`
+- `metas.ts` — collect metas from `shift` subterm
+- `freevars.ts` — collect free vars from `shift` subterm
+- `evaluation.v2.ts` — evaluate inner Shift when delimiter present; produce neutral otherwise
+- `synth.ts` — emit neutral true formula (opaque stub)
+- `translate.ts` (GRAM) — walk inner shift subterm
+- `lower.ts` — delegate to inner shift
+
+**Milestone 4**: Removed `state.skolems` from `MutState` and all call sites:
+- `monad.v2.ts`, `shift.ts`, `evaluation.v2.ts`, `generalization.ts`, `module.ts`, `statements.ts`, `nondeterminism.ts`, `pretty.ts`, `translate.ts` (GRAM), `pipeline/index.ts`, `pipeline.ts` (CLI/test), test utilities
+
+**Milestone 5**: All tests pass (794 passed, 51 skipped). Updated snapshots for shift-reset and evaluation tests. Adapted "shifts under a lambda" test to reflect new neutral-on-missing-delimiter semantics. 5 pre-existing trace.test.ts failures confirmed unrelated.
+
+**Milestone 6**: Style audit — shift.ts and patterns.ts clean; all violations pre-existing.
+
+### Files changed (27)
+
+src/elaboration/syntax/term.ts, src/lowering/patterns.ts, src/elaboration/inference/shift.ts, src/elaboration/pretty/pretty.ts, src/elaboration/shared/metas.ts, src/lowering/shared/freevars.ts, src/elaboration/normalization/evaluation.v2.ts, src/verification/V2/synth.ts, src/GRAM/translate.ts, src/lowering/lower.ts, src/elaboration/shared/monad.v2.ts, src/elaboration/normalization/generalization.ts, src/elaboration/module.ts, src/elaboration/inference/statements.ts, src/elaboration/solver/nondeterminism.ts, src/GRAM/pipeline/index.ts, src/cli/explore/pipeline.ts, src/__tests__/integration/helpers/pipeline.ts, src/elaboration/__tests__/utils.ts, src/elaboration/inference/__tests__/util.ts, src/verification/__tests__/helpers.ts, src/GRAM/__tests__/translate.test.ts, src/elaboration/normalization/__tests__/evaluation.v2.test.ts, src/elaboration/normalization/__tests__/generalization.test.ts, + snapshot files
+
+### Design decision: NbE behavior
+
+Bubble produces a neutral value (stuck meta) when no Reset delimiter is on the NbE evaluation stack. This preserves the old behavior where `Var(Meta(skolem))` was opaque during elaboration NbE. When a delimiter IS present (inside a Reset), Bubble evaluates its inner Shift normally.
+
+### Post-plan: Bubble.values injection (AC #6)
+
+**Attempt 1 (reverted)**: Added `injectBubbleValues` term traversal in `term.ts` — recursive walk populating Bubble values from `nondeterminism.solution`. Called at let-boundary and expression path. Violated Yap's no-traversal architectural principle (the entire env/NbE/zonker design exists to eliminate term walks).
+
+**Attempt 2 (current)**: Populated `Bubble.values` inline at construction in `shift.ts` by reading `nondeterminism.solution[skolem.val]` from monadic state. The solution map is already populated by `resume` before `shift.ts` constructs the Bubble. No post-processing pass needed. Removed `injectBubbleValues` and its call sites in `statements.ts` and `module.ts`.
+
+**Future work**: Created `[[tell-listen-resumption-refactor]]` tech-debt zettel — replace `nondeterminism.solution` accumulator with Writer-like `tell`/`listen` pattern. Connected to `[[delimited-continuations.thread]]`.
+
+---
+
+## Session: Programmable GRAM passes design — 2026-06-02 [gram, modality, lowering, design, rewriting]
+
+Designed the extensibility mechanism for compiler lowering. User-written DPO rewrite rules participate in GRAM via the modality system: a `gram` field on `Modal.Annotations` carries an `EB.Term` elaborating to a stdlib `Rule` value. A Kernel meta-pass discovers rules transitively by reference, computes ordering from structurally-derived `requires`/`produces` (LHS pattern tags / RHS constructor tags), evaluates rule definitions via NbE, and runs them through the existing match/rewrite engine in `src/GRAM/grs/`. Predicates are plain Yap lambdas applied as `NF.Value` closures; FFI and non-reducing constructs stay stuck and surface as well-formedness rejection.
+
+Defaults like monomorphization are expressed as static DPO rules with a structural filter for absence of modal annotations. Static-pipeline passes require no awareness of modal payload; additive enrichment guarantees they ignore unfamiliar tags. Selection semantics for the case where multiple annotations decorate the same subgraph was deferred — codegen-time preference, project configuration, and explicit override directives are all candidates.
+
+Repositioned compiler extensibility broadly: Yap declines elaborator metaprogramming (Lean `Elab`, Idris `%runElab`) in favor of typed modality consumers — verification, usage, GRAM — each reading their dimension off `Modal.Annotations`. Liquid refinement checking and the in-flight QTT usage pass implement the pattern; the GRAM Kernel is the third instance. Captured as ADR in `[[extensibility-via-modalities.adr]]`.
+
+Tailcall was rejected as a fit — tail position is a structural property the compiler determines. Canonical use cases are mono/run-poly, defunctionalization, function-pointer vs synthetic closure, PAP representation, lambda lifting, ABI-specific calling conventions, and fusion rules.
+
+### Decisions
+
+1. `Modal.Annotations` gains a `gram?: List Rule` field, not an extensible row. Row extensibility deferred.
+2. Users write DPO rewrite rules as Yap struct literals; no embedded DSL, no quotation. Minimal v1 surface; `add_node`-style primitives deferred.
+3. Predicates are plain Yap lambdas (`Payload -> Bool`, `Bindings -> Payload`), applied via `NF.apply`. Stuck reductions are non-matches; rule failure on stuck builders.
+4. Rule discovery/ordering at GRAM-pipeline time via a Kernel meta-pass that reads `requires`/`produces` structurally from rule LHS/RHS and reuses the existing `Descriptor`/`configure.ts` topo-sort.
+5. Activation is by reference only — no global registration, no implicit attribute database. Tree-shaking is structural.
+
+### Prior art
+
+- **MLIR Transform Dialect** `[[mlir-transform-dialect]]` — transformations expressed as ops in the IR being transformed; bootstrap arc from C++ to dialect-native.
+- **T-LINQ** `[[t-linq]]` (Cheney/Lindley/Wadler ICFP 2013) — restricted host sublanguage normalized to a domain residual; stuck terms as the well-formedness boundary.
+- **Koka effect handlers** `[[koka-influence]]` — handler-as-value, named at the use site, as the architectural dual of attribute-database registration.
+- **F\* `Tac` and Lean `TacticM`** — typed metaprogramming monads with kernel interpretation; contrasted as a deliberate non-direction for Yap.
+
+### Spawned
+
+`[[programmable-gram-passes]]` (design hub), `[[gram-kernel-pass]]`, `[[gram-rule-as-yap-value]]`, `[[pass-activation-by-reference]]`, `[[extensibility-via-modalities.adr]]`, `[[mlir-transform-dialect]]`, `[[t-linq]]`, `[[programmable-gram-passes-design.session]]`.
+
+### Updates
+
+- `[[passes-in-yap]]` — speculative self-hosted-passes paragraph replaced with reference to the new design.
+- `[[koka-influence]]` — added handler-as-value influence section.
+- `[[modality-system]]` — gram listed as third dimension under Extensibility.
+- `[[gram-evolution.thread]]` — added sequence item 19.
+- `[[sessions.hub]]` — added session to includes.

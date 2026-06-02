@@ -2383,3 +2383,69 @@
 [[row-types.thread]] --[:INCLUDES]--> [[design-row-theory-verification]]  -- Design work item  @2026-06-01
 [[verification-backend.thread]] --[:INCLUDES]--> [[design-vc-normalization]]  -- Design work item  @2026-06-01
 [[recursion.thread]] --[:INCLUDES]--> [[design-sigma-codata-label-refs]]  -- Design work item  @2026-06-01
+
+## Bubble Semantics Phase 1  @2026-06-01
+
+[[bubble-semantics-phase1.implementation]] --[:IMPLEMENTS]--> [[bubble-semantics]]  -- Phase 1 implementation
+[[bubble-semantics-phase1.implementation]] --[:RELIES_ON]--> [[shift-reset-verification-stub]]  -- Verification stub preserved
+[[bubble-semantics-phase1.queue]] --[:APPLIES_TO]--> [[bubble-semantics-phase1.implementation]]  -- Queue tracks phase 1
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[bubble-semantics-phase1.implementation]]  -- Phase 1 work item  @2026-06-01
+
+## tell/listen resumption refactor  @2026-06-01
+
+[[tell-listen-resumption-refactor]] --[:ADDRESSES]--> [[bubble-semantics]]  -- Refactors how resumption values flow to Bubble
+[[tell-listen-resumption-refactor]] --[:MOTIVATES]--> [[bubble-semantics-phase1.implementation]]  -- Discovered during phase 1 values injection
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[tell-listen-resumption-refactor]]  -- Tech debt work item  @2026-06-01
+
+## Programmable GRAM passes  @2026-06-02
+
+### Design hub composition
+[[programmable-gram-passes]] --[:INCLUDES]--> [[gram-kernel-pass]]  -- Kernel meta-pass mechanism
+[[programmable-gram-passes]] --[:INCLUDES]--> [[gram-rule-as-yap-value]]  -- Surface type for user rules
+[[programmable-gram-passes]] --[:INCLUDES]--> [[pass-activation-by-reference]]  -- Discovery-by-reference principle
+
+### Substrate dependencies
+[[programmable-gram-passes]] --[:RELIES_ON]--> [[gram-additive-enrichment]]  -- Static passes ignore unfamiliar modal tags
+[[programmable-gram-passes]] --[:RELIES_ON]--> [[typed-pass-composition]]  -- Reuses Descriptor requires/delta for topological sort
+[[programmable-gram-passes]] --[:RELIES_ON]--> [[dpo-rewriting]]  -- Existing match/rewrite engine runs user rules
+[[programmable-gram-passes]] --[:RELIES_ON]--> [[modality-system]]  -- Carrier is a new gram field on Modal.Annotations
+[[programmable-gram-passes]] --[:RELIES_ON]--> [[gram-pattern-translation]]  -- Modal node emitted by EB→GRAM translation
+[[gram-kernel-pass]] --[:CONSUMES]--> [[gram-rule-as-yap-value]]  -- Reads Rule values from modal annotations
+[[gram-kernel-pass]] --[:USES]--> [[dpo-rewriting]]  -- Delegates execution to the engine
+[[gram-kernel-pass]] --[:RELIES_ON]--> [[gram-additive-enrichment]]  -- RHS constructors only add structure
+[[gram-rule-as-yap-value]] --[:MIRRORS]--> [[dpo-rewriting]]  -- Surface type maps engine-side Rule
+
+### Architectural positioning
+[[programmable-gram-passes]] --[:MOTIVATED_BY]--> [[extensibility-via-modalities.adr]]  -- ADR for the broader stance
+[[extensibility-via-modalities.adr]] --[:GENERALIZES]--> [[verification-modal-phase]]  -- Verification reads liquid dimension
+[[extensibility-via-modalities.adr]] --[:GENERALIZES]--> [[gram-crud-enrichment]]  -- CRUD reads multiplicity dimension
+[[extensibility-via-modalities.adr]] --[:GENERALIZES]--> [[usage-semantics]]  -- Usage pass reads quantity dimension
+[[extensibility-via-modalities.adr]] --[:RELIES_ON]--> [[modality-system]]  -- Modal layer is the extension surface
+[[modality-system]] --[:MOTIVATES]--> [[programmable-gram-passes]]  -- Third dimension consumer
+[[pass-activation-by-reference]] --[:CONTRASTS_WITH]--> [[koka-influence]]  -- Handler-as-value as architectural dual to attribute databases
+
+### Prior art
+[[programmable-gram-passes]] --[:GROUNDED_IN]--> [[mlir-transform-dialect]]  -- Transformations as ops in the IR being transformed
+[[programmable-gram-passes]] --[:GROUNDED_IN]--> [[t-linq]]  -- Restricted host sublanguage normalizing to a domain residual
+[[gram-rule-as-yap-value]] --[:GROUNDED_IN]--> [[t-linq]]  -- Stuck terms as well-formedness boundary
+[[gram-kernel-pass]] --[:GROUNDED_IN]--> [[mlir-transform-dialect]]  -- Controlled primitive set interpreted by pass manager
+[[mlir-transform-dialect]] --[:INFORMS]--> [[programmable-gram-passes]]
+[[t-linq]] --[:INFORMS]--> [[gram-rule-as-yap-value]]
+
+### Boundary
+[[programmable-gram-passes]] --[:DEFERS_TO]--> [[logram]]  -- Whole-graph queries await richer substrate
+[[gram-rule-as-yap-value]] --[:DEFERS_TO]--> [[logram]]  -- Capture-set analysis, ancestor walks need it
+
+### Thread + session membership
+[[gram-evolution.thread]] --[:INCLUDES]--> [[programmable-gram-passes]]  -- Sequence item 19  @2026-06-02
+[[sessions.hub]] --[:INCLUDES]--> [[programmable-gram-passes-design.session]]  -- Session record  @2026-06-02
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[programmable-gram-passes]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[gram-kernel-pass]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[gram-rule-as-yap-value]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[pass-activation-by-reference]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[extensibility-via-modalities.adr]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[mlir-transform-dialect]]
+[[programmable-gram-passes-design.session]] --[:PRODUCED]--> [[t-linq]]
+
+### Passes-in-yap revision
+[[programmable-gram-passes]] --[:REVISES]--> [[passes-in-yap]]  -- Replaces speculative self-hosted-passes paragraph

@@ -292,3 +292,11 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `DEFINES` | Source defines the contract/shape of target |
 | `DOCUMENTS` | Source documents a decision or rationale from target |
 | `REFERENCES` | Source references target as supporting material |
+
+## Ref prefixes
+
+Frontmatter `refs` use a `prefix:value` convention for cross-references to external artifacts.
+
+| Prefix | Points to | Example |
+|--------|-----------|---------|
+| `session` | Chat session transcript UUID (any agent) | `session:67483184-49f4-449a-9acb-75b28561bace` |

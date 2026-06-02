@@ -56,8 +56,8 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 11. **S-expression storage** [[gram-as-s-expressions]] — rejected
     Graphs are canonical; S-exprs rejected.
 
-12. **GRAM -> MIR bridge** [[gram-to-mir-bridge]] — planned
-    Direct translation emitting MIR Module. Regression vehicle and migration path.
+12. **GRAM -> MIR bridge** [[gram-to-mir-bridge]] — implemented
+    Direct translation emitting MIR Module via `src/GRAM/bridge/`. Explorer uses `GRAM.Bridge.emit` as canonical MIR source.
 
 13. **GRAM next steps** [[gram-next-steps]] — planned
     Defunctionalization pass, lambda lifting pass, CRUD data access enrichment.
@@ -77,3 +77,8 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 
 18. **LoGRAM** [[logram]] — speculative
     Datalog-style triple-store substrate for graph queries.
+
+19. **Programmable GRAM passes** [[programmable-gram-passes]] — planned, needs-design
+    User-written DPO rules as Yap values, dispatched by a Kernel meta-pass via modal annotations.
+    Rule definitions evaluate via NbE; existing match/rewrite engine runs them.
+    _Shared with: modality-system extension surface_

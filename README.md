@@ -37,6 +37,7 @@ z-yap/
   connections.md         # All edges in pseudo-Cypher format
   thread.md              # Append-only paper trail of work sessions
   zettels/               # Atomic design notes (markdown + frontmatter)
+  sessions/              # Transcript JSONLs (committed, one per significant session)
   scripts/               # CLI tools, kanban renderers, git hooks
     kanban/              # HTML + Obsidian kanban renderers
     hooks/               # Git hooks (pre-commit)
