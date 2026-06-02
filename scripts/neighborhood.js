@@ -64,6 +64,8 @@ const STRUCTURAL = new Set([
   "deprecated", "rejected", "deferred", "incomplete",
   "ready", "blocked", "needs-design",
   "active", "dormant", "on-hold", "spike", "archived",
+  "proposed", "accepted", "superseded", "subsumed",
+  "frozen",
 ]);
 const domain = match.tags.filter((t) => !STRUCTURAL.has(t));
 if (domain.length) {

@@ -30,14 +30,18 @@ export const parseZettel = (filepath) => {
     title,
     tags: fm.tags ?? [],
     refs: fm.refs ?? [],
+    scalars: fm.scalars ?? {},
     body,
     path: filepath,
   };
 };
 
+const LIST_KEYS = new Set(["tags", "refs"]);
+
 const parseFrontmatter = (raw) => {
   const tags = [];
   const refs = [];
+  const scalars = {};
   let currentKey = null;
 
   for (const line of raw.split("\n")) {
@@ -69,6 +73,9 @@ const parseFrontmatter = (raw) => {
         if (currentKey === "refs") refs.push(...items);
         continue;
       }
+      if (rest && !LIST_KEYS.has(currentKey)) {
+        scalars[currentKey] = rest;
+      }
       continue;
     }
 
@@ -87,7 +94,7 @@ const parseFrontmatter = (raw) => {
     }
   }
 
-  return { tags, refs };
+  return { tags, refs, scalars };
 };
 
 export const loadAll = (dir = ZETTELS_DIR) =>

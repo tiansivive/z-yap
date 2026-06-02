@@ -26,7 +26,7 @@ The Z3 adapter (`z3.adapter.ts`) translates IVL formulas to Z3 expressions and i
 
 ## Limitations
 
-Z3 has no native row theory, which is a key driver for the owned-solver direction ([[z3-replacement-decision]], [[required-theory-support]]). Row-typed formulas either degrade to uninterpreted sorts in Z3 or are unsupported entirely. The adapter also introduces an FFI boundary (native Z3 binaries) that complicates CI, WASM targets, and distribution.
+Z3 has no native row theory, which is a key driver for the owned-solver direction ([[z3-replacement.adr]], [[required-theory-support]]). Row-typed formulas either degrade to uninterpreted sorts in Z3 or are unsupported entirely. The adapter also introduces an FFI boundary (native Z3 binaries) that complicates CI, WASM targets, and distribution.
 
 ## Long-term role
 

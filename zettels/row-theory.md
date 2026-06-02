@@ -17,7 +17,7 @@ Row reasoning in verification must be *structural* — aligned with how rows wor
 
 Elaboration's row semantics are label-based: rows decompose by label, unify field-wise, and handle openness through row variables solved against extensions. The verification side must respect the same structure. If rows are flattened into uninterpreted sorts or encoded as array-like sequences, the solver loses the structural information that makes row reasoning precise — label identity, extension order, tail unification.
 
-This is one of the key motivations for the owned-solver direction ([[z3-replacement-decision]], [[required-theory-support]]): Z3 has no native row theory, so row-typed formulas degrade to uninterpreted sorts and lose structural precision. An owned engine can host a theory plugin that shares the same row vocabulary as elaboration.
+This is one of the key motivations for the owned-solver direction ([[z3-replacement.adr]], [[required-theory-support]]): Z3 has no native row theory, so row-typed formulas degrade to uninterpreted sorts and lose structural precision. An owned engine can host a theory plugin that shares the same row vocabulary as elaboration.
 
 ## IVL representation
 

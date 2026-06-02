@@ -1,6 +1,9 @@
 ---
+adr-id: D-001
 tags:
   [
+    adr,
+    accepted,
     decision,
     verification,
     solver,
@@ -17,7 +20,7 @@ refs:
   - src: src/verification/solver/
     note: "IVL IR, CNF, CDCL core, EUF, arithmetic, quantifier engine"
 ---
-# Z3 replacement decision
+# Z3 replacement
 
 **Decision:** Replace the `z3-solver` npm dependency as Yap's primary verification backend with a custom **Intermediate Verification Language (IVL)** and an in-tree **CDCL(T)** satisfiability engine.
 

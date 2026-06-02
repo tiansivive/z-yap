@@ -7,26 +7,23 @@ tags:
     compiler,
     mir,
     speculative,
+    rejected,
     pattern,
-    principle,
     effect,
     type-system,
     elaboration,
     inference,
     backend,
     code,
-    migration,
     reference,
-    problem,
     performance,
     rewriting,
-    decision,
   ]
 ---
-# Selective CPS
+# Selective CPS (rejected alternative)
 
-**Selective CPS** (CPS only under effectful/delim-cont regions) is a standard way to avoid whole-program administrative noise. Yap’s shift/reset pipeline instead lowers delimited control to a **block + jump state machine** with `Alloc`/`Read`/`Jump`/`Branch`, not a global CPS transform.
+**Rejected by [[direct-style-lowering.adr]].** This zettel preserves the description of selective continuation-passing-style as the alternative lowering strategy considered for delimited control.
 
-Contrast: `src/lowering/continuations/` implements that direct-style lowering; closure conversion follows separately (`src/lowering/functions/`).
+**Selective CPS** (CPS only under effectful or delim-cont regions) is a standard way to avoid the whole-program administrative noise of a global CPS transform. Continuation arguments are inserted only along control paths that may invoke the continuation; pure regions retain direct-style shape.
 
-Selective CPS remains a hypothetical alternate backend if some target wants uniform tail structure; any such path would need to stay consistent with answer-type metavariable behavior (`src/elaboration/inference/reset.ts`, `shift.ts`).
+The strategy is reachable as an alternate backend if some target requires uniform tail structure across all call sites; any such path would have to stay consistent with answer-type metavariable behaviour in `src/elaboration/inference/reset.ts` / `shift.ts` so the two lowerings agree on capture semantics. As of today, no target needs it: Yap's direct-style block-and-jump lowering covers all backends.

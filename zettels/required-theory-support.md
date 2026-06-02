@@ -33,4 +33,4 @@ Yap's verification fragment — liquid refinements over a dependently typed core
 
 ## Design implications
 
-The row theory requirement was a key driver for the [[z3-replacement-decision]]: no existing SMT solver natively handles Yap's structural row shapes. An owned engine can host a theory plugin that shares the same row rewriting and containment logic used in elaboration, rather than encoding rows as opaque terms and losing structural information at the translation boundary.
+The row theory requirement was a key driver for the [[z3-replacement.adr]]: no existing SMT solver natively handles Yap's structural row shapes. An owned engine can host a theory plugin that shares the same row rewriting and containment logic used in elaboration, rather than encoding rows as opaque terms and losing structural information at the translation boundary.

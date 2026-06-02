@@ -24,4 +24,4 @@ Reflects user-defined function definitions into output refinement types, enablin
 - **`Fun` sort**: lambda values get an uninterpreted `Fun s1 s2` sort in the logic — distinct from the arrow sort `s1 → s2` used for reflected function signatures. This is _not_ [[selfification]] — it handles reflected definitions, not variable strengthening.
 - **T-Exact rule**: generalizes [[selfification]] from Knowles & Flanagan to reflected functions, strengthening output types with `v = f x ∧ def(f, x)`.
 
-Yap does not currently implement refinement reflection, but the sort distinction (`Type` vs `Fn` in IVL) and the [[first-order-restriction]] on selfification follow the same design.
+Yap does not currently implement refinement reflection, but the sort distinction (`Type` vs `Fn` in IVL) and the [[first-order-restriction.adr]] on selfification follow the same design.

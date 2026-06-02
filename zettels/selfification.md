@@ -27,7 +27,7 @@ Selfification strengthens a variable's type with a singleton refinement equating
 
 The operation originates from [[ou-et-al-2004]], formalized as the T-Var rule in [[knowles-flanagan-2010]], and mechanized in [[vazou-mechanizing-refinement-types-2024]]. [[vazou-refinement-reflection-2018]] generalizes selfification to reflected function definitions via the T-Exact rule, where the output type carries the function's unfolded definition as a refinement.
 
-In Yap, `selfify` (`src/verification/V2/utils/refinements.ts`) is called from `synth` when synthesizing the type of a bound variable. It checks `isFirstOrder` as a top-level guard (see [[first-order-restriction]]) — higher-order types return unchanged. For first-order types, the match dispatches on the forced type shape:
+In Yap, `selfify` (`src/verification/V2/utils/refinements.ts`) is called from `synth` when synthesizing the type of a bound variable. It checks `isFirstOrder` as a top-level guard (see [[first-order-restriction.adr]]) — higher-order types return unchanged. For first-order types, the match dispatches on the forced type shape:
 
 - **[[modalities]]** (`Modal`) — conjoins `v = x` into the existing liquid predicate closure.
 - **Bare types** (otherwise) — wraps in a fresh `Modal` carrying `v = x` as the liquid predicate.

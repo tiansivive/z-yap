@@ -22,7 +22,7 @@ tags:
 ---
 # SMT translation (Z3, deprecated)
 
-**Superseded by IVL-based VC emission — see [[vc-ir]], [[z3-replacement-decision]], and [[verification-pipeline]].** The body below records the **prior direct `z3-solver` encoding** (original content preserved for reference).
+**Superseded by IVL-based VC emission — see [[vc-ir]], [[z3-replacement.adr]], and [[verification-pipeline]].** The body below records the **prior direct `z3-solver` encoding** (original content preserved for reference).
 
 **Status:** `translate.ts` now produces **`IVL.Term` / `IVL.Formula`**; artefacts use **`IVL.Formula`**. The paragraph below describes the **pre-IVL** pipeline.
 

@@ -53,7 +53,7 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
     Bubble/continuation/resumption as data dependencies.
     _Shared with: delimited-continuations thread_
 
-11. **S-expression storage** [[gram-as-s-expressions]] — rejected
+11. **Graph IR substrate** [[gram-graph-ir.adr]] — D-002; rejects [[gram-as-s-expressions]]
     Graphs are canonical; S-exprs rejected.
 
 12. **GRAM -> MIR bridge** [[gram-to-mir-bridge]] — implemented

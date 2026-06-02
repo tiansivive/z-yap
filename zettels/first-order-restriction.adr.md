@@ -1,6 +1,10 @@
 ---
+adr-id: D-003
 tags:
   [
+    adr,
+    accepted,
+    decision,
     verification,
     type-system,
     modality,
@@ -12,7 +16,6 @@ tags:
     mechanism,
     dependent,
     implemented,
-    decision,
   ]
 ---
 # First-order restriction

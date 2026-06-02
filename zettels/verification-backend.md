@@ -30,7 +30,7 @@ The current backend is a custom CDCL(T) engine with theory plugins for EUF, line
 - **IVL as the boundary IR** — obligations are `IVL.Formula`, not solver-native expressions. See [[ivl-boundary]].
 - **Bidirectional VC generation** — `check`, `synth`, and `subtype` each produce VCs from their respective judgment forms, grounded in Jhala/Vazou-style liquid type checking. See [[bidir-subtype-verification]].
 - **Z3 as oracle, not primary** — the adapter preserves backward compatibility and enables differential testing. See [[z3-adapter-strategy]].
-- **Owned solver for theory control** — the replacement decision was driven by row theory needs and distribution friction. See [[z3-replacement-decision]].
+- **Owned solver for theory control** — the replacement decision was driven by row theory needs and distribution friction. See [[z3-replacement.adr]].
 
 ## Remaining work
 

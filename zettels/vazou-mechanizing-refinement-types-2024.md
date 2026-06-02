@@ -24,4 +24,4 @@ Provides the first fully mechanized metatheory for refinement types (λRF). Key 
 - **Kind system**: distinguishes type variables that can soundly appear in refinements from those that cannot.
 - **Existential application rule**: preserves decidability of subtyping.
 
-Directly validates Yap's `isFirstOrder` guard as the implementation of the [[first-order-restriction]] on selfification.
+Directly validates Yap's `isFirstOrder` guard as the implementation of the [[first-order-restriction.adr]] on selfification.

@@ -44,7 +44,7 @@ tracks the full vertical of delimited control in Yap.
    Single written calculus: answer types, Continuation binder, replay invariant,
    lowering prerequisites.
 
-9. **Selective CPS** [[selective-cps]] — speculative
+9. **Direct-style lowering** [[direct-style-lowering.adr]] — D-004; implemented; rejects [[selective-cps]]
    Hypothetical alternate backend; must stay coherent with answer metas.
 
 10. **Session lowering notes** [[session-lowering-branch-split]] — reference

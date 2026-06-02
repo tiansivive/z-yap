@@ -159,6 +159,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `milestone` | Project milestones, deliverables |
 | `ai-session` | A recorded AI pair-programming session |
 | `drift` | Specification/implementation drift |
+| `frozen` | Intentionally not updated through normal flow; references a locked snapshot of state |
 
 ## Status tags
 
@@ -186,6 +187,17 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `backlog` | Feature, capability, or enhancement not yet built |
 | `limitation` | A known architectural constraint or design boundary that may be revisited |
 
+### ADR lifecycle
+
+Orthogonal to epistemic status. Applies to zettels tagged `adr`. Describes the decision's lifecycle, not the implementation's state — an ADR can be `accepted` + `implemented` (decision in force, code shipped) or `superseded` + `deprecated` (replaced, old code retired).
+
+| Tag | Description |
+|-----|-------------|
+| `proposed` | ADR drafted, not yet accepted |
+| `accepted` | Decision in force |
+| `superseded` | Replaced by a newer ADR (use `SUPERSEDES` edge from the replacement) |
+| `subsumed` | Absorbed into a broader ADR (use `INCLUDES` or `SUPERSEDES`) |
+
 ## Work layer tags
 
 | Tag | Description |
@@ -193,7 +205,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `thread` | A named, ordered sequence of work items forming a parallel concern |
 | `queue` | A flat pending-work list; items graduate to threads when scoped |
 | `hub` | An overview zettel that aggregates a domain; lists children |
-| `adr` | Architecture Decision Record — documents a significant design shift with rationale |
+| `adr` | Architecture Decision Record — documents a significant design shift with rationale. Filed as `<slug>.adr.md`; carries `adr-id: D-NNN` in frontmatter and a lifecycle tag |
 | `ready` | Work item is unblocked and can be started |
 | `blocked` | Work item is waiting on a dependency |
 | `needs-design` | Work item requires design exploration before implementation |
@@ -300,3 +312,4 @@ Frontmatter `refs` use a `prefix:value` convention for cross-references to exter
 | Prefix | Points to | Example |
 |--------|-----------|---------|
 | `session` | Chat session transcript UUID (any agent) | `session:67483184-49f4-449a-9acb-75b28561bace` |
+| `adr` | Architecture Decision Record by ID | `adr:D-001` |

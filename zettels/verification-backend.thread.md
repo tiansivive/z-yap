@@ -11,7 +11,7 @@ tags:
 ---
 # Verification Backend
 
-Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR plus an **in-tree CDCL(T)** stack; **Z3** remains available via **`z3.adapter.ts`** and existing **`z3-solver`** wiring in tooling ([[translation-boundary-vc]], [[z3-replacement-decision]]). **Open:** string/row theories, richer provenance/explanations, formal **`VerificationBackend`** trait — see milestones 9–16 below.
+Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR plus an **in-tree CDCL(T)** stack; **Z3** remains available via **`z3.adapter.ts`** and existing **`z3-solver`** wiring in tooling ([[translation-boundary-vc]], [[z3-replacement.adr]]). **Open:** string/row theories, richer provenance/explanations, formal **`VerificationBackend`** trait — see milestones 9–16 below.
 
 ## Sequence
 
@@ -59,7 +59,7 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 13. **VC IR** [[vc-ir]], [[vc-normalization]], [[vc-provenance]] — partial
     IVL types and normalization implemented. Provenance tracking not yet done.
 
-14. **Z3 replacement decision** [[z3-replacement-decision]] — decision record  
+14. **Z3 replacement decision** [[z3-replacement.adr]] — decision record  
     Staged decoupling from Z3-monolithic coupling toward **IVL + CDCL(T)** (with adapters).
 
 15. **Theory requirements** [[required-formula-forms]], [[required-theory-support]] — reference
@@ -88,7 +88,7 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
     Superseded by [[shift-reset-verification]] once Bubble semantics lands.
     _Shared with: delimited-continuations thread_
 
-22. **Selfification + first-order restriction** [[selfification]], [[first-order-restriction]] — implemented  
+22. **Selfification + first-order restriction** [[selfification]], [[first-order-restriction.adr]] — D-003; implemented  
     selfify uses isFirstOrder as top-level guard; higher-order types skip selfification.  
     isFirstOrder unwraps Modal and Neutral, returns false for Pi/Lambda/Sigma.  
     Matches Liquid Haskell / Knowles-Flanagan convention. Prevents function-sorted  

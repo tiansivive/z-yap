@@ -180,7 +180,7 @@ are applied to expressions containing shift results (e.g. `1 + shift(resume 10)`
 
 [[shift-reset-verification-stub]] planned → implemented
 [[verification-backend]] planned → in-progress
-[[z3-replacement-decision]] planned → in-progress
+[[z3-replacement.adr]] planned → in-progress
 [[translation-boundary-vc]] planned → incomplete
 [[vc-ir]] planned → implemented
 [[smt-translation]] implemented → deprecated
@@ -248,7 +248,7 @@ Branch: `i-dont-do-it-for-the-gram`.
 ### New zettels
 
 [[selfification]] — selfification mechanism, T-Var rule, Yap implementation
-[[first-order-restriction]] — first-order boundary for refinements, three enforcement points
+[[first-order-restriction.adr]] — first-order boundary for refinements, three enforcement points
 [[knowles-flanagan-2010]] — Hybrid Type Checking paper, T-Var formalization
 [[vazou-mechanizing-refinement-types-2024]] — Mechanizing Refinement Types, self() formal definition
 [[vazou-refinement-reflection-2018]] — Refinement Reflection, T-Exact, Fun sort, PLE
@@ -258,17 +258,17 @@ Branch: `i-dont-do-it-for-the-gram`.
 
 [[selfification]] --[:COMPOSES_WITH]--> [[modalities]]
 [[selfification]] --[:RELIES_ON]--> [[verification-pipeline]]
-[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction]]
-[[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]
-[[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]
-[[first-order-restriction]] --[:PRESERVES]--> [[vc-ir]]
-[[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]
-[[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]
+[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction.adr]]
+[[first-order-restriction.adr]] --[:CONSTRAINS]--> [[refinement-types]]
+[[first-order-restriction.adr]] --[:CONSTRAINS]--> [[selfification]]
+[[first-order-restriction.adr]] --[:PRESERVES]--> [[vc-ir]]
+[[first-order-restriction.adr]] --[:RELIES_ON]--> [[verification-pipeline]]
+[[first-order-restriction.adr]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]
 [[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]
 [[knowles-flanagan-2010]] --[:INFORMS]--> [[selfification]]
-[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction]]
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction.adr]]
 [[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[selfification]]
-[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction]]
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction.adr]]
 [[vazou-refinement-reflection-2018]] --[:GENERALIZES]--> [[selfification]]
 [[vazou-refinement-reflection-2018]] --[:INFORMS]--> [[liquid-haskell-influence]]
 [[ou-et-al-2004]] --[:INFORMS]--> [[knowles-flanagan-2010]]
@@ -356,7 +356,7 @@ Branch: `i-dont-do-it-for-the-gram`.
 
 Aligned z-yap with the **current IVL-backed VC pipeline** while keeping Z3-era paper and theory zettels historically accurate. Hubs ([[verification-pipeline]], [[translation-boundary-vc]], [[vc-ir]], [[verification-backend.thread]]) and related zettels state **`IVL.Formula`** / `translate.ts → IVL`; [[smt-translation]] is framed as **deprecated Z3-direct** with body preserved. Solver-theory notes (EUF, CDCL(T), arithmetic, strings, etc.) tie **industrial SMT** to both Z3/cvc5 survey papers and Yap’s **`src/verification/solver/`** implementation without flattening to “IVL only”. **[[m1-implementation]]** left untouched (milestone record).
 
-**Fix:** Replaced dead graph target `[[ivl]]` with `[[vc-ir]]` on the first-order-restriction edge (`connections.md` + corrected back-reference in prior session block).
+**Fix:** Replaced dead graph target `[[ivl]]` with `[[vc-ir]]` on the first-order-restriction.adr edge (`connections.md` + corrected back-reference in prior session block).
 
 **[[connections.md]]:** New “Industrial SMT ↔ IVL / CDCL(T) context” edges (Z3/cvc5/EUF/Nelson–Oppen/strings → pipeline / theory / milestone stubs).
 

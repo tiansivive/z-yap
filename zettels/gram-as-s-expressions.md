@@ -2,7 +2,6 @@
 tags:
   [
     lowering,
-    decision,
     rejected,
     graph,
     ir,
@@ -13,14 +12,15 @@ tags:
     infrastructure,
     reference,
     display,
-    migration,
   ]
 ---
 
-# GRAM as S-expressions
+# GRAM as S-expressions (rejected alternative)
 
-**Design stance:** GRAM stores programs as **graphs** (`src/GRAM/graph.ts`) with tagged nodes, labeled edges, and provenance—not as homogeneous S-expression trees.
+**Rejected by [[gram-graph-ir.adr]].** This zettel preserves the description of the alternative encoding considered for the GRAM compilation IR.
 
-**Why trees are a poor fit here:** Sharing and cyclic structure are first-class in graph IR; DPO rewriting (`src/GRAM/grs/`) matches pinned subgraphs by node identity and edge patterns. Encoding the same as nested lists forces synthetic IDs or duplicates and pushes graph bookkeeping into ad hoc metadata.
+S-expression storage would encode the IR as homogeneous nested lists with positional structure, akin to Lisp-family ASTs. Compilation passes would walk and rewrite trees; node identity would be carried via synthetic IDs or path coordinates.
 
-**Display-only:** Sexps remain reasonable for debug snapshots of isolated subtrees; `display.ts` pretty-prints graphs as structured text without claiming an S-expression interchange format.
+**Why trees are a poor fit for GRAM:** Sharing and cyclic structure are first-class in the GRAM workload. DPO rewriting matches pinned subgraphs by node identity and edge patterns; tree encoding forces synthetic IDs or duplicates and pushes graph bookkeeping into ad hoc metadata. Open-vocabulary tagging — new passes contribute new tag/label kinds — sits awkwardly on top of fixed-arity tree grammars.
+
+**Where sexps remain useful:** as a display format only. `display.ts` pretty-prints graphs as structured text for human inspection without claiming an S-expression interchange format.

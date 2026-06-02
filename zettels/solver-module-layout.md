@@ -19,7 +19,7 @@ tags:
 ---
 # Solver module layout
 
-**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference.
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement.adr]].** Original Z3-era content preserved below for reference.
 
 `src/verification/solver/` is the in-repo SMT-style solver stack over **IVL** (internal verification language).
 

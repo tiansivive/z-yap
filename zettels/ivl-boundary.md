@@ -17,7 +17,7 @@ IVL (Intermediate Verification Language) is the stable IR boundary between VC ge
 
 ## Role in the architecture
 
-IVL is the contract that makes the verification backend pluggable. VC generation targets IVL; solving consumes IVL. Changing the solver (CDCL(T), Z3, future backends) requires only a new consumer, not changes to how VCs are produced. This is the core architectural invariant of the [[z3-replacement-decision]].
+IVL is the contract that makes the verification backend pluggable. VC generation targets IVL; solving consumes IVL. Changing the solver (CDCL(T), Z3, future backends) requires only a new consumer, not changes to how VCs are produced. This is the core architectural invariant of the [[z3-replacement.adr]].
 
 ## Artefact shape
 

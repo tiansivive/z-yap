@@ -1,7 +1,9 @@
 ---
+adr-id: D-005
 tags:
-  - decision
   - adr
+  - accepted
+  - decision
   - principle
   - compiler
   - modality

@@ -39,6 +39,15 @@ jobs:
       - name: Generate glossary
         run: node scripts/glossary.js --markdown > dist/GLOSSARY.md
 
+      - name: Generate ADR index
+        run: node scripts/adrs.js --markdown > dist/ADRS.md
+
+      - name: Generate decisions log
+        run: node scripts/adrs.js --decisions-md
+
+      - name: Generate current-state
+        run: node scripts/current-state.js --markdown
+
       - name: Commit dist/
         run: |
           git config user.name "github-actions[bot]"

@@ -167,6 +167,10 @@
 [[selective-cps]] --[:ADDRESSES]--> [[multishot-serialization]]  -- Evidence passing alternative
 [[selective-cps]] --[:CONTRASTS_WITH]--> [[shift-reset-mir-lowering]]  -- Closure vs state machine
 [[koka-influence]] --[:INSPIRES]--> [[selective-cps]]  -- Evidence passing model
+[[direct-style-lowering.adr]] --[:REJECTS]--> [[selective-cps]]  -- No CPS transform needed
+[[direct-style-lowering.adr]] --[:DOCUMENTS]--> [[shift-reset-mir-lowering]]  -- The chosen lowering strategy
+[[shift-reset-mir-lowering]] --[:IMPLEMENTS]--> [[direct-style-lowering.adr]]  -- Realizes the decision
+[[direct-style-lowering.adr]] --[:RELIES_ON]--> [[bubble-semantics]]  -- EB-level handling feeds this lowering
 [[koka-influence]] --[:CONTRASTS_WITH]--> [[shift-reset]]  -- Evidence passing vs direct capture
 [[effects-as-modality]] --[:EXTENDS]--> [[modalities]]  -- Effects tracked as modalities
 [[effects-as-modality]] --[:EXTENDS]--> [[shift-reset]]  -- Effect system over continuations
@@ -220,7 +224,6 @@
 [[mir-retrospective]] --[:INFORMS]--> [[gram]]  -- Lessons learned
 [[mir-retrospective]] --[:MOTIVATES]--> [[gram]]  -- Why GRAM exists
 [[gram-step-1]] --[:IMPLEMENTS]--> [[gram]]  -- Partial — first step
-[[gram-as-s-expressions]] --[:REJECTS]--> [[gram]]  -- Rejected representation
 [[logram]] --[:EXTENDS]--> [[gram]]  -- Speculative substrate
 [[typed-pass-composition]] --[:EXTENDS]--> [[gram]]  -- Type-safe passes
 [[passes-in-yap]] --[:EXTENDS]--> [[gram]]  -- Self-hosting passes
@@ -483,17 +486,17 @@
 [[row-theory]] --[:PRESERVES]--> [[verification-pipeline]]  -- subtype.contains() semantics
 [[quantifier-engine]] --[:IMPLEMENTS]--> [[theory-plugin-interface]]  -- Instantiation
 [[quantifier-engine]] --[:DELEGATES_TO]--> [[euf-theory]]  -- E-matching
-[[z3-replacement-decision]] --[:MOTIVATES]--> [[vc-ir]]  -- Backend-neutral IR needed
-[[z3-replacement-decision]] --[:MOTIVATES]--> [[cdcl-t-solver]]  -- Own solver needed
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[smt-translation]]  -- Z3 dependency removed
-[[z3-replacement-decision]] --[:PRESERVES]--> [[verification-pipeline]]  -- Shape unchanged
+[[z3-replacement.adr]] --[:MOTIVATES]--> [[vc-ir]]  -- Backend-neutral IR needed
+[[z3-replacement.adr]] --[:MOTIVATES]--> [[cdcl-t-solver]]  -- Own solver needed
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[smt-translation]]  -- Z3 dependency removed
+[[z3-replacement.adr]] --[:PRESERVES]--> [[verification-pipeline]]  -- Shape unchanged
 [[num-sort-semantics]] --[:APPLIES_TO]--> [[arithmetic-theory]]  -- Int vs Real
 [[non-linear-arithmetic]] --[:CONSTRAINS]--> [[arithmetic-theory]]  -- Linearizable subset first
 [[non-linear-arithmetic]] --[:COMPOSES_WITH]--> [[nbe]]  -- Constant-folding removes ground arith
 [[higher-order-in-formulas]] --[:CONSTRAINS]--> [[quantifier-engine]]  -- No HO quantification
 [[milestone-1-ir-boundary]] --[:PRODUCES]--> [[vc-ir]]  -- First deliverable
 [[milestone-1-ir-boundary]] --[:PRODUCES]--> [[translation-boundary-vc]]  -- Translation tools
-[[milestone-1-ir-boundary]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- First step
+[[milestone-1-ir-boundary]] --[:FOLLOWS]--> [[z3-replacement.adr]]  -- First step
 [[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[cdcl-t-solver]]  -- Core solver
 [[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[euf-theory]]  -- EUF module
 [[milestone-2-euf-quant-lia]] --[:PRODUCES]--> [[arithmetic-theory]]  -- Arithmetic module
@@ -505,7 +508,7 @@
 [[milestone-5-explanations]] --[:FOLLOWS]--> [[milestone-4-rows]]  -- After rows
 [[required-formula-forms]] --[:CONSTRAINS]--> [[vc-ir]]  -- IR must express all forms
 [[required-theory-support]] --[:CONSTRAINS]--> [[theory-plugin-interface]]  -- All theories needed
-[[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[z3-replacement-decision]]  -- Alternative rejected
+[[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[z3-replacement.adr]]  -- Alternative rejected
 [[nieuwenhuis-oliveras]] --[:INFORMS]--> [[cdcl-t-solver]]  -- DPLL(T) architecture
 [[nelson-oppen]] --[:INFORMS]--> [[theory-plugin-interface]]  -- Cooperating procedures
 [[de-moura-bjorner-z3]] --[:INFORMS]--> [[cdcl-t-solver]]  -- Industrial reference
@@ -851,7 +854,12 @@
 ### 3 — Lowering
 
 [[dpo-rewriting]] --[:REWRITES]--> [[gram]]  -- L ← K → R rule application on nodes
-[[gram]] --[:REJECTS]--> [[gram-as-s-expressions]]  -- Cycles break tree model
+[[gram-graph-ir.adr]] --[:REJECTS]--> [[gram-as-s-expressions]]  -- Tree encoding loses identity, sharing, cycles
+[[gram-graph-ir.adr]] --[:DOCUMENTS]--> [[gram]]  -- The IR substrate decision
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-additive-enrichment]]  -- Property follows from graph substrate
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-dataflow-semantics]]  -- Property follows from graph substrate
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[compilation-by-selection]]  -- Property follows from graph substrate
+[[gram]] --[:IMPLEMENTS]--> [[gram-graph-ir.adr]]  -- The hub realizes the IR decision
 [[defunctionalization]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Tagged dispatch on function identity
 [[closure-conversion]] --[:TRANSLATES_TO]--> [[mir-lowering]]  -- Environment + function pointer
 [[closure-conversion]] --[:ERASES]--> [[lambda]]  -- Flattens lexical scope to heap allocation
@@ -1042,6 +1050,8 @@
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-serialization]]
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-mir-lowering]]
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[selective-cps]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[direct-style-lowering.adr]]
+[[pulse]] --[:REFERENCES]--> [[yap-baseline]]  -- Curated narrative links to locked baseline
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[missing-spec-shift-reset]]
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[gram-shift-reset-pass]]
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[session-lowering-branch-split]]
@@ -1115,7 +1125,7 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-ir]]
 [[verification-backend.thread]] --[:RELIES_ON]--> [[vc-normalization]]  -- Normalization mechanism
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-provenance]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[z3-replacement-decision]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[z3-replacement.adr]]
 [[verification-backend.thread]] --[:REFERENCES]--> [[required-formula-forms]]  -- Deprecated Z3-era reference
 [[verification-backend.thread]] --[:RELIES_ON]--> [[required-theory-support]]  -- Theory requirements
 [[verification-backend.thread]] --[:RELIES_ON]--> [[verification-backend]]  -- Hub zettel
@@ -1130,7 +1140,7 @@
 
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram]]
 [[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-additive-enrichment]]  -- Foundational invariant
-[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-as-s-expressions]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-graph-ir.adr]]
 [[gram-evolution.thread]] --[:RELIES_ON]--> [[gram-dataflow-semantics]]  -- Partial-order principle
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-interpreter]]
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-next-steps]]
@@ -1307,7 +1317,7 @@
 
 [[session-m2-completion]] --[:PRODUCED]--> [[m1-implementation]]  -- Session delivered M1
 [[session-m2-completion]] --[:PRODUCED]--> [[m2-implementation]]  -- Session delivered M2
-[[session-m2-completion]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- Continues Z3 replacement
+[[session-m2-completion]] --[:FOLLOWS]--> [[z3-replacement.adr]]  -- Continues Z3 replacement
 
 ### M1 implementation → milestone & concepts
 
@@ -1329,7 +1339,7 @@
 [[m1-implementation]] --[:DEPRECATES]--> [[smt-translation]]  -- translate.ts path now legacy
 
 [[m1-implementation]] --[:VALIDATES]--> [[required-formula-forms]]  -- IVL covers all required formula shapes
-[[m1-implementation]] --[:FOLLOWS]--> [[z3-replacement-decision]]  -- First concrete step after the decision
+[[m1-implementation]] --[:FOLLOWS]--> [[z3-replacement.adr]]  -- First concrete step after the decision
 
 ### M2 implementation → milestone & concepts
 
@@ -1787,22 +1797,22 @@
 
 ## Z3 → IVL transition
 
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[solver-module-layout]]
-[[z3-replacement-decision]] --[:SUPERSEDES]--> [[milestone-5-explanations]]
-[[z3-replacement-decision]] --[:MOTIVATES]--> [[cdcl-t-solver]]
-[[z3-replacement-decision]] --[:MOTIVATES]--> [[vc-ir]]
-[[z3-replacement-decision]] --[:PRODUCES]--> [[m1-implementation]]
-[[z3-replacement-decision]] --[:PRODUCES]--> [[m2-implementation]]
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[solver-module-layout]]
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[milestone-5-explanations]]
+[[z3-replacement.adr]] --[:MOTIVATES]--> [[cdcl-t-solver]]
+[[z3-replacement.adr]] --[:MOTIVATES]--> [[vc-ir]]
+[[z3-replacement.adr]] --[:PRODUCES]--> [[m1-implementation]]
+[[z3-replacement.adr]] --[:PRODUCES]--> [[m2-implementation]]
 [[vc-ir]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]  -- IVL replaces Z3 Expr-based artefacts
-[[cdcl-t-solver]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- Custom CDCL(T) replaces Z3
-[[m1-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M1 delivered IVL boundary
-[[m2-implementation]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- M2 delivered EUF + quantifiers + LIA
-[[required-theory-support]] --[:MOTIVATES]--> [[z3-replacement-decision]]  -- Row theory gap drove the decision
+[[cdcl-t-solver]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- Custom CDCL(T) replaces Z3
+[[m1-implementation]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- M1 delivered IVL boundary
+[[m2-implementation]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- M2 delivered EUF + quantifiers + LIA
+[[required-theory-support]] --[:MOTIVATES]--> [[z3-replacement.adr]]  -- Row theory gap drove the decision
 
 ## Verification backend design
 
-[[ivl-boundary]] --[:IMPLEMENTS]--> [[z3-replacement-decision]]  -- IVL is the core deliverable
+[[ivl-boundary]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- IVL is the core deliverable
 [[ivl-boundary]] --[:SUPERSEDES]--> [[verification-artefacts-revised]]  -- Replaces the artefact shape record
 [[ivl-boundary]] --[:ENABLES]--> [[verification-backend]]  -- Pluggable boundary for backend swap
 [[m1-implementation]] --[:PRODUCES]--> [[ivl-boundary]]  -- M1 delivered IVL types
@@ -1897,15 +1907,15 @@
 
 [[selfification]] --[:COMPOSES_WITH]--> [[modalities]]  -- Conjoins self-equality into existing liquid predicate  @2026-05-22
 [[selfification]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Called from synth (Bound var path)  @2026-05-22
-[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction]]  -- Guarded by isFirstOrder  @2026-05-22
+[[selfification]] --[:CONSTRAINS]--> [[first-order-restriction.adr]]  -- Guarded by isFirstOrder  @2026-05-22
 
 ## First-order restriction
 
-[[first-order-restriction]] --[:CONSTRAINS]--> [[refinement-types]]  -- Restricts self-equality and quantification to first-order types  @2026-05-22
-[[first-order-restriction]] --[:CONSTRAINS]--> [[selfification]]  -- isFirstOrder top-level guard  @2026-05-22
-[[first-order-restriction]] --[:PRESERVES]--> [[vc-ir]]  -- Keeps IVL formulas in decidable QF-EUFLIA fragment  @2026-05-22
-[[first-order-restriction]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Used in synth (selfify) and subtype (Pi parameter)  @2026-05-22
-[[first-order-restriction]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]  -- Standard Liquid Types convention  @2026-05-22
+[[first-order-restriction.adr]] --[:CONSTRAINS]--> [[refinement-types]]  -- Restricts self-equality and quantification to first-order types  @2026-05-22
+[[first-order-restriction.adr]] --[:CONSTRAINS]--> [[selfification]]  -- isFirstOrder top-level guard  @2026-05-22
+[[first-order-restriction.adr]] --[:PRESERVES]--> [[vc-ir]]  -- Keeps IVL formulas in decidable QF-EUFLIA fragment  @2026-05-22
+[[first-order-restriction.adr]] --[:RELIES_ON]--> [[verification-pipeline]]  -- Used in synth (selfify) and subtype (Pi parameter)  @2026-05-22
+[[first-order-restriction.adr]] --[:IMPLEMENTS]--> [[liquid-haskell-influence]]  -- Standard Liquid Types convention  @2026-05-22
 
 ## Syn-App-Ex modification
 
@@ -1928,9 +1938,9 @@
 
 [[ou-et-al-2004]] --[:INFORMS]--> [[selfification]]  -- Coined the term  @2026-05-22
 [[knowles-flanagan-2010]] --[:INFORMS]--> [[selfification]]  -- T-Var formalization  @2026-05-22
-[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction]]  -- Restricts selfification to base types  @2026-05-22
+[[knowles-flanagan-2010]] --[:INFORMS]--> [[first-order-restriction.adr]]  -- Restricts selfification to base types  @2026-05-22
 [[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[selfification]]  -- Mechanized self() function  @2026-05-22
-[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction]]  -- Formal proof of restriction  @2026-05-22
+[[vazou-mechanizing-refinement-types-2024]] --[:INFORMS]--> [[first-order-restriction.adr]]  -- Formal proof of restriction  @2026-05-22
 [[vazou-refinement-reflection-2018]] --[:GENERALIZES]--> [[selfification]]  -- T-Exact generalizes T-Var to reflected definitions  @2026-05-22
 [[vazou-refinement-reflection-2018]] --[:INFORMS]--> [[liquid-haskell-influence]]  -- Core LH paper  @2026-05-22
 [[ou-et-al-2004]] --[:INFORMS]--> [[knowles-flanagan-2010]]  -- Original selfification idea  @2026-05-22

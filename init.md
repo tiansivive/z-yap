@@ -8,9 +8,11 @@ language. This file tells you how to orient yourself at the start of a session.
 Run these to get the current state:
 
 ```bash
-node scripts/status.js           # threads + queue summary (start here)
+node scripts/current-state.js    # composite: pulse + baseline + ADRs + hubs (start here)
+node scripts/status.js           # threads + queue summary
 node scripts/threads.js           # detailed thread status with members
 node scripts/queue.js             # pending queue items
+node scripts/adrs.js              # ADR index + consistency
 node scripts/catalog.js --compact     # one-liner-per-zettel inventory
 ```
 
@@ -115,11 +117,15 @@ When a design decision is superseded, don't delete the old zettel — mark it:
 
 ### Architecture Decision Records (ADRs)
 Significant design shifts (e.g., replacing Z3 with IVL) get a dedicated ADR zettel:
-- Tag with `decision` + relevant domain tags
-- Body covers: the decision, scope, rationale, what was implemented, what remains
-- Self-contained — no references to external planning docs
-- Connected via `SUPERSEDES`/`MOTIVATES`/`IMPLEMENTS` edges to affected zettels
+- Filename convention: `<slug>.adr.md`
+- Tag with `adr` + a lifecycle tag (`proposed`, `accepted`, `superseded`, `subsumed`) + relevant domain tags + epistemic status (`implemented`, `in-progress`, etc.)
+- Frontmatter scalar `adr-id: D-NNN` for the stable identifier (next free number; see `node scripts/adrs.js`)
+- Body covers: the decision, scope, rationale, consequences. Self-contained — no references to external planning docs.
+- Connected via `SUPERSEDES`/`MOTIVATES`/`IMPLEMENTS`/`REJECTS` edges to affected zettels
+- When recording a rejection of an alternative, split: a positive ADR (`accepted`) plus a companion zettel for the rejected alternative (tagged `rejected`/`speculative`), connected via `REJECTS`
+- Other zettels reference an ADR via `refs: [adr:D-NNN]` (these inbound refs are surfaced by `scripts/adrs.js`)
 - Log the decision in `thread.md` paper trail
+- Run `node scripts/adrs.js` for the index and consistency check; `--decisions-md` produces a piescript-style log
 
 ## Scripts
 
@@ -137,14 +143,22 @@ All scripts live in `scripts/`. Run from anywhere — paths are resolved relativ
 | `catalog.js` | `node scripts/catalog.js [--tag\|--status\|--search val\|--markdown]` | Zettel inventory with filtering |
 | `neighborhood.js` | `node scripts/neighborhood.js <slug>` | All connections to/from a zettel (fuzzy match) |
 | `glossary.js` | `node scripts/glossary.js [search]` | Browse glossary terms |
+| `adrs.js` | `node scripts/adrs.js` | ADR index + consistency report |
+| | `node scripts/adrs.js --markdown` | Plain markdown index |
+| | `node scripts/adrs.js --consistency-only` | Just the consistency report |
+| | `node scripts/adrs.js --status accepted` | Filter by lifecycle tag |
+| | `node scripts/adrs.js --decisions-md` | Write piescript-style `dist/decisions.md` |
+| `current-state.js` | `node scripts/current-state.js` | Composite: pulse + baseline + ADR roll-up + hub snapshot |
+| | `node scripts/current-state.js --markdown` | Write `dist/CURRENT-STATE.md` |
+| | `node scripts/current-state.js --detail` | Expanded per-hub member listing |
 
-Shared utilities: `scripts/lib/parse.js` (parsing), `scripts/lib/colors.js` (ANSI).
+Shared utilities: `scripts/lib/parse.js` (parsing), `scripts/lib/adrs.js` (ADR data layer), `scripts/lib/colors.js` (ANSI).
 Kanban rendering: `scripts/kanban/render.js` (HTML), `scripts/kanban/obsidian.js` (Obsidian).
 
 ### Generated artifacts
 
 Markdown versions are auto-generated to `dist/` on push (GitHub Actions):
-`STATUS.md`, `THREADS.md`, `QUEUE.md`, `CATALOG.md`.
+`STATUS.md`, `THREADS.md`, `QUEUE.md`, `CATALOG.md`, `GLOSSARY.md`, `ADRS.md`, `decisions.md`, `CURRENT-STATE.md`.
 
 Kanban boards are generated to `dist/` on commit (pre-commit hook):
 `threads.html` (interactive, with zettel flyout), `threads.kanban.md` (Obsidian Kanban plugin).

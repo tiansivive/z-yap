@@ -4,7 +4,7 @@ tags:
 ---
 # Required formula forms
 
-**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement-decision]].** Original Z3-era content preserved below for reference. The formula-shape inventory still describes what `check` / `synth` / `subtype` emit; artefact and translation status below is stale.
+**Superseded by the IVL/CDCL(T) solver stack — see [[z3-replacement.adr]].** Original Z3-era content preserved below for reference. The formula-shape inventory still describes what `check` / `synth` / `subtype` emit; artefact and translation status below is stale.
 
 `docs/SMT-SOLVER.md` copies its bullet list from `src/verification/V2/check.ts`, `synth.ts`, `subtype.ts`, and `logic/translate.ts`: booleans (`$and`, `$or`, `$not`), implications via `Z3.Implies` in quantified rules, equality/disequality, guarded `Forall`, existentials introduced through synthesis/block paths, uninterpreted constants and array-based `App`, numeric externals, string literals as uninterpreted `Const`, row/schema/variant containment via `subtype.contains` on `NF.Row` (`subtype.ts`), nested structural rules.
 

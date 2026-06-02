@@ -21,7 +21,7 @@ Pattern payload filters have type `Payload -> Bool`. RHS payload builders have t
 
 ## Evaluation through NbE
 
-Rule definitions evaluate via NbE at GRAM-pipeline time. The residual `NF.Value` is extracted as a `Rule` struct; predicate lambdas remain as closures and are applied per match attempt. FFI calls, general recursion, and other constructs that fail to reduce stay stuck — the engine treats stuck predicates as non-matches and stuck builders as rule failure. This is the same well-formedness boundary used by [[first-order-restriction]] in verification.
+Rule definitions evaluate via NbE at GRAM-pipeline time. The residual `NF.Value` is extracted as a `Rule` struct; predicate lambdas remain as closures and are applied per match attempt. FFI calls, general recursion, and other constructs that fail to reduce stay stuck — the engine treats stuck predicates as non-matches and stuck builders as rule failure. This is the same well-formedness boundary used by [[first-order-restriction.adr]] in verification.
 
 ## T-LINQ analog
 
