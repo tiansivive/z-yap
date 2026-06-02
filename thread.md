@@ -5,7 +5,7 @@ session's path through the zettel graph — what was explored, what was decided,
 what was deferred.
 
 Format: edge lines (`[[A]] -- verb -> [[B]]`) and action lines (`ENQUEUE`, `RESOLVED`, `SPAWN`).
-See [[thread-queue-system]] for the full system design.
+See [[thread-queue-system.thread]] for the full system design.
 
 ---
 
@@ -439,7 +439,7 @@ Registered tags: `tech-debt`, `backlog`, `bug`, `improvement`.
 - [[ffi-saturation]] — deleted; split into gram/mir versions
 - [[explorer-audit.thread]] — dropped items #11, #12 (`[~]`)
 - [[global-pending-queue]] — resolved [[type-erasure]] (graduated to threads), [[ffi-saturation]] (split)
-- [[thread-queue-system]] — documented tag-based worklist pattern
+- [[thread-queue-system.thread]] — documented tag-based worklist pattern
 
 ### New connections
 
@@ -1021,3 +1021,50 @@ Tailcall was rejected as a fit — tail position is a structural property the co
 - `[[modality-system]]` — gram listed as third dimension under Extensibility.
 - `[[gram-evolution.thread]]` — added sequence item 19.
 - `[[sessions.hub]]` — added session to includes.
+
+---
+
+## Session: ADR formalisation + meta-thread followups — @2026-06-02 [meta, infrastructure, tooling, decision]
+
+Formalised the ADR convention in z-yap. New vocabulary in `REGISTRY.md`: `adr` tag clarified, ADR lifecycle tags (`proposed`, `accepted`, `superseded`, `subsumed`), `frozen` meta tag, `adr:` ref prefix, `todo` work tag. Parser (`scripts/lib/parse.js`) extended to extract `adr-id` and any scalar frontmatter key into `zettel.scalars`. ADR identifier convention: `<slug>.adr.md` filename + `adr-id: D-NNN` frontmatter; other zettels reference via `refs: [adr:D-NNN]`.
+
+Five ADRs landed, all `accepted`: D-001 `[[z3-replacement.adr]]` (renamed from `z3-replacement-decision`), D-002 `[[gram-graph-ir.adr]]` (new positive ADR; `[[gram-as-s-expressions]]` kept as `REJECTS` companion), D-003 `[[first-order-restriction.adr]]` (renamed), D-004 `[[direct-style-lowering.adr]]` (new positive ADR; `[[selective-cps]]` kept as `REJECTS` companion), D-005 `[[extensibility-via-modalities.adr]]` (existing filename; added `adr-id` + lifecycle). All slug renames flowed through `connections.md`, `thread.md`, and inbound zettel bodies; only the immutable session JSONL retains old slugs.
+
+Two scripts added: `scripts/adrs.js` (index + consistency report; modes `--markdown`, `--consistency-only`, `--status`, `--decisions-md`) backed by shared `scripts/lib/adrs.js`. `scripts/current-state.js` produces a composite view: curated pulse + locked baseline link + ADR roll-up + hub snapshot. Two new curated zettels seeded as skeletons: `[[pulse]]` (editorial narrative, `hub` + `reference`) and `[[yap-baseline]]` (locked pre-z-yap snapshot, `hub` + `reference` + `frozen`). `init.md` ADR section rewritten; scripts table extended; `.github/workflows/catalog.yml` regenerates `dist/ADRS.md`, `dist/decisions.md`, `dist/CURRENT-STATE.md`. `scripts/neighborhood.js` STRUCTURAL set updated with new lifecycle + `frozen` tags.
+
+Meta-thread `[[thread-queue-system]]` renamed to `[[thread-queue-system.thread]]` (filename + 12 reference updates across `connections.md` and `thread.md`). New `INCLUDES` edges from the renamed meta-thread to `[[global-pending-queue]]`, `[[pulse]]`, `[[yap-baseline]]`, `[[sessions.hub]]`, and the three new follow-up zettels. Three new follow-up zettels record open meta work: `[[z3-stay-companion]]` (whether D-001 should split a rejected-alternative companion), `[[convention-zettel-promotion]]` (whether to extract `init.md` conventions into `.convention.md` zettels), `[[transcripts-private-submodule]]` (7-step plan to move `sessions/` into a private GitHub submodule for privacy). Free-form follow-up items appended to `[[global-pending-queue]]` under a dated section: the three new zettels plus pulse/baseline content edits, D-005 epistemic-status decision, D-003 thread-membership edge, and ADR slug-name review.
+
+### Edges
+
+[[gram-graph-ir.adr]] --[:REJECTS]--> [[gram-as-s-expressions]]
+[[gram-graph-ir.adr]] --[:DOCUMENTS]--> [[gram]]
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-additive-enrichment]]
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-dataflow-semantics]]
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[compilation-by-selection]]
+[[gram]] --[:IMPLEMENTS]--> [[gram-graph-ir.adr]]
+[[direct-style-lowering.adr]] --[:REJECTS]--> [[selective-cps]]
+[[direct-style-lowering.adr]] --[:DOCUMENTS]--> [[shift-reset-mir-lowering]]
+[[shift-reset-mir-lowering]] --[:IMPLEMENTS]--> [[direct-style-lowering.adr]]
+[[direct-style-lowering.adr]] --[:RELIES_ON]--> [[bubble-semantics]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[direct-style-lowering.adr]]
+[[pulse]] --[:REFERENCES]--> [[yap-baseline]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[global-pending-queue]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[pulse]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[yap-baseline]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[sessions.hub]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[z3-stay-companion]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[convention-zettel-promotion]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[transcripts-private-submodule]]
+
+### Spawned
+
+`[[z3-replacement.adr]]` (renamed), `[[gram-graph-ir.adr]]`, `[[first-order-restriction.adr]]` (renamed), `[[direct-style-lowering.adr]]`, `[[pulse]]`, `[[yap-baseline]]`, `[[z3-stay-companion]]`, `[[convention-zettel-promotion]]`, `[[transcripts-private-submodule]]`.
+
+### Updates
+
+- `[[extensibility-via-modalities.adr]]` — added `adr-id: D-005` + `accepted` tag.
+- `[[gram-as-s-expressions]]` — reframed as rejected-alternative description.
+- `[[selective-cps]]` — reframed as rejected-alternative description.
+- `[[thread-queue-system.thread]]` — renamed from `thread-queue-system`; 12 references updated.
+- `[[global-pending-queue]]` — appended ADR/pulse/current-state follow-ups section.
+- `init.md`, `REGISTRY.md`, `.github/workflows/catalog.yml`, `scripts/lib/parse.js`, `scripts/neighborhood.js` — convention + tooling updates.

@@ -34,3 +34,14 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[dynamic-reflection]] — design-space only, runtime witness / gradual typing
 - [x] [[ffi-saturation]] — split into [[ffi-saturation-gram]] (implemented) and [[ffi-saturation-mir]] (deprecated)
 - [ ] [[whnf-codification]] — no explicit WHNF vs full-NF API flag; modes are implicit
+
+## ADR / pulse / current-state follow-ups (2026-06-02)
+
+- [ ] [[z3-stay-companion]] — decide if D-001 needs a stay-on-Z3 rejected-alternative companion
+- [ ] [[convention-zettel-promotion]] — decide whether to extract conventions into `<name>.convention.md` meta zettels
+- [ ] [[transcripts-private-submodule]] — migrate `sessions/` to a private GitHub submodule
+- [ ] Fill in `pulse.md` editorial prose per active thread
+- [ ] Fill in `yap-baseline.md` sections and replace `<org>` placeholder with the real GitHub org
+- [ ] Decide D-005 epistemic status (currently has none)
+- [ ] Add `INCLUDES` edge from `[[verification-backend.thread]]` to `[[first-order-restriction.adr]]`
+- [ ] Review ADR slug names: `gram-graph-ir.adr`, `direct-style-lowering.adr`

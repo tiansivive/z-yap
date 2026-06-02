@@ -1029,16 +1029,23 @@
 
 ## Work Layer: Thread & Queue System  @2026-05-18
 
-[[thread-queue-system]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[row-types.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[usage-semantics.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[recursion.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[pattern-matching.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[verification-backend.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[gram-evolution.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[parser-migration.thread]]  -- System design
-[[thread-queue-system]] --[:INFORMS]--> [[global-pending-queue]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[row-types.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[usage-semantics.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[recursion.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[pattern-matching.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[verification-backend.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[gram-evolution.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[parser-migration.thread]]  -- System design
+[[thread-queue-system.thread]] --[:INFORMS]--> [[global-pending-queue]]  -- System design
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[global-pending-queue]]  -- Queue is part of the meta system
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[pulse]]  -- Curated narrative for tracked work
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[yap-baseline]]  -- Locked pre-z-yap baseline
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[sessions.hub]]  -- Session/transcript infrastructure
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[z3-stay-companion]]  -- Open meta question
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[convention-zettel-promotion]]  -- Open meta question
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[transcripts-private-submodule]]  -- Open todo
 
 ## Thread: Delimited Continuations  @2026-05-18
 

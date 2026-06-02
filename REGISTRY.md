@@ -186,6 +186,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `tech-debt` | Suboptimal implementation, missing cleanup, known shortcut worth revisiting |
 | `backlog` | Feature, capability, or enhancement not yet built |
 | `limitation` | A known architectural constraint or design boundary that may be revisited |
+| `todo` | A concrete actionable work item with a defined outcome; lives as a zettel so the plan/steps are recorded |
 
 ### ADR lifecycle
 
