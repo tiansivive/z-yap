@@ -190,7 +190,11 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 
 ### ADR lifecycle
 
-Orthogonal to epistemic status. Applies to zettels tagged `adr`. Describes the decision's lifecycle, not the implementation's state — an ADR can be `accepted` + `implemented` (decision in force, code shipped) or `superseded` + `deprecated` (replaced, old code retired).
+Orthogonal to epistemic status. Applies to zettels tagged `adr`. Describes the decision's lifecycle, not the implementation's state. Lifecycle tags compose — an ADR can carry multiple lifecycle states simultaneously when distinct lifecycle facts apply.
+
+Common pairings: `accepted` + `implemented` (decision in force, code shipped); `superseded` + `deprecated` (replaced, old code retired); `accepted` + `amended` (in force, scope modified by a later ADR); `accepted` + `reframed` (in force, conceptual framing shifted by a later ADR); `proposed` (drafted, not yet accepted).
+
+Common is not exhaustive. When a lifecycle state doesn't fit any registered tag, coin a new one and add it here. The registry is descriptive, not gatekeeping.
 
 | Tag | Description |
 |-----|-------------|
@@ -198,6 +202,8 @@ Orthogonal to epistemic status. Applies to zettels tagged `adr`. Describes the d
 | `accepted` | Decision in force |
 | `superseded` | Replaced by a newer ADR (use `SUPERSEDES` edge from the replacement) |
 | `subsumed` | Absorbed into a broader ADR (use `INCLUDES` or `SUPERSEDES`) |
+| `amended` | Decision in force; scope or implementation context modified by a later ADR without substance replacement. Composes with `accepted`. Use `AMENDS` edge from the amending ADR; optional `amended-by: [adr:D-NNN]` frontmatter on the amended ADR |
+| `reframed` | Decision in force; conceptual framing or surrounding architecture shifted by a later ADR, repositioning what the decision is about without overturning it. Composes with `accepted`. Use `REFRAMES` edge from the reframing ADR; optional `reframed-by: [adr:D-NNN]` frontmatter on the reframed ADR |
 
 ## Work layer tags
 
@@ -247,6 +253,8 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `RELIES_ON` | Source depends on target to function correctly |
 | `DEPENDS_ON` | Source depends on the target (structural DAG edge) |
 | `SUPERSEDES` | Source replaces target as the active approach |
+| `AMENDS` | Source ADR modifies the scope or implementation context of target ADR without replacing its decision substance. Target's lifecycle includes `amended` |
+| `REFRAMES` | Source ADR shifts the conceptual framing or surrounding architecture of target ADR without overturning its decision. Target's lifecycle includes `reframed` |
 | `REJECTS` | Source explicitly rules out target |
 | `DEFERS` | Source postpones target |
 | `REVISES` | Source is an improved version of target |
@@ -314,3 +322,14 @@ Frontmatter `refs` use a `prefix:value` convention for cross-references to exter
 |--------|-----------|---------|
 | `session` | Chat session transcript UUID (any agent) | `session:67483184-49f4-449a-9acb-75b28561bace` |
 | `adr` | Architecture Decision Record by ID | `adr:D-001` |
+| `branch` | Git branch containing implementation work | `branch:gram-programmable-passes` |
+
+## Frontmatter scalars
+
+Structured cross-references that scripts can extract via `scripts/lib/parse.js`. Parallel to `adr-id` (the existing scalar pattern).
+
+| Scalar | Points to | Example |
+|--------|-----------|---------|
+| `adr-id` | The ADR's own stable identifier | `adr-id: D-006` |
+| `amended-by` | Later ADR(s) that amended this one's scope | `amended-by: [adr:D-006]` |
+| `reframed-by` | Later ADR(s) that reframed this one | `reframed-by: [adr:D-006]` |

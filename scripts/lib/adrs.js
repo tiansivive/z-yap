@@ -6,16 +6,26 @@
  *
  * The graph carries the semantics:
  *   - ADR → zettel via DOCUMENTS, MOTIVATES, REJECTS, RELIES_ON  (outbound)
+ *   - ADR → ADR  via SUPERSEDES, AMENDS, REFRAMES, REVISES,
+ *                    DEPRECATES                                  (outbound, lifecycle)
  *   - zettel → ADR via IMPLEMENTS, FOLLOWS                       (inbound)
+ *   - ADR → ADR  inbound mirror of the lifecycle labels above
  *   - thread → ADR via INCLUDES                                  (membership)
  */
 
 import { loadAll, parseConnections, edgesFor } from "./parse.js";
 
-const LIFECYCLE_TAGS = ["proposed", "accepted", "superseded", "subsumed"];
+const LIFECYCLE_TAGS = ["proposed", "accepted", "superseded", "subsumed", "amended", "reframed"];
 const EPISTEMIC_TAGS = ["implemented", "in-progress", "planned", "speculative", "deprecated", "rejected", "deferred", "incomplete"];
-const OUTBOUND_TRACKED_LABELS = new Set(["DOCUMENTS", "MOTIVATES", "REJECTS", "RELIES_ON", "PRODUCES", "SUPERSEDES", "PRESERVES", "GENERALIZES"]);
-const INBOUND_TRACKED_LABELS = new Set(["IMPLEMENTS", "FOLLOWS"]);
+const LIFECYCLE_EDGE_LABELS = ["SUPERSEDES", "AMENDS", "REFRAMES", "REVISES", "DEPRECATES"];
+const OUTBOUND_TRACKED_LABELS = new Set([
+  "DOCUMENTS", "MOTIVATES", "REJECTS", "RELIES_ON", "PRODUCES", "PRESERVES", "GENERALIZES",
+  ...LIFECYCLE_EDGE_LABELS,
+]);
+const INBOUND_TRACKED_LABELS = new Set([
+  "IMPLEMENTS", "FOLLOWS",
+  ...LIFECYCLE_EDGE_LABELS,
+]);
 
 const lifecycleOf = (z) => z.tags.find((t) => LIFECYCLE_TAGS.includes(t)) ?? null;
 const epistemicOf = (z) => z.tags.find((t) => EPISTEMIC_TAGS.includes(t)) ?? null;

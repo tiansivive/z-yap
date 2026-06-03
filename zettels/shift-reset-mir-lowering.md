@@ -7,7 +7,7 @@ tags:
     compiler,
     codegen,
     mechanism,
-    implemented,
+    deprecated,
     ir,
     backend,
     inference,
@@ -22,9 +22,12 @@ tags:
     infrastructure,
     performance,
     rewriting,
+    legacy,
   ]
 ---
 # Shift/Reset MIR Lowering
+
+**Superseded by [[shift-reset-bridge-lowering]] — the canonical implementation site moved to `src/GRAM/bridge/continuations.ts` per D-006 ([[gram-canonical-ir.adr]]).** The shape decision from D-004 ([[direct-style-lowering.adr]]) is unchanged; only the site moved. Original content preserved below for reference.
 
 Implementation package: `src/lowering/continuations/reset.ts`, `shift.ts`, `kcall.ts`; dispatch from `src/lowering/lower.ts` on `Patterns.Reset` / `Patterns.Shift`.
 

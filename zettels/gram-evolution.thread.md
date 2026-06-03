@@ -78,7 +78,9 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 18. **LoGRAM** [[logram]] — speculative
     Datalog-style triple-store substrate for graph queries.
 
-19. **Programmable GRAM passes** [[programmable-gram-passes]] — planned, needs-design
+19. **Programmable GRAM passes** [[programmable-gram-passes]] — implemented, incomplete
     User-written DPO rules as Yap values, dispatched by a Kernel meta-pass via modal annotations.
     Rule definitions evaluate via NbE; existing match/rewrite engine runs them.
+    MVP (phases 1–6): [[programmable-gram-passes-mvp.plan]]. Retrospective: [[programmable-gram-passes-mvp-retrospective]].
+    Open issues: [[gram-string-escaping.bug]], [[gram-rule-scoping.design]], [[gram-payload-constraint-emission.design]], [[gram-modality-vs-pragma.design]].
     _Shared with: modality-system extension surface_

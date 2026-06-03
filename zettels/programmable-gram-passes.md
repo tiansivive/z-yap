@@ -8,10 +8,12 @@ tags:
   - modality
   - rewriting
   - compiler
-  - needs-design
-  - planned
+  - implemented
+  - incomplete
 ---
 # Programmable GRAM passes
+
+**MVP implemented @2026-06-03. See [[programmable-gram-passes-mvp-retrospective]] for discovered issues.**
 
 Hub: [[gram-kernel-pass]], [[gram-rule-as-yap-value]], [[pass-activation-by-reference]]
 

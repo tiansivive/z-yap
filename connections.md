@@ -2466,3 +2466,169 @@
 
 ### Passes-in-yap revision
 [[programmable-gram-passes]] --[:REVISES]--> [[passes-in-yap]]  -- Replaces speculative self-hosted-passes paragraph
+
+### MVP implementation plan  @2026-06-02
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]  -- Sequenced MVP plan for the design hub
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[gram-kernel-pass]]  -- Phase 6 realizes the Kernel meta-pass
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[gram-rule-as-yap-value]]  -- Phases 1+5 realize the Rule surface type
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[pass-activation-by-reference]]  -- Phase 6 resolves rules by name via module context
+[[programmable-gram-passes-mvp.plan]] --[:RELIES_ON]--> [[modality-system]]  -- Adds the gram dimension to Modal.Annotations
+[[gram-evolution.thread]] --[:INCLUDES]--> [[programmable-gram-passes-mvp.plan]]  -- MVP work item for sequence item 19
+
+### MVP plan session  @2026-06-03
+[[sessions.hub]] --[:INCLUDES]--> [[programmable-gram-passes-mvp-plan.session]]  -- Session record  @2026-06-03
+[[programmable-gram-passes-mvp-plan.session]] --[:PRODUCES]--> [[programmable-gram-passes-mvp.plan]]  -- Planning session produced the MVP plan
+[[programmable-gram-passes-mvp-plan.session]] --[:FOLLOWS]--> [[programmable-gram-passes-design.session]]  -- Planning session after the design session
+
+### MVP plan refinement — tailcall demo + once-per-match  @2026-06-03
+[[pap-analysis-payload-predicates]] --[:MOTIVATES]--> [[programmable-gram-passes-mvp.plan]]  -- Canonical v2 motivator for payload predicates and Bindings-derived payloads
+[[programmable-gram-passes-mvp.plan]] --[:DEFERS_TO]--> [[pap-analysis-payload-predicates]]  -- v1 ships tailcall demo; PAP returns as v2 motivator
+[[gram-evolution.thread]] --[:INCLUDES]--> [[pap-analysis-payload-predicates]]  -- v2 milestone candidate
+
+## GRAM as canonical IR (D-006)  @2026-06-03
+
+
+
+### ADR positioning
+
+[[gram-canonical-ir.adr]] --[:DOCUMENTS]--> [[gram]]  -- D-006 documents GRAM's canonical-IR role
+
+[[gram-canonical-ir.adr]] --[:RELIES_ON]--> [[gram-graph-ir.adr]]  -- Elevates D-002's graph substrate to canonical pipeline IR
+
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-canonical-ir.adr]]  -- Graph substrate enables the canonical-IR elevation
+
+[[gram]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]  -- src/GRAM materialises the canonical pipeline
+
+[[gram-canonical-ir.adr]] --[:AMENDS]--> [[direct-style-lowering.adr]]  -- D-006 moves D-004 lowering site without overturning the shape
+
+[[gram-canonical-ir.adr]] --[:REFRAMES]--> [[direct-style-lowering.adr]]  -- D-004 now layered atop the GRAM-canonical pipeline
+
+[[gram-canonical-ir.adr]] --[:REVISES]--> [[direct-style-lowering.adr]]  -- Scope language updated; shape preserved
+
+
+
+### Supersession of legacy framings
+
+[[gram-canonical-ir.adr]] --[:SUPERSEDES]--> [[mir-retrospective]]  -- Replaces the parallel-IR retrospective framing
+
+[[gram-canonical-ir.adr]] --[:DEPRECATES]--> [[mir-retrospective]]  -- Lifecycle event: parallel-IR description retired
+
+
+
+### Bridge lowering sites
+
+[[shift-reset-bridge-lowering]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]  -- Canonical site for shift/reset state machine
+
+[[shift-reset-bridge-lowering]] --[:IMPLEMENTS]--> [[direct-style-lowering.adr]]  -- Preserves the D-004 shape on the canonical pipeline
+
+[[shift-reset-bridge-lowering]] --[:SUPERSEDES]--> [[shift-reset-mir-lowering]]  -- Canonical site replaces legacy implementation
+
+[[shift-reset-bridge-lowering]] --[:DEPRECATES]--> [[shift-reset-mir-lowering]]  -- Lifecycle event: legacy site marked deprecated
+
+[[shift-reset-bridge-lowering]] --[:MIRRORS]--> [[shift-reset-mir-lowering]]  -- Same shape, new site
+
+[[shift-reset-bridge-lowering]] --[:REVISES]--> [[shift-reset-mir-lowering]]  -- Refines the lowering description to the bridge
+
+
+
+[[multishot-bridge-serialization]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]  -- Canonical multishot serialisation site
+
+[[multishot-bridge-serialization]] --[:SUPERSEDES]--> [[multishot-serialization]]  -- Canonical site replaces legacy implementation
+
+[[multishot-bridge-serialization]] --[:DEPRECATES]--> [[multishot-serialization]]  -- Lifecycle event: legacy site marked deprecated
+
+[[multishot-bridge-serialization]] --[:MIRRORS]--> [[multishot-serialization]]  -- Same shape, new site
+
+[[multishot-bridge-serialization]] --[:REVISES]--> [[multishot-serialization]]  -- Refines the serialisation description to the bridge
+
+[[multishot-bridge-serialization]] --[:COMPOSES_WITH]--> [[shift-reset-bridge-lowering]]  -- Multishot serialisation runs inside the bridge state machine
+
+
+
+### Single-shot specialisation (planned)
+
+[[singleshot-static-specialization]] --[:APPLIES_TO]--> [[multishot-bridge-serialization]]  -- Specialises the conservative multishot shape when usage allows
+
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[usage-semantics]]  -- Needs continuation-parameter usage upper bound
+
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[programmable-gram-passes]]  -- Realised as a programmable GRAM pass
+
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[gram-kernel-pass]]  -- Kernel meta-pass orders the specialisation rule
+
+[[singleshot-static-specialization]] --[:CONSUMES]--> [[modality-system]]  -- Reads the quantity dimension off Modal.Annotations
+
+
+
+### Legacy file-compile tech debt
+
+[[legacy-file-compile]] --[:DEFERS_TO]--> [[gram-canonical-ir.adr]]  -- Resolution shape is the canonical pipeline
+
+[[legacy-file-compile]] --[:APPLIES_TO]--> [[compile-orchestration]]  -- The yap <file> entry runs the legacy path
+
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[legacy-file-compile]]  -- Current file-compile delegation
+
+[[legacy-file-compile]] --[:BLOCKS]--> [[gram-canonical-ir.adr]]  -- Full canonical adoption blocked on the file-path migration
+
+[[global-pending-queue]] --[:INCLUDES]--> [[legacy-file-compile]]  -- Tech debt tracked in the global queue
+
+
+
+### Thread + hub membership
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-canonical-ir.adr]]  -- Canonical-IR decision is a GRAM-evolution milestone
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[gram-canonical-ir.adr]]  -- D-006 amends/reframes D-004 in this thread
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-bridge-lowering]]  -- Current shift/reset lowering site
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-bridge-serialization]]  -- Current multishot serialisation site
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[singleshot-static-specialization]]  -- Planned optimisation in the thread
+
+[[gram]] --[:INCLUDES]--> [[shift-reset-bridge-lowering]]  -- Bridge-resident continuation lowering
+
+[[gram]] --[:INCLUDES]--> [[multishot-bridge-serialization]]  -- Bridge-resident multishot serialisation
+
+
+
+### Programmable GRAM passes MVP — @2026-06-03
+
+[[programmable-gram-passes-mvp-retrospective]] --[:DOCUMENTS]--> [[programmable-gram-passes-mvp.plan]]  -- Retrospective documents the plan execution
+
+[[programmable-gram-passes-mvp-retrospective]] --[:DOCUMENTS]--> [[programmable-gram-passes]]  -- Retrospective documents the hub
+
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]  -- Plan realises the hub design
+
+[[programmable-gram-passes]] --[:IMPLEMENTS]--> [[extensibility-via-modalities.adr]]  -- Programmable passes realise D-005
+
+[[gram-kernel-pass]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]  -- Kernel pass realises the hub
+
+[[gram-rule-as-yap-value]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]  -- Rule-as-value mechanism realises the hub
+
+[[pass-activation-by-reference]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]  -- Activation principle realises the hub
+
+[[gram-string-escaping.bug]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]  -- Bug discovered during MVP impl
+
+[[gram-string-escaping.bug]] --[:BLOCKS]--> [[programmable-gram-passes]]  -- Bug blocks full completion
+
+[[gram-rule-scoping.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]  -- Design issue discovered during MVP impl
+
+[[gram-rule-scoping.design]] --[:BLOCKS]--> [[programmable-gram-passes]]  -- Scoping issue blocks correct semantics
+
+[[gram-payload-constraint-emission.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]  -- Design issue discovered during MVP impl
+
+[[gram-payload-constraint-emission.design]] --[:APPLIES_TO]--> [[gram-rule-as-yap-value]]  -- Constraint emission affects rule-as-value typing
+
+[[gram-modality-vs-pragma.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]  -- Design issue discovered during MVP impl
+
+[[gram-modality-vs-pragma.design]] --[:APPLIES_TO]--> [[modality-system]]  -- Pragma separation applies to modality design
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[programmable-gram-passes-mvp-retrospective]]  -- Retrospective is a thread milestone
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-string-escaping.bug]]  -- Bug tracked in the thread
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-rule-scoping.design]]  -- Design issue tracked in the thread
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-payload-constraint-emission.design]]  -- Design issue tracked in the thread
+
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-modality-vs-pragma.design]]  -- Design issue tracked in the thread

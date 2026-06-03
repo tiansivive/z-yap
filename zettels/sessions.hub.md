@@ -14,3 +14,4 @@ records what was discussed, decided, and built, with connections to affected zet
 - includes: [[session-m2-completion]]
 - includes: [[session-trace-observability]]
 - includes: [[programmable-gram-passes-design.session]]
+- includes: [[programmable-gram-passes-mvp-plan.session]]

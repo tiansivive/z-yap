@@ -20,6 +20,8 @@ tags:
 ---
 # Shift/Reset
 
+> Lowering site: per D-006 ([[gram-canonical-ir.adr]]), the canonical lowering for `shift`/`reset` lives in `src/GRAM/bridge/continuations.ts` ([[shift-reset-bridge-lowering]]). The "MIR lowering" framing below refers to the shape (`Alloc`/`Read`/`Jump`/`Branch`), which is unchanged; the site moved from `src/lowering/continuations/`.
+
 Delimited control in Yap spans **core typing** (`reset` introduces answer metas; `shift`/`resume` refine them and record multishot evidence) and **MIR lowering** (explicit blocks, `Alloc`/`Read`/`Jump`, multishot via `Branch`).
 
 **Surface → core:** Parser yields `reset`, `shift`, `resume` terms; inference lives in `src/elaboration/inference/reset.ts` and `src/elaboration/inference/shift.ts` (V2 `Do` in `src/elaboration/shared/monad.v2.ts`). `reset` pushes a `Delimitation` (`answer.initial`, `answer.final`, `shifted`). `shift` binds `$k` with `EB.bind(..., { type: "Continuation", resumption: { meta: skolem } }, kTy)` and builds `EB.Constructors.Shift(...)`. `resume` elaborates to `App(k, arg)` and appends the resumed argument value to `MutState.nondeterminism.solution[meta.val]` (`shift.ts`).

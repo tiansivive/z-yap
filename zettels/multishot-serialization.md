@@ -7,7 +7,7 @@ tags:
     compiler,
     codegen,
     performance,
-    deferred,
+    deprecated,
     mechanism,
     ir,
     runtime,
@@ -21,9 +21,12 @@ tags:
     normalization,
     project,
     problem,
+    legacy,
   ]
 ---
 # Multishot Serialization
+
+**Superseded by [[multishot-bridge-serialization]] — the canonical implementation moved to `src/GRAM/bridge/continuations.ts` per D-006 ([[gram-canonical-ir.adr]]).** The serialization strategy (heap-captured env, indexed resumes, `Branch`) is preserved on the new site. Original content preserved below for reference.
 
 Lowering represents multishot `k(v)` without CPS by **heap-captured environments**, indexed resumes, and **`Branch`** (`src/lowering/continuations/shift.ts`, `kcall.ts`).
 

@@ -46,3 +46,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] Decide D-005 epistemic status (currently has none)
 - [ ] Add `INCLUDES` edge from `[[verification-backend.thread]]` to `[[first-order-restriction.adr]]`
 - [ ] Review ADR slug names: `gram-graph-ir.adr`, `direct-style-lowering.adr`
+
+## GRAM canonical IR follow-ups (2026-06-03)
+
+- [ ] [[legacy-file-compile]] — migrate `src/compile.ts` + `src/Codegen/modules.ts` off `lowerToMir` onto `GRAM.Bridge.emit`; unblock the deprecation of `src/lowering/lower.ts`

@@ -16,6 +16,8 @@ tags:
 
 # GRAM (hub)
 
+> Canonical role: per D-006 ([[gram-canonical-ir.adr]]), GRAM is the canonical compilation IR; the pipeline flows `EB.Term → GRAM → MIR → codegen` via `GRAM.Bridge.emit`. The "GRAM runs in parallel to MIR" framing in older zettels predates that decision.
+
 **Graph Rewriting Abstract Machine** — compilation IR as an open-vocabulary **property graph** refined by passes (`src/GRAM/README.md`).
 
 **Core principles:** Additive enrichment (passes add, never delete), dataflow semantics (partial order, not total order), compilation by selection (backends choose which views to consume).

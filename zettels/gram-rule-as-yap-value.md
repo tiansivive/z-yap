@@ -8,7 +8,7 @@ tags:
   - language
   - evaluation
   - normalization
-  - planned
+  - implemented
   - modality
 ---
 # GRAM Rule as Yap value

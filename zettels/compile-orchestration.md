@@ -18,6 +18,8 @@ tags:
 ---
 # Compile Orchestration
 
+> Canonical path: per D-006 ([[gram-canonical-ir.adr]]), the live compilation pipeline is `EB.Term → GRAM → MIR → codegen` via `GRAM.Pipeline.compile` + `GRAM.Bridge.emit`, integrated in `src/cli/explore/pipeline.ts`. The `yap <file>` entry described below uses the legacy `src/compile.ts` / `src/Codegen/modules.ts` path — see [[legacy-file-compile]] for the tech-debt item to migrate it.
+
 **Binary:** `pnpm yap` runs `scripts/cli.ts` (Commander).
 
 **`yap <file>`:** Loads Z3 (`z3-solver` `init`, `setZ3Context`) when no context exists, then calls `compile` from `src/compile.ts` with `--outDir` / `--srcDir`. That path: `mkInterface` in `src/modules/loading.ts` (Nearley parse, `EB.Mod.elaborate`, caches `globalModules`), then `codegen` from `src/Codegen/modules.ts` — CommonJS prelude (`require("./prelude.js")`), `require` of imports and `.ffi.js` siblings, `let` bindings via `src/Codegen/terms.ts` (`EB.Term` → JS string), `module.exports`. Output is formatted with `js-beautify` and written beside `outDir`; existing `<stem>.ffi.js` under `baseUrl` is copied if present.

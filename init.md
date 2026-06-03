@@ -115,13 +115,25 @@ When a design decision is superseded, don't delete the old zettel — mark it:
 2. Add a banner at the top of the body: `**Superseded by [new approach] — see [[decision-zettel]].** Original content preserved below for reference.`
 3. Create a `SUPERSEDES` edge from the new zettel to the deprecated one
 
+When a zettel covers multiple concerns and only some are obsolete, use a partial-deprecation note instead — a header note pointing readers to the current zettel(s) for the obsolete sections, without retiring the whole file.
+
+### Connections
+Edges encode position in the graph; tags encode facets. Both compose.
+
+- **Multiple labels when distinct meanings apply** — if `LABEL_A` and `LABEL_B` both fit a relationship and carry different navigational semantics, emit both edges. The graph is denser, not noisier; each label opens a different traversal path.
+- **Multiple tags for the same facet axis** — when a zettel sits on multiple lifecycle states or epistemic statuses simultaneously, tag all of them. Composition is the norm.
+- **Coin vocabulary when needed** — the threshold for a new tag or edge label is "captures something existing vocabulary doesn't", not "absolutely necessary". A graph with 50 precise labels is more useful than one with 10 overloaded ones. Add to `REGISTRY.md` when you coin one.
+- **Active voice, source → target** — labels are canonical active-voice verbs. The graph does not need both `X` and `X_BY` — direction handles the inverse. Read every planned edge as `[Source title] [LABEL] [Target title]`; if it does not parse as grammatical active voice, fix the label or the direction. Labels ending in `_BY`, `_WITH`, or `_FROM` are passive-voice red flags.
+- **Prefer specific over generic** — generic labels (`USES`, `RELATES_TO`) are valid when the relationship genuinely is generic; reusing them to avoid creating vocabulary is a precision loss. When in doubt, coin the specific label.
+
 ### Architecture Decision Records (ADRs)
 Significant design shifts (e.g., replacing Z3 with IVL) get a dedicated ADR zettel:
 - Filename convention: `<slug>.adr.md`
-- Tag with `adr` + a lifecycle tag (`proposed`, `accepted`, `superseded`, `subsumed`) + relevant domain tags + epistemic status (`implemented`, `in-progress`, etc.)
+- Tag with `adr` + one or more lifecycle tags (see REGISTRY.md ADR lifecycle table) + relevant domain tags + epistemic status (`implemented`, `in-progress`, etc.). Lifecycle tags compose — `accepted` + `amended` and `accepted` + `reframed` are common combinations.
 - Frontmatter scalar `adr-id: D-NNN` for the stable identifier (next free number; see `node scripts/adrs.js`)
+- Optional frontmatter scalars `amended-by: [adr:D-NNN]` / `reframed-by: [adr:D-NNN]` for inbound lifecycle relationships from later ADRs
 - Body covers: the decision, scope, rationale, consequences. Self-contained — no references to external planning docs.
-- Connected via `SUPERSEDES`/`MOTIVATES`/`IMPLEMENTS`/`REJECTS` edges to affected zettels
+- Connected via `SUPERSEDES`/`AMENDS`/`REFRAMES`/`MOTIVATES`/`IMPLEMENTS`/`REJECTS` (and any other applicable) edges to affected zettels. Use all that fit — see the Connections subsection above.
 - When recording a rejection of an alternative, split: a positive ADR (`accepted`) plus a companion zettel for the rejected alternative (tagged `rejected`/`speculative`), connected via `REJECTS`
 - Other zettels reference an ADR via `refs: [adr:D-NNN]` (these inbound refs are surfaced by `scripts/adrs.js`)
 - Log the decision in `thread.md` paper trail

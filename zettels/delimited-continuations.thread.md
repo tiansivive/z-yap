@@ -15,6 +15,8 @@ From surface shift/reset through elaboration (answer metas, continuation binders
 multishot replay) to MIR lowering (block state machines) and GRAM passes. This thread
 tracks the full vertical of delimited control in Yap.
 
+> Post D-006 ([[gram-canonical-ir.adr]]): the canonical lowering site is `src/GRAM/bridge/continuations.ts` ([[shift-reset-bridge-lowering]]; multishot at [[multishot-bridge-serialization]]). The MIR lowering items below describe the legacy direct path retained for the file-compile entry — see [[legacy-file-compile]]. Single-shot specialisation is captured in [[singleshot-static-specialization]].
+
 ## Sequence
 
 1. **Core typing + replay** [[shift-reset]] — implemented

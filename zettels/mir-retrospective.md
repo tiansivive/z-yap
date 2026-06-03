@@ -13,9 +13,13 @@ tags:
 - project
 - display
 - testing
+- deprecated
+- legacy
 ---
 
 # MIR retrospective
+
+**Superseded by [[gram-canonical-ir.adr]] (D-006).** The "GRAM and MIR run in parallel" framing no longer matches the canonical pipeline. The current shape is `EB.Term → GRAM → MIR → codegen`, with `GRAM.Bridge.emit` producing the `MIR.Module` consumed by all three backends. The original retrospective is preserved below as a snapshot of the parallel-IR phase that preceded D-006.
 
 **Facts:** MIR lowering is a **single worklist pass** from `EB.Term` to `MIR.Module` (`src/lowering/lower.ts`). Intermediate MIR is textualized by `src/lowering/pretty.ts` and surfaced in `yap explore` alongside other pipeline stages (`src/cli/explore/pipeline.ts`).
 

@@ -1089,3 +1089,214 @@ ENQUEUE [[euf-congruence-propagation-bug]] — added to [[global-pending-queue]]
 
 [[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[congruence-closure]]
 [[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[euf-theory]]
+
+
+## Session: Programmable GRAM passes — blast radius + MVP plan — @2026-06-02 [gram, modality, lowering, elaboration, parser, planning]
+
+Investigated the blast radius of implementing [[programmable-gram-passes]] and produced a sequenced MVP implementation plan, recorded as [[programmable-gram-passes-mvp.plan]].
+
+Key findings grounding the plan:
+- Modal carrier `Annotations<T>` (`src/verification/modalities/shared.ts`) currently carries only `quantity` + `liquid`; the gram dimension is a new field rippling to EB `Modal`, NF `Modalities`, and `combine`.
+- The GRAM pipeline `Pass = Graph -> Graph` and per-term `compile` do not thread the elaboration `Context`; the Kernel pass needs it for NbE, so `CompileOpts` gains `ctx`.
+- `Rule`/`Pattern`/`Constructor`/`Edge` model cleanly as Schema-row types seeded into `defaultContext().imports` (no module system needed); `Payload` models as a `JSON` atom (the graph already JSON-stringifies payloads for dedup in `src/GRAM/graph.ts`).
+- The DPO engine (`src/GRAM/grs/`) is reused unchanged via an adapter wrapping `NF.apply` in TS `Rule` thunks; the predicate-application-strategy framing is deferred, superseded if the adapter suffices.
+- GRAM is per-term only today (no module-level driver); `src/Codegen/modules.ts` already iterates letdecs by name, a template for future module-level GRAM. Per-term + context threading kept for now.
+
+Decisions locked: user-rules-only MVP; additive-only (Kernel guard); tag-only LHS predicates (payload predicates deferred); surface syntax `Type %rulename` (Nearley; `<…>` stays QTT); edge label `:rewrite_rule`; no tree-sitter; docs in z-yap only. The plan mandates a standing no-assumptions / STOP-and-surface directive at every step, per-step user review, and an independent `yap-reviewer` audit subagent gate after typecheck + tests, applying the project style contract plus `~/.config/ai-agents` guidelines.
+
+### Edges
+
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[gram-kernel-pass]]
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[gram-rule-as-yap-value]]
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[pass-activation-by-reference]]
+[[programmable-gram-passes-mvp.plan]] --[:RELIES_ON]--> [[modality-system]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[programmable-gram-passes-mvp.plan]]
+
+### Spawned
+
+SPAWN [[programmable-gram-passes-mvp.plan]] — MVP implementation plan (todo, planned, ready) for the gram-evolution thread
+
+### Session record
+
+Session zettel: [[programmable-gram-passes-mvp-plan.session]] (ai-session). Transcript copied to `sessions/d8833b63-a13c-4d87-bd54-129768d7be36.jsonl`.
+
+[[sessions.hub]] --[:INCLUDES]--> [[programmable-gram-passes-mvp-plan.session]]
+[[programmable-gram-passes-mvp-plan.session]] --[:PRODUCES]--> [[programmable-gram-passes-mvp.plan]]
+[[programmable-gram-passes-mvp-plan.session]] --[:FOLLOWS]--> [[programmable-gram-passes-design.session]]
+
+---
+
+## Session: MVP plan refinement — tailcall demo + once-per-match — @2026-06-03 [gram, modality, lowering, planning, decision]
+
+Refined [[programmable-gram-passes-mvp.plan]] with three locked decisions, removed one open item, and recorded a v2 motivator. Plan stays tagged `ready`; ready to initiate implementation.
+
+### Decisions locked
+
+1. `Bindings` dropped from v1. `Constructor.payload : JSON` constant. Bindings-derived payloads return in v2 alongside payload predicates.
+2. User rules invoked with single-fire-per-match semantics — `Match.all` over each rule's LHS, then `Rewrite.apply` once per binding. No fixpoint. Rationale: under tag-only LHS + strict additive enrichment + no `where`, a rule's LHS is preserved verbatim by its own RHS, so `Strategy.apply` (fixpoint) cannot terminate. Once-per-match aligns with how `closure.capture` and `pattern.compilePatterns` already enrich the graph. `Strategy.apply` reserved for static passes; user-facing strategies deferred or yeeted.
+3. `:optimizes` is the canonical edge label for user-rule-injected analysis tags consumed downstream. Replaces the placeholder `:marks` from earlier sketches.
+
+### Demo target
+
+Tailcall identification via additive markers connected by `:optimizes` edges. Primary rule `tailcall_in_lambda` (`$lam :body $app` → add `tailcall` node with `:optimizes` edge to `$app`). Companion rules cover the other tail-position parents (`let`, `case`, `reset`, `block :return`, `shift`, `mu`) — v1-shippable family, not blocking for plumbing. Chosen over PAP analysis: tail position is a purely structural property expressible with v1's tag-only LHS; PAP needs payload arithmetic that v1 explicitly defers.
+
+Confirmed `\x. f x` elaborates to `Abs(Lambda, body=App(...))` with no Block wrap — translation emits `lambda :body app` directly.
+
+### Open items reduced
+
+Removed `Bindings` open item (settled). Bridge → MIR boundary policy reworded with concrete options for the demo's `tailcall` tag and `:optimizes` edge: reject (default safe), passthrough as opaque marker, or consume as TCO hint. Generalises to any future user-rule-introduced tag/edge.
+
+### Spawned
+
+SPAWN [[pap-analysis-payload-predicates]] — canonical v2 motivator capturing why PAP needs payload predicates + Bindings-derived payloads, and what the v2 rule shape would look like. Prevents the deferral from being lost.
+
+### Edges
+
+[[pap-analysis-payload-predicates]] --[:MOTIVATES]--> [[programmable-gram-passes-mvp.plan]]
+[[programmable-gram-passes-mvp.plan]] --[:DEFERS_TO]--> [[pap-analysis-payload-predicates]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[pap-analysis-payload-predicates]]
+
+### Updates
+
+- [[programmable-gram-passes-mvp.plan]] — locked decisions table extended; v1 narrowing block removed (settled); Phase 6 strategy line replaced with Match.all + once-per-match + rationale; Phase 7 boundary section made concrete; new "Demo rule — Tailcall identification" subsection under Phase 6 with rule spec, companion list, and end-to-end test outline; open items reduced from 4 to 3.
+
+
+---
+
+## Session: GRAM canonical IR (D-006) — zettel realignment — @2026-06-03 [gram, mir, lowering, codegen, pipeline, adr, decision]
+
+Realigned z-yap to reflect the current architecture: the canonical compilation pipeline is `EB.Term → GRAM → MIR → codegen`, with `GRAM.Bridge.emit` producing the MIR module consumed by JS/C/Erlang backends (`src/cli/explore/pipeline.ts`). Older zettels framed GRAM and MIR as parallel IRs; that framing predates the integration in `src/cli/explore/pipeline.ts` and `src/GRAM/bridge/`. The realignment did not edit decisions still in force — it captured the shift through new zettels with deprecation and amendment relationships.
+
+Vocabulary additions (`REGISTRY.md`): lifecycle tags `amended` (decision in force, scope/implementation context modified by a later ADR) and `reframed` (decision in force, conceptual framing shifted by a later ADR), with corresponding edge labels `AMENDS` and `REFRAMES`. Frontmatter scalars `amended-by` and `reframed-by` for inbound lifecycle links. Lifecycle preamble rewritten to make composition the norm: an ADR can carry multiple lifecycle tags simultaneously when distinct lifecycle facts apply.
+
+Connection conventions (`init.md`): new Connections subsection codifies multi-label edges, multi-tag axes, vocabulary-coining bar, active-voice canonical labels with the "read every edge as a sentence" check, and the prefer-specific-over-generic stance. Examples kept generic (`LABEL_A`, `LABEL_B`); concrete labels reserved for canonical-voice illustrations where placeholders don't read naturally. ADR section rewritten to drop gatekeeping language and point at the registry for the full lifecycle table.
+
+New ADR `[[gram-canonical-ir.adr]]` (D-006): GRAM is the canonical compilation IR; the legacy `EB.Term → MIR` path remains only for the file-compile entry. D-004 `[[direct-style-lowering.adr]]` tagged `amended` + `reframed`, with frontmatter `amended-by: [adr:D-006]` and `reframed-by: [adr:D-006]`; a scope note clarifies that the direct-style shape is unchanged while the site moved.
+
+Bridge-site companion zettels: `[[shift-reset-bridge-lowering]]` documents `src/GRAM/bridge/continuations.ts`; `[[multishot-bridge-serialization]]` documents the heap-env + indexed-resume + `Branch` strategy on that site. Legacy site zettels `[[shift-reset-mir-lowering]]` and `[[multishot-serialization]]` tagged `deprecated` + `legacy` with supersession banners pointing at the bridge counterparts; `[[mir-retrospective]]` tagged `deprecated` + `legacy` because its parallel-IR framing no longer matches D-006.
+
+Planned-work zettel `[[singleshot-static-specialization]]` captures the deferred optimisation: rewrite multishot reset subgraphs to flat block-and-jump shape when QTT-derived usage proves `≤ 1` resume invocation. Realised as a programmable GRAM pass; depends on `[[usage-semantics]]`, `[[programmable-gram-passes]]`, and `[[gram-kernel-pass]]`.
+
+Tech-debt zettel `[[legacy-file-compile]]` captures the residual: `src/compile.ts` + `src/Codegen/modules.ts` route through `lowerToMir` (carrying `@deprecated Use GRAM.Bridge.emit instead.`) and emit JS only. Migrating this entry off the legacy path is the precondition for fully retiring `src/lowering/lower.ts`. Added to `[[global-pending-queue]]` under a new dated section.
+
+Partial-deprecation notes added to `[[gram]]`, `[[delimited-continuations.thread]]`, `[[shift-reset]]`, `[[compile-orchestration]]` — header notes pointing readers at the current canonical/bridge zettels without retiring the original bodies, since each still carries content beyond the obsolete framing.
+
+### Edges
+
+[[gram-canonical-ir.adr]] --[:DOCUMENTS]--> [[gram]]
+[[gram-canonical-ir.adr]] --[:RELIES_ON]--> [[gram-graph-ir.adr]]
+[[gram-graph-ir.adr]] --[:MOTIVATES]--> [[gram-canonical-ir.adr]]
+[[gram]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]
+[[gram-canonical-ir.adr]] --[:AMENDS]--> [[direct-style-lowering.adr]]
+[[gram-canonical-ir.adr]] --[:REFRAMES]--> [[direct-style-lowering.adr]]
+[[gram-canonical-ir.adr]] --[:REVISES]--> [[direct-style-lowering.adr]]
+[[gram-canonical-ir.adr]] --[:SUPERSEDES]--> [[mir-retrospective]]
+[[gram-canonical-ir.adr]] --[:DEPRECATES]--> [[mir-retrospective]]
+[[shift-reset-bridge-lowering]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]
+[[shift-reset-bridge-lowering]] --[:IMPLEMENTS]--> [[direct-style-lowering.adr]]
+[[shift-reset-bridge-lowering]] --[:SUPERSEDES]--> [[shift-reset-mir-lowering]]
+[[shift-reset-bridge-lowering]] --[:DEPRECATES]--> [[shift-reset-mir-lowering]]
+[[shift-reset-bridge-lowering]] --[:MIRRORS]--> [[shift-reset-mir-lowering]]
+[[shift-reset-bridge-lowering]] --[:REVISES]--> [[shift-reset-mir-lowering]]
+[[multishot-bridge-serialization]] --[:IMPLEMENTS]--> [[gram-canonical-ir.adr]]
+[[multishot-bridge-serialization]] --[:SUPERSEDES]--> [[multishot-serialization]]
+[[multishot-bridge-serialization]] --[:DEPRECATES]--> [[multishot-serialization]]
+[[multishot-bridge-serialization]] --[:MIRRORS]--> [[multishot-serialization]]
+[[multishot-bridge-serialization]] --[:REVISES]--> [[multishot-serialization]]
+[[multishot-bridge-serialization]] --[:COMPOSES_WITH]--> [[shift-reset-bridge-lowering]]
+[[singleshot-static-specialization]] --[:APPLIES_TO]--> [[multishot-bridge-serialization]]
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[usage-semantics]]
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[programmable-gram-passes]]
+[[singleshot-static-specialization]] --[:RELIES_ON]--> [[gram-kernel-pass]]
+[[singleshot-static-specialization]] --[:CONSUMES]--> [[modality-system]]
+[[legacy-file-compile]] --[:DEFERS_TO]--> [[gram-canonical-ir.adr]]
+[[legacy-file-compile]] --[:APPLIES_TO]--> [[compile-orchestration]]
+[[legacy-file-compile]] --[:BLOCKS]--> [[gram-canonical-ir.adr]]
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[legacy-file-compile]]
+[[global-pending-queue]] --[:INCLUDES]--> [[legacy-file-compile]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-canonical-ir.adr]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[gram-canonical-ir.adr]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-bridge-lowering]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-bridge-serialization]]
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[singleshot-static-specialization]]
+[[gram]] --[:INCLUDES]--> [[shift-reset-bridge-lowering]]
+[[gram]] --[:INCLUDES]--> [[multishot-bridge-serialization]]
+
+### Spawned
+
+SPAWN [[gram-canonical-ir.adr]] — D-006, GRAM as canonical compilation IR
+SPAWN [[shift-reset-bridge-lowering]] — canonical shift/reset lowering site
+SPAWN [[multishot-bridge-serialization]] — canonical multishot serialisation site
+SPAWN [[singleshot-static-specialization]] — planned single-shot optimisation pass
+SPAWN [[legacy-file-compile]] — tech-debt zettel for the residual file-compile path
+
+### Updates
+
+- `[[direct-style-lowering.adr]]` — added `amended` + `reframed` lifecycle tags, `amended-by` + `reframed-by` frontmatter, scope note pointing at D-006 and the bridge zettels.
+- `[[shift-reset-mir-lowering]]` — added `deprecated` + `legacy` tags, supersession banner.
+- `[[multishot-serialization]]` — added `deprecated` + `legacy` tags, supersession banner.
+- `[[mir-retrospective]]` — added `deprecated` + `legacy` tags, supersession banner.
+- `[[gram]]`, `[[delimited-continuations.thread]]`, `[[shift-reset]]`, `[[compile-orchestration]]` — partial-deprecation header notes pointing at the canonical zettels.
+- `[[global-pending-queue]]` — appended dated section with `[[legacy-file-compile]]`.
+- `REGISTRY.md` — `amended` / `reframed` lifecycle tags, `AMENDS` / `REFRAMES` edge labels, `amended-by` / `reframed-by` frontmatter scalars, lifecycle preamble rewritten for composability.
+- `init.md` — new Connections subsection (generic phrasing), ADR section rewritten for the registry-driven lifecycle table and multi-edge connections.
+
+
+---
+
+## Session: Programmable GRAM passes MVP — implementation + retrospective — @2026-06-03 [gram, rewriting, lowering, milestone, modality, compiler]
+
+Completed phases 1–6 of [[programmable-gram-passes-mvp.plan]]: builtin Rule types, gram modal dimension with `%ruleName` syntax, translation marker emitting `:rewrite_rule` edges, Payload ⇆ NF.Value JSON bridge, NF.Value → TS Rule reader, and Kernel pass with context threading. User-defined DPO rewrite rules now participate in GRAM lowering through modal annotations. Integration tests validate end-to-end with actual Yap source.
+
+Four issues surfaced during implementation:
+
+1. **String escaping bug** — GRAM payload serialisation double-escapes string literals containing quotes.
+2. **Rule scoping** — rules match the entire graph, not the subgraph rooted at the annotated term.
+3. **Payload constraint emission** — the `check(string, JSON)` case exists but Rule values bypass it via constraint emission.
+4. **Modality vs pragma** — `%ruleName` is an inert compilation directive, not a type-level modality.
+
+Phase 7 (boundary policy for user-rule-introduced tags, z-yap documentation pass) deferred pending issue resolution.
+
+### Edges
+
+[[programmable-gram-passes-mvp-retrospective]] --[:DOCUMENTS]--> [[programmable-gram-passes-mvp.plan]]
+[[programmable-gram-passes-mvp-retrospective]] --[:DOCUMENTS]--> [[programmable-gram-passes]]
+[[programmable-gram-passes-mvp.plan]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]
+[[programmable-gram-passes]] --[:IMPLEMENTS]--> [[extensibility-via-modalities.adr]]
+[[gram-kernel-pass]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]
+[[gram-rule-as-yap-value]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]
+[[pass-activation-by-reference]] --[:IMPLEMENTS]--> [[programmable-gram-passes]]
+[[gram-string-escaping.bug]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]
+[[gram-string-escaping.bug]] --[:BLOCKS]--> [[programmable-gram-passes]]
+[[gram-rule-scoping.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]
+[[gram-rule-scoping.design]] --[:BLOCKS]--> [[programmable-gram-passes]]
+[[gram-payload-constraint-emission.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]
+[[gram-payload-constraint-emission.design]] --[:APPLIES_TO]--> [[gram-rule-as-yap-value]]
+[[gram-modality-vs-pragma.design]] --[:DISCOVERED_BY]--> [[programmable-gram-passes-mvp-retrospective]]
+[[gram-modality-vs-pragma.design]] --[:APPLIES_TO]--> [[modality-system]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[programmable-gram-passes-mvp-retrospective]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-string-escaping.bug]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-rule-scoping.design]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-payload-constraint-emission.design]]
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-modality-vs-pragma.design]]
+
+### Spawned
+
+SPAWN [[programmable-gram-passes-mvp-retrospective]] — implementation retrospective with discovered issues
+SPAWN [[gram-string-escaping.bug]] — string escaping bug in GRAM payload serialisation
+SPAWN [[gram-rule-scoping.design]] — rule scoping design issue
+SPAWN [[gram-payload-constraint-emission.design]] — payload constraint emission design issue
+SPAWN [[gram-modality-vs-pragma.design]] — modality vs pragma design issue
+
+### Resolved
+
+RESOLVED [[programmable-gram-passes-mvp.plan]] phases 1–6 — MVP implementation complete
+
+### Updates
+
+- `[[programmable-gram-passes-mvp.plan]]` — added `implemented` + `incomplete` tags, completion banner, phase markers (✓ for 1–6).
+- `[[programmable-gram-passes]]` — replaced `planned` + `needs-design` with `implemented` + `incomplete`, added banner.
+- `[[gram-kernel-pass]]` — replaced `planned` + `needs-design` with `implemented`.
+- `[[gram-rule-as-yap-value]]` — replaced `planned` with `implemented`.
+- `[[gram-evolution.thread]]` — item 19 updated to `implemented, incomplete` with issue links.
