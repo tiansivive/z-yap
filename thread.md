@@ -1068,3 +1068,24 @@ Meta-thread `[[thread-queue-system]]` renamed to `[[thread-queue-system.thread]]
 - `[[thread-queue-system.thread]]` — renamed from `thread-queue-system`; 12 references updated.
 - `[[global-pending-queue]]` — appended ADR/pulse/current-state follow-ups section.
 - `init.md`, `REGISTRY.md`, `.github/workflows/catalog.yml`, `scripts/lib/parse.js`, `scripts/neighborhood.js` — convention + tooling updates.
+
+---
+
+## Session: Phase 2 gram modality + EUF bug discovery — @2026-06-03 [gram, verification, bug]
+
+Implemented Phase 2 of the programmable GRAM passes plan: added `gram?: T` to modal annotations, `%rulename` surface syntax, and gram typechecking against the `Rule` type.
+
+During test stabilization, discovered a bug in the EUF congruence closure: formula `(x = y) ∧ (f(x) ≠ f(y))` returns SAT instead of UNSAT. After merging `x ≡ y`, congruence propagation should merge `f(x) ≡ f(y)`, but it doesn't trigger. Test snapshot shows duplicate `{x}` in initial classes (5 classes for 4 nodes).
+
+### New zettels
+
+SPAWN [[euf-congruence-propagation-bug]] — EUF congruence closure fails to propagate merges
+
+### Queue updates
+
+ENQUEUE [[euf-congruence-propagation-bug]] — added to [[global-pending-queue]]
+
+### Edges
+
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[congruence-closure]]
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[euf-theory]]

@@ -23,6 +23,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 ## Open items
 
+- [ ] [[euf-congruence-propagation-bug]] — EUF congruence closure fails to propagate merges to function applications; returns SAT for UNSAT formula
 - [ ] [[spineful-applications]] — cross-cutting IR refactor (App representation migration)
 - [ ] [[where-clauses]] — deferred surface syntax, no parser/elab support
 - [ ] [[lsp]] — Language Server Protocol, depends on stable CST + incremental elaboration
