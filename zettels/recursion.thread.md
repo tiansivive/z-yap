@@ -46,3 +46,34 @@ types.
    `:label` serves two roles: sigma (deferred, parametric, type-level) and codata
    (eager, fixed point, value-level). The connection to mutual recursion — flat-row
    sigma parallels mutually recursive letrec. Syntax split under consideration.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[mu-types]]
+- INCLUDES → [[mu-type-unification]]
+- INCLUDES → [[equirecursive-types]]
+- INCLUDES → [[mutual-recursion]]
+- INCLUDES → [[missing-spec-recursive-types]]
+- INCLUDES → [[loop-sugar]]
+- INCLUDES → [[coinductivity]] — Coinductivity is part of recursion thread
+- INCLUDES → [[nu-types]] — Nu types are part of recursion thread
+- RELIES_ON → [[bisimulation-type-equality]] — Concept: coinductive type equality
+- INCLUDES → [[productivity-checking]]
+- INCLUDES → [[sized-types]]
+- INCLUDES → [[syntactic-guardedness]]
+- INCLUDES → [[inductive-types]]
+- INCLUDES → [[codata-vs-coinductive-types]] — Codata vs coinductive types
+- DOCUMENTS → [[sigma-vs-codata-label-refs]] — Knowledge: sigma/codata duality
+- INCLUDES → [[design-bisimulation-equality]] — Design work item
+- INCLUDES → [[design-sigma-codata-label-refs]] — Design work item
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[elaboration-v2.thread]] ← SHARED_WITH — missing-spec-let-polymorphism (mu recovery at let boundaries)
+- [[coinductivity]] ← EXTENDS — Coinductivity extends the recursion story
+- [[pipeline-stabilization.thread]] ← SHARED_WITH — Recursive binding bugs overlap
+
+<!-- connections:end -->

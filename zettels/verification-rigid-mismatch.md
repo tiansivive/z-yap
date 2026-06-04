@@ -16,3 +16,16 @@ The let binding explorer snippet (`{ let id = \x -> x; return id 42; }`) produce
 **Root cause:** The told zonker from `letdec` generalization was dropped by `module.ts`'s `listen()` destructuring. Without the generalization substitution, unsolved metas were re-generalized and compared as rigid variables against concrete types.
 
 **Fix:** Resolved by [[module-zonker-fix]]. Full pipeline now completes: type `Num`, normalized `42`, verification sat.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[verification-pipeline]] — Rigid comparison failure
+- MAY_RESOLVE_VIA → [[module-zonker-fix]] — Zonker fix may solve it
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

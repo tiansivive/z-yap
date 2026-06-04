@@ -31,3 +31,20 @@ The hard part is preserving provenance *through* the solver. Tseitin encoding in
 The verification pipeline should propagate obligation handles from IVL generation through every lowering and solving stage, so tooling can cite obligation IDs rather than requiring users to interpret raw solver traces. This is the bridge between "the solver says unsat" and "your refinement on `f` at line 12 conflicts with the bound on `x` at line 8."
 
 Currently, obligation labels reach the solver entry point. Wiring them through CDCL conflict analysis and theory explanations to produce minimal UNSAT cores is milestone work ([[milestone-5-explanations]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[verification-pipeline]] — Error quality
+- REPORTS → [[verification-pipeline]] — Provenance-annotated failures
+
+**Incoming**
+- [[verification-backend]] ← ENABLES — Unsat-core reporting
+- [[milestone-5-explanations]] ← PRODUCES — Explanation/model infrastructure
+- [[verification-backend.thread]] ← INCLUDES
+- [[bidir-subtype-verification]] ← PRODUCES — Obligations carry provenance
+- [[explorer-provenance-trace]] ← ENABLES — Visual provenance enables richer VC debugging
+
+<!-- connections:end -->

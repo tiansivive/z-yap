@@ -33,3 +33,25 @@ Dictionaries are runtime-relevant (not erased). At the [[ffi]] boundary, this ra
 The advantage of this being the *only* mechanism (rather than a compilation target for a separate typeclass system) is simplicity: the user writes what the compiler sees, and [[implicit-resolution]] is the only "magic." No separate typeclass elaboration pass, no dictionary transformation — just records and implicit arguments.
 
 Related: [[typeclass-emulation]], [[implicit-resolution]], [[implicits]], [[ffi]], [[ffi-saturation]], [[structural-records]], [[superclasses]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[typeclass-emulation]] — Records as dictionaries
+- RELIES_ON → [[implicit-resolution]] — Dictionaries threaded via implicits
+- RELIES_ON → [[implicits]] — Implicit Pi binders carry dictionaries
+- USES → [[structural-records]] — Dictionaries are records
+- APPLIES_TO → [[ffi]] — FFI arity includes dictionary args
+- APPLIES_TO → [[ffi-saturation-gram]] — Saturation must account for dictionaries
+- INFORMS → [[indexing-strategies]] — Strategies as implicit dictionaries
+- CONTRASTS_WITH → [[ghc-influence]] — GHC compiles to dictionaries; Yap starts with them
+- INFORMS → [[ghc-influence]] — GHC dictionary compilation
+- INFORMS → [[idris-2-influence]] — Idris 2 dictionary passing
+
+**Incoming**
+- [[customizable-data-types]] ← USES — Strategies as implicit dictionaries
+- [[indexing-strategies]] ← USES — Strategy records as dictionaries
+
+<!-- connections:end -->

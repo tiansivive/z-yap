@@ -31,3 +31,31 @@ Modal subtyping relates liquid predicates (with neutral lift for non-modal sides
 **Gaps:** elaboration strips modal wrappers from inferred types via `stripModalities` (`src/elaboration/elaborate.ts`), so inferred refinements are not preserved for downstream phases unless types stay explicitly modal.
 
 End-to-end refinement tests live under `src/verification/__tests__/check.test.ts` (snapshots under `__snapshots__/`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[verification-pipeline]] — Z3 discharges VCs
+- COMPOSES_WITH → [[sigma-types]] — :fst in predicates
+- SUBSUMES → [[pi-types]] — Refined T subtype of T
+- COERCES_TO → [[pi-types]] — Forget rule strips predicate
+- COMPOSES_WITH → [[pi-types]] — Refined function domains/codomains
+
+**Incoming**
+- [[pi-types]] ← COMPOSES_WITH — Refined domains/codomains
+- [[modalities]] ← COMPOSES_WITH — Modal + refined
+- [[refinement-inference]] ← EXTENDS — Inferred refinements
+- [[liquid-haskell-influence]] ← INSPIRES — SMT automation
+- [[smt-translation]] ← TRANSLATES_TO — Verification conditions
+- [[vc-ir]] ← ENCODES — Predicates as VC.Formula
+- [[quantifier-engine]] ← IMPLEMENTS — Guarded universal quantification
+- [[verification-pipeline]] ← DETECTS — Counterexample generation
+- [[verification-backend.thread]] ← INCLUDES
+- [[bidir-subtype-verification]] ← GROUNDED_IN — Liquid type theory
+- [[negative-testing]] ← TARGETS
+- [[first-order-restriction.adr]] ← CONSTRAINS — Restricts self-equality and quantification to first-order types
+- [[sigma-value-semantics]] ← COMPOSES_WITH — Field refs in refinement predicates
+
+<!-- connections:end -->

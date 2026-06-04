@@ -21,3 +21,18 @@ In Yap, numbers are singleton types — `1 : 1` checks successfully, `2 : 1` fai
 The Pi analogy is exact: `(x: Num) -> x` has codomain `x` (a value), not `Num`. Applying to `1` yields codomain `1`. Sigma field references work the same way — the reference is to the witness value, and the resulting type is a function of that value.
 
 This is the mechanism that makes refinement predicates over fields work: `{ fst: Num, snd: Num[|\v -> v > :fst|] }` constrains `snd` to be greater than the *value* of `fst`, not greater than `Num`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETAILS → [[sigma-types]] — Clarifies field ref semantics
+- MIRRORS → [[pi-types]] — Pi codomain analogy
+- RELIES_ON → [[singleton-types]] — Numbers as types make Num-dependent sigma coherent
+- COMPOSES_WITH → [[refinement-types]] — Field refs in refinement predicates
+
+**Incoming**
+- [[singleton-types]] ← ENABLES — Singletons give sigma over Num its meaning
+
+<!-- connections:end -->

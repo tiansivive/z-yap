@@ -22,3 +22,18 @@ Vitest snapshots live under `src/Codegen/v2/c/__tests__/`. C codegen consumes th
 CLI: `pnpm yap repl --codegen --target c` selects this emitter (`scripts/cli.ts`, `src/cli/repl.ts` imports `emit`/`print` from `../Codegen/v2/c/`).
 
 File-mode `src/compile.ts` does **not** use this path; it emits JS via `src/Codegen/modules.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- TRANSLATES_TO → [[ffi]] — C source output
+
+**Incoming**
+- [[yap]] ← INCLUDES — C backend
+- [[mir-lowering]] ← PRODUCES — MIR → C
+- [[gram]] ← TRANSLATES_TO — Target-specific passes
+- [[integration-testing]] ← CONCERNS
+
+<!-- connections:end -->

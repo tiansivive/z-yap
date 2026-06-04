@@ -22,3 +22,17 @@ tags:
 **Module / top-level declarations:** `src/elaboration/module.ts` walks statements with `next(tail, ctx)` after each `let` / `foreign` / `using` — sequential elaboration on a growing context. Each binding is visible to later statements in the same module walk; cyclic top-level groups would need an SCC/backpatching story beyond this sequential `next` structure.
 
 Multi-module cyclic groups, Haskell-style patching, or nominal “seams” would extend that module walk—worth validating against `module.ts` before asserting specific semantics.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[module-system]] — Multi-pass elaboration
+- REQUIRES → [[constraint-solver]] — Multi-pass constraint solving
+
+**Incoming**
+- [[recursion.thread]] ← INCLUDES
+- [[sigma-vs-codata-label-refs]] ← COMPOSES_WITH — Flat-row sigma parallels mutual letrec
+
+<!-- connections:end -->

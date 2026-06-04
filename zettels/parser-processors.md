@@ -28,3 +28,19 @@ Representative **`export const`** processors tied to **`grammar.ne`**: **`Hole`*
 Grammar references **`P.Mu`** for **`μ X -> …`** (`grammar.ne`); if **`Mu`** is absent from **`processors.ts`**, regeneration/`pnpm nearley` may fail until implemented—worth aligning grammar ↔ processors.
 
 Detail: **`Src.Term`** shapes (**`src-term.md`**), **`src/parser/grammar.ne`** rule inventory.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[src-term]] — Grammar → AST
+- DISPATCHES_ON → [[src-term]] — Grammar rule postprocessors
+- TRANSLATES_TO → [[src-term]] — Token arrays → AST nodes
+
+**Incoming**
+- [[test-utility]] ← USES — Parses input
+- [[repl]] ← USES — Parses each input
+- [[parser-migration.thread]] ← INCLUDES
+
+<!-- connections:end -->

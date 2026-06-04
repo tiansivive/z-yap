@@ -23,3 +23,16 @@ Downstream code — unification, lowering, display, pattern matching — must re
 ## Planned fix
 
 Introduce dedicated `EB.Term` variants (or equivalent) for the row-based families so family identity is explicit in the AST node type. This would eliminate the need to recover intent from nested structure, simplify unification dispatch, and make traces and error messages more direct. The change touches the same AST-shape surface as spineful applications but is a separate refactor.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[structural-records]] — Dedicated AST nodes
+- ADDRESSES → [[rows-universal-substrate]] — Cognitive overhead
+
+**Incoming**
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

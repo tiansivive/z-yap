@@ -32,3 +32,24 @@ tags:
 **Contrast with pattern-algorithm-choice:** Same structural decision pattern — pick the pragmatic option, defer alternatives. But here the alternatives *compose* (vs. mutually exclusive algorithms in pattern matching). All three could eventually coexist in the graph.
 
 **Multiplicity gap:** The elaborator doesn't enforce usage constraints end-to-end yet. Phase A works with conservative defaults; phases B and C are independent of multiplicity. Full benefit requires completing the usage-semantics thread.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[gram-crud-enrichment]] — Strategy determines pass design
+- USES → [[mode-annotation-strategy]] — Phase A: chosen first
+- DEFERS → [[reuse-analysis-strategy]] — Phase B: after mode annotation proves arch
+- DEFERS → [[constructor-context-strategy]] — Phase C: speculative/post-LoGRAM
+- CONTRASTS_WITH → [[pattern-algorithm-choice]] — Same pattern: pick strategy, defer alternatives
+- RELIES_ON → [[modalities]] — Strategy depends on multiplicity system
+- RELIES_ON → [[verification-modal-phase]] — Full benefit requires modal enforcement
+
+**Incoming**
+- [[perceus-reuse-analysis]] ← INSPIRES — Research input to strategy decision
+- [[counting-immutable-beans]] ← INSPIRES — Research input
+- [[clean-uniqueness-types]] ← INSPIRES — Research input
+- [[gram-evolution.thread]] ← RELIES_ON — Phased decision informing CRUD enrichment
+
+<!-- connections:end -->

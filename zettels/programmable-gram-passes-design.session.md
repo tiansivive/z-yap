@@ -45,3 +45,22 @@ Tailcall was rejected as a fit — tail position is a structural property the co
 ## Spawned
 
 [[programmable-gram-passes]], [[gram-kernel-pass]], [[gram-rule-as-yap-value]], [[pass-activation-by-reference]], [[extensibility-via-modalities.adr]], [[mlir-transform-dialect]], [[t-linq]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCED → [[programmable-gram-passes]]
+- PRODUCED → [[gram-kernel-pass]]
+- PRODUCED → [[gram-rule-as-yap-value]]
+- PRODUCED → [[pass-activation-by-reference]]
+- PRODUCED → [[extensibility-via-modalities.adr]]
+- PRODUCED → [[mlir-transform-dialect]]
+- PRODUCED → [[t-linq]]
+
+**Incoming**
+- [[sessions.hub]] ← INCLUDES — Session record
+- [[programmable-gram-passes-mvp-plan.session]] ← FOLLOWS — Planning session after the design session
+
+<!-- connections:end -->

@@ -30,3 +30,23 @@ The interaction with [[structural-typing]] matters: an ML-style module system wi
 Alternatives to a full ML-family module system: implicit-based capability passing (modules as records of capabilities, leveraging [[typeclass-emulation]]), row-typed module signatures (using [[row-polymorphism]] for interface polymorphism), or a lightweight export-list mechanism extending what [[module-system]] already supports without full signatures.
 
 Related: [[module-system]], [[structural-typing]], [[opaque-types]], [[nominal-identity]], [[typeclass-emulation]], [[customizable-data-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[module-system]] — Beyond file-level imports
+- INFORMS → [[opaque-types]] — Module boundaries as abstraction
+- INFORMS → [[nominal-identity]] — Modules introduce nominal boundaries
+- USES → [[structural-typing]] — Row-typed signatures
+- USES → [[row-polymorphism]] — Interface polymorphism via rows
+- COMPOSES_WITH → [[typeclass-emulation]] — Modules as capability records
+- INFORMS → [[customizable-data-types]] — Abstraction for strategies
+
+**Incoming**
+- [[nominal-identity]] ← INFORMS — Module boundaries as abstraction
+- [[customizable-data-types]] ← INFORMS — Abstraction boundaries for strategies
+- [[opaque-types]] ← INFORMS — Module boundaries for opacity
+
+<!-- connections:end -->

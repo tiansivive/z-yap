@@ -23,3 +23,20 @@ Operational guardrails are numeric: stack-machine evaluation `evaluate` in `src/
 Refinement verification (`src/verification/V2/`) reasons about liquid predicates via Z3—orthogonal to termination obligations for recursive binders.
 
 Related: [[productivity-checking]], [[sized-types]], [[syntactic-guardedness]], [[inductive-types]], [[equirecursive-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[equirecursive-types]] — Guardedness
+- DETECTS → [[nbe]] — Non-termination
+
+**Incoming**
+- [[productivity-checking]] ← DUAL_OF — Productivity is the coinductive dual of termination
+- [[sized-types]] ← ADDRESSES — Size annotations ensure termination
+- [[syntactic-guardedness]] ← ADDRESSES — Syntactic criterion for termination
+- [[inductive-types]] ← REQUIRES — Inductive types need termination proofs
+- [[negative-testing]] ← TARGETS
+
+<!-- connections:end -->

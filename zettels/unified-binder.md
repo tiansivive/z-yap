@@ -23,3 +23,26 @@ The discrimination in `binding.type` lets downstream consumers (inference, check
 - **Lowering** erases Pi/Sigma/Mu (type-level) and only generates code for Lambda (runtime closures).
 
 The alternative — separate AST node types per binder kind — would duplicate the shared structure (annotation, body, closure) and prevent uniform traversal, with no semantic benefit given that types and terms already share the same representation.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[eb-term]] — All binders share Abs in EB.Term
+- CONSTRAINS → [[nf-value]] — All binders share Abs in NF.Value
+- ENABLES → [[dependent-types]] — Types and terms in one binder node
+- RELIES_ON → [[types-as-terms]] — Follows from types-as-terms principle
+- APPLIES_TO → [[pi-types]] — Pi uses Abs with binding.type Pi
+- APPLIES_TO → [[sigma-types]] — Sigma uses Abs with binding.type Sigma
+- APPLIES_TO → [[lambda]] — Lambda uses Abs with binding.type Lambda
+- APPLIES_TO → [[mu-types]] — Mu uses Abs with binding.type Mu
+- ENABLES → [[nbe]] — Uniform closure construction for all binders
+- ENABLES → [[unification-algorithm]] — Structural comparison under fresh rigids
+
+**Incoming**
+- [[ast-pipeline]] ← RELIES_ON — Single Abs node across all layers
+- [[dependent-types]] ← RELIES_ON — All binders share Abs
+- [[sigma-architecture]] ← APPLIES_TO — Why sigma shares the Abs node
+
+<!-- connections:end -->

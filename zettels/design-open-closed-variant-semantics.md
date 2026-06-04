@@ -20,3 +20,16 @@ Open variants (row variable in the tail) allow extension — a handler can accep
 The design must settle: default openness for inferred variants, surface syntax for closing a row, interaction with pattern matching compilation, and whether open variants need subtyping or whether row polymorphism alone suffices.
 
 See [[open-closed-variants]] for the concept analysis.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[open-closed-variants]] — Design task for the concept
+
+**Incoming**
+- [[pattern-matching.thread]] ← INCLUDES — Design work item
+- [[row-types.thread]] ← INCLUDES — Design work item
+
+<!-- connections:end -->

@@ -32,3 +32,12 @@ If the answer is yes: create `stay-on-z3.md` tagged `rejected` (the technique, a
 If the answer is no: leave D-001 as-is. Note that [[z3-adapter-strategy]] already documents the residual Z3 surface.
 
 This zettel exists to record that the question was considered. Resolve by editing this body with the answer and closing the queue item.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INCLUDES — Open meta question
+
+<!-- connections:end -->

@@ -27,3 +27,23 @@ tags:
 ## Implications
 
 Elaboration strips modal wrappers from synthesized types (`stripModalities`) so inference sees clean structural types. The modal information is preserved in the AST and available to verification. This is deliberate, not drift — the strip is the boundary between the inference phase and the modal phase.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FOLLOWS → [[elaboration]] — Modal checking after full inference
+- ADDRESSES → [[modalities]] — How modal obligations are discharged
+- DELEGATES_TO → [[verification-pipeline]] — Modal obligations discharged in verification
+- BLOCKS → [[gram-crud-enrichment]] — Conservative defaults until modal enforcement lands
+
+**Incoming**
+- [[modality-polymorphism]] ← REQUIRES — Depends on enforcement being functional
+- [[usage-semantics.thread]] ← RELIES_ON — Modal phase decision
+- [[gram-crud-enrichment]] ← RELIES_ON — Conservative defaults until enforcement works
+- [[crud-strategy-choice]] ← RELIES_ON — Full benefit requires modal enforcement
+- [[mode-annotation-strategy]] ← RELIES_ON — Conservative defaults without enforcement
+- [[extensibility-via-modalities.adr]] ← GENERALIZES — Verification reads liquid dimension
+
+<!-- connections:end -->

@@ -50,3 +50,27 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 ## GRAM canonical IR follow-ups (2026-06-03)
 
 - [ ] [[legacy-file-compile]] — migrate `src/compile.ts` + `src/Codegen/modules.ts` off `lowerToMir` onto `GRAM.Bridge.emit`; unblock the deprecation of `src/lowering/lower.ts`
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[spineful-applications]]
+- INCLUDES → [[where-clauses]]
+- INCLUDES → [[lsp]]
+- INCLUDES → [[repl]]
+- INCLUDES → [[module-system]]
+- INCLUDES → [[block-level-using-gap]]
+- INCLUDES → [[documentation-debt]]
+- INCLUDES → [[type-erasure]]
+- INCLUDES → [[dynamic-reflection]]
+- INCLUDES → [[ffi-saturation-gram]]
+- INCLUDES → [[whnf-codification]]
+- INCLUDES → [[legacy-file-compile]] — Tech debt tracked in the global queue
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[thread-queue-system.thread]] ← INCLUDES — Queue is part of the meta system
+
+<!-- connections:end -->

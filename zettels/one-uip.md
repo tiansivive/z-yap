@@ -16,3 +16,13 @@ Conflict analysis slice in CDCL ([CDCL solver](cdcl-t-solver.md)): from the fals
 Compared to plain chronological backtracking, enforcing the 1UIP cut yields shorter learned clauses that enable deeper **non-chronological backjumps**.
 
 Ref: GRASP (Marques-Silva & Sakallah); modern CDCL writeups cite MiniSat internals and `docs/SMT-SOLVER.md` bibliography.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[m2-implementation]] ← IMPLEMENTS — 1UIP conflict analysis in core.ts
+- [[solver-trace]] ← EXPOSES — Conflict analysis + backjump steps rendered
+
+<!-- connections:end -->

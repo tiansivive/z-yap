@@ -24,3 +24,19 @@ Occurs inside `EB.infer` / `EB.check` handlers, not a separate pass. `elaborate.
 **Metas:** `EB.freshMeta` (`shared/supply.ts`) introduces `Var` `Meta` nodes and records annotation in the writer/meta map.
 
 **Constraints:** mismatches use `V2.tell("constraint", { type: "assign", … })` (many call sites under `inference/` and `check.ts`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSUMES → [[src-term]] — Source input
+- PRODUCES → [[eb-term]] — Elaborated output
+- INSTANTIATES → [[meta-variables]] — Holes, implicit args
+- DISPATCHES_ON → [[src-term]] — Src.Term type drives dispatch
+
+**Incoming**
+- [[bidirectional-checking-decision]] ← DISPATCHES_ON — Mode drives Src → EB
+- [[elaboration-v2.thread]] ← INCLUDES
+
+<!-- connections:end -->

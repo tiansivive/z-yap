@@ -31,3 +31,21 @@ tags:
 **Per-statement behavior** in `module.ts`: **`using`**, **`foreign`**, **`let`** handled; unknown statement types log `"Unrecognized statement"` and are skipped (`console.warn`). Verification hooks into **`letdec`** via `VerificationServiceV2`.
 
 Related: [[module-system-exploration]], [[opaque-types]], [[nominal-identity]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[v1-elaboration-pipeline]] — Not yet wired to v2
+- PRODUCES → [[elaboration-context]] — Interface tables
+- THREADS_THROUGH → [[elaboration-context]] — ctx.imports
+
+**Incoming**
+- [[yap]] ← INCLUDES — Module component
+- [[mutual-recursion]] ← EXTENDS — Multi-pass elaboration
+- [[block-level-using-gap]] ← DETECTS — Gap in implementation
+- [[global-pending-queue]] ← INCLUDES
+- [[module-system-exploration]] ← EXTENDS — Beyond file-level imports
+
+<!-- connections:end -->

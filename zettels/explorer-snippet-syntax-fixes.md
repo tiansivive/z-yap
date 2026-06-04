@@ -23,3 +23,15 @@ Four of the 19 built-in explorer snippets had incorrect surface syntax, causing 
 **Nested struct match:** Same category of syntax errors — corrected per `examples/README.md`.
 
 **File:** `src/cli/explore/static/app.js` (the `SNIPPETS` array).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[explorer-snippet-library]] — Four snippets had wrong syntax
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

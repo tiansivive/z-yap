@@ -38,3 +38,22 @@ All passes (`translate`, `eta`, `saturate`, `shiftReset`, `pattern`, `closure`) 
 - Whole-graph queries (capture-set analysis, ancestor walks, cross-subgraph joins) are deferred to a richer substrate ([[logram]]); the graph IR exposes local traversal primitives only.
 
 See [[gram-as-s-expressions]] for the rejected alternative.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REJECTS → [[gram-as-s-expressions]] — Tree encoding loses identity, sharing, cycles
+- DOCUMENTS → [[gram]] — The IR substrate decision
+- MOTIVATES → [[gram-additive-enrichment]] — Property follows from graph substrate
+- MOTIVATES → [[gram-dataflow-semantics]] — Property follows from graph substrate
+- MOTIVATES → [[compilation-by-selection]] — Property follows from graph substrate
+- MOTIVATES → [[gram-canonical-ir.adr]] — Graph substrate enables the canonical-IR elevation
+
+**Incoming**
+- [[gram]] ← IMPLEMENTS — The hub realizes the IR decision
+- [[gram-evolution.thread]] ← INCLUDES
+- [[gram-canonical-ir.adr]] ← RELIES_ON — Elevates D-002's graph substrate to canonical pipeline IR
+
+<!-- connections:end -->

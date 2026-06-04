@@ -27,3 +27,23 @@ Where other structural systems use subtyping rules (A <: B) for extensibility, Y
 Type-level families (Schema, Struct, Variant) unify by comparing their inner rows. Rows unify label-wise with metavariable solving for tails. This means two independently defined types with the same row structure are automatically equivalent — no declarations, no nominal identity, no registration needed.
 
 Related: [[nominal-typing]], [[rows-universal-substrate]], [[structural-records]], [[row-theory]], [[nominal-identity]], [[opaque-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[nominal-typing]] — Name-based vs structure-based identity
+- ENABLES → [[row-polymorphism]] — Structure-based identity
+
+**Incoming**
+- [[yap]] ← USES — All compound types are row-based
+- [[nominal-typing]] ← CONTRASTS_WITH — Name-based vs structure-based identity
+- [[structural-subtyping]] ← APPLIES_TO — Asymmetric aspect of structural type systems
+- [[nominal-identity]] ← CONTRASTS_WITH — Two notions of type identity
+- [[pattern-synonyms]] ← COMPOSES_WITH — Naming structural shapes
+- [[indexing-strategies]] ← INFORMS — Same type, different representation
+- [[opaque-types]] ← CONTRASTS_WITH — Hiding structure from consumers
+- [[module-system-exploration]] ← USES — Row-typed signatures
+
+<!-- connections:end -->

@@ -31,3 +31,22 @@ One middle ground: branded types or phantom tags — structural types with a tag
 Exploration area, not a planned feature.
 
 Related: [[structural-typing]], [[nominal-typing]], [[data-declarations]], [[opaque-types]], [[module-system]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[structural-typing]] — Two notions of type identity
+- INFORMS → [[data-declarations]] — Whether data decls carry nominal identity
+- INFORMS → [[opaque-types]] — Opacity requires some nominal notion
+- INFORMS → [[module-system-exploration]] — Module boundaries as abstraction
+- EXTENDS → [[nominal-typing]] — Explores adding nominal identity to Yap
+- CONTRASTS_WITH → [[row-polymorphism]] — Nominal fights structural extensibility
+
+**Incoming**
+- [[data-declarations]] ← INFORMS — Sugar syntax does not require nominality
+- [[opaque-types]] ← RELIES_ON — Opacity requires nominal notion
+- [[module-system-exploration]] ← INFORMS — Modules introduce nominal boundaries
+
+<!-- connections:end -->

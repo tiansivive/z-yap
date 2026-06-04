@@ -28,3 +28,21 @@ tags:
 **Z3 bridging:** **`z3.adapter.ts`** encodes IVL formulas into Z3 for cross-checking, regressions, and tooling paths that still allocate a **`z3-solver`** `Context`.
 
 **Open design:** a small **`VerificationBackend`** (`solve` over IVL + obligations → result) formalizes swapping in-house **`solve`** vs external engines without rewriting VC emission ([[verification-backend]], [[verification-backend.thread]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SUPERSEDES → [[smt-translation]] — New translation tools
+- CONSUMES → [[nf-value]] — NF.Value input
+- DELEGATES_TO → [[vc-ir]] — Produces VC types
+
+**Incoming**
+- [[vc-normalization]] ← FOLLOWS — After translation
+- [[milestone-1-ir-boundary]] ← PRODUCES — Translation tools
+- [[verification-backend.thread]] ← INCLUDES
+- [[m1-implementation]] ← IMPLEMENTS — z3.adapter.ts realizes the boundary
+- [[m1-implementation]] ← PRESERVES — Keeps Z3 working during transition
+
+<!-- connections:end -->

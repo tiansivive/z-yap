@@ -42,3 +42,24 @@ Bisimulation is itself a coinductive method, connecting this to [[nu-types]] and
 Trade-off: bisimulation is more complete but more expensive than syntactic unfolding. The current approach works for common cases; bisimulation would handle corner cases (e.g. structurally equal types reached via different unfolding paths). The gap is documented in [[equirecursive-types]]: no separate bisimulation module exists yet.
 
 Related: [[equirecursive-types]], [[mu-types]], [[nu-types]], [[coinductivity]], [[nbe]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[equirecursive-types]] — Principled equality for recursive types
+- EXTENDS → [[unification]] — Would replace ad-hoc mu unfolding
+- USES → [[coinductivity]] — Bisimulation is itself coinductive
+- USES → [[nbe]] — Unfolding via evaluation
+- ADDRESSES → [[mu-types]] — Proper equality for mu-wrapped types
+- INFORMS → [[nu-types]] — Foundation for nu type equality
+
+**Incoming**
+- [[coinductivity]] ← USES — Bisimulation is a coinductive proof method
+- [[nu-types]] ← RELIES_ON — Nu equality needs bisimulation
+- [[inductive-types]] ← RELIES_ON — Needs proper recursive equality first
+- [[recursion.thread]] ← RELIES_ON — Concept: coinductive type equality
+- [[design-bisimulation-equality]] ← ADDRESSES — Design task for the concept
+
+<!-- connections:end -->

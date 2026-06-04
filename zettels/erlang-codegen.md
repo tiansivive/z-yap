@@ -24,3 +24,18 @@ CLI wiring: `pnpm yap repl --codegen --target erlang` (`scripts/cli.ts`, `src/cl
 Explorer previews Erlang output from the same MIR module as JS/C (`src/cli/explore/pipeline.ts` → `emitErl` / `printErl`).
 
 File compile (`src/compile.ts`) stays on legacy JS codegen only; MIR → Erlang is REPL/explorer (and any caller of `lowerToMir` + emit), not the default file compiler.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- TRANSLATES_TO → [[ffi]] — Erlang source output
+
+**Incoming**
+- [[yap]] ← INCLUDES — Erlang backend
+- [[mir-lowering]] ← PRODUCES — MIR → Erlang
+- [[gram]] ← TRANSLATES_TO — Target-specific passes
+- [[integration-testing]] ← CONCERNS
+
+<!-- connections:end -->

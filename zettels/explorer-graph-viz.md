@@ -26,3 +26,22 @@ Render GRAM property graphs and MIR control-flow graphs as interactive node-link
 Both views should support zoom, pan, search, and selection synced with other explorer tabs (see [[explorer-cross-highlighting]]).
 
 Most speculative of the explorer ideas — requires significant client-side work and good graph layout for non-trivial programs. Could start with small-graph rendering and scale later.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[pipeline-explorer]] — New explorer capability
+- USES → [[gram]] — Renders GRAM property graph
+- USES → [[mir-lowering]] — Renders MIR CFG
+- USES → [[dpo-rewriting]] — Animates DPO rule application
+- COMPOSES_WITH → [[explorer-cross-highlighting]] — Graph selection synced with tabs
+- ADDRESSES → [[gram-additive-enrichment]] — Visualizes enrichment layers
+- SHARED_WITH → [[gram-evolution.thread]] — Graph viz depends on GRAM substrate
+- FOLLOWS → [[explorer-timing]] — Sequence order
+
+**Incoming**
+- [[explorer-cross-highlighting]] ← COMPOSES_WITH — Selection synced with graph view
+
+<!-- connections:end -->

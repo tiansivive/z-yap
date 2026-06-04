@@ -23,3 +23,21 @@ Each node in the tree corresponds to a `Provenance` entry — source location, e
 The tree structure already exists in the elaboration: `V2.track` nests provenance entries, and `V2.fail` captures the full stack. The explorer would receive this stack via the `/run` response and render it client-side.
 
 Enables debugging questions like "why did this constraint appear?" by tracing backwards from the constraint through the elaboration decisions that produced it.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[pipeline-explorer]] — New explorer capability
+- USES → [[provenance-system]] — Renders provenance stack as tree
+- USES → [[provenance-display]] — Replaces flat text with tree UI
+- ADDRESSES → [[error-causes]] — Traces errors to their elaboration origin
+- ENABLES → [[vc-provenance]] — Visual provenance enables richer VC debugging
+- PRECEDES → [[explorer-cross-highlighting]] — Provenance tree before cross-referencing
+
+**Incoming**
+- [[explorer-cross-highlighting]] ← COMPOSES_WITH — Click provenance node → highlight in tabs
+- [[explorer-cross-highlighting]] ← FOLLOWS — Sequence order
+
+<!-- connections:end -->

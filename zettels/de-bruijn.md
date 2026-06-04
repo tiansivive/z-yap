@@ -26,3 +26,17 @@ Yap splits bound-variable representations across elaborated syntax and semantic 
 Readback `NF.quote(ctx, lvl, …)` (`quoting.ts`) maps `NF` bound levels to `EB` indices at the passed quoting depth with `index = lvl - v.lvl - 1` for bound vars (equivalent to `lvl2idx` when `lvl` matches that depth).
 
 Detail notes: [[de-bruijn-indices.md]], [[de-bruijn-levels.md]], [[levels-vs-indices.md]], [[level-to-index-conversion.md]], [[quoting.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[closures]] ← RELIES_ON — Closures capture de Bruijn level-indexed environments
+- [[system-f]] ← INFORMS — System F's binding structure motivates de Bruijn representation
+- [[levels-vs-indices]] ← APPLIES_TO — Representation split
+- [[de-bruijn-indices]] ← EXTENDS — EB-level detail
+- [[de-bruijn-levels]] ← EXTENDS — NF-level detail
+- [[explorer-cross-highlighting]] ← USES — Variable indices/levels as join keys
+
+<!-- connections:end -->

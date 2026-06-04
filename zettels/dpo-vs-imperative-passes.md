@@ -26,3 +26,20 @@ Not all GRAM passes can use the DPO rule engine (`src/GRAM/grs/`). The distincti
 - **Pattern decision tree** -- Maranget algorithm needs the entire clause matrix simultaneously. Column heuristics, matrix specialization, recursive compilation. Cannot be one DPO rule.
 
 **Design principle:** Use DPO when a pass is genuinely local (fixed-size LHS, fixed-size RHS). Use imperative traversals for aggregate analysis. Post-aggregate local optimizations are good DPO candidates -- the compilation pass produces the structure, DPO rules refine it.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[dpo-rewriting]] — Defines when DPO applies
+- CONSTRAINS → [[gram]] — Pass implementation guide
+- APPLIES_TO → [[gram-pattern-pass]] — Pattern pass is imperative/aggregate
+- APPLIES_TO → [[gram-shift-reset-pass]] — Shift-reset pass is imperative/aggregate
+- APPLIES_TO → [[closure-conversion]] — Capture is aggregate
+- ENABLES → [[gram-pattern-pass]] — Downstream optimizations on decision tree are DPO
+
+**Incoming**
+- [[gram-evolution.thread]] ← RELIES_ON — Pass classification decision
+
+<!-- connections:end -->

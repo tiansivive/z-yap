@@ -34,3 +34,27 @@ Wrap the generalized type in implicit `NF.Pi`s outer-to-inner (`A.reverse(ms).re
 Interaction: `Stmt.letdec` in `src/elaboration/inference/statements.ts` calls `NF.generalize` after `EB.solve`; `wrapLambda` / `EB.Icit.instantiate` in `src/elaboration/implicits.ts` align term shapes with generalized types.
 
 Hub: [[meta-variables.md]], [[implicits.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[meta-variables]] — Generalizes unsolved metas into implicit Pis
+- IMPLEMENTS → [[hindley-milner]] — Yap's implementation of HM let-generalization
+- PRODUCES → [[implicits]] — Generalization wraps terms in implicit lambdas
+
+**Incoming**
+- [[blocks]] ← USES — Let-polymorphism at boundaries
+- [[deferred-constraint-solving]] ← ENABLES — Metas generalized before solving
+- [[ghc-influence]] ← INSPIRES — Let-polymorphism
+- [[missing-spec-let-polymorphism]] ← IMPLEMENTS — No spec formalization
+- [[implicit-resolution-solver]] ← PRESERVES — Rejects subst-producing candidates
+- [[knot-tying]] ← ENABLES — Recursive let evaluation
+- [[hindley-milner]] ← INFORMS — Let-polymorphism theory
+- [[implicit-resolution]] ← PRESERVES — Rejects subst-producing candidates
+- [[implicit-resolution]] ← COMPOSES_WITH — Deferred resolution preserves generality
+- [[blocks]] ← RELIES_ON — Let-dec runs NF.generalize/instantiate
+- [[letpoly-implicit-escape]] ← APPLIES_TO — Meta escape at block boundary
+
+<!-- connections:end -->

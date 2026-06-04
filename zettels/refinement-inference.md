@@ -22,3 +22,16 @@ Refinements today are concrete `EB.Term` liquids checked during modal inference 
 `VerificationArtefacts` carry `{ vc; nf? }` (`src/verification/V2/types.ts`) — VC obligations, not deferred refinement placeholders.
 
 “Refinement inference” as metavariable synthesis would extend elaboration + VC generation beyond current behavior.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[refinement-types]] — Inferred refinements
+- REVISES → [[modalities]] — Strip → template revision
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+
+<!-- connections:end -->

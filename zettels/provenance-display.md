@@ -25,3 +25,17 @@ tags:
 - **Metadata** branches add prefixes: `checking` → “While checking … against …”; `infer` → “While inferring …”; `unification` → “While unifying …”; `alternative` → alternative + motive + NF type.
 - Pretty-printing uses `NF.display`, `EB.Display.Term`, `Src.display`, `Src.Stmt.display`, `Src.Alt.display` depending on provenance tag.
 - Tags without a handled `metadata.action` fall through to `"Provenance [display]: Not implemented yet:"` plus JSON.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[provenance-system]] — Stack rendering
+- USES → [[pretty-printing]] — Term display
+- REPORTS → [[error-causes]] — Error paths
+
+**Incoming**
+- [[explorer-provenance-trace]] ← USES — Replaces flat text with tree UI
+
+<!-- connections:end -->

@@ -22,3 +22,19 @@ Every coinductive type gives rise to codata (its observations are the eliminatio
 For Yap, the immediate use case is codata records: records whose fields can refer to other fields (or to the record itself) as a self-referencing mechanism. The rectangle example is a degenerate non-recursive case. The stream `{ ones: { head: 1, tail: &ones } }` is the productive recursive case. Both are codata — defined by their projections.
 
 Whether Yap needs full coinductive types at the type level — `ν X. F(X)` as a first-class type former with bisimulation equality and productivity checking — is a separate, larger commitment. Nu types as currently sketched in [[nu-types]] sit between these: they co-opt the greatest-fixed-point machinery for codata records rather than committing to coinductive types as a type-theoretic primitive. The implementation path starts with codata records (the practical need) and defers coinductive type theory (the theoretical generalization).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETAILS → [[codata]] — Distinguishes codata paradigm from coinductive types
+- DETAILS → [[coinductivity]] — Coinductive type theory side
+- DETAILS → [[nu-types]] — Where nu sits between codata and coinductivity
+- APPLIES_TO → [[structural-records]] — Records as codata via projections
+
+**Incoming**
+- [[sigma-codata-syntax-proposal]] ← RELIES_ON — Codata vs full coinductivity informs scope
+- [[recursion.thread]] ← INCLUDES — Codata vs coinductive types
+
+<!-- connections:end -->

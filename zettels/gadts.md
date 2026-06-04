@@ -41,3 +41,20 @@ Yap's philosophy favors minimal surface area: a dedicated GADT mechanism is wort
 The subsumption is not free — GADTs in Haskell come with a well-engineered elaboration story (OutsideIn(X), constraint-based inference) that handles the common cases ergonomically. Reproducing that ergonomics in a dependent setting requires solving [[dependent-pattern-matching]] and [[exhaustiveness-checking]], which are the harder problems.
 
 Related: [[dependent-types]], [[dependent-pattern-matching]], [[indexed-families]], [[inductive-types]], [[exhaustiveness-checking]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SPECIALIZES → [[indexed-families]] — GADTs are a special case of indexed families
+- RELIES_ON → [[dependent-pattern-matching]] — Constructor matching refines indices
+- EMULATES → [[dependent-types]] — Dependent types subsume GADT refinement
+- USES → [[unification]] — Index unification during matching
+- INFORMS → [[exhaustiveness-checking]] — Impossible branches via index constraints
+- INFORMS → [[ghc-influence]] — GHC's GADT extension
+
+**Incoming**
+- [[dependent-pattern-matching]] ← COMPOSES_WITH — GADT matching is dependent matching
+
+<!-- connections:end -->

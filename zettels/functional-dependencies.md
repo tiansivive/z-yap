@@ -33,3 +33,21 @@ The interaction with Yap's implicit search is relevant: if an implicit record ha
 Understanding how [[dependent-types]] subsume functional dependencies is part of the broader exploration of what [[type-families]] and fundeps achieve in Haskell and how Yap's type system reproduces those capabilities without dedicated mechanisms (see [[type-level-computation]]).
 
 Related: [[type-families]], [[type-level-computation]], [[implicit-resolution]], [[implicit-resolution-solver]], [[dependent-types]], [[typeclass-emulation]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EMULATES → [[type-level-computation]] — Determinacy via dependent functions
+- CONTRASTS_WITH → [[type-level-computation]] — Annotation vs computation
+- INFORMS → [[implicit-resolution]] — Determinacy in implicit search
+- INFORMS → [[implicit-resolution-solver]] — Solver determinacy
+- COMPOSES_WITH → [[typeclass-emulation]] — Fundeps on implicit records
+- USES → [[dependent-types]] — Expressed as dependent functions
+- INFORMS → [[ghc-influence]] — GHC's fundeps
+
+**Incoming**
+- [[type-families]] ← INFORMS — Overlapping solution space
+
+<!-- connections:end -->

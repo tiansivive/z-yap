@@ -22,3 +22,17 @@ Introduces the T-Var [[selfification]] rule for refinement types: a variable `x 
 Also formalizes the hybrid approach: static SMT checking where possible, dynamic cast insertion where the logic is undecidable. Yap currently uses static-only verification but the selfification and subtyping rules derive from this lineage.
 
 See also [[ou-et-al-2004]] for the original selfification idea.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[selfification]] — T-Var formalization
+- INFORMS → [[first-order-restriction.adr]] — Restricts selfification to base types
+
+**Incoming**
+- [[syn-app-ex-modification]] ← INFORMS — Modifies their Syn-App-Ex rule
+- [[ou-et-al-2004]] ← INFORMS — Original selfification idea
+
+<!-- connections:end -->

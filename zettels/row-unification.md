@@ -35,3 +35,15 @@ Implemented in **`src/elaboration/unification/rows.ts`** (**`Row.unify`**) and i
 Unmatched combinations hit **`otherwise`** (**`throw`**).
 
 Detail: **`row-unification-mechanism.md`**.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[yap]] ← USES — Row variable unification in constraint solving
+- [[constraint-solving]] ← USES — Row variables unified alongside type variables
+- [[row-types.thread]] ← INCLUDES
+- [[maplist-schema-unification]] ← APPLIES_TO — Row comparison step fails
+
+<!-- connections:end -->

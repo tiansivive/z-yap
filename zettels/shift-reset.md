@@ -33,3 +33,42 @@ Delimited control in Yap spans **core typing** (`reset` introduces answer metas;
 **Tests:** lowering in `src/lowering/__tests__/lower.test.ts`; GRAM pass in `src/GRAM/__tests__/shift-reset.test.ts` (single/multishot/discarded/embedded/nested resumptions, provenance preservation); elaboration inference in `src/elaboration/inference/__tests__/shift-reset.test.ts`.
 
 Detail zettels: `answer-type-polymorphism.md`, `continuation-binders.md`, `nondeterminism-multishot.md`, `shift-reset-mir-lowering.md`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[answer-type-polymorphism]] — k has polymorphic answer type
+- USES → [[continuation-binders]] — Resume encoded via metas
+- INTRODUCES → [[continuation-binders]] — Shift captures k
+- COMPOSES_WITH → [[pi-types]] — k has Pi type
+- INSTANTIATES → [[continuation-binders]] — Via skolem-like metas
+- DELEGATES_TO → [[nondeterminism]] — Multishot replay
+- NORMALIZES_TO → [[closures]] — Continuation closure (captured frames)
+- TRANSLATES_TO → [[mir-lowering]] — State machines (planned)
+- ELIMINATES → [[continuation-binders]] — Resume applies k
+
+**Incoming**
+- [[shift-reset-mir-lowering]] ← IMPLEMENTS — Runtime story
+- [[koka-influence]] ← CONTRASTS_WITH — Evidence passing vs direct capture
+- [[effects-as-modality]] ← EXTENDS — Effect system over continuations
+- [[danvy-filinski]] ← INFORMS — Foundational theory
+- [[nondeterminism]] ← ENABLES — Multishot continuations
+- [[missing-spec-shift-reset]] ← IMPLEMENTS — Impl ahead of spec
+- [[nondeterminism-multishot]] ← ENABLES — Multishot continuations
+- [[elaboration-monad]] ← ENABLES — Via MutState.skolems
+- [[nondeterminism]] ← IMPLEMENTS — Multishot continuation semantics
+- [[effects-as-modality]] ← COMPOSES_WITH — Effect system over continuations
+- [[gram-shift-reset-pass]] ← IMPLEMENTS — In GRAM context
+- [[gram-shift-reset-pass]] ← PRESERVES — reset/shift nodes unchanged
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[bubble-semantics]] ← APPLIES_TO — New EB.Term constructor at shift use sites
+- [[shift-reset-verification-stub]] ← IMPLEMENTS — Dummy verification pass-through
+- [[implicits-as-coeffects-exploration]] ← COMPOSES_WITH — Coeffects meet delimited continuations
+- [[test-coverage-gaps]] ← DEFERS — Elaboration-level tests skipped; GRAM tests pass
+- [[continuation-closure]] ← IMPLEMENTS — Captured delimited continuation
+- [[cbv-evaluation]] ← RELIES_ON — Continuations require strict order
+- [[trampoline-evaluator]] ← ENABLES — Delimiter frames on work stack
+
+<!-- connections:end -->

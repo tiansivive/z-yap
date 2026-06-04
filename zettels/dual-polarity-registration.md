@@ -22,3 +22,17 @@ The SAT core assigns literals, which are signed atoms. When the arithmetic theor
 Registering both polarities at atom-table construction time means every arithmetic literal — positive or negative — maps directly to a simplex bound. This eliminates a class of bugs where negated bounds were silently ignored, producing spurious SAT results.
 
 The cost is a larger atom table (roughly 2x for arithmetic atoms), which is acceptable given Yap's formula sizes. The alternative — computing negated bounds on the fly during `assertLit` — adds complexity to a hot path and risks inconsistencies between how positive and negative atoms are handled.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[theory-plugin-interface]] — Atom registration rule
+- DETAILS → [[m2-implementation]] — Extracted from M2 record
+- APPLIES_TO → [[arithmetic-theory]] — Specific to arithmetic
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+
+<!-- connections:end -->

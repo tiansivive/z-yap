@@ -26,3 +26,22 @@ IVL includes row terms (`Empty`, label `Extend` with value + rest, tail `Var`) m
 ## Open design
 
 The specific shape of a row theory plugin — whether it's a dedicated CDCL(T) theory, an encoding into existing theories, or something else entirely — is open. What's settled is the *alignment principle*: whatever mechanism handles rows in verification must preserve the structural semantics that elaboration establishes.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[theory-plugin-interface]] — Row containment
+- MIRRORS → [[row-unification-mechanism]] — Same label decomposition
+- PRESERVES → [[verification-pipeline]] — subtype.contains() semantics
+- IMPLEMENTS → [[row-polymorphism]] — Width subtyping, containment
+- USES → [[cdcl-t-solver]] — Emits child obligations for field values
+- DELEGATES_TO → [[cdcl-t-solver]] — Nested obligation emission
+
+**Incoming**
+- [[milestone-4-rows]] ← PRODUCES — Row module
+- [[row-types.thread]] ← RELIES_ON — Structural row reasoning principle
+- [[design-row-theory-verification]] ← ADDRESSES — Design task for the concept
+
+<!-- connections:end -->

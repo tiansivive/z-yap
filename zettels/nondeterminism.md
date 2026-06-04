@@ -34,3 +34,24 @@ For each zonker fragment it invokes the supplied elaboration thunk (currently `_
 Empty map → single run with the ambient zonker (`replay` early return).
 
 Scope is continuation-specific: `replay` branches only on resumption-meta candidate lists accumulated during shift/reset elaboration, not on unrelated metavariable branching elsewhere in the solver.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[shift-reset]] — Multishot continuations
+- INSTANTIATES → [[meta-variables]] — Solution combinations
+- IMPLEMENTS → [[shift-reset]] — Multishot continuation semantics
+- THREADS_THROUGH → [[elaboration-monad]] — MutState.nondeterminism.solution
+- DISPATCHES_ON → [[constraint-solver]] — Solution emptiness (single vs replay)
+
+**Incoming**
+- [[continuation-binders]] ← RELIES_ON — Multishot semantics
+- [[constraint-solver]] ← USES — Multishot replay
+- [[elaboration-monad]] ← DELEGATES_TO — MutState for skolems, metas
+- [[shift-reset]] ← DELEGATES_TO — Multishot replay
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[bubble-semantics]] ← USES — Resume values from nondeterminism.solution
+
+<!-- connections:end -->

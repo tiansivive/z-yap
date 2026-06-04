@@ -21,3 +21,15 @@ tags:
 Identifies fragments where quantified SMT problems admit finite instantiation schemes that preserve completeness (plus model construction when satisfiable), contrasted with heuristic E-matching–only regimes; discusses hybrid strategies when decidability fails.
 
 Yap emits quantifiers through `z3-solver` (`Z3.ForAll` handling surfaced in `src/verification/V2/pretty.ts`). This paper clarifies when instantiation can close proofs outright versus when solver heuristics dominate—useful background when crafting refinement lemmas or polymorphic axiom sketches without assuming a miracle from triggers alone.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[quantifier-engine]] — Complete instantiation
+
+**Incoming**
+- [[m2-implementation]] ← USES — E-matching directly implemented
+
+<!-- connections:end -->

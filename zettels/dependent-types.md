@@ -32,3 +32,45 @@ The dependent binder types:
 - **Mu** — equirecursive types (self-reference). See mu-types.
 
 Composition: dependent types interact with row polymorphism (dependent rows), modalities (graded domain multiplicities), and refinement types (liquid predicates on dependent function domains/codomains).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[system-f]] — Types that depend on values
+- FORMS → [[pi-types]] — Universal quantification with dependency
+- FORMS → [[sigma-types]] — Existential quantification with dependency
+- NORMALIZES_TO → [[nf-value]] — Types compute as terms
+- COMPOSES_WITH → [[row-polymorphism]] — Dependent rows
+- ENABLES → [[type-type]] — Types live in same universe as terms
+- RELIES_ON → [[unified-binder]] — All binders share Abs
+- RELIES_ON → [[types-as-terms]] — Types and terms share syntax
+- RELIES_ON → [[type-type]] — Single universe classifier
+- INCLUDES → [[pi-types]] — Universal quantifier
+- INCLUDES → [[sigma-types]] — Existential quantifier
+- INCLUDES → [[mu-types]] — Recursive self-reference
+
+**Incoming**
+- [[yap]] ← USES — Pi types with value dependencies
+- [[bidirectional-checking]] ← ENABLES — Natural fit for dependent types with annotations
+- [[pi-types]] ← EXTENDS — Universal quantification with dependency
+- [[sigma-types]] ← EXTENDS — Existential with row dependency
+- [[type-type]] ← ENABLES — Types compute as terms
+- [[type-type]] ← COMPOSES_WITH — Types in same universe
+- [[types-as-terms]] ← RELIES_ON — Dependency required
+- [[idris-2-influence]] ← INSPIRES — Dependent TT
+- [[agda-influence]] ← INSPIRES — Dependent types
+- [[sigma-bindings]] ← IMPLEMENTS — Field-to-field dependency
+- [[nbe]] ← PRESERVES — Beta-eta equivalence
+- [[lambda-synthesis-fix]] ← ADDRESSES — Dependent Pi return closure was capturing values not types
+- [[sized-types]] ← EXTENDS — Size indices are dependent type params
+- [[gadts]] ← EMULATES — Dependent types subsume GADT refinement
+- [[indexed-families]] ← USES — Indices are dependent type params
+- [[functional-dependencies]] ← USES — Expressed as dependent functions
+- [[type-level-computation]] ← EXTENDS — Types computed from values
+- [[dependent-pattern-matching]] ← USES — Types refined by pattern
+- [[ast-pipeline]] ← RELIES_ON — Types-as-terms requires shared representation
+- [[unified-binder]] ← ENABLES — Types and terms in one binder node
+
+<!-- connections:end -->

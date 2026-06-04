@@ -23,3 +23,13 @@ Semiring-tracked usage (“rig” semantics): zero usage marks data present for 
 **Yap:** Surface/elaboration track usage via `src/shared/modalities/multiplicity.ts` (`Zero`, `One`, `Many`, semiring `SR`) threaded through contexts (`src/elaboration/shared/context.ts` `Sigma.multiplicity`), checking (`src/elaboration/check.ts` returns `Q.Usages`), and normalization (`evaluation.v2.ts`). Modal types combine quantity with liquid slices in pretty-printing (`src/elaboration/pretty/pretty.ts`). Alignment with McBride’s full theory is partial: the V2 monad (`src/elaboration/shared/monad.v2.ts`) is the active elaboration path; usage tuples and modality behavior continue to evolve toward fuller QTT alignment.
 
 **Status:** `in-progress` (multiplicity machinery exists; full QTT alignment is evolving).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[meta-variables]] — Contextual metavariables
+- INFORMS → [[zonking]] — Postponed substitution
+
+<!-- connections:end -->

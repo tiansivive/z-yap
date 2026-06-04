@@ -24,3 +24,21 @@ tags:
 Depends on Milestone 1 IVL feeding literals/clauses (normalize → Skolem → CNF → CDCL(T)).
 
 Out of scope here: obligation-linked UNSAT cores and counterexample UX (Milestone 5).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[cdcl-t-solver]] — Core solver
+- PRODUCES → [[euf-theory]] — EUF module
+- PRODUCES → [[arithmetic-theory]] — Arithmetic module
+- FOLLOWS → [[milestone-1-ir-boundary]] — After IR
+
+**Incoming**
+- [[milestone-3-strings]] ← FOLLOWS — After core
+- [[verification-backend.thread]] ← INCLUDES
+- [[m2-implementation]] ← IMPLEMENTS — Realizes the milestone
+- [[m2-implementation]] ← ADDRESSES — Closes the open work item
+
+<!-- connections:end -->

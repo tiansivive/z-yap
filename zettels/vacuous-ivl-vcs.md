@@ -17,3 +17,12 @@ Most explorer snippets produce VCs that are tautologies: `(= x x)`. These are we
 **Impact:** No bugs. The solver trace tab shows green checkmarks that add no assurance. Becomes meaningful when liquid annotations, pre/post conditions, or refinement assertions are present.
 
 **Improvement:** Strip reflexive `(= t t)` in `Build.simplify` (`src/verification/solver/ivl/build.ts`) — detect structurally equal operands and replace with `true`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[verification-pipeline]] — Tautological VCs from selfification
+
+<!-- connections:end -->

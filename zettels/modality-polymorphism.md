@@ -27,3 +27,17 @@ It also depends on usage enforcement being functional ([[verification-modal-phas
 ## Status
 
 Exploratory. No grade metavariables or grade-polymorphic binders exist in the current system. The {0, 1, ω} semiring and `Modal.Annotations` wrapper ([[modality-system]]) are designed to be extensible in this direction, but the extension requires substantial inference and solving work.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[modalities]] — Polymorphism over modalities
+- REQUIRES → [[verification-modal-phase]] — Depends on enforcement being functional
+
+**Incoming**
+- [[usage-semantics.thread]] ← INCLUDES
+- [[implicits-as-coeffects-exploration]] ← INFORMS — Graded modalities from coeffects
+
+<!-- connections:end -->

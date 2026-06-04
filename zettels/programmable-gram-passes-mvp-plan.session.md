@@ -42,3 +42,16 @@ Produced a 7-phase plan ([[programmable-gram-passes-mvp.plan]]) carrying a stand
 ## Produced
 
 [[programmable-gram-passes-mvp.plan]] — sequenced 7-phase MVP implementation plan for the gram-evolution thread.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[programmable-gram-passes-mvp.plan]] — Planning session produced the MVP plan
+- FOLLOWS → [[programmable-gram-passes-design.session]] — Planning session after the design session
+
+**Incoming**
+- [[sessions.hub]] ← INCLUDES — Session record
+
+<!-- connections:end -->

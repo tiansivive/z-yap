@@ -27,3 +27,29 @@ tags:
 - Checking: `src/elaboration/check.ts` — `V2.Do` + `NF` type-shape dispatch.
 - Module driver `src/elaboration/module.ts` still wraps elaboration steps in **`fp-ts` `Either` / `pipe`** for statement sequencing, runs **`VerificationServiceV2`** (**IVL** obligations), and may still allocate **`z3-solver`** for auxiliary checks beside the CDCL(T) path — orthogonal to the inference monad shape.
 Inference modules live under `src/elaboration/inference/` (not a separate `inference.v2/` directory); “V1 vs V2” in older prose often means API style, not a second infer tree.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[eb-term]] — EB.Term output
+- NORMALIZES_TO → [[nf-value]] — Types → normal forms
+- DISPATCHES_ON → [[src-term]] — Source shape drives dispatch
+
+**Incoming**
+- [[v2-elaboration-pipeline]] ← SUPERSEDES — Fresh implementation
+- [[v2-elaboration-pipeline]] ← MIRRORS — Same theory, new code
+- [[verification-pipeline]] ← VALIDATES — On-demand, not pipeline stage
+- [[verification-pipeline]] ← COMPOSES_WITH — Post-hoc validation
+- [[mir-lowering]] ← CONSUMES — EB.Term input
+- [[module-system]] ← RELIES_ON — Not yet wired to v2
+- [[compile-orchestration]] ← DELEGATES_TO — Current delegation
+- [[repl]] ← USES — Elaborates
+- [[yap-explore]] ← USES — Displays elaboration output
+- [[v2-elaboration-pipeline]] ← FOLLOWS — Sequential development
+- [[v2-elaboration-pipeline]] ← MIRRORS — Same theory, fresh implementation
+- [[elaboration-v2.thread]] ← INCLUDES
+- [[v1-test-cleanup]] ← DEPRECATES — Last v1 API test consumers removed
+
+<!-- connections:end -->

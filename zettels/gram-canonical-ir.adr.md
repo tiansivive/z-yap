@@ -44,3 +44,29 @@ tags:
 - The legacy `EB.Term → MIR` path remains a maintenance burden, surfaced as the [[legacy-file-compile]] tech-debt item.
 
 See [[gram-graph-ir.adr]] (D-002) for the graph-substrate decision this builds on, and [[direct-style-lowering.adr]] (D-004) for the lowering shape it preserves.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DOCUMENTS → [[gram]] — D-006 documents GRAM's canonical-IR role
+- RELIES_ON → [[gram-graph-ir.adr]] — Elevates D-002's graph substrate to canonical pipeline IR
+- AMENDS → [[direct-style-lowering.adr]] — D-006 moves D-004 lowering site without overturning the shape
+- REFRAMES → [[direct-style-lowering.adr]] — D-004 now layered atop the GRAM-canonical pipeline
+- REVISES → [[direct-style-lowering.adr]] — Scope language updated; shape preserved
+- SUPERSEDES → [[mir-retrospective]] — Replaces the parallel-IR retrospective framing
+- DEPRECATES → [[mir-retrospective]] — Lifecycle event: parallel-IR description retired
+
+**Incoming**
+- [[gram-graph-ir.adr]] ← MOTIVATES — Graph substrate enables the canonical-IR elevation
+- [[gram]] ← IMPLEMENTS — src/GRAM materialises the canonical pipeline
+- [[shift-reset-bridge-lowering]] ← IMPLEMENTS — Canonical site for shift/reset state machine
+- [[multishot-bridge-serialization]] ← IMPLEMENTS — Canonical multishot serialisation site
+- [[legacy-file-compile]] ← DEFERS_TO — Resolution shape is the canonical pipeline
+- [[legacy-file-compile]] ← BLOCKS — Full canonical adoption blocked on the file-path migration
+- [[gram-evolution.thread]] ← INCLUDES — Canonical-IR decision is a GRAM-evolution milestone
+- [[delimited-continuations.thread]] ← INCLUDES — D-006 amends/reframes D-004 in this thread
+- [[aot-compilation]] ← RELIES_ON — D-006 defines the canonical AOT pipeline shape
+
+<!-- connections:end -->

@@ -34,3 +34,18 @@ tags:
 **Pipeline:** VC formulas from elaboration (`src/elaboration/module.ts` adds artefacts) translate to IVL via `src/verification/V2/logic/translate.ts`, then `normalize` → `skolemize` → `tseitin` → CDCL + EUF + arithmetic + quantifiers. Tests: `src/verification/solver/__tests__/` and `src/verification/__tests__/check.test.ts` (Z3 cross-check).
 
 **Layering:** VC utilities in `src/verification/V2/` stay independent of SAT internals; theories plug in through shared literal / arena interfaces in `solver.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[cdcl-t-solver]] — Internal module structure
+- APPLIES_TO → [[theory-plugin-interface]] — Separation of concerns
+- ENCODES → [[cdcl-t-solver]] — IR / SAT / theories / explanation separation
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+- [[z3-replacement.adr]] ← SUPERSEDES
+
+<!-- connections:end -->

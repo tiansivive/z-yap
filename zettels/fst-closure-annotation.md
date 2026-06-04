@@ -26,3 +26,25 @@ The polymorphic projection `\x y -> x` (type `Π(a: Type) => Π(b: Type) => a ->
 - `src/elaboration/implicits.ts` — instantiate `ann` during meta resolution
 
 **Discovered via:** integration pipeline test snapshot audit (`fst` entry in polymorphism tests).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[letpoly-implicit-escape]] — Ann EB.Term fix resolved stale closure annotations
+- FOLLOWS → [[wraplambda-fix]] — Same problem space: stale closure context after implicit wrapping
+- RELIES_ON → [[implicit-generalization-semantics]] — Implicit parameter ordering
+- FIXES → [[annotations]] — Ann now carries EB.Term instead of NF.Value
+- APPLIES_TO → [[quoting]] — Fix quotes Pi to EB.Term at construction site
+- APPLIES_TO → [[nf-closure-display]] — Stale closure annotations no longer appear in Ann nodes
+- APPLIES_TO → [[eb-term]] — Changed Ann.ann field from NF.Value to EB.Term
+- APPLIES_TO → [[nf-value]] — Ann no longer captures NF.Value closures
+- DISCOVERED_BY → [[pipeline-stabilization.thread]]
+- MOTIVATES → [[gram-type-uniformity]] — Fix demonstrated stale-closure risk of NF.Value in type slots
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Annotation swaps type parameters
+- [[maplist-schema-unification]] ← FOLLOWS — Same class of bug: stale de Bruijn context in type slots
+
+<!-- connections:end -->

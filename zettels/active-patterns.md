@@ -28,3 +28,20 @@ Like [[view-patterns]] and [[pattern-synonyms]], this is a pattern-matching ergo
 Implementation would flow through [[match]] and [[pattern-matching-compilation]], with the active pattern desugared to a function call whose result is matched structurally.
 
 Related: [[match]], [[view-patterns]], [[pattern-synonyms]], [[exhaustiveness-checking]], [[variant-types]], [[open-closed-variants]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[match]] — User-defined recognizers
+- EXTENDS → [[view-patterns]] — View patterns with failure protocol
+- USES → [[variant-types]] — Partial patterns return option variant
+- INFORMS → [[open-closed-variants]] — Complete vs partial active patterns
+- INFORMS → [[exhaustiveness-checking]] — Complete patterns preserve coverage
+
+**Incoming**
+- [[view-patterns]] ← CONTRASTS_WITH — No failure protocol vs explicit failure
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -29,3 +29,16 @@ The trade-off is ergonomic: explicit nesting requires the user to project out th
 Automatic propagation ("if this implicit is in scope, these others are too") could be added as an [[implicit-resolution-solver]] feature without changing the type system — it would be an elaboration convenience, not a new type-formation mechanism. This connects to the broader question of how much the solver should infer versus how much the user should thread explicitly.
 
 Related: [[typeclass-emulation]], [[typeclass-coherence]], [[implicit-resolution]], [[dictionary-passing]], [[implicits]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[typeclass-emulation]] — Superclass encoding pattern
+- USES → [[structural-records]] — Nested records encode hierarchy
+- USES → [[implicits]] — Implicit threading of superclass deps
+- INFORMS → [[implicit-resolution-solver]] — Auto-propagation of superclass implicits
+- ENCODES → [[lambda]] — Superclass is just a lambda
+
+<!-- connections:end -->

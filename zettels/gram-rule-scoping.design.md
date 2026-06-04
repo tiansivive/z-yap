@@ -40,3 +40,16 @@ Option 2 is the minimal intervention; option 3 makes the constraint explicit in 
 ## Implication
 
 Without scoping, a rule's effect is global rather than local. Users cannot annotate a specific subterm to selectively apply a transformation.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DISCOVERED_BY → [[programmable-gram-passes-mvp-retrospective]] — Design issue discovered during MVP impl
+- BLOCKS → [[programmable-gram-passes]] — Scoping issue blocks correct semantics
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES — Design issue tracked in the thread
+
+<!-- connections:end -->

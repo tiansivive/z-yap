@@ -23,3 +23,21 @@ Holes are intentionally thin — they only introduce metas. Typed hole errors, I
 The distinction from meta-variables is important: metas are internal elaboration machinery (the solver's unknowns), while holes are a user-facing feature (the programmer's unknowns). A hole creates metas, but not all metas come from holes — implicit argument insertion, constraint solving, and type inference all generate metas independently.
 
 Display renders holes as `?`, not `_`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSTANTIATES → [[meta-variables]] — Fresh meta per hole
+- INSTANTIATES → [[meta-variables]] — Each hole allocates fresh metas
+- CONTRASTS_WITH → [[meta-variables]] — User-facing vs internal machinery
+- RELIES_ON → [[unification-algorithm]] — Solving fills hole metas
+- RELIES_ON → [[constraint-solving]] — Constraint solving fills hole metas
+- DESUGARS_TO → [[eb-term]] — Holes become meta Var nodes in core
+
+**Incoming**
+- [[substitution-system]] ← ZONKS — Fresh metas after solving
+- [[zonking]] ← ZONKS — Metas after constraint solving
+
+<!-- connections:end -->

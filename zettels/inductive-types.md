@@ -30,3 +30,26 @@ The gap matters for: [[verification]] (termination is unprovable without inducti
 Whether Yap adopts full inductive types (à la Agda) or a lighter-weight termination-checked variant over [[equirecursive-types]] is an open exploration area. The tension is between expressiveness and Yap's philosophy of minimalism — full inductive types pull in [[indexed-families]], universe hierarchies, and strict positivity, all of which add significant complexity.
 
 Related: [[mu-types]], [[equirecursive-types]], [[termination-checking]], [[data-declarations]], [[coinductivity]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DUAL_OF → [[coinductivity]] — Coinduction is the dual of induction
+- EXTENDS → [[mu-types]] — Adds well-foundedness to recursive types
+- REQUIRES → [[termination-checking]] — Inductive types need termination proofs
+- INFORMS → [[data-declarations]] — Constructor-based definition motivates data syntax
+- INFORMS → [[exhaustiveness-checking]] — Known constructors enable coverage
+- RELIES_ON → [[bisimulation-type-equality]] — Needs proper recursive equality first
+- CONTRASTS_WITH → [[equirecursive-types]] — Well-founded vs equirecursive
+- INFORMS → [[agda-influence]] — Agda's core type former
+- INFORMS → [[lean-4-influence]] — Lean's inductive types
+
+**Incoming**
+- [[coinductivity]] ← DUAL_OF — Coinduction is the dual of induction
+- [[syntactic-guardedness]] ← APPLIES_TO — Structural decrease for induction
+- [[indexed-families]] ← EXTENDS — Inductive types with varying indices
+- [[recursion.thread]] ← INCLUDES
+
+<!-- connections:end -->

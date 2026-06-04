@@ -78,12 +78,25 @@ z-yap uses a thread/queue system for tracking work:
    - Copy the transcript JSONL to `sessions/<UUID>.jsonl`
    - Add an `includes` edge from `[[sessions.hub]]`
 
+## Agent navigation
+
+When exploring the zettelkasten, **use the scripts** — don't navigate by file browsing:
+
+1. **Start with catalog**: `node scripts/catalog.js --compact` for a full inventory with tags and status
+2. **Use neighborhood**: `node scripts/neighborhood.js <slug>` to see all connections to/from a zettel
+3. **Search by tag**: `node scripts/catalog.js --tag <tag>` to filter by domain or status
+4. **Check threads**: `node scripts/threads.js --thread <slug>` for thread-specific work items
+
+Each zettel has an embedded **Connections** section at the end (auto-generated from `connections.md` on commit). This shows outgoing and incoming edges directly in the file, so you can discover related zettels without cross-referencing.
+
+When adding new edges, add them to `connections.md` (source of truth). The embedded sections regenerate on commit via the pre-commit hook.
+
 ## Zettel conventions
 
 - One atomic idea per zettel
 - Tags in YAML frontmatter (see `REGISTRY.md`)
 - If you draft a tag not in `REGISTRY.md`, coin it and add it — don't swap for a "close enough" existing tag, that's a nuance loss
-- Connections live in `connections.md`, not in zettel bodies
+- **Source of truth**: `connections.md` — add new edges there. Embedded sections in zettels are derived (regenerated on commit)
 - `[[backlinks]]` in bodies are fine for Obsidian navigation
 - Format: `[[source]] --[:LABEL]--> [[target]]  -- optional note  @date`
 
@@ -163,6 +176,8 @@ All scripts live in `scripts/`. Run from anywhere — paths are resolved relativ
 | `current-state.js` | `node scripts/current-state.js` | Composite: pulse + baseline + ADR roll-up + hub snapshot |
 | | `node scripts/current-state.js --markdown` | Write `dist/CURRENT-STATE.md` |
 | | `node scripts/current-state.js --detail` | Expanded per-hub member listing |
+| `embed-connections.js` | `node scripts/embed-connections.js` | Embed connections into zettels from `connections.md` |
+| | `node scripts/embed-connections.js --dry` | Preview without writing |
 
 Shared utilities: `scripts/lib/parse.js` (parsing), `scripts/lib/adrs.js` (ADR data layer), `scripts/lib/colors.js` (ANSI).
 Kanban rendering: `scripts/kanban/render.js` (HTML), `scripts/kanban/obsidian.js` (Obsidian).
@@ -172,12 +187,12 @@ Kanban rendering: `scripts/kanban/render.js` (HTML), `scripts/kanban/obsidian.js
 Markdown versions are auto-generated to `dist/` on push (GitHub Actions):
 `STATUS.md`, `THREADS.md`, `QUEUE.md`, `CATALOG.md`, `GLOSSARY.md`, `ADRS.md`, `decisions.md`, `CURRENT-STATE.md`.
 
-Kanban boards are generated to `dist/` on commit (pre-commit hook):
-`threads.html` (interactive, with zettel flyout), `threads.kanban.md` (Obsidian Kanban plugin).
+Kanban boards and embedded connections are generated on commit (pre-commit hook):
+`threads.html` (interactive, with zettel flyout), `threads.kanban.md` (Obsidian Kanban plugin), plus `## Connections` sections embedded in each zettel.
 
 ### Pre-commit hook
 
-To activate the hook that regenerates kanban artifacts on each commit:
+To activate the hook that regenerates derived artifacts on each commit:
 
 ```bash
 git config --local core.hooksPath scripts/hooks

@@ -35,3 +35,28 @@ tags:
 Treat full equirecursive **theory** as open; treat **implementation** as the files above.
 
 Related: [[mu-types.md]], [[mu-type-unification.md]], [[whnf-vs-full-normalization.md]], [[missing-spec-recursive-types.md]], [[bisimulation-type-equality]], [[nu-types]], [[inductive-types]], [[coinductivity]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[mu-types]] — Beyond simple unfolding
+- REVISES → [[mu-type-unification]] — Toward full bisimulation
+- PRESERVES → [[unification]] — Type equality under finite unfolding
+- REWRITES → [[mu-types]] — Unfold-and-recurse during unification
+- DETECTS → [[nbe]] — Infinite unfolding (step limit)
+- DELEGATES_TO → [[mu-type-unification]] — Checking delegation
+
+**Incoming**
+- [[termination-checking]] ← EXTENDS — Guardedness
+- [[mu-type-unification]] ← IMPLEMENTS — Current approach
+- [[recursion.thread]] ← INCLUDES
+- [[nu-types]] ← USES — Extends equirecursive machinery with polarity
+- [[bisimulation-type-equality]] ← ADDRESSES — Principled equality for recursive types
+- [[sized-types]] ← ADDRESSES — Bounds unfolding depth type-theoretically
+- [[inductive-types]] ← CONTRASTS_WITH — Well-founded vs equirecursive
+- [[indexed-families]] ← CONTRASTS_WITH — Strict positivity vs equirecursion
+- [[type-level-computation]] ← CONSTRAINS — Step budget limits computation
+
+<!-- connections:end -->

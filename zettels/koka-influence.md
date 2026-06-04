@@ -32,3 +32,21 @@ Koka effect handlers are first-class values introduced at the use site (`with ha
 - Koka: runtime refcount → uniqueness. Yap: compile-time QTT → mode.
 - Koka: `fip`/`fbip` are programmer annotations checked by the compiler. Yap: multiplicity flows automatically from the type system.
 - Koka: no GC, no runtime system. Yap: backend-dependent (JS has GC; C backend could be GC-free with FBIP).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[selective-cps]] — Evidence passing model
+- CONTRASTS_WITH → [[shift-reset]] — Evidence passing vs direct capture
+- INSPIRES → [[effects-as-modality]] — Effect tracking model
+- INSPIRES → [[perceus-reuse-analysis]] — Same ecosystem
+- INSPIRES → [[gram-crud-enrichment]] — FBIP concept origin
+- INSPIRES → [[constructor-context-strategy]] — FP² constructor contexts
+
+**Incoming**
+- [[perceus-reuse-analysis]] ← EXTENDS — Perceus is part of Koka ecosystem
+- [[pass-activation-by-reference]] ← CONTRASTS_WITH — Handler-as-value as architectural dual to attribute databases
+
+<!-- connections:end -->

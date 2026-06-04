@@ -35,3 +35,22 @@ For Yap, codata connects to the structural record story — [[structural-records
 The interaction with [[row-polymorphism]] is worth exploring: if codata is defined by a row of observations, then extending a codata type with new observations is row extension. This could unify codata extensibility with Yap's existing row machinery.
 
 Related: [[coinductivity]], [[nu-types]], [[structural-records]], [[projection]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[coinductivity]] — Observation-defined types ground coinductivity
+- EXTENDS → [[structural-records]] — Records as observations = codata
+- COMPOSES_WITH → [[row-polymorphism]] — Codata observations as extensible rows
+- CONTRASTS_WITH → [[variant-types]] — Constructors (data) vs observations (codata)
+- INFORMS → [[nu-types]] — Codata semantics for nu-wrapped recursive types
+- INFORMS → [[agda-influence]] — Agda's codata and copatterns
+
+**Incoming**
+- [[sigma-vs-codata-label-refs]] ← DETAILS — Codata side of the duality
+- [[codata-vs-coinductive-types]] ← DETAILS — Distinguishes codata paradigm from coinductive types
+- [[sigma-codata-syntax-proposal]] ← APPLIES_TO — Codata sigil
+
+<!-- connections:end -->

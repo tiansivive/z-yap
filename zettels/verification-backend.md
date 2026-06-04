@@ -37,3 +37,22 @@ The current backend is a custom CDCL(T) engine with theory plugins for EUF, line
 - String and row theory plugins ([[milestone-3-strings]], [[milestone-4-rows]])
 - UNSAT core and explanation infrastructure ([[milestone-5-explanations]], [[vc-provenance]])
 - Narrow `VerificationBackend` API formalization so the pluggable boundary is a typed contract, not just an architectural convention
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SPECIALIZES → [[verification-pipeline]] — Backend subsystem of the pipeline
+- WRAPS → [[cdcl-t-solver]] — Simple API
+- ENABLES → [[vc-provenance]] — Unsat-core reporting
+
+**Incoming**
+- [[verification-pipeline]] ← DELEGATES_TO — Satisfiability checking
+- [[cdcl-t-solver]] ← PRODUCES — SolveResult (sat/unsat/unknown)
+- [[verification-backend.thread]] ← RELIES_ON — Hub zettel
+- [[ivl-boundary]] ← ENABLES — Pluggable boundary for backend swap
+- [[bidir-subtype-verification]] ← IMPLEMENTS — VC generation strategy
+- [[z3-adapter-strategy]] ← IMPLEMENTS — One backend consumer
+
+<!-- connections:end -->

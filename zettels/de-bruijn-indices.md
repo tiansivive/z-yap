@@ -23,3 +23,19 @@ Metavariables carry **both** `val` and **`lvl`** (`Meta`): `{ type: "Meta"; val:
 Normal forms use levels instead; bridging is **`NF.quote`** and call sites that pass `ctx.env.length` as quoting depth (`check.ts`, `implicits.ts`, `inference/*`, etc.).
 
 See also: [[de-bruijn.md]], [[de-bruijn-levels.md]], [[level-to-index-conversion.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[de-bruijn-levels]] — Dual representations
+- EXTENDS → [[de-bruijn]] — EB-level detail
+
+**Incoming**
+- [[level-to-index-conversion]] ← USES — Target representation
+- [[levels-vs-indices]] ← MOTIVATES — Index representation choice
+- [[quoting]] ← RELIES_ON — Indices in EB.Term
+- [[maplist-schema-unification]] ← RELIES_ON — Indices shift when pattern binders extend context
+
+<!-- connections:end -->

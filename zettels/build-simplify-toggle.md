@@ -34,3 +34,24 @@ Global mutable flag (`Build.simplify`, default `true`) that gates all algebraic 
 **Explorer UI**: "IVL simplify" checkbox in the sidebar config panel. Persisted in localStorage. Sent as `ivlSimplify` in the `POST /run` request body. `pipeline.ts` sets `Build.simplify` from the option before each run, so individual runs can toggle simplification without restarting the server.
 
 **Motivation**: Discovered while debugging incorrect IVL output for `(\x -> x) 42`. After fixing the Lambda synthesis bug, the corrected VC simplified to `(= x x)` via `Build.implies(guard, True) => True` propagation through `forall`. The unsimplified form reveals the full VC structure: `(and (= x x) (forall ((x Real)) (=> (= x 42) true)))`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- GATES → [[vc-ir]] — Controls whether Build constructors simplify formulas
+- GATES → [[vc-normalization]] — Algebraic simplification is a form of normalization
+- APPLIES_TO → [[m1-implementation]] — Modifies Build module from M1
+- ENABLES → [[solver-trace]] — Unsimplified formulas reveal full VC structure in trace
+- ENABLES → [[pipeline-explorer]] — Togglable via explorer UI checkbox
+- USES → [[pipeline-explorer]] — Config persisted in localStorage, sent per /run request
+- DISCOVERED_BY → [[lambda-synthesis-fix]] — Need emerged from debugging the Lambda bug
+
+**Incoming**
+- [[session-trace-observability]] ← PRODUCED — Session delivered the simplify toggle
+- [[lambda-synthesis-fix]] ← VALIDATES — Post-fix simplification behaviour confirmed the fix was correct
+- [[pipeline-explorer]] ← USES — ivlSimplify config option
+- [[verification-backend.thread]] ← INCLUDES
+
+<!-- connections:end -->

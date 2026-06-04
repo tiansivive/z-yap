@@ -20,3 +20,19 @@ Compare two pipeline snapshots side-by-side. Two dimensions:
 **Input diff:** same pipeline stage for two different inputs. Shows how the pipeline handles different programs. Useful for regression testing and understanding edge cases.
 
 Implementation: the explorer already renders each stage as a string. Diffing is a client-side operation on those strings. A structural diff (tree-aware rather than line-aware) would be more useful for ASTs but harder to implement.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[pipeline-explorer]] — New explorer capability
+- COMPOSES_WITH → [[snapshot-testing]] — Diff mode complements snapshot-based testing
+- ENABLES → [[gram]] — Visualize what a GRAM pass changed
+- ENABLES → [[dpo-rewriting]] — Visualize DPO rule application effects
+- FOLLOWS → [[explorer-cross-highlighting]] — Sequence order
+
+**Incoming**
+- [[explorer-snippet-library]] ← FOLLOWS — Sequence order
+
+<!-- connections:end -->

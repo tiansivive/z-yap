@@ -56,3 +56,15 @@ Coverage here is only the work tracked through z-yap threads. For features of Ya
 ## Verification Backend
 
 > **TODO** — IVL + CDCL(T) stack ([[z3-replacement.adr]]), theory coverage, open milestones (strings, rows, explanations).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REFERENCES → [[yap-baseline]] — Curated narrative links to locked baseline
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INCLUDES — Curated narrative for tracked work
+
+<!-- connections:end -->

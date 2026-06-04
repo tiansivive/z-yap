@@ -40,3 +40,27 @@ Implementation package: `src/lowering/continuations/reset.ts`, `shift.ts`, `kcal
 Shift/reset lowering uses **`Alloc`/`Read`/`Jump`/`Branch`** only—resume is `Read` + `Jump`, not a dedicated MIR resume opcode.
 
 Tests / snapshots: `src/lowering/__tests__/lower.test.ts`; runnable MIR interpreter smoke: `src/lowering/__tests__/interpret.test.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- LOWERS_TO → [[mir-lowering]] — State machines
+- IMPLEMENTS → [[shift-reset]] — Runtime story
+- IMPLEMENTS → [[direct-style-lowering.adr]] — Realizes the decision
+- TRANSLATES_TO → [[mir-lowering]] — State machine (heap-allocated frames)
+
+**Incoming**
+- [[multishot-serialization]] ← CONSTRAINS — Replay challenge
+- [[selective-cps]] ← CONTRASTS_WITH — Closure vs state machine
+- [[direct-style-lowering.adr]] ← DOCUMENTS — The chosen lowering strategy
+- [[gram-dataflow-semantics]] ← CONTRASTS_WITH — Dependency edges vs jump sequences
+- [[gram-shift-reset-pass]] ← CONTRASTS_WITH — Annotation vs state machine
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[shift-reset-bridge-lowering]] ← SUPERSEDES — Canonical site replaces legacy implementation
+- [[shift-reset-bridge-lowering]] ← DEPRECATES — Lifecycle event: legacy site marked deprecated
+- [[shift-reset-bridge-lowering]] ← MIRRORS — Same shape, new site
+- [[shift-reset-bridge-lowering]] ← REVISES — Refines the lowering description to the bridge
+
+<!-- connections:end -->

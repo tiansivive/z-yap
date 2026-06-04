@@ -19,3 +19,12 @@ refs:
 - [x] ~~Bubble.values injection via term traversal (AC #6, post-plan) — reverted (anti-pattern)~~
 - [x] Bubble.values injection inline at Bubble construction in shift.ts (AC #6, corrected)
 - [x] Tech-debt zettel: tell/listen resumption refactor
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[bubble-semantics-phase1.implementation]] — Queue tracks phase 1
+
+<!-- connections:end -->

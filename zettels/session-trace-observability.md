@@ -36,3 +36,21 @@ AI pair-programming session following M1 + M2 completion. Built solver observabi
 **Build.simplify toggle**: Added `Build.simplify` global flag gating all algebraic simplifications in the IVL constructors. Exposed as `--ivl-no-simplify` CLI flag and an "IVL simplify" checkbox in the explorer sidebar.
 
 See [[solver-trace]], [[build-simplify-toggle]], [[lambda-synthesis-fix]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FOLLOWS → [[session-m2-completion]] — Continuation of solver development
+- PRODUCED → [[solver-trace]] — Session delivered the trace system
+- PRODUCED → [[build-simplify-toggle]] — Session delivered the simplify toggle
+- PRODUCED → [[lambda-synthesis-fix]] — Session discovered and fixed the bug
+- DEPENDS_ON → [[m2-implementation]] — Built on top of the M2 solver
+- ADDRESSES → [[pipeline-explorer]] — Integrated solver into the explorer
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+- [[session-bubble-verification-design]] ← FOLLOWS — Same branch, next session
+
+<!-- connections:end -->

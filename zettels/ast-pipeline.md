@@ -27,3 +27,25 @@ The boundaries are meaningful:
 - **NF → EB** (quoting): `NF.quote` reads back NF.Value to EB.Term, converting levels to indices and chasing the zonker. This is readback — the inverse of evaluation, used when the elaborator needs a syntactic term from a semantic value.
 
 The eval/quote cycle is the engine of NbE: evaluate to compare semantically, quote to produce syntactic output.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DEFINES → [[src-term]] — Surface layer of three-layer design
+- DEFINES → [[eb-term]] — Core layer of three-layer design
+- DEFINES → [[nf-value]] — Semantic layer of three-layer design
+- RELIES_ON → [[nbe]] — Eval/quote cycle is the engine
+- RELIES_ON → [[dependent-types]] — Types-as-terms requires shared representation
+- RELIES_ON → [[unified-binder]] — Single Abs node across all layers
+- ENABLES → [[unification-algorithm]] — NF.Value is the comparison currency
+- ENABLES → [[quoting]] — NF → EB readback
+- ENABLES → [[bidirectional-checking]] — Expected types are NF.Value
+
+**Incoming**
+- [[src-term]] ← RELIES_ON — First layer of the pipeline
+- [[eb-term]] ← RELIES_ON — Second layer of the pipeline
+- [[nf-value]] ← RELIES_ON — Third layer of the pipeline
+
+<!-- connections:end -->

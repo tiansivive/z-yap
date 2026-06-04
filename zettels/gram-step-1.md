@@ -26,3 +26,17 @@ tags:
 **What exists:** `translate` walks elaboration terms into `Graph` values including pattern graph nodes (`pat:*`). `compile` chains `translate` → configured pass pipeline (`eta → saturate → shiftReset → pattern → closure`) → `verify`. All five passes are implemented with full test coverage.
 
 Step 1 was the **graph + translation handshake**; subsequent passes (η, saturate, shift-reset enrichment, pattern decision tree, closure) built on that substrate to reach feature parity with MIR for translation and analysis.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[gram]] — Partial — first step
+- FOLLOWS → [[mir-retrospective]] — Lessons learned inform first step
+- TRANSLATES_TO → [[gram]] — EB.Term → GRAM nodes
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES
+
+<!-- connections:end -->

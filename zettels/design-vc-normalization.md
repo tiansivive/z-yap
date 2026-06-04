@@ -20,3 +20,15 @@ VC normalization sits between `translate.ts` (which emits IVL formulas from bidi
 The design must settle: which rewrites are equivalence-preserving vs merely equisatisfiable, ordering of rewrite passes, integration point in the pipeline (before or after Skolemization), and whether normalization should be configurable (cf. the existing `simplify` toggle).
 
 See [[vc-normalization]] for the concept analysis.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[vc-normalization]] — Design task for the concept
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES — Design work item
+
+<!-- connections:end -->

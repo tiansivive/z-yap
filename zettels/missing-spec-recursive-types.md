@@ -29,3 +29,16 @@ Implementation hooks:
 Calculus-level typing/unfold rules live mainly in code and tests here; a consolidated zettel spec would still help.
 
 Termination of recursive definitions is not checked as a theorem—evaluation uses a step budget (`evaluate` default `maxSteps = 10000000` in `src/elaboration/normalization/evaluation.v2.ts`). When citing equi-recursive limits, align prose with that default in `evaluation.v2.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[mu-type-unification]] — No spec formalization
+- ADDRESSES → [[documentation-debt]] — Spec gap
+
+**Incoming**
+- [[recursion.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -21,3 +21,16 @@ tags:
 **CLI wiring:** `src/cli/explore/pipeline.ts` imports GRAM translate, η, saturate, closure, and MIR `lowerToMir` for side-by-side artifacts.
 
 **Self-hosted passes:** [[programmable-gram-passes]] provides the design — user-written DPO rewrite rules as Yap values, dispatched by a Kernel meta-pass that walks modal annotations on `EB.Term`. Rule definitions evaluate via NbE; the existing match/rewrite engine in `src/GRAM/grs/` runs them. The architectural choice that puts extensibility at the modal layer rather than in the elaborator is captured in [[extensibility-via-modalities.adr]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[gram]] — Self-hosting passes
+
+**Incoming**
+- [[stratego-influence]] ← INSPIRES — Rewrite rule API
+- [[programmable-gram-passes]] ← REVISES — Replaces speculative self-hosted-passes paragraph
+
+<!-- connections:end -->

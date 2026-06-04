@@ -114,3 +114,15 @@ terms see [[smt-solver-glossary]].
 | **Snapshot testing** | Reset EB/NF supplies before elaboration to get deterministic snapshots |
 | **Tree-sitter** | Migration-target parser (external `tree-sitter-yap` repo) |
 | **`WithLocation`** | Wrapper adding provenance spans to `Src` nodes |
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[smt-solver-glossary]] — Global glossary references domain-specific glossary
+
+**Incoming**
+- [[yap]] ← INCLUDES — Project-level reference
+
+<!-- connections:end -->

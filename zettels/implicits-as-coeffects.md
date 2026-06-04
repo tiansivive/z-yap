@@ -27,3 +27,16 @@ Coeffects reading (graded contexts carrying “what must be available”) is exp
 Possible convergence: treat snapshots as lexical capability traces and relate them to modality inference as checking v2 stabilizes.
 
 Hub: [[implicits.md]], [[implicit-environment.md]], [[implicits-as-coeffects-exploration]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[implicit-resolution]] — Coeffect-based approach
+
+**Incoming**
+- [[petricek-orchard]] ← INSPIRES — Context-dependence calculus
+- [[implicits-as-coeffects-exploration]] ← EXTENDS — Deeper exploration of the design sketch
+
+<!-- connections:end -->

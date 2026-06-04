@@ -28,3 +28,23 @@ tags:
   - Non-meta → **`Err.Impossible("Expected meta variable")`**.
   - Meta solved in **`s`**: **`rewrite(solved.row, label, s)`**.
   - Meta unsolved: **`freshMeta`** pair **`kvar`/`tvar`**, **`freshMeta`** row tail **`rvar`**, **`rf = Extension(label, tvar, rvar)`**, **`Sub.of(meta.val, NF.Constructors.Row(rf))`** — returns **`[rf, sub]`** (instantiates row meta as fresh extension + unknown tail).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[projection]] — Label lookup for field access
+- ENABLES → [[injection]] — Row extension
+- ENABLES → [[row-unification-mechanism]] — Restructuring for unification
+- REWRITES → [[row-data-structure]] — Moves label to head
+- TRAVERSES → [[row-data-structure]] — Recursive tail descent
+
+**Incoming**
+- [[row-unification-mechanism]] ← DELEGATES_TO — Label lookup
+- [[row-data-structure]] ← ENABLES — Rewrite over rows
+- [[structural-row-based-types]] ← MOTIVATES — Row mechanism choice
+- [[row-polymorphism]] ← DELEGATES_TO — Label lookup mechanism
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

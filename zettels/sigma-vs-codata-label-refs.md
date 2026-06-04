@@ -28,3 +28,22 @@ The connection to mutual recursion is significant: flat-row sigma with unordered
 If Yap adopts codata records (via a nu binder or equivalent), the self-reference mechanism gains a principled core representation: `ν self. { width: 10, area: self.width * 2 }`. The `:width` syntax would desugar to `self.width`. This separates the two mechanisms at the core level — sigma for type-level dependency, nu for value-level self-reference — while potentially sharing a surface syntax or using distinct sigils.
 
 The key design tension: a single `:label` syntax is simpler for users but conflates two different computational behaviors. Two distinct sigils make the semantics explicit but add surface complexity. The pragmatic middle ground — `:label` means different things at type level vs value level, which is consistent with how types and values generally behave differently — works but is less principled than distinct core representations.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETAILS → [[sigma-types]] — Sigma side of the duality
+- DETAILS → [[codata]] — Codata side of the duality
+- APPLIES_TO → [[label-lookup]] — Both route through ctx.sigma
+- MOTIVATES → [[nu-types]] — Codata refs motivate nu adoption
+- MOTIVATES → [[sigma-codata-syntax-proposal]] — Motivates syntax split
+- COMPOSES_WITH → [[mutual-recursion]] — Flat-row sigma parallels mutual letrec
+
+**Incoming**
+- [[sigma-codata-syntax-proposal]] ← RELIES_ON — Theoretical basis
+- [[recursion.thread]] ← DOCUMENTS — Knowledge: sigma/codata duality
+- [[design-sigma-codata-label-refs]] ← ADDRESSES — Design task for the concept
+
+<!-- connections:end -->

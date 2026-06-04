@@ -26,3 +26,20 @@ tags:
 **GRAM contrast (structural):** GRAM keeps an explicit mutable graph artifact with separate named passes (`src/GRAM/pipeline/index.ts`: translate, then η / saturate / closure) and a DPO rule engine (`src/GRAM/grs/`). Some GRAM concerns split across **rules vs imperative helpers**—e.g. closure `capture` cannot be one GRS rule (`src/GRAM/passes/closure.ts`).
 
 **Current roles:** MIR drives `Codegen/v2/`; GRAM runs in parallel for translation, rewriting passes, display, and `verify.ts`. Shift/reset GRAM coverage in `src/GRAM/__tests__/pipeline.test.ts` is deferred while GRAM lowering for continuations matures.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[gram]] — Lessons learned
+- MOTIVATES → [[gram]] — Why GRAM exists
+- REJECTS → [[mir-lowering]] — Closure conversion mistake identified
+
+**Incoming**
+- [[thorin-mimir-influence]] ← INSPIRES — Calls = jumps
+- [[gram-step-1]] ← FOLLOWS — Lessons learned inform first step
+- [[gram-canonical-ir.adr]] ← SUPERSEDES — Replaces the parallel-IR retrospective framing
+- [[gram-canonical-ir.adr]] ← DEPRECATES — Lifecycle event: parallel-IR description retired
+
+<!-- connections:end -->

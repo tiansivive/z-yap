@@ -24,3 +24,25 @@ The quote-evaluate round-trip exists to support dependent match return types (sc
 The bug triggers when a match is checked (not inferred) against a type containing a type variable, and the pattern introduces binders. Inferred matches and matches against constant return types (e.g. `Num`) are unaffected.
 
 Introduced in commit `5aa4638` (Dec 2025) when the general match-check-with-narrowing path was added. No pre-existing test covered the specific combination of checked match + polymorphic return type + destructuring pattern.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[row-unification]] — Row comparison step fails
+- APPLIES_TO → [[mu-types]] — Mu-type unfolding is likely upstream
+- RELIES_ON → [[nbe]] — Unfolding happens during evaluation
+- FIXES → [[bidirectional-checking]] — Match-check quoted return type at wrong de Bruijn level
+- RELIES_ON → [[quoting]] — Quote-evaluate round-trip for scrutinee narrowing
+- RELIES_ON → [[de-bruijn-indices]] — Indices shift when pattern binders extend context
+- RELIES_ON → [[de-bruijn-levels]] — Levels are stable; NF.Value unaffected by binder extension
+- APPLIES_TO → [[match]] — Checked match branches with polymorphic return type
+- APPLIES_TO → [[dependent-pattern-matching]] — Scrutinee narrowing preserved by fix
+- DISCOVERED_BY → [[pipeline-stabilization.thread]]
+- FOLLOWS → [[fst-closure-annotation]] — Same class of bug: stale de Bruijn context in type slots
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Mu-type schema row order mismatch
+
+<!-- connections:end -->

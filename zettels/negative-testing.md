@@ -29,3 +29,19 @@ Yap's test suite is predominantly positive — it checks that correct programs e
 **Scope errors.** References to unbound variables, duplicate `let` bindings, `using` declarations for values not in scope — each has a specific error path in elaboration that benefits from test coverage.
 
 Related: [[testing-strategy]], [[match]], [[refinement-types]], [[termination-checking]], [[exhaustiveness-checking]], [[cdcl-t-solver]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- TARGETS → [[match]]
+- TARGETS → [[refinement-types]]
+- TARGETS → [[termination-checking]]
+- INFORMS → [[exhaustiveness-checking]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+- [[testing.thread]] ← INCLUDES
+
+<!-- connections:end -->

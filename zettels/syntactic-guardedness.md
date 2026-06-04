@@ -37,3 +37,22 @@ Trade-offs versus [[sized-types]]: syntactic guardedness is easier to understand
 Whether Yap would adopt syntactic guardedness, [[sized-types]], or some hybrid depends on how [[inductive-types]] and [[nu-types]] are eventually designed. A minimal approach might start with syntactic guardedness for its simplicity and upgrade to sized types if the restrictions prove too limiting.
 
 Related: [[sized-types]], [[termination-checking]], [[productivity-checking]], [[inductive-types]], [[nu-types]], [[equirecursive-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[productivity-checking]] — Syntactic criterion for productivity
+- ADDRESSES → [[termination-checking]] — Syntactic criterion for termination
+- CONTRASTS_WITH → [[sized-types]] — Simpler but less expressive
+- APPLIES_TO → [[inductive-types]] — Structural decrease for induction
+- APPLIES_TO → [[nu-types]] — Constructor guarding for coinduction
+- INFORMS → [[agda-influence]] — Agda's guardedness checker
+
+**Incoming**
+- [[productivity-checking]] ← RELIES_ON — Alternative approach to productivity
+- [[sized-types]] ← CONTRASTS_WITH — More expressive but more complex
+- [[recursion.thread]] ← INCLUDES
+
+<!-- connections:end -->

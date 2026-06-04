@@ -26,3 +26,29 @@ Distinct use of “exhaustive”: internal code uses ts-pattern `.exhaustive()` 
 Surface-language exhaustiveness/redundancy diagnostics remain **incomplete** (`needs-design`): lowering can emit runtime non-exhaustive fallbacks, but elaboration does not yet report missing or redundant arms.
 
 Related: [[open-closed-variants]], [[dependent-pattern-matching]], [[data-declarations]], [[variant-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[match]] — Safety gap
+- RELIES_ON → [[open-closed-variants]] — Open vs closed determines strategy
+- RELIES_ON → [[pattern-matching-compilation]] — Coverage from decision tree
+- APPLIES_TO → [[match]] — Surface match coverage
+- USES → [[variant-types]] — Tag sets determine coverage
+- INFORMS → [[dependent-pattern-matching]] — Refined types affect coverage
+
+**Incoming**
+- [[pattern-matching.thread]] ← INCLUDES
+- [[inductive-types]] ← INFORMS — Known constructors enable coverage
+- [[data-declarations]] ← ENABLES — Named constructors enable coverage
+- [[gadts]] ← INFORMS — Impossible branches via index constraints
+- [[dependent-pattern-matching]] ← INFORMS — Refined types affect coverage
+- [[view-patterns]] ← INFORMS — Views can simplify coverage
+- [[active-patterns]] ← INFORMS — Complete patterns preserve coverage
+- [[open-closed-variants]] ← INFORMS — Primary discriminant for coverage
+- [[fuzz-testing]] ← INFORMS
+- [[negative-testing]] ← INFORMS
+
+<!-- connections:end -->

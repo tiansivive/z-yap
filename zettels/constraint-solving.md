@@ -24,3 +24,20 @@ Constraint solving is the mechanism by which Yap's elaborator resolves type-leve
 Constraint solving sits between elaboration (which produces constraints) and generalization (which abstracts over unsolved metavariables at let boundaries). The solver consumes a batch of constraints and produces two outputs: a **zonker** (substitution mapping solved metas to their values) and **resolutions** (mapping implicit metas to their evidence terms). These outputs feed into generalization, which decides which remaining metas become polymorphic binders.
 
 The separation between constraint emission and solving is a deliberate design choice ([[deferred-constraint-solving]]) — Yap does not solve constraints eagerly at each mismatch site.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[row-unification]] — Row variables unified alongside type variables
+- DELEGATES_TO → [[constraint-solver]] — Concept realized by the solver
+
+**Incoming**
+- [[elaboration]] ← USES — Deferred constraints solved per let-binding
+- [[constraint-solver]] ← IMPLEMENTS — Solver realizes the concept
+- [[implicit-resolution-solver]] ← IMPLEMENTS — Resolution as proof search via unification
+- [[elaboration-v2.thread]] ← RELIES_ON
+- [[holes]] ← RELIES_ON — Constraint solving fills hole metas
+
+<!-- connections:end -->

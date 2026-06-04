@@ -53,3 +53,39 @@ tags:
 Return **`Sub.compose(sub, subst)`** from inner successful **`unifier`**.
 
 **`unify.gen`** wraps **`V2.pure(unify(...))`** for **`yield*`** call sites (**rows**, solver tracks).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[unification]] — Core algorithm
+- USES → [[occurs-check]] — Prevents infinite types
+- USES → [[row-unification-mechanism]] — Row case delegation
+- USES → [[substitution-system]] — Accumulates solutions
+- DISPATCHES_ON → [[nf-value]] — Pattern match on pairs
+- TRAVERSES → [[nf-value]] — Recursive walk
+- IMPLEMENTS → [[pi-types]] — Pi-Pi equality checking case
+- IMPLEMENTS → [[sigma-types]] — Sigma-Sigma equality checking case
+- IMPLEMENTS → [[variant-types]] — Variant-Variant equality checking case
+- IMPLEMENTS → [[typing-rules]] — (Conv) rule: assignment → unify
+
+**Incoming**
+- [[constraint-solver]] ← DELEGATES_TO — Assign constraints
+- [[implicit-resolution-solver]] ← USES — Candidate matching by unification
+- [[flex-flex-unification]] ← SPECIALIZES — Both unsolved
+- [[flex-rigid-unification]] ← SPECIALIZES — Meta vs rigid
+- [[mu-type-unification]] ← SPECIALIZES — Mu case
+- [[occurs-check]] ← CONSTRAINS — Prevents cycles
+- [[row-unification-mechanism]] ← EXTENDS — Row extension
+- [[implicit-resolution-solver]] ← USES — Candidate matching
+- [[substitution-system]] ← ENABLES — Solution accumulation
+- [[error-causes]] ← REPORTS — Type error rendering
+- [[euf-theory]] ← MIRRORS — Term equality ↔ type equality
+- [[ast-pipeline]] ← ENABLES — NF.Value is the comparison currency
+- [[unified-binder]] ← ENABLES — Structural comparison under fresh rigids
+- [[holes]] ← RELIES_ON — Solving fills hole metas
+- [[match]] ← RELIES_ON — Arm types unified via assign constraints
+- [[cbv-evaluation]] ← ENABLES — Deterministic comparison
+
+<!-- connections:end -->

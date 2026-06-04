@@ -20,3 +20,15 @@ Elaboration's row semantics are label-based: decompose by label, unify field-wis
 The design must settle: theory plugin interface for rows, label-based decomposition in the solver, interaction with EUF (label equality) and quantifiers (row variable instantiation), and how row subtyping obligations translate into theory-level constraints.
 
 See [[row-theory]] for the principle and motivation; [[required-theory-support]] for the broader theory landscape.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[row-theory]] — Design task for the concept
+
+**Incoming**
+- [[row-types.thread]] ← INCLUDES — Design work item
+
+<!-- connections:end -->

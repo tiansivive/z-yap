@@ -1,6 +1,7 @@
 ---
 tags:
 - mechanism
+- nbe
 - normalization
 - elaboration
 - evaluation
@@ -25,3 +26,26 @@ How each variable kind resolves to an NF.Value during NbE evaluation. Variables 
 - **Foreign** — resolved via `ctx.ffi`. If arity is 0, the compute function fires immediately. Otherwise an `NF.External` value is produced, awaiting arguments.
 
 The Meta path is the most consequential: it determines whether a type-level computation can proceed (zonked), needs to be deferred (neutral), or is in a skolem-checking context (re-evaluate). This is where the elaborator's incremental solving interacts with normalization.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[nbe]] — (Var) at NF level
+- RESOLVES → [[meta-variables]] — Skolems → zonker → neutral
+- IMPLEMENTS → [[ffi]] — Foreign variable lookup
+- IMPLEMENTS → [[typing-rules]] — (Var) rule: context lookup
+- DISPATCHES_ON → [[nf-value]] — Meta, Bound, Free, Label, Foreign
+- RELIES_ON → [[sigma-bindings]] — Label variables → ctx.sigma
+- RELIES_ON → [[knot-tying]] — Free variables use placeholder pattern
+- RELIES_ON → [[meta-variables]] — Meta resolution: skolem/zonker/neutral
+- RELIES_ON → [[neutrals]] — Unsolved metas → neutral
+- RELIES_ON → [[ffi]] — Foreign variables → ctx.ffi
+
+**Incoming**
+- [[nbe]] ← INCLUDES — Variable resolution
+- [[glued-evaluation]] ← APPLIES_TO — Each variable kind resolves to a glued cell
+- [[compiled-nbe]] ← APPLIES_TO — Principal dispatch hot path
+
+<!-- connections:end -->

@@ -25,3 +25,27 @@ Architecture: GRAM enriches the graph maximally — all semantic and operational
 **Why this works:** Additive enrichment means running "extra" passes is harmless — nodes a backend doesn't need are simply never read. No pass invalidates another pass's output. The graph is a superposition of all views; each backend collapses it to what it needs.
 
 **Contrast with MIR:** MIR is a single fixed representation (SSA blocks) that all backends must consume identically. Backend differences are handled *after* MIR, in codegen. GRAM pushes backend divergence earlier — into pass selection.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[gram-additive-enrichment]] — Requires accumulated views
+- RELIES_ON → [[gram-dataflow-semantics]] — Requires independence
+- ADDRESSES → [[closure-conversion]] — Backend-specific (C yes, JS no)
+- ADDRESSES → [[defunctionalization]] — Backend-specific (GPU yes, JS no)
+- ADDRESSES → [[native-lambda-hvm]] — Backend-specific (HVM skips all)
+- CONTRASTS_WITH → [[mir-lowering]] — Pass selection vs fixed representation
+
+**Incoming**
+- [[gram-graph-ir.adr]] ← MOTIVATES — Property follows from graph substrate
+- [[gram-additive-enrichment]] ← ENABLES — Multiple views enable selection
+- [[gram-dataflow-semantics]] ← ENABLES — Independence enables selectivity
+- [[gram-interpreter]] ← MIRRORS — Interpretation-by-selection dual
+- [[stg-analogy]] ← INSPIRES — Selective = improvement over GHC's fused approach
+- [[gram-evolution.thread]] ← RELIES_ON — Backend selection architecture
+- [[gram-crud-enrichment]] ← INSTANTIATES — Backends choose whether to read modes
+- [[lambda-lifting]] ← ENABLES — C/GPU need it, JS/Erlang skip it
+
+<!-- connections:end -->

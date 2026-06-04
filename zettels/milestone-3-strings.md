@@ -28,3 +28,19 @@ tags:
 **Current state:** Milestone 3 **not** landed — no dedicated string **theory plugin** in **`src/verification/solver/`**. String-like values still go through **`translate.ts`** as coarse / uninterpreted-style IVL atoms (the **Z3-direct** era used `Z3.Sort.declare("String")` for the same idea; see [[smt-translation]]). Full primitive lowering and **`theories/strings`** remain open.
 
 Depends on Milestone 2 arithmetic/EUF interplay for length bridges.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[string-theory]] — String module
+- FOLLOWS → [[milestone-2-euf-quant-lia]] — After core
+
+**Incoming**
+- [[milestone-4-rows]] ← FOLLOWS — After strings
+- [[verification-backend.thread]] ← INCLUDES
+- [[liang-strings]] ← INFORMS — Target string-theory milestone
+- [[reynolds-strings]] ← INFORMS — Context-dependent rewrites as future plugin
+
+<!-- connections:end -->

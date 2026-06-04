@@ -71,3 +71,21 @@ let OrderedPair: Type = { fst: Num, snd: Num[|\v -> v > ^fst|] };
 let rect = { width: 10, height: 20, area: &width * &height };
 let ones = { head: 1, tail: &ones };
 ```
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[sigma-types]] — Sigma sigil
+- APPLIES_TO → [[codata]] — Codata sigil
+- APPLIES_TO → [[label-lookup]] — Parser and lookup changes
+- RELIES_ON → [[sigma-vs-codata-label-refs]] — Theoretical basis
+- RELIES_ON → [[codata-vs-coinductive-types]] — Codata vs full coinductivity informs scope
+
+**Incoming**
+- [[sigma-vs-codata-label-refs]] ← MOTIVATES — Motivates syntax split
+- [[row-types.thread]] ← INCLUDES — Syntax proposal
+- [[design-sigma-codata-label-refs]] ← RELIES_ON — Syntax proposal feeds this design
+
+<!-- connections:end -->

@@ -28,3 +28,16 @@ tags:
 Migration cost: pervasive **`App`** consumers — inference (`EB.Application`), normalization and unification, lowering (`src/lowering/`), snapshots, **`NF`** neutrals — plus any external tooling assuming binary trees.
 
 Often discussed alongside **dedicated internal row constructors**; overlapping blast radius, not a strict prerequisite ordering.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[application]] — Head + spine
+- ADDRESSES → [[application]] — Nested App complexity
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES
+
+<!-- connections:end -->

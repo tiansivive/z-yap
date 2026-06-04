@@ -19,3 +19,16 @@ Extends a temporal effect system for shift0/reset0 with **answer-effect modifica
 Prior work to the ARM paper by the same first author. The temporal dimension (event sequences, liveness properties) targets liveness-style properties beyond Yap's current refinement-VC focus; the answer-effect modification framework nonetheless influenced the refinement-level generalization in ARM.
 
 DOI: [10.1145/3571257](https://doi.org/10.1145/3571257)
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[arm-paper]] — Prior work by same first author
+- INFORMS → [[shift-reset-verification]] — Temporal effects + delimited control
+
+**Incoming**
+- [[session-bubble-verification-design]] ← PRODUCES
+
+<!-- connections:end -->

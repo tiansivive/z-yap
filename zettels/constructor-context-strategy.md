@@ -36,3 +36,23 @@ Koka-inspired: enrich the graph with "hole" nodes for top-down recursive constru
 - Reuse analysis (Phase B): a context might reuse memory from a previous same-shape value.
 
 **Prior art:** Koka's constructor contexts (FP², Lorenzen et al. 2023), GHC's "constructed product result" optimization, tail-call-modulo-cons in Prolog/OCaml.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[gram-crud-enrichment]] — Enrichment layer C
+- COMPOSES_WITH → [[mode-annotation-strategy]] — Contexts are always exclusive
+- COMPOSES_WITH → [[reuse-analysis-strategy]] — Context might reuse memory
+- FOLLOWS → [[reuse-analysis-strategy]] — Phase C after Phase B
+- RELIES_ON → [[logram]] — Benefits from indexed graph traversal
+
+**Incoming**
+- [[crud-strategy-choice]] ← DEFERS — Phase C: speculative/post-LoGRAM
+- [[mode-annotation-strategy]] ← CONTRASTS_WITH — Different concern: ownership vs construction pattern
+- [[reuse-analysis-strategy]] ← COMPOSES_WITH — Both address allocation
+- [[perceus-reuse-analysis]] ← INSPIRES — Constructor contexts concept
+- [[koka-influence]] ← INSPIRES — FP² constructor contexts
+
+<!-- connections:end -->

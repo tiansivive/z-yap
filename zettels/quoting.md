@@ -1,6 +1,7 @@
 ---
 tags:
 - mechanism
+- nbe
 - normalization
 - elaboration
 - implemented
@@ -24,3 +25,34 @@ Under binders (Lambda, Pi, Mu), quoting applies the closure to a fresh rigid var
 Meta-variables are resolved during quoting: if the meta is solved (present in `ctx.zonker`), quoting recurses through the solution. Unsolved metas stay as `EB.Var` nodes. This means quoting performs zonking inline — the result is a fully zonked EB.Term.
 
 Neutral terms delegate to their wrapped head. Stuck matches (StuckMatch) rebuild an `EB.Match` from the closure's scrutinee.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[level-to-index-conversion]] — Core conversion
+- USES → [[closures]] — Apply closure for readback
+- QUOTES_TO → [[eb-term]] — NF.Value → EB.Term
+- TRAVERSES → [[nf-value]] — Recursive descent
+- ENABLES → [[pretty-printing]] — NF values → readable terms
+- RELIES_ON → [[de-bruijn-levels]] — Levels in NF.Value
+- RELIES_ON → [[de-bruijn-indices]] — Indices in EB.Term
+- RELIES_ON → [[level-to-index-conversion]] — Level → index at the boundary
+- RELIES_ON → [[meta-variables]] — Chases zonker for solved metas
+- RELIES_ON → [[sigma-bindings]] — Sigma applies annotation not fresh rigid
+- CONTRASTS_WITH → [[cbv-evaluation]] — Quote is inverse of evaluate
+
+**Incoming**
+- [[pretty-printing]] ← USES — NF → EB → render
+- [[ast-pipeline]] ← ENABLES — NF → EB readback
+- [[nbe]] ← INCLUDES — Readback direction
+- [[fst-closure-annotation]] ← APPLIES_TO — Fix quotes Pi to EB.Term at construction site
+- [[sigma-quoting-match]] ← APPLIES_TO — Readback limitation
+- [[sigma-quoting-field-ref]] ← APPLIES_TO — Readback type-for-value
+- [[maplist-schema-unification]] ← RELIES_ON — Quote-evaluate round-trip for scrutinee narrowing
+- [[sigma-quoting-field-ref]] ← MIRRORS — Symbolic application during readback, analogous to Pi quoting
+- [[sigma-quoting-match]] ← MIRRORS — Symbolic application during readback, analogous to Pi quoting
+- [[glued-evaluation]] ← APPLIES_TO — Quote becomes a fallback when syntax is preserved
+
+<!-- connections:end -->

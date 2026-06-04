@@ -25,3 +25,25 @@ Full verification strategy for shift/reset expressions, replacing the dummy stub
 **Shift body verification:** verify the handler body (the argument to `shift`) under the continuation binder. The handler's postcondition must imply the answer type's refinement — this is the ARM (Answer Refinement Modification) constraint.
 
 **Depends on:** [[bubble-semantics]] for the EB.Term representation, [[vc-ir]] for IVL extensions.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SUPERSEDES → [[shift-reset-verification-stub]] — Replaces dummy with real verification
+- EXTENDS → [[verification-pipeline]] — Adds Reset/Bubble cases with quantification
+- USES → [[vc-ir]] — IVL Bubble term constructor
+- USES → [[answer-type-polymorphism]] — Bubble type = answer type A
+- RELIES_ON → [[bubble-semantics]] — Needs Bubble in EB.Term
+- ADDRESSES → [[open-shift-verification]] — Symbolic mode handles open shifts
+
+**Incoming**
+- [[bubble-semantics]] ← ENABLES — Carries values for VC generation
+- [[open-shift-verification]] ← EXTENDS — Symbolic generalization of concrete expansion
+- [[arm-paper]] ← INFORMS — ARM = symbolic answer refinement tracking
+- [[sekiyama-unno-temporal]] ← INFORMS — Temporal effects + delimited control
+- [[session-bubble-verification-design]] ← PRODUCES
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

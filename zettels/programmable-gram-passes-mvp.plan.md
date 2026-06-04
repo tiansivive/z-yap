@@ -183,3 +183,24 @@ Phase 6's per-term resolution assumption — that `ctx.imports[ruleName]` is pop
 1. Yap optional-field support — only if v1 ends up needing optionality (currently avoided).
 2. `compile` vs `compileWithKernel` integration shape (Phase 6).
 3. Bridge → MIR boundary policy for the `tailcall` tag and `:optimizes` edge introduced by the demo rule (Phase 7) — reject (default safe), passthrough as opaque marker, or consume into MIR as a tail-call hint for codegen.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[programmable-gram-passes]] — Sequenced MVP plan for the design hub
+- IMPLEMENTS → [[gram-kernel-pass]] — Phase 6 realizes the Kernel meta-pass
+- IMPLEMENTS → [[gram-rule-as-yap-value]] — Phases 1+5 realize the Rule surface type
+- IMPLEMENTS → [[pass-activation-by-reference]] — Phase 6 resolves rules by name via module context
+- RELIES_ON → [[modality-system]] — Adds the gram dimension to Modal.Annotations
+- DEFERS_TO → [[pap-analysis-payload-predicates]] — v1 ships tailcall demo; PAP returns as v2 motivator
+- IMPLEMENTS → [[programmable-gram-passes]] — Plan realises the hub design
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES — MVP work item for sequence item 19
+- [[programmable-gram-passes-mvp-plan.session]] ← PRODUCES — Planning session produced the MVP plan
+- [[pap-analysis-payload-predicates]] ← MOTIVATES — Canonical v2 motivator for payload predicates and Bindings-derived payloads
+- [[programmable-gram-passes-mvp-retrospective]] ← DOCUMENTS — Retrospective documents the plan execution
+
+<!-- connections:end -->

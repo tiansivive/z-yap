@@ -32,3 +32,21 @@ End of a `let` declaration (`src/elaboration/inference/statements.ts` `letdec`):
 Each replay arm composes `nondet = update(withMetas, "zonker", old => ({ ...old, ...z }))`, calls `EB.solve` under that zonker, runs `NF.generalize` with the same `skolems` snapshot, returns `[instantiated, next, resolutions]`. The first arm’s `instantiated` is kept; subsequent arms’ types are unified into the final context via `unify` + composed substitution.
 
 Purpose: multishot programs type `k` applications under mutually exclusive argument choices without committing to a single resume value during the first pass.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[shift-reset]] — Multishot continuations
+- USES → [[constraint-solver]] — Runs after solving
+- INSTANTIATES → [[meta-variables]] — Solution combinations
+- IMPLEMENTS → [[continuation-binders]] — Multishot resume semantics
+- THREADS_THROUGH → [[elaboration-monad]] — MutState.nondeterminism
+- DISPATCHES_ON → [[constraint-solver]] — Solution emptiness check
+
+**Incoming**
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[continuation-closure]] ← ENABLES — Multishot via reapplication
+
+<!-- connections:end -->

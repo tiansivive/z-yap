@@ -42,3 +42,38 @@ tags:
 **GRAM pipeline**: The explorer derives GRAM output before MIR. EB.Term → GRAM translation → GRAM passes (saturation, shift-reset, pattern) → display, alongside MIR lowering via `GRAM.Bridge.emit`. The `gram` tab shows the enriched property graph.
 
 **Audit**: Systematic audit of all 19 snippets across the full pipeline — see [[explorer-audit.thread]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REPORTS → [[yap]] — Visualizes pipeline stages
+- USES → [[solver-trace]] — Trace tab displays solver replay
+- USES → [[vc-ir]] — IVL tab displays s-expression formula
+- USES → [[m1-implementation]] — IVLPrint for formula rendering
+- USES → [[m2-implementation]] — Solver.createTraced() for trace generation
+- USES → [[build-simplify-toggle]] — ivlSimplify config option
+- SUPERSEDES → [[smt-translation]] — IVL + Trace tabs replaced Z3 Verify tab
+- DELEGATES_TO → [[verification-pipeline]] — Calls VerificationServiceV2 directly
+- REPORTS → [[solver-trace]] — Renders trace output in Trace tab
+- REPORTS → [[vc-ir]] — Renders IVL formula in IVL tab
+- INCLUDES → [[explorer-evolution.thread]] — Roadmap thread
+
+**Incoming**
+- [[yap-explore]] ← MIRRORS — Same tool, alternate zettel
+- [[session-trace-observability]] ← ADDRESSES — Integrated solver into the explorer
+- [[solver-trace]] ← TRANSLATES_TO — Trace output displayed in Trace tab
+- [[build-simplify-toggle]] ← ENABLES — Togglable via explorer UI checkbox
+- [[build-simplify-toggle]] ← USES — Config persisted in localStorage, sent per /run request
+- [[lambda-synthesis-fix]] ← DISCOVERED_BY — Bug reproduced via explorer's IVL tab
+- [[explorer-evolution.thread]] ← EXTENDS — Evolution roadmap for the explorer
+- [[explorer-provenance-trace]] ← EXTENDS — New explorer capability
+- [[explorer-cross-highlighting]] ← EXTENDS — New explorer capability
+- [[explorer-diff-mode]] ← EXTENDS — New explorer capability
+- [[explorer-snippet-library]] ← EXTENDS — New explorer capability
+- [[explorer-timing]] ← EXTENDS — New explorer capability
+- [[explorer-graph-viz]] ← EXTENDS — New explorer capability
+- [[stuck-quoting-fix]] ← FIXES — Segfault on stuck projection/injection quoting
+
+<!-- connections:end -->

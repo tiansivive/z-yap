@@ -24,3 +24,14 @@ tags:
 - **`Flex`** plus **`subst` hit**: guarded clauses re-enter **`unify(subst[meta], other, lvl, subst)`** without **`bind`**.
 
 Modal glue: **`Modal`** unwraps **`value`** against the other side via **`unify(value, …)`** before structural comparison.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SPECIALIZES → [[unification-algorithm]] — Meta vs rigid
+- RESOLVES → [[meta-variables]] — Binds to rigid
+- RECOVERS_FROM → [[substitution-system]] — Chases solved metas
+
+<!-- connections:end -->

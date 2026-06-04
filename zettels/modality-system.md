@@ -35,3 +35,22 @@ The dual-dimension design is intentionally open:
 ## Design rationale
 
 Composing modalities in one wrapper rather than layering separate systems avoids the "annotation stacking" problem where each concern adds its own type-level syntax. It also means the verification pass ([[verification-modal-phase]]) handles all modal obligations uniformly rather than needing separate passes per concern.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[modal-type-theory]] — Multi-dimension modal design
+- EXTENDS → [[modalities]] — Design details of the modal wrapper
+- MOTIVATES → [[programmable-gram-passes]] — Third dimension consumer
+
+**Incoming**
+- [[usage-semantics.thread]] ← RELIES_ON — Yap's modality design
+- [[programmable-gram-passes]] ← RELIES_ON — Carrier is a new gram field on Modal.Annotations
+- [[extensibility-via-modalities.adr]] ← RELIES_ON — Modal layer is the extension surface
+- [[programmable-gram-passes-mvp.plan]] ← RELIES_ON — Adds the gram dimension to Modal.Annotations
+- [[singleshot-static-specialization]] ← CONSUMES — Reads the quantity dimension off Modal.Annotations
+- [[gram-modality-vs-pragma.design]] ← APPLIES_TO — Pragma separation applies to modality design
+
+<!-- connections:end -->

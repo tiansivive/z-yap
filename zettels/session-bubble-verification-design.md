@@ -33,3 +33,18 @@ Key decisions:
 Also discussed: EB.Ann implementation (completed earlier in session) for caching inferred types in the AST, avoiding downstream re-synthesis. Removed brittle `structure` snapshots from let-polymorphism tests.
 
 **Phase 1 implemented (2026-05-21):** Stub landed in `synth.ts` (Reset transparent, Shift → `NF.Any`/true), `subtype.ts` (`Any` cases at top of match), `translate.ts` (Meta → uninterpreted constant). Discovery: skolem metas leak into formula translation via refinement predicates on arithmetic expressions — handled by mapping Meta to `Build.const_("?N", uninterpreted("Any"))`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[bubble-semantics]]
+- PRODUCES → [[shift-reset-verification]]
+- PRODUCES → [[shift-reset-verification-stub]]
+- PRODUCES → [[arm-paper]]
+- PRODUCES → [[sekiyama-unno-temporal]]
+- PRODUCES → [[open-shift-verification]]
+- FOLLOWS → [[session-trace-observability]] — Same branch, next session
+
+<!-- connections:end -->

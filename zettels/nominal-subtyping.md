@@ -24,3 +24,15 @@ tags:
 **Refinement / verification:** `src/verification/V2/subtype.ts` implements **structural** subtyping obligations for Liquid/refinement checking (row containment, Π argument/conclusion variance, rigid-variable equality, etc.) — still not nominal declaration edges.
 
 This zettel is contrast/reference: Java-style nominal subtyping vs Yap’s structural elaboration plus `src/verification/V2/subtype.ts` for refinement obligations.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[structural-subtyping]] — Subtype compatibility mechanisms
+
+**Incoming**
+- [[structural-subtyping]] ← CONTRASTS_WITH — Subtype compatibility mechanisms
+
+<!-- connections:end -->

@@ -8,3 +8,12 @@ tags: [verification, type-system, decision, implemented, elaboration, dependent,
 **Quantifiers:** **`quantify`** chooses binder sorts via **`mkSort`**; guarded domains handle **`Prim`**, **`Recursive`**, **`Row`**, **`App`**; **`Func`-shaped** sorts hit the `"Unknown sort in logical formulas"` branch. **`check` / `subtype`** wrap **`translation.quantify`** results with **`Build.forall`** / **`Build.implies`** (conceptually what **`Z3.ForAll` / `Z3.Implies`** did when translation emitted Z3 directly).
 
 **Fragment choice:** keep quantified domains first-order; encode higher-order **applications** via **`Select`** at the term level; avoid quantifying over function sorts.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[quantifier-engine]] — No HO quantification
+
+<!-- connections:end -->

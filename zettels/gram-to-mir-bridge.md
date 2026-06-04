@@ -28,3 +28,36 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 **Status:** Implemented. The bridge (`src/GRAM/bridge/emit.ts`) is the canonical MIR source for the explorer pipeline. The old direct `lowerToMir` path (`src/lowering/`) is deprecated.
 
 **Known gaps:** Closure capture for curried returns ([[bridge-closure-capture]]), struct match dispatch ([[bridge-struct-dispatch]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSUMES → [[gram]] — Reads enriched graph
+- PRODUCES → [[mir-lowering]] — Emits MIR Module
+- VALIDATES → [[gram-additive-enrichment]] — Tests if enrichment is sufficient
+- RELIES_ON → [[gram-shift-reset-pass]] — Needs continuation structure
+- RELIES_ON → [[gram-pattern-pass]] — Needs decision trees
+- RELIES_ON → [[saturation]] — Needs external/primop
+- RELIES_ON → [[closure-conversion]] — Needs env/fn nodes
+- FOLLOWS → [[gram-next-steps]] — Step 1: regression + CFG extraction
+
+**Incoming**
+- [[defunctionalization]] ← FOLLOWS — Step 2: after bridge validates graph
+- [[gram-next-steps]] ← INCLUDES — Planned translation
+- [[gram-evolution.thread]] ← INCLUDES
+- [[gram-crud-enrichment]] ← FOLLOWS — After bridge validates graph
+- [[bridge-type-erasure]] ← FIXES — PI/SIGMA/VAR_META dispatch
+- [[bridge-label-resolution]] ← FIXES — VAR_LABEL dispatch
+- [[bridge-closure-capture]] ← ADDRESSES — Curried return calling convention
+- [[bridge-struct-dispatch]] ← ADDRESSES — Struct pattern compilation
+- [[bridge-unsaturated-external]] ← ADDRESSES — Bridge lacks partial application handling
+- [[gram-pap-pass]] ← PRESERVES — Keeps bridge mechanical: GRAM adds semantics, bridge translates
+- [[length-recursive-debruijn]] ← APPLIES_TO — Unresolved var:bound cascaded to unknown in MIR
+- [[bridge-free-var-unknown]] ← APPLIES_TO — Var resolution gap
+- [[bridge-label-closure-gap]] ← APPLIES_TO — Scope resolution under match
+- [[bridge-forward-label-refs]] ← APPLIES_TO — Struct field emission ordering
+- [[gram-type-uniformity]] ← APPLIES_TO — Bridge needs consistent type format for type-driven lowering
+
+<!-- connections:end -->

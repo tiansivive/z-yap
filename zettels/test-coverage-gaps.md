@@ -26,3 +26,23 @@ Five test suites remain skipped. Each has a distinct blocker.
 **4. `parser/__tests__/grammar.test.ts`** — `it.skip("should parse booleans: true")`. The Nearley grammar may lack a `true`/`false` → Bool literal production. The v2 literal module handles Bool in elaboration, and tree-sitter likely parses it. This is a v1-parser-only gap.
 
 **5. `__tests__/integration/examples-readme.repl.test.ts`** — `test.skip`. 180s timeout integration test running all tutorial snippets through the REPL. Not a feature gap — an infrastructure/stability concern. Depends on the full v1 pipeline being stable end-to-end.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETECTS → [[v2-elaboration-pipeline]] — Missing modal inference (22/23), missing checking.v2 match
+- DETECTS → [[nearley-parser]] — Bool literal grammar gap
+- DEFERS → [[shift-reset]] — Elaboration-level tests skipped; GRAM tests pass
+- DEFERS → [[repl]] — Integration test skipped (infrastructure)
+- BLOCKS → [[modalities]] — Modal test blocked until inference.v2 modal.ts exists
+- BLOCKS → [[pi-types]] — Dependent arg test blocked by Bool parsing + checking.v2 match
+- DETAILS → [[testing-strategy]] — Inventory of skipped suites
+- DISCOVERED_BY → [[v1-test-cleanup]] — Audit that created the gaps inventory
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES — Gap tracking
+- [[v1-test-cleanup]] ← MOTIVATES — Audit revealed skipped suites
+
+<!-- connections:end -->

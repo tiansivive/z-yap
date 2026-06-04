@@ -40,3 +40,22 @@ Relevant if [[nu-types]] are added — without productivity checking, coinductiv
 Two main approaches: [[syntactic-guardedness]] (Coq-style — corecursive calls must appear under a constructor) and [[sized-types]] (type-level size annotations that decrease). Each has trade-offs in expressiveness and usability. A third option is guarded recursion with modalities (Atkey & McBride 2013), which uses a type-level "later" modality to enforce productivity.
 
 Related: [[termination-checking]], [[nu-types]], [[coinductivity]], [[sized-types]], [[syntactic-guardedness]], [[equirecursive-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DUAL_OF → [[termination-checking]] — Productivity is the coinductive dual of termination
+- APPLIES_TO → [[nu-types]] — Ensures coinductive defs are productive
+- APPLIES_TO → [[coinductivity]] — Static guarantee for coinductive data
+- RELIES_ON → [[sized-types]] — One approach to productivity
+- RELIES_ON → [[syntactic-guardedness]] — Alternative approach to productivity
+
+**Incoming**
+- [[nu-types]] ← REQUIRES — Coinductive definitions must be productive
+- [[sized-types]] ← ADDRESSES — Size annotations ensure productivity
+- [[syntactic-guardedness]] ← ADDRESSES — Syntactic criterion for productivity
+- [[recursion.thread]] ← INCLUDES
+
+<!-- connections:end -->

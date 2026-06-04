@@ -21,3 +21,21 @@ Source projection (`type: "projection"`; processor `Projection` in `src/parser/p
 There is **no** `Variant` case: field selection applies to products (`Schema`, `Sigma`), not sums. Variant elimination is `Match` (`src/elaboration/inference/match.ts`, lowering `src/lowering/matching/`, [[match.md]]).
 
 Type information is reconciled through constraints and row structure, not structural subtyping ([[structural-subtyping.md]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ELIMINATES → [[structural-records]] — Field access
+- ELIMINATES → [[sigma-types]] — Dependent field access
+- DUAL_OF → [[injection]] — Elim vs intro for row-backed types
+- DISPATCHES_ON → [[nf-value]] — Schema, Sigma, Neutral, Flex
+- TRANSLATES_TO → [[gram-crud-enrichment]] — Proj → Read in GRAM
+
+**Incoming**
+- [[row-rewriting]] ← ENABLES — Label lookup for field access
+- [[row-types.thread]] ← INCLUDES
+- [[gram-crud-enrichment]] ← ANNOTATES — proj → Read (always safe, no mode needed)
+
+<!-- connections:end -->

@@ -27,3 +27,13 @@ In `src/elaboration/unification/unification.ts`, after stripping `Neutral`, forc
 If either flex already has an entry in **`subst`**, the earlier guarded **`Flex`** clauses chase **`subst[meta.variable.val]`** and **`unify`** again instead of **`bind`**.
 
 Instrumentation: outer **`unify`** wraps work in **`V2.track({ tag: "unify", type: "nf", ... })`**.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SPECIALIZES → [[unification-algorithm]] — Both unsolved
+- RESOLVES → [[meta-variables]] — Binds left to right
+
+<!-- connections:end -->

@@ -25,3 +25,18 @@ tags:
 **Flexibility mechanism (verified):** parametric row variables and extension unification (`Row.unify`, `bind` on row metas) give “open row” behaviour without subtyping—see [[row-polymorphism.md]], [[row-unification.md]].
 
 **Contrast:** [[nominal-subtyping.md]] (name-driven hierarchy) vs this zettel (subtyping-as-lattice). Yap’s core elaborator is equality-oriented; Liquid checking in `src/verification/V2/subtype.ts` adds a separate structural subtyping pass for refinements.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[nominal-subtyping]] — Subtype compatibility mechanisms
+- APPLIES_TO → [[structural-typing]] — Asymmetric aspect of structural type systems
+- CONTRASTS_WITH → [[row-polymorphism]] — Subtyping vs parametric
+
+**Incoming**
+- [[nominal-subtyping]] ← CONTRASTS_WITH — Subtype compatibility mechanisms
+- [[row-polymorphism]] ← DISTINGUISHES — Not subtyping: parametric, not coercive
+
+<!-- connections:end -->

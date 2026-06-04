@@ -41,3 +41,24 @@ Lean-inspired enrichment: identify where a value is destructed and a same-shape 
 **Deferred because:** Mode annotation (Phase A) proves the enrichment architecture first. Reuse analysis adds value independently but needs the graph infrastructure to be validated.
 
 **Prior art:** Lean 4 `reset`/`reuse` (Counting Immutable Beans), Koka Perceus reuse tokens, MLton's contification for memory reuse.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[gram-crud-enrichment]] — Enrichment layer B
+- COMPOSES_WITH → [[mode-annotation-strategy]] — Orthogonal enrichments; both compose
+- COMPOSES_WITH → [[constructor-context-strategy]] — Both address allocation
+- FOLLOWS → [[mode-annotation-strategy]] — Phase B after Phase A
+- RELIES_ON → [[gram-pattern-pass]] — Reuse sites occur at match boundaries
+
+**Incoming**
+- [[crud-strategy-choice]] ← DEFERS — Phase B: after mode annotation proves arch
+- [[mode-annotation-strategy]] ← CONTRASTS_WITH — Different concern: ownership vs allocation
+- [[constructor-context-strategy]] ← COMPOSES_WITH — Context might reuse memory
+- [[constructor-context-strategy]] ← FOLLOWS — Phase C after Phase B
+- [[perceus-reuse-analysis]] ← INSPIRES — Reuse tokens concept
+- [[counting-immutable-beans]] ← INSPIRES — reset/reuse model
+
+<!-- connections:end -->

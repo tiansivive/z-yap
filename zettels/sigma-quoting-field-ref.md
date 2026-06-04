@@ -19,3 +19,20 @@ The fix constructs a **symbolic NF.Row** where each field's value is `NF.Neutral
 After the fix, `Σ($sig: [snd: :fst, fst: Type]). Schema [snd: :fst, fst: Type]` correctly preserves `:fst` in the body during readback.
 
 Same root cause as [[sigma-quoting-match]] — both resolved by the symbolic row approach.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[sigma-types]] — Field ref substitution
+- APPLIES_TO → [[quoting]] — Readback type-for-value
+- RELIES_ON → [[sigma-bindings]] — Same binding strategy
+- GROUNDED_IN → [[sigma-architecture]] — Symbolic row mirrors Pi's Rigid(lvl) in the two-step architecture
+- MIRRORS → [[quoting]] — Symbolic application during readback, analogous to Pi quoting
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Sigma body field ref resolves to type not value
+- [[sigma-quoting-match]] ← COMPOSES_WITH — Same root cause, different manifestation
+
+<!-- connections:end -->

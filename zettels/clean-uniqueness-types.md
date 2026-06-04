@@ -37,3 +37,21 @@ Clean's approach to safe destructive update in a pure functional language via un
 - Per-field granularity (which Clean lacks) is a potential Yap advantage worth exploring alongside row-level modalities.
 
 **References:** Barendsen & Smetsers, "Uniqueness Typing for Functional Languages" (1993). Clean language manual §11.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[crud-strategy-choice]] — Research input
+- INSPIRES → [[mode-annotation-strategy]] — Whole-object uniqueness → per-field in Yap
+- INSPIRES → [[gram-crud-enrichment]] — Uniqueness → safe mutation precedent
+- INSPIRES → [[modalities]] — Uniqueness typing as prior art for QTT
+- CONTRASTS_WITH → [[modalities]] — Whole-object binary vs per-binding graded
+- CONTRASTS_WITH → [[perceus-reuse-analysis]] — Type-level vs runtime analysis
+- CONTRASTS_WITH → [[counting-immutable-beans]] — Type-level vs runtime analysis
+
+**Incoming**
+- [[counting-immutable-beans]] ← CONTRASTS_WITH — Runtime analysis vs type-level guarantee
+
+<!-- connections:end -->

@@ -28,3 +28,17 @@ Undocumented details worth a written spec: meta `lvl` vs `ctx.env.length` split,
 A written calculus chapter for these rules remains to be drafted; until then, treat repository tests plus the modules above as the contract.
 
 Hub: [[generalization.md]], [[meta-variables.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[generalization]] — No spec formalization
+- ADDRESSES → [[documentation-debt]] — Spec gap
+
+**Incoming**
+- [[elaboration-v2.thread]] ← INCLUDES
+- [[letpoly-implicit-escape]] ← RELIES_ON — Area with spec gaps
+
+<!-- connections:end -->

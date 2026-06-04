@@ -41,3 +41,17 @@ _Shared with: gram-evolution (graph viz depends on GRAM substrate)_
 
 7. **Graph visualization** [[explorer-graph-viz]] — speculative
    d3-based rendering of GRAM property graphs and MIR CFGs.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[pipeline-explorer]] — Evolution roadmap for the explorer
+- SHARED_WITH → [[gram-evolution.thread]] — Graph viz depends on GRAM substrate
+
+**Incoming**
+- [[pipeline-explorer]] ← INCLUDES — Roadmap thread
+- [[explorer-audit.thread]] ← SHARED_WITH — Snippet fixes, pipeline
+
+<!-- connections:end -->

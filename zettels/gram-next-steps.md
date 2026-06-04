@@ -32,3 +32,20 @@ Near-term roadmap after reaching translation + analysis parity with MIR:
 - LoGRAM substrate (triple-store, Datalog queries)
 - GRAM interpreter with swappable strategies
 - Self-hosted passes (passes written in Yap)
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[gram]] — Near-term roadmap
+- INCLUDES → [[defunctionalization]] — Planned pass
+- INCLUDES → [[gram-to-mir-bridge]] — Planned translation
+- INCLUDES → [[gram-crud-enrichment]] — Planned pass (phase 5)
+- INCLUDES → [[lambda-lifting]] — Planned pass (phase 4)
+
+**Incoming**
+- [[gram-to-mir-bridge]] ← FOLLOWS — Step 1: regression + CFG extraction
+- [[gram-evolution.thread]] ← INCLUDES
+
+<!-- connections:end -->

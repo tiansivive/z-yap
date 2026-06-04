@@ -24,3 +24,16 @@ In eager constraint solving, unification happens inline during the elaboration t
 ## Relationship to Yap
 
 Yap chose [[deferred-constraint-solving]] over eager solving for error resilience and separation of concerns. Both approaches support let-polymorphism — the choice is about engineering properties, not expressiveness.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[deferred-constraint-solving]] — Classical vs deferred approach
+
+**Incoming**
+- [[deferred-constraint-solving]] ← CONTRASTS_WITH — Deferred vs classical eager approach
+- [[elaboration-v2.thread]] ← CONTRASTS_WITH
+
+<!-- connections:end -->

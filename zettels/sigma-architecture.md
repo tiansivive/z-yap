@@ -24,3 +24,20 @@ This differs from Pi/Lambda/Forall abstractions, which bind a single positional 
 Sharing the `Abs` node with Pi/Lambda is intentional: sigma needs closure capture for the body to remain unevaluated until a concrete row is provided. The closure mechanism is standard — only the substitution path (row-of-labels vs single variable) is non-standard.
 
 The flat row representation means fields have no intrinsic ordering — `{ a: :b, b: :a }` is a valid row, analogous to mutually recursive definitions in a module. Whether such definitions are semantically meaningful is the user's responsibility; the type system supports them. Standard sigma implementations use telescopic binding order (each field sees only prior fields); Yap's flat rows with label-based lookup side-step this restriction.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETAILS → [[sigma-types]] — Two-step row abstraction mechanics
+- DETAILS → [[sigma-bindings]] — How ctx.sigma implements the abstraction
+- RELIES_ON → [[standard-closure]] — Reuses closure capture from Abs
+- CONTRASTS_WITH → [[pi-types]] — Row-of-labels vs single de Bruijn variable
+- APPLIES_TO → [[unified-binder]] — Why sigma shares the Abs node
+
+**Incoming**
+- [[sigma-quoting-field-ref]] ← GROUNDED_IN — Symbolic row mirrors Pi's Rigid(lvl) in the two-step architecture
+- [[sigma-quoting-match]] ← GROUNDED_IN — StuckMatch requires symbolic neutrals from the row abstraction
+
+<!-- connections:end -->

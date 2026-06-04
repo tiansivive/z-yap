@@ -28,3 +28,23 @@ tags:
 The elaboration monad accumulates constraints in its writer channel. At let/module boundaries, the accumulated constraints are drained via `listen`, passed to the solver, and the resulting substitution is merged into the context's zonker. Generalization then abstracts over any metas that remain unsolved after solving.
 
 Both deferred and eager approaches support let-polymorphism — the choice between them is not about expressiveness but about engineering properties. See [[eager-constraint-solving]] for the contrast.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[generalization]] — Metas generalized before solving
+- ENABLES → [[implicit-resolution]] — Full context for resolution
+- RELIES_ON → [[constraint-solver]] — Batch processing at let boundaries
+- RESOLVES → [[constraint-types]] — At let boundaries
+- CONTRASTS_WITH → [[eager-constraint-solving]] — Deferred vs classical eager approach
+
+**Incoming**
+- [[eager-constraint-solving]] ← CONTRASTS_WITH — Classical vs deferred approach
+- [[ghc-influence]] ← INSPIRES — Constraint deferral
+- [[constraint-solver]] ← ENABLES — Batch processing at let boundaries
+- [[implicit-resolution]] ← RESOLVES — At let boundaries
+- [[elaboration-v2.thread]] ← RELIES_ON
+
+<!-- connections:end -->

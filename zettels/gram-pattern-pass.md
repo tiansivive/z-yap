@@ -29,3 +29,31 @@ Phase 2 of pattern matching in GRAM. Reads the `pat:*` graph nodes produced by t
 The original `match`, `case`, and `pat:*` nodes are fully preserved. Both the semantic structure (what patterns exist) and the operational structure (how to dispatch) coexist in the same graph.
 
 **Algorithm:** Column heuristic picks the column with fewest wildcards. Matrix specialization and default construction follow Maranget. Struct patterns normalize to a canonical field order with synthetic wildcards for missing fields.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[gram-pattern-translation]] — Reads pat:* nodes as input
+- IMPLEMENTS → [[gram]] — Pipeline pass
+- USES → [[maranget-paper]] — Decision tree algorithm
+- PRESERVES → [[match]] — match/case/pat nodes unchanged
+- INSTANTIATES → [[gram-additive-enrichment]] — :decision_tree edge exemplifies principle
+- FOLLOWS → [[gram-shift-reset-pass]] — Pipeline ordering
+
+**Incoming**
+- [[pattern-matching-compilation]] ← INCLUDES — Compilation phase
+- [[gram-pattern-translation]] ← ENABLES — Makes patterns graph-queryable
+- [[gram]] ← INCLUDES — Pipeline pass
+- [[gram-to-mir-bridge]] ← RELIES_ON — Needs decision trees
+- [[gram-interpreter]] ← ENABLES — Tests decision tree semantics
+- [[pattern-algorithm-choice]] ← CONSTRAINS — Algorithm for the pass
+- [[stg-analogy]] ← DISTINGUISHES — Pass = Cmm-level (operational)
+- [[dpo-vs-imperative-passes]] ← APPLIES_TO — Pattern pass is imperative/aggregate
+- [[dpo-vs-imperative-passes]] ← ENABLES — Downstream optimizations on decision tree are DPO
+- [[pattern-matching.thread]] ← INCLUDES
+- [[gram-evolution.thread]] ← INCLUDES
+- [[reuse-analysis-strategy]] ← RELIES_ON — Reuse sites occur at match boundaries
+
+<!-- connections:end -->

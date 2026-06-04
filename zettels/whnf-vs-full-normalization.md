@@ -1,6 +1,7 @@
 ---
 tags:
 - decision
+- nbe
 - normalization
 - elaboration
 - evaluation
@@ -23,3 +24,22 @@ Terms that stay "weak" (unreduced under binders or with stuck heads):
 The consequence: unification and inference share the same evaluator. Normalization depth is whatever the evaluator achieves for each head. If a term's head is known (a closure, a literal), it reduces. If it's unknown (a meta, a free variable), it stays neutral. The evaluator doesn't decide; the semantic domain does.
 
 This design is simpler than an evaluator with configurable reduction depth, at the cost of not being able to "stop early" for performance. The evaluation-step-limit provides the engineering safety net against non-termination.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[elaboration]] — WHNF only in elab
+- CONSTRAINS → [[unification]] — Full NF in unification
+- CONSTRAINS → [[trampoline-evaluator]] — Evaluation depth
+- RELIES_ON → [[neutrals]] — WHNF is emergent from neutral blocking
+- RELIES_ON → [[mu-types]] — Mu stays neutral
+- RELIES_ON → [[evaluation-step-limit]] — Safety net for one-evaluator design
+
+**Incoming**
+- [[whnf-codification]] ← ADDRESSES — Formalize the WHNF boundary
+- [[lambda-synthesis-fix]] ← USES — Quotes NF.Value at correct de Bruijn level
+- [[nbe]] ← INCLUDES — One evaluator, emergent WHNF
+
+<!-- connections:end -->

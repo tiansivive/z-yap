@@ -46,3 +46,22 @@ tags:
 - A selective-CPS backend remains theoretically reachable for targets requiring uniform tail structure; it would have to keep answer-type metavariable behaviour consistent with the direct-style path. See [[selective-cps]] for the description of that rejected alternative.
 - Shift-reset MIR semantics are documented in [[shift-reset-mir-lowering]]; the [[delimited-continuations.thread]] tracks ongoing work in this area.
 - The bubble representation ([[bubble-semantics]]) describes the EB-level handling that feeds this lowering.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REJECTS → [[selective-cps]] — No CPS transform needed
+- DOCUMENTS → [[shift-reset-mir-lowering]] — The chosen lowering strategy
+- RELIES_ON → [[bubble-semantics]] — EB-level handling feeds this lowering
+
+**Incoming**
+- [[shift-reset-mir-lowering]] ← IMPLEMENTS — Realizes the decision
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[gram-canonical-ir.adr]] ← AMENDS — D-006 moves D-004 lowering site without overturning the shape
+- [[gram-canonical-ir.adr]] ← REFRAMES — D-004 now layered atop the GRAM-canonical pipeline
+- [[gram-canonical-ir.adr]] ← REVISES — Scope language updated; shape preserved
+- [[shift-reset-bridge-lowering]] ← IMPLEMENTS — Preserves the D-004 shape on the canonical pipeline
+
+<!-- connections:end -->

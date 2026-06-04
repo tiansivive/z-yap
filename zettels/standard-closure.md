@@ -19,3 +19,24 @@ Every lambda, Pi, Sigma, and Mu binder produces a standard closure during NbE ev
 Application of a standard closure extends the captured context with the argument value (via `EB.extend` for ordinary binders, or `EB.extendSigmaEnv` for Sigma binders where the argument must be a row value), then schedules the body for evaluation.
 
 This is the most common closure kind by far — it handles all user-written functions and type-level binders. The other two closure kinds (PrimOp, Continuation) handle specialized domains.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[nbe]] — Lazy substitution for all binders
+- RELIES_ON → [[elaboration-context]] — Captures ctx at binding time
+- RELIES_ON → [[eb-term]] — Body is an EB.Term
+- ENABLES → [[lambda]] — Lambda bodies are standard closures
+- ENABLES → [[pi-types]] — Pi codomains are standard closures
+- ENABLES → [[sigma-types]] — Sigma bodies are standard closures
+- ENABLES → [[mu-types]] — Mu bodies are standard closures
+
+**Incoming**
+- [[closures]] ← INCLUDES — Core NbE closure
+- [[application-evaluation]] ← DISPATCHES_ON — Extend ctx and evaluate body
+- [[closure-conversion]] ← CONSUMES — Standard closures become MIR env+fn pairs
+- [[sigma-architecture]] ← RELIES_ON — Reuses closure capture from Abs
+
+<!-- connections:end -->

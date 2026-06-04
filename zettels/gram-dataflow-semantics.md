@@ -24,3 +24,23 @@ Two `resumption` nodes feeding a `primop` have no ordering edge between them. Tw
 The sequencing choice belongs to the backend, not the IR. This is the key difference from MIR's block-graph, where `Jump` terminators impose a fixed control-flow order that all backends must respect.
 
 **Explicit sequencing when needed:** If a true ordering constraint exists (side effects, shared mutable state), it can be expressed via an explicit `:sequenced` or `:happens_before` edge. Absence of such an edge means independence.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[gram]] — No forced sequencing in graph
+- CONTRASTS_WITH → [[mir-lowering]] — Partial order vs total order (blocks)
+- CONTRASTS_WITH → [[shift-reset-mir-lowering]] — Dependency edges vs jump sequences
+- ENABLES → [[native-lambda-hvm]] — Parallel reduction compatible
+- ENABLES → [[compilation-by-selection]] — Independence enables selectivity
+
+**Incoming**
+- [[gram-graph-ir.adr]] ← MOTIVATES — Property follows from graph substrate
+- [[compilation-by-selection]] ← RELIES_ON — Requires independence
+- [[gram-shift-reset-pass]] ← INSTANTIATES — Resumptions unordered
+- [[gram-evolution.thread]] ← RELIES_ON — Partial-order principle
+- [[gram-crud-enrichment]] ← INSTANTIATES — Mode flows with data, not control
+
+<!-- connections:end -->

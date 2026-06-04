@@ -24,3 +24,20 @@ Lowering reuses one struct path for `StructApp` heads (`Patterns.StructApp` → 
 The payoff is shared algorithms (traversal in `rows.ts`, unification cases, inference patterns) across products and sums; it does **not** imply structural subtyping—see [[structural-subtyping.md]], [[row-polymorphism.md]].
 
 Related: [[data-declarations]], [[customizable-data-types]], [[indexing-strategies]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MOTIVATES → [[row-polymorphism]] — All data is row-based
+- MOTIVATES → [[structural-records]] — Uniform substrate
+- ENABLES → [[gram-crud-enrichment]] — Row structure = per-field access
+
+**Incoming**
+- [[dedicated-row-constructors]] ← ADDRESSES — Cognitive overhead
+- [[row-types.thread]] ← INCLUDES
+- [[data-declarations]] ← RELIES_ON — Desugars into row machinery
+- [[customizable-data-types]] ← RELIES_ON — Records as base abstraction
+
+<!-- connections:end -->

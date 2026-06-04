@@ -25,3 +25,28 @@ The pass does NOT produce blocks, jumps, or state machines. It annotates *what i
 ## Contrast with MIR
 
 MIR shift/reset lowering produces entry/s_init/r/s_i/reset_exit blocks with explicit Jump terminators. That sequencing is a backend choice, not an IR property. The GRAM pass preserves the freedom for backends to choose their own operational strategy.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[gram]] — Pipeline pass
+- IMPLEMENTS → [[shift-reset]] — In GRAM context
+- CONTRASTS_WITH → [[shift-reset-mir-lowering]] — Annotation vs state machine
+- PRESERVES → [[shift-reset]] — reset/shift nodes unchanged
+- INSTANTIATES → [[gram-additive-enrichment]] — Adds bubble/continuation/resumption alongside existing nodes
+- INSTANTIATES → [[gram-dataflow-semantics]] — Resumptions unordered
+- FOLLOWS → [[saturation]] — Pipeline order
+
+**Incoming**
+- [[gram-pattern-pass]] ← FOLLOWS — Pipeline ordering
+- [[gram]] ← INCLUDES — Pipeline pass
+- [[gram-to-mir-bridge]] ← RELIES_ON — Needs continuation structure
+- [[gram-interpreter]] ← ENABLES — Tests continuation semantics
+- [[dpo-vs-imperative-passes]] ← APPLIES_TO — Shift-reset pass is imperative/aggregate
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[gram-evolution.thread]] ← INCLUDES
+- [[bubble-semantics]] ← COMPOSES_WITH — GRAM already has bubble concept; aligns vocabulary
+
+<!-- connections:end -->

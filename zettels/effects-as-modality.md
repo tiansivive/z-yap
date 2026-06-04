@@ -24,3 +24,21 @@ Petricek and Orchard's coeffect framework ([[petricek-orchard]]) provides a mode
 ## Relationship to existing mechanisms
 
 The `shift`/`reset` lowering ([[shift-reset-mir-lowering]]) and delimited continuation infrastructure operate independently of modalities today. Unifying them under the modal framework would mean effect tracking composes with usage and liquid checking rather than being a separate concern.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[modalities]] — Effects tracked as modalities
+- EXTENDS → [[shift-reset]] — Effect system over continuations
+- COMPOSES_WITH → [[verification-pipeline]] — Effect verification
+- COMPOSES_WITH → [[shift-reset]] — Effect system over continuations
+
+**Incoming**
+- [[petricek-orchard]] ← INSPIRES — Coeffect framework
+- [[koka-influence]] ← INSPIRES — Effect tracking model
+- [[usage-semantics.thread]] ← INCLUDES
+- [[open-shift-verification]] ← COMPOSES_WITH — Effect annotations needed for cross-module
+
+<!-- connections:end -->

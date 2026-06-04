@@ -45,3 +45,28 @@ units; threads and queues are workflows over them.
 - Cross-thread items use `SHARED_WITH` edges
 - Readiness: `ready` (unblocked), `blocked` (waiting), `needs-design` (requires exploration)
 - Worklist items are tagged directly; no hub file. The tag is the source of truth, scripts produce views
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[delimited-continuations.thread]] — System design
+- INFORMS → [[row-types.thread]] — System design
+- INFORMS → [[usage-semantics.thread]] — System design
+- INFORMS → [[recursion.thread]] — System design
+- INFORMS → [[pattern-matching.thread]] — System design
+- INFORMS → [[verification-backend.thread]] — System design
+- INFORMS → [[gram-evolution.thread]] — System design
+- INFORMS → [[elaboration-v2.thread]] — System design
+- INFORMS → [[parser-migration.thread]] — System design
+- INFORMS → [[global-pending-queue]] — System design
+- INCLUDES → [[global-pending-queue]] — Queue is part of the meta system
+- INCLUDES → [[pulse]] — Curated narrative for tracked work
+- INCLUDES → [[yap-baseline]] — Locked pre-z-yap baseline
+- INCLUDES → [[sessions.hub]] — Session/transcript infrastructure
+- INCLUDES → [[z3-stay-companion]] — Open meta question
+- INCLUDES → [[convention-zettel-promotion]] — Open meta question
+- INCLUDES → [[transcripts-private-submodule]] — Open todo
+
+<!-- connections:end -->

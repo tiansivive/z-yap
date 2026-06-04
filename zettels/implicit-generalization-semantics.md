@@ -24,3 +24,19 @@ When an implicit binder is unconstrained (e.g. `\x =>` where `x` is unused in th
 - *Default to Type*: Practical for the common case, simpler inferred types. Breaks when implicits are not types (numeric precision, config records).
 
 Common cases like `\x -> \y -> x` still work — both implicits get annotation `Type` (a constant), so `wrapLambda` never exercises the dependent path.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[implicits]] — Unconstrained implicits generalize
+- INFORMS → [[let-polymorphism]] — Consistent with let-generalization
+
+**Incoming**
+- [[explorer-audit.thread]] ← DOCUMENTS — Decision from audit
+- [[wraplambda-fix]] ← REVEALS — Bug only triggers with dependent annotations
+- [[letpoly-implicit-escape]] ← RELIES_ON — Implicit wrapping decision
+- [[fst-closure-annotation]] ← RELIES_ON — Implicit parameter ordering
+
+<!-- connections:end -->

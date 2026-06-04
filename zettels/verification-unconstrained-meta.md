@@ -21,3 +21,16 @@ The variant match explorer snippet (`\x -> match x | #nil a -> 0 | #cons {el, re
 **Files:** `src/elaboration/module.ts`, `src/elaboration/inference/statements.ts`.
 
 **Note:** The downstream "Unconstrained meta variable in verification" still appears because the variant type parameters (`?3`, `?5`, `?7`) are genuinely unconstrained — this is expected for polymorphic snippets with no type annotations.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[verification-pipeline]] — Unsolved meta reaches IVL
+- MAY_RESOLVE_VIA → [[module-zonker-fix]] — Zonker fix may solve it
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

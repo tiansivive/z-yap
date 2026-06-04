@@ -31,3 +31,18 @@ Z3 has no native row theory, which is a key driver for the owned-solver directio
 ## Long-term role
 
 As the CDCL(T) engine matures, the adapter narrows from "fallback" to "test oracle only." The Z3 npm dependency can eventually move behind an optional flag rather than being required at install time.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSUMES → [[ivl-boundary]] — Translates IVL to Z3
+- IMPLEMENTS → [[verification-backend]] — One backend consumer
+- ENABLES → [[solver-testing]] — Differential testing
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+- [[m1-implementation]] ← PRODUCES — Adapter built in M1
+
+<!-- connections:end -->

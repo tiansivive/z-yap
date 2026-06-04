@@ -25,3 +25,20 @@ Additionally, `innerID`'s inner closure annotation was self-referential (`Π(x: 
 **Fix:** Resolved by the composition of both fixes. Type is now `Num`, normalized value is `42`, annotations display correctly.
 
 **Discovered via:** integration pipeline test snapshot audit (`language-tour.test.ts.snap`, test: "let-polymorphism in blocks" → `letpoly`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[generalization]] — Meta escape at block boundary
+- APPLIES_TO → [[blocks]] — Block scoping of let-bound metas
+- RELIES_ON → [[missing-spec-let-polymorphism]] — Area with spec gaps
+- RELIES_ON → [[implicit-generalization-semantics]] — Implicit wrapping decision
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Generalization leaks block-internal metas
+- [[module-zonker-fix]] ← FIXES — Zonker propagation stopped meta escape
+- [[fst-closure-annotation]] ← FIXES — Ann EB.Term fix resolved stale closure annotations
+
+<!-- connections:end -->

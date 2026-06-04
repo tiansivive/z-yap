@@ -18,3 +18,16 @@ tags:
 Left-to-right, one column at a time. Groups arms by outermost constructor, recurses into each group. Wildcards get duplicated into all groups, causing body duplication. Simple and correct; historically used by GHC's Core desugarer (via Wadler's refinement in "The Implementation of Functional Programming Languages", ch. 5).
 
 Superseded by Maranget (2008) for efficiency — Maranget picks optimal columns and avoids body duplication via index references.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[pattern-matching-compilation]] — Original algorithm (1985)
+
+**Incoming**
+- [[maranget-paper]] ← SUPERSEDES — Better column selection, no body duplication
+- [[pattern-algorithm-choice]] ← REJECTS — Body duplication unsuitable for graph IR
+
+<!-- connections:end -->

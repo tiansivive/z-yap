@@ -25,3 +25,17 @@ tags:
 Call sites commonly pass **`ctx.env.length`** where quoting aligns with the live env (`check.ts`, `implicits.ts`, `inference/rows.ts`, zonked-meta paths in `evaluation.v2.ts`, etc.).
 
 See also: [[de-bruijn.md]], [[levels-vs-indices.md]], [[quoting.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[de-bruijn-indices]] — Target representation
+- USES → [[de-bruijn-levels]] — Source representation
+
+**Incoming**
+- [[quoting]] ← USES — Core conversion
+- [[quoting]] ← RELIES_ON — Level → index at the boundary
+
+<!-- connections:end -->

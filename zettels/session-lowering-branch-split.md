@@ -38,3 +38,16 @@ Verified in the current tree:
 Inference for shift/reset lives under `src/elaboration/inference/{shift,reset}.ts` (not under legacy `checking.v2/` / `inference.v2/` directory names from the dropped CST migration experiment).
 
 Use `git log` / issue links if you need the original branch lineage.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[closures]] — Closure conversion and shared bundle primitive
+- ADDRESSES → [[elaboration]] — FFI arity computation piped from elaboration to lowering
+
+**Incoming**
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -22,3 +22,16 @@ Type system for **coeffects**: annotations describe how a computation depends on
 **Yap:** Implicits are first-class in elaboration (`icit` on binders via `@yap/shared/implicitness`; `ctx.implicits` grows via module `using` and block evaluation). Resolution is first-match unification over that ordered list (`solver.ts` / `resolveImplicit`), not a separate coeffect-indexed typing judgment in `checking.v2/`. See [[implicits-as-coeffects.md]] for the deliberate analogy to graded contexts.
 
 **Status:** `speculative` (conceptual bridge, not a claimed mechanization of the paper).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[effects-as-modality]] — Coeffect framework
+- INSPIRES → [[implicits-as-coeffects]] — Context-dependence calculus
+
+**Incoming**
+- [[implicits-as-coeffects-exploration]] ← USES — Foundational coeffect paper
+
+<!-- connections:end -->

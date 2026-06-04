@@ -17,3 +17,16 @@ tags:
 **Fix:** The `variable` case in `walkPatternRow` now emits a `PAT_WILDCARD` node and pushes it onto the binder stack, maintaining index alignment with elaboration's representation.
 
 **File:** `src/GRAM/translate.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[gram]] — walkPatternRow de Bruijn alignment
+- USES → [[row-types]] — Row variable tail in patterns
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

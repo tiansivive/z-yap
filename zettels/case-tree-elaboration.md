@@ -37,3 +37,24 @@ Advantages: user doesn't need to think about with-abstractions or elimination or
 This connects to Yap's existing [[pattern-matching-compilation]]: the Maranget-style decision trees in lowering are operational (choosing branches efficiently), while case-tree elaboration is semantic (propagating type equalities). A dependent Yap might need both — case trees for type checking, decision trees for code generation.
 
 Related: [[dependent-pattern-matching]], [[with-abstraction]], [[pattern-matching-compilation]], [[pattern-algorithm-choice]], [[idris-2-influence]], [[lean-4-influence]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[dependent-pattern-matching]] — Compiler-directed type refinement
+- CONTRASTS_WITH → [[with-abstraction]] — Compiler-directed vs user-directed
+- EXTENDS → [[pattern-matching-compilation]] — Semantic decision trees for types
+- CONTRASTS_WITH → [[pattern-matching-compilation]] — Type checking vs code generation
+- USES → [[unification]] — Index unification during splitting
+- INFORMS → [[idris-2-influence]] — Idris 2's DPM approach
+- INFORMS → [[lean-4-influence]] — Lean 4's DPM approach
+- INFORMS → [[idris-2-influence]] — Idris 2's case trees
+- INFORMS → [[lean-4-influence]] — Lean 4's case trees
+
+**Incoming**
+- [[with-abstraction]] ← CONTRASTS_WITH — User-directed vs compiler-directed
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

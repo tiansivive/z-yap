@@ -22,3 +22,21 @@ Core output term: `EB.Constructors.Inj(label, val, base)` (`src/elaboration/synt
 This is **not** variant introduction (`:tag payload` goes through `tagged`; see [[tagged-values.md]]). Injection extends records/schemas/sums **algebraically** under inference constraints rather than declaring subtyping—width flexibility is row-parameter / metavar solving (see [[row-polymorphism.md]], [[structural-subtyping.md]]).
 
 Dual elimination is projection (`Proj`) handled in `src/elaboration/inference/projection.ts` ([[projection.md]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INTRODUCES → [[structural-records]] — Field extension
+- INTRODUCES → [[variant-types]] — Tag injection
+- DISPATCHES_ON → [[nf-value]] — Neutral, Var, Schema, Variant, Sigma
+- TRANSLATES_TO → [[gram-crud-enrichment]] — Inj → Update in GRAM
+
+**Incoming**
+- [[projection]] ← DUAL_OF — Elim vs intro for row-backed types
+- [[row-rewriting]] ← ENABLES — Row extension
+- [[row-types.thread]] ← INCLUDES
+- [[gram-crud-enrichment]] ← ANNOTATES — inj → Update (mode from multiplicity)
+
+<!-- connections:end -->

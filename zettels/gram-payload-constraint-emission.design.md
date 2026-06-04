@@ -35,3 +35,16 @@ The current implementation types `payload` as `String` rather than `JSON`, avoid
 3. **Alias** — define `JSON` as a type alias for `String` in the context so normalisation resolves them to the same type
 
 Option 1 aligns with bidirectional style; option 3 is the minimal change.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DISCOVERED_BY → [[programmable-gram-passes-mvp-retrospective]] — Design issue discovered during MVP impl
+- APPLIES_TO → [[gram-rule-as-yap-value]] — Constraint emission affects rule-as-value typing
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES — Design issue tracked in the thread
+
+<!-- connections:end -->

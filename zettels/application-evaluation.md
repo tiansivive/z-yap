@@ -1,6 +1,7 @@
 ---
 tags:
 - mechanism
+- nbe
 - normalization
 - elaboration
 - evaluation
@@ -26,3 +27,25 @@ How values respond to application in Yap's NbE evaluator. Application is the cen
 - **Nested App**: re-associates via `reduce` before continuing.
 
 This dispatch is the operational semantics of Yap's CBV evaluation. It determines what "computation" means at the NF level.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[nbe]] — (App) at NF level
+- DELEGATES_TO → [[closures]] — Abs case
+- IMPLEMENTS → [[typing-rules]] — (App) rule at NF level
+- DISPATCHES_ON → [[nf-value]] — Abs → closure, External → partial, PrimOp → δ
+- DISPATCHES_ON → [[standard-closure]] — Extend ctx and evaluate body
+- DISPATCHES_ON → [[primop-closure]] — Accumulate and fire when saturated
+- DISPATCHES_ON → [[continuation-closure]] — Restore frames and replay
+- DISPATCHES_ON → [[neutrals]] — Grow spine when head is stuck
+- DISPATCHES_ON → [[mu-types]] — Mu stays neutral, no unfold
+- IMPLEMENTS → [[cbv-evaluation]] — Drives CBV discipline
+
+**Incoming**
+- [[nbe]] ← INCLUDES — Application dispatch
+- [[eq-normalization-bug]] ← RELIES_ON — PrimOps dispatch is application evaluation
+
+<!-- connections:end -->

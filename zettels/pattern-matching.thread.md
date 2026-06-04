@@ -45,3 +45,33 @@ checking is the next frontier alongside the implemented lowering passes.
 8. **Functional patterns** [[functional-patterns]] — speculative
    View/active patterns. Would intersect metavar solving, modalities,
    exhaustiveness decidability.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[match]]
+- INCLUDES → [[pattern-matching-compilation]]
+- INCLUDES → [[gram-pattern-translation]]
+- INCLUDES → [[gram-pattern-pass]]
+- RELIES_ON → [[pattern-algorithm-choice]] — Settled Maranget decision
+- INCLUDES → [[maranget-paper]]
+- INCLUDES → [[exhaustiveness-checking]]
+- INCLUDES → [[functional-patterns]]
+- SHARED_WITH → [[row-types.thread]] — exhaustiveness-checking depends on row/variant structure
+- INCLUDES → [[dependent-pattern-matching]]
+- INCLUDES → [[with-abstraction]]
+- INCLUDES → [[case-tree-elaboration]]
+- INCLUDES → [[view-patterns]]
+- INCLUDES → [[pattern-synonyms]]
+- INCLUDES → [[active-patterns]]
+- RELIES_ON → [[open-closed-variants]] — Concept: variant openness
+- INCLUDES → [[design-open-closed-variant-semantics]] — Design work item
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[gram-evolution.thread]] ← SHARED_WITH — gram-pattern-pass, gram-pattern-translation
+- [[explorer-audit.thread]] ← SHARED_WITH — Struct dispatch, row binders
+
+<!-- connections:end -->

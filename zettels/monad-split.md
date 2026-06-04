@@ -21,3 +21,15 @@ tags:
 `Elaboration` folds reader (`EB.Context`), writer-like accumulation (`Collector`), and mutable `MutState` into one yield protocol (`src/elaboration/shared/monad.v2.ts`). Channels (`tell`) couple constraint emission, meta registry, zonker updates, and type annotations in one collector merge path (`concat` merges writers; zonker uses `Sub.compose`).
 
 One future direction: split reader, writer, and mutable state into narrower interpreters or layered capabilities if inference, solver wiring, and provenance tracing need independent evolution. Today a single `Elaboration` monad covers all three channels.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[elaboration-monad]] — Addresses coupling
+
+**Incoming**
+- [[elaboration-v2.thread]] ← INCLUDES
+
+<!-- connections:end -->

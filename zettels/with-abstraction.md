@@ -37,3 +37,21 @@ One of several approaches to the [[dependent-pattern-matching]] problem. Alterna
 The mechanism could interact with Yap's existing [[match]] syntax: a `with` clause inside a match arm that introduces additional scrutinees whose types refine the context.
 
 Related: [[dependent-pattern-matching]], [[case-tree-elaboration]], [[match]], [[agda-influence]], [[unification]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[dependent-pattern-matching]] — User-directed type refinement
+- CONTRASTS_WITH → [[case-tree-elaboration]] — User-directed vs compiler-directed
+- EXTENDS → [[match]] — Additional scrutinees in match arms
+- INFORMS → [[agda-influence]] — Agda's primary DPM mechanism
+- USES → [[unification]] — Type equalities from with-matching
+- INFORMS → [[agda-influence]] — Agda's with mechanism
+
+**Incoming**
+- [[case-tree-elaboration]] ← CONTRASTS_WITH — Compiler-directed vs user-directed
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

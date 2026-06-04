@@ -85,3 +85,34 @@ See [[m1-implementation]] and [[m2-implementation]] for milestone detail; [[cdcl
 ## Superseded documentation
 
 Z3-era zettels that described `Expr`-based artefacts, planned-only solver layout, or `docs/SMT-SOLVER.md` as authority are tagged `deprecated` and linked via [[connections]] `SUPERSEDES` edges from this decision.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MOTIVATES → [[vc-ir]] — Backend-neutral IR needed
+- MOTIVATES → [[cdcl-t-solver]] — Own solver needed
+- SUPERSEDES → [[smt-translation]] — Z3 dependency removed
+- PRESERVES → [[verification-pipeline]] — Shape unchanged
+- SUPERSEDES → [[verification-artefacts-revised]]
+- SUPERSEDES → [[solver-module-layout]]
+- SUPERSEDES → [[milestone-5-explanations]]
+- MOTIVATES → [[cdcl-t-solver]]
+- MOTIVATES → [[vc-ir]]
+- PRODUCES → [[m1-implementation]]
+- PRODUCES → [[m2-implementation]]
+
+**Incoming**
+- [[milestone-1-ir-boundary]] ← FOLLOWS — First step
+- [[cas-instead-of-smt]] ← CONTRASTS_WITH — Alternative rejected
+- [[verification-backend.thread]] ← INCLUDES
+- [[session-m2-completion]] ← FOLLOWS — Continues Z3 replacement
+- [[m1-implementation]] ← FOLLOWS — First concrete step after the decision
+- [[cdcl-t-solver]] ← IMPLEMENTS — Custom CDCL(T) replaces Z3
+- [[m1-implementation]] ← IMPLEMENTS — M1 delivered IVL boundary
+- [[m2-implementation]] ← IMPLEMENTS — M2 delivered EUF + quantifiers + LIA
+- [[required-theory-support]] ← MOTIVATES — Row theory gap drove the decision
+- [[ivl-boundary]] ← IMPLEMENTS — IVL is the core deliverable
+
+<!-- connections:end -->

@@ -36,3 +36,27 @@ Yap can infer whether a variant is open or closed from context. When the full ty
 This also connects to [[data-declarations]]: a `data` declaration could produce a closed variant by default (no row tail), giving the exhaustiveness checker a known constructor set without the user manually closing the row.
 
 Related: [[variant-types]], [[row-polymorphism]], [[exhaustiveness-checking]], [[match]], [[data-declarations]], [[rows-universal-substrate]], [[active-patterns]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[variant-types]] — Open vs closed row tails
+- RELIES_ON → [[row-polymorphism]] — Row variables determine openness
+- INFORMS → [[exhaustiveness-checking]] — Primary discriminant for coverage
+- USES → [[unification]] — Row solving determines open/closed
+- INFORMS → [[data-declarations]] — Data decls produce closed variants
+- COMPOSES_WITH → [[type-families]] — Open families as open rows
+- INFORMS → [[match]] — Fallback required for open variants
+
+**Incoming**
+- [[data-declarations]] ← INFORMS — Data decl could default to closed
+- [[type-families]] ← COMPOSES_WITH — Open type families as open rows
+- [[active-patterns]] ← INFORMS — Complete vs partial active patterns
+- [[exhaustiveness-checking]] ← RELIES_ON — Open vs closed determines strategy
+- [[pattern-matching.thread]] ← RELIES_ON — Concept: variant openness
+- [[row-types.thread]] ← RELIES_ON — Concept: variant openness
+- [[design-open-closed-variant-semantics]] ← ADDRESSES — Design task for the concept
+
+<!-- connections:end -->

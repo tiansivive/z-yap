@@ -22,3 +22,17 @@ Quantifier instantiation via E-matching produces ground lemmas. For example, `�
 The atom table is populated from the original formula's CNF encoding, which may not contain every atom form that quantifier instantiation can produce. Rather than eagerly registering all possible atom variants (infeasible for arbitrary instantiations), the lemma encoder resolves complements lazily.
 
 This is a robustness measure: without it, quantifier instantiation silently fails to encode valid lemmas whenever the exact atom form is absent, leading to incompleteness — the solver reports SAT for formulas that are actually unsatisfiable under the quantified constraints.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[theory-plugin-interface]] — Lemma encoding rule
+- DETAILS → [[m2-implementation]] — Extracted from M2 record
+- APPLIES_TO → [[quantifier-engine]] — Specific to quantifiers
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+
+<!-- connections:end -->

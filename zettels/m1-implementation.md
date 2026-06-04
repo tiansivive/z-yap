@@ -53,3 +53,38 @@ IVL (Intermediate Verification Language) replaces direct Z3 expression construct
 ## Deferred
 
 Full translation boundary rewrite (`translate.ts` → IVL emission) deferred. The Z3 adapter bridges the gap: obligations still originate as Z3 expressions through the existing pipeline, but the solver path now goes through IVL.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[milestone-1-ir-boundary]] — Realizes the milestone
+- ADDRESSES → [[milestone-1-ir-boundary]] — Closes the open work item
+- IMPLEMENTS → [[vc-ir]] — IVL types/builder realize the VC IR concept
+- INSTANTIATES → [[vc-ir]] — Concrete TypeScript module from abstract design
+- IMPLEMENTS → [[translation-boundary-vc]] — z3.adapter.ts realizes the boundary
+- PRESERVES → [[translation-boundary-vc]] — Keeps Z3 working during transition
+- IMPLEMENTS → [[boolean-lowering-cnf]] — cnf.ts realizes Tseitin pass
+- IMPLEMENTS → [[vc-normalization]] — normalize.ts realizes formula simplification
+- IMPLEMENTS → [[quantifier-preparation]] — skolem.ts realizes skolemization
+- USES → [[tseitin-cnf]] — Tseitin algorithm used in cnf.ts
+- SUPERSEDES → [[smt-translation]] — IVL replaces direct Z3 encoding
+- DEPRECATES → [[smt-translation]] — translate.ts path now legacy
+- VALIDATES → [[required-formula-forms]] — IVL covers all required formula shapes
+- FOLLOWS → [[z3-replacement.adr]] — First concrete step after the decision
+- IMPLEMENTS → [[z3-replacement.adr]] — M1 delivered IVL boundary
+- PRODUCES → [[ivl-boundary]] — M1 delivered IVL types
+- PRODUCES → [[z3-adapter-strategy]] — Adapter built in M1
+
+**Incoming**
+- [[session-m2-completion]] ← PRODUCED — Session delivered M1
+- [[m2-implementation]] ← DEPENDS_ON — Structurally built on IVL
+- [[m2-implementation]] ← CONSUMES — Solver ingests IVL formulas
+- [[verification-backend.thread]] ← INCLUDES
+- [[solver-trace]] ← USES — Uses IVL printer for formula rendering
+- [[build-simplify-toggle]] ← APPLIES_TO — Modifies Build module from M1
+- [[pipeline-explorer]] ← USES — IVLPrint for formula rendering
+- [[z3-replacement.adr]] ← PRODUCES
+
+<!-- connections:end -->

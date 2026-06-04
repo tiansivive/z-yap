@@ -63,3 +63,37 @@ invisible when each pass was tested in isolation._
 
 12. **Bridge closure capture** [[bridge-closure-capture]] — backlog
     Already tracked. Curried returns with outer captures.
+
+13. ~~**Bridge unsaturated external** [[bridge-unsaturated-external]] — bug, **implemented**~~
+    `external()` in `bridge/primops.ts` emits `Call(direct)` for all externals without
+    checking `saturated` payload. Fixed: `[[gram-pap-pass]]` transforms unsaturated externals into
+    `PAP` nodes before they reach the bridge; bridge emits closure wrapper chains.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[eq-normalization-bug]] — $eq returns wrong result on equal literals
+- INCLUDES → [[letpoly-implicit-escape]] — Generalization leaks block-internal metas
+- INCLUDES → [[maplist-schema-unification]] — Mu-type schema row order mismatch
+- INCLUDES → [[length-recursive-debruijn]] — Recursive call resolves as wrong de Bruijn index
+- INCLUDES → [[fst-closure-annotation]] — Annotation swaps type parameters
+- INCLUDES → [[sigma-quoting-match]] — Sigma body match can't reduce on symbolic binder
+- INCLUDES → [[sigma-quoting-field-ref]] — Sigma body field ref resolves to type not value
+- INCLUDES → [[bridge-free-var-unknown]] — Bridge var:free → unknown
+- INCLUDES → [[bridge-label-closure-gap]] — Label self-ref under match scope
+- INCLUDES → [[bridge-struct-dispatch]] — Backlog: struct pattern dispatch
+- INCLUDES → [[bridge-closure-capture]] — Backlog: curried closure capture
+- INCLUDES → [[type-erasure]] — Backlog: type-only let erasure
+- INCLUDES → [[bridge-unsaturated-external]] — Bug: unsaturated externals need closure wrappers
+- SHARED_WITH → [[gram-evolution.thread]] — Bridge bugs overlap
+- SHARED_WITH → [[recursion.thread]] — Recursive binding bugs overlap
+- SHARED_WITH → [[row-types.thread]] — Row/schema unification bug
+
+**Incoming**
+- [[length-recursive-debruijn]] ← DISCOVERED_BY
+- [[fst-closure-annotation]] ← DISCOVERED_BY
+- [[maplist-schema-unification]] ← DISCOVERED_BY
+
+<!-- connections:end -->

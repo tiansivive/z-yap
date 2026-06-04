@@ -25,3 +25,13 @@ Provides the first fully mechanized metatheory for refinement types (λRF). Key 
 - **Existential application rule**: preserves decidability of subtyping.
 
 Directly validates Yap's `isFirstOrder` guard as the implementation of the [[first-order-restriction.adr]] on selfification.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[selfification]] — Mechanized self() function
+- INFORMS → [[first-order-restriction.adr]] — Formal proof of restriction
+
+<!-- connections:end -->

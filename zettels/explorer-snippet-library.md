@@ -21,3 +21,19 @@ A curated set of built-in input programs for quick exploration. A `<select>` dro
 **Groups:** Basics (identity, annotated lambda, implicit argument, boolean), Functions (higher-order, multi-param arrow, implicit Pi), Row types (struct projection, polymorphic projection, dependent struct, nested dependent, row polymorphism, tuple), Pattern matching (variant, struct destructure, nested struct, wildcard + literal), Blocks (let binding, let + projection).
 
 **Future extensions:** user-defined snippets persisted in localStorage, shareable URLs encoding source in the URL fragment.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[pipeline-explorer]] — New explorer capability
+- COMPOSES_WITH → [[integration-testing]] — Snippets double as smoke tests
+- COMPOSES_WITH → [[repl]] — Similar curated-input concept
+- FOLLOWS → [[explorer-diff-mode]] — Sequence order
+
+**Incoming**
+- [[explorer-timing]] ← FOLLOWS — Sequence order
+- [[explorer-snippet-syntax-fixes]] ← FIXES — Four snippets had wrong syntax
+
+<!-- connections:end -->

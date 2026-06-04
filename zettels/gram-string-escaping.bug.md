@@ -32,3 +32,16 @@ MIR display shows the correct value, suggesting a divergence between GRAM JSON s
 ## Impact
 
 User-defined rules with JSON string payloads produce syntactically invalid JS output. The workaround is avoiding double-quote characters in payloads.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DISCOVERED_BY → [[programmable-gram-passes-mvp-retrospective]] — Bug discovered during MVP impl
+- BLOCKS → [[programmable-gram-passes]] — Bug blocks full completion
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES — Bug tracked in the thread
+
+<!-- connections:end -->

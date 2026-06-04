@@ -41,3 +41,18 @@ Hub: [[bubble-semantics]]
 ## Follow-up
 
 - `[[tell-listen-resumption-refactor]]` — replace `nondeterminism.solution` accumulator with Writer-like `tell`/`listen` pattern
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[bubble-semantics]] — Phase 1 implementation
+- RELIES_ON → [[shift-reset-verification-stub]] — Verification stub preserved
+
+**Incoming**
+- [[bubble-semantics-phase1.queue]] ← APPLIES_TO — Queue tracks phase 1
+- [[delimited-continuations.thread]] ← INCLUDES — Phase 1 work item
+- [[tell-listen-resumption-refactor]] ← MOTIVATES — Discovered during phase 1 values injection
+
+<!-- connections:end -->

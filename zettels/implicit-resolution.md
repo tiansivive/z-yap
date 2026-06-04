@@ -29,3 +29,36 @@ Solving: after `_solve` processes `assign` constraints into `zonker`, `resolve` 
 Instantiate pass: `EB.Icit.instantiate` (`implicits.ts`) substitutes `resolutions` for meta `Var`s when traversing terms.
 
 Hub: [[implicit-resolution-solver.md]], [[implicit-environment.md]], [[implicits.md]], [[typeclass-coherence]], [[functional-dependencies]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[implicits]] — Resolver mechanism
+- RESOLVES → [[constraint-types]] — Δ lookup for resolve constraints
+- COMPOSES_WITH → [[pi-types]] — Implicit Pi triggers insertion
+- DISPATCHES_ON → [[constraint-types]] — Resolve → Δ, assign → unify
+- DELEGATES_TO → [[constraint-solver]] — Batch processing
+- PRESERVES → [[generalization]] — Rejects subst-producing candidates
+- INSTANTIATES → [[meta-variables]] — Insertion creates fresh unknowns
+- RESOLVES → [[deferred-constraint-solving]] — At let boundaries
+- COMPOSES_WITH → [[generalization]] — Deferred resolution preserves generality
+
+**Incoming**
+- [[application]] ← USES — Implicit insertion
+- [[implicit-environment]] ← ENABLES — Provides Δ
+- [[typeclass-emulation]] ← USES — Instance lookup via Δ
+- [[implicits-as-coeffects]] ← REVISES — Coeffect-based approach
+- [[deferred-constraint-solving]] ← ENABLES — Full context for resolution
+- [[bidirectional-checking-decision]] ← COMPOSES_WITH — Mode switch triggers insertion
+- [[agda-influence]] ← INSPIRES — Instance resolution
+- [[dunfield-krishnaswami]] ← INFORMS — Subsumption in bidir
+- [[implicit-resolution-solver]] ← IMPLEMENTS — Solver-side mechanism
+- [[constraint-solver]] ← ENABLES — Δ lookup phase
+- [[functional-dependencies]] ← INFORMS — Determinacy in implicit search
+- [[typeclass-coherence]] ← APPLIES_TO — First-match semantics
+- [[dictionary-passing]] ← RELIES_ON — Dictionaries threaded via implicits
+- [[implicits-as-coeffects-exploration]] ← EXTENDS — Coeffect model for implicit requirements
+
+<!-- connections:end -->

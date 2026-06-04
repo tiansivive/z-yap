@@ -31,3 +31,20 @@ An interpreter that executes the GRAM graph directly, with swappable strategies 
 **Status:** Speculative. Probably requires LoGRAM substrate (triple-store, Datalog queries) to be practical — graph traversal for interpretation benefits from indexed queries. Not a near-term goal.
 
 **Prerequisite:** LoGRAM migration, or at minimum a performant graph traversal layer.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[gram]] — Execution semantics for graph
+- MIRRORS → [[compilation-by-selection]] — Interpretation-by-selection dual
+- REQUIRES → [[logram]] — Practical with indexed queries
+- ENABLES → [[gram-pattern-pass]] — Tests decision tree semantics
+- ENABLES → [[gram-shift-reset-pass]] — Tests continuation semantics
+- ENABLES → [[closure-conversion]] — Tests closure semantics
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -22,3 +22,13 @@ tags:
 Short systems paper introducing Z3’s architecture for combined theories (equality with uninterpreted functions, arithmetic, bit-vectors, arrays, quantifiers, etc.) aimed at software verification workloads—SAT core plus theory plugins and pragmatic integration concerns.
 
 Industrial SMT tools (including Z3) instantiate this template. In Yap the **CLI / module driver** may still obtain a **`z3-solver`** **`Context`** (`scripts/cli.ts`, `getZ3Context` / `setZ3Context` in `src/shared/config/options.ts`) for adapter-driven checks. The **architectural analogue** in-tree is [[cdcl-t-solver]] consuming **IVL** VCs ([[vc-ir]]); **`z3.adapter.ts`** translates IVL formulas into Z3 when a Z3 oracle is wanted ([[verification-pipeline]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[cdcl-t-solver]] — Industrial reference
+- INFORMS → [[vc-ir]] — Z3 architectural template parallels IR + theory stack
+
+<!-- connections:end -->

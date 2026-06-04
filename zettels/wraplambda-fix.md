@@ -25,3 +25,17 @@ tags:
 **Fix:** Use `EB.bind(ctx, binding, pi.binder.annotation)` before recursing; use `NF.Constructors.Rigid(lvl)` where `lvl = ctx.env.length`.
 
 **File:** `src/elaboration/implicits.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[implicits]] — Rigid(0) + unextended ctx
+- REVEALS → [[implicit-generalization-semantics]] — Bug only triggers with dependent annotations
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+- [[fst-closure-annotation]] ← FOLLOWS — Same problem space: stale closure context after implicit wrapping
+
+<!-- connections:end -->

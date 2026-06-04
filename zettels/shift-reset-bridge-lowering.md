@@ -36,3 +36,22 @@ The continuation environment is reconstructed by `Instr.Read` of each captured l
 The state machine uses **`Alloc` / `Read` / `Jump` / `Branch` only** — there is no dedicated MIR opcode for continuation invocation. This is the same primitive set used by closure conversion (`src/GRAM/bridge/closures.ts`) and pattern compilation (`src/GRAM/bridge/decisions.ts`), so the same backends consume all three uniformly.
 
 Shape preserved from D-004: the lowering is direct-style; there is no continuation-passing translation, no first-class continuation value, no separate resume opcode. The move from `src/lowering/continuations/` to `src/GRAM/bridge/continuations.ts` is a site move, not a shape change.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[gram-canonical-ir.adr]] — Canonical site for shift/reset state machine
+- IMPLEMENTS → [[direct-style-lowering.adr]] — Preserves the D-004 shape on the canonical pipeline
+- SUPERSEDES → [[shift-reset-mir-lowering]] — Canonical site replaces legacy implementation
+- DEPRECATES → [[shift-reset-mir-lowering]] — Lifecycle event: legacy site marked deprecated
+- MIRRORS → [[shift-reset-mir-lowering]] — Same shape, new site
+- REVISES → [[shift-reset-mir-lowering]] — Refines the lowering description to the bridge
+
+**Incoming**
+- [[multishot-bridge-serialization]] ← COMPOSES_WITH — Multishot serialisation runs inside the bridge state machine
+- [[delimited-continuations.thread]] ← INCLUDES — Current shift/reset lowering site
+- [[gram]] ← INCLUDES — Bridge-resident continuation lowering
+
+<!-- connections:end -->

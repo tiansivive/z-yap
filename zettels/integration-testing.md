@@ -27,3 +27,21 @@ Unskipping this test is a near-term goal. Beyond the REPL, integration testing c
 **Multi-module programs.** Current elaboration tests process single expressions or single `let` statements. Testing import/export resolution, FFI declarations, and cross-module type propagation requires multi-file programs elaborated through the full pipeline.
 
 Related: [[testing-strategy]], [[ffi]], [[js-codegen]], [[c-codegen]], [[erlang-codegen]], [[yap]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[yap]] — REPL pipeline end-to-end
+- CONCERNS → [[ffi]]
+- CONCERNS → [[js-codegen]]
+- CONCERNS → [[c-codegen]]
+- CONCERNS → [[erlang-codegen]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+- [[testing.thread]] ← INCLUDES
+- [[explorer-snippet-library]] ← COMPOSES_WITH — Snippets double as smoke tests
+
+<!-- connections:end -->

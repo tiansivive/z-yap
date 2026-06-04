@@ -27,3 +27,21 @@ Tests override **`ParserStart`** (commonly **`"Ann"`** for expressions), then as
 Active pipeline: **`src/elaboration/elaborate.ts`** ingests `Src.Term` from this path. Dual-backend story: **`tree-sitter-parser.md`**.
 
 Barrel **`src/parser/index.ts`** re-exports **`terms`**, **`pretty`**, **`Processors`** — the Nearley surface for elaboration today.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCES → [[elaboration]] — Src.Term
+- TRANSLATES_TO → [[src-term]] — Token stream → AST
+- CONTRASTS_WITH → [[tree-sitter-parser]] — Ambiguous CFG vs error-recovering incremental
+
+**Incoming**
+- [[yap]] ← INCLUDES — Parser component
+- [[tree-sitter-parser]] ← SUPERSEDES — Incremental replaces ambiguous CFG
+- [[parser-migration.thread]] ← INCLUDES
+- [[fuzz-testing]] ← TARGETS
+- [[test-coverage-gaps]] ← DETECTS — Bool literal grammar gap
+
+<!-- connections:end -->

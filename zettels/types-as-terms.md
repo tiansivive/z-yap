@@ -28,3 +28,20 @@ tags:
 **Lowering boundary:** `src/lowering/lower.ts` erases or rejects many type-only shapes (e.g. type-level rows via `Leaf.erase()`, `Patterns.TypeLevelApp`); runtime lowering centers on `Lambda`, `App`, data constructors—see module header comments in `lower.ts`.
 
 Related: [[eb-term.md]], [[nf-value.md]], [[type-type.md]], [[dependent-types.md]], [[mir-lowering.md]], [[type-level-computation]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[type-type]] — Types compute as terms
+- RELIES_ON → [[dependent-types]] — Dependency required
+- NORMALIZES_TO → [[nf-value]] — Types evaluate like terms
+- ENABLES → [[trampoline-evaluator]] — Evaluate types like values
+
+**Incoming**
+- [[type-level-computation]] ← USES — Types are terms foundation
+- [[unified-binder]] ← RELIES_ON — Follows from types-as-terms principle
+- [[dependent-types]] ← RELIES_ON — Types and terms share syntax
+
+<!-- connections:end -->

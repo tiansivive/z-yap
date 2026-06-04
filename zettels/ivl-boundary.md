@@ -35,3 +35,23 @@ Previously, `vc` and `expr` held Z3-native `Expr` values, coupling generation to
 **Admits lowering passes:** Normalization, Skolemization, and Tseitin CNF all operate on `IVL.Formula` before clauses reach the SAT core. These passes are backend-agnostic.
 
 **Extensible for new theories:** Adding a row sort, string sort, or custom comparison requires extending IVL's sort/term vocabulary, not changing the solver interface. Theory plugins pattern-match on IVL atoms.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DEFINES → [[vc-ir]] — IVL IR contract
+- ENCODES → [[vc-ir]] — IVL.Formula replaces Expr
+- INCLUDES → [[vc-ir]] — vc field is IVL.Formula
+- IMPLEMENTS → [[z3-replacement.adr]] — IVL is the core deliverable
+- SUPERSEDES → [[verification-artefacts-revised]] — Replaces the artefact shape record
+- ENABLES → [[verification-backend]] — Pluggable boundary for backend swap
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+- [[m1-implementation]] ← PRODUCES — M1 delivered IVL types
+- [[bidir-subtype-verification]] ← USES — Emits IVL.Formula obligations
+- [[z3-adapter-strategy]] ← CONSUMES — Translates IVL to Z3
+
+<!-- connections:end -->

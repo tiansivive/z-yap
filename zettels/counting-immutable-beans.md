@@ -40,3 +40,21 @@ Reference counting optimized for purely functional programming. Lean 4's foundat
 - The runtime branch (`refcount == 1 ? mutate : copy`) is the fallback when static multiplicity is unknown — Yap's conservative default.
 
 **References:** Ullrich & de Moura, "Counting Immutable Beans: Reference Counting Optimized for Purely Functional Programming" (IFL 2019, arXiv:1908.05647).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[crud-strategy-choice]] — Research input
+- INSPIRES → [[reuse-analysis-strategy]] — reset/reuse model
+- INSPIRES → [[gram-crud-enrichment]] — Graph-level reuse edges
+- CONTRASTS_WITH → [[modalities]] — Runtime uniqueness vs compile-time QTT
+- CONTRASTS_WITH → [[perceus-reuse-analysis]] — Lean vs Koka: different RC strategies
+- CONTRASTS_WITH → [[clean-uniqueness-types]] — Runtime analysis vs type-level guarantee
+
+**Incoming**
+- [[perceus-reuse-analysis]] ← CONTRASTS_WITH — Same problem, different mechanisms
+- [[clean-uniqueness-types]] ← CONTRASTS_WITH — Type-level vs runtime analysis
+
+<!-- connections:end -->

@@ -33,3 +33,22 @@ Pattern synonyms are a strong candidate for Yap surface sugar: lightweight desug
 Bidirectional pattern synonyms in Yap would need to be consistent with [[structural-records]] and [[variant-types]]: a pattern synonym that works both as a destructor (in match arms) and a constructor (in expressions) must have a well-typed inverse. In a structural setting, this is often straightforward since the structure is the identity.
 
 Related: [[match]], [[view-patterns]], [[active-patterns]], [[variant-types]], [[structural-records]], [[data-declarations]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[match]] — Named patterns for structural types
+- COMPOSES_WITH → [[structural-typing]] — Naming structural shapes
+- COMPOSES_WITH → [[variant-types]] — Named variant patterns
+- COMPOSES_WITH → [[structural-records]] — Named record patterns
+- INFORMS → [[data-declarations]] — Pattern names supplement data decls
+- DESUGARS_TO → [[pattern-matching-compilation]] — Desugars to structural patterns
+- INFORMS → [[ghc-influence]] — GHC PatternSynonyms extension
+
+**Incoming**
+- [[view-patterns]] ← CONTRASTS_WITH — Runtime computation vs static alias
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

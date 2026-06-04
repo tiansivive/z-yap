@@ -20,3 +20,19 @@ Core user data is parsed into row trees (`src/parser/processors.ts`: `struct`, `
 Bulk collections that need homogeneous element types or foreign strategies use separate constructors: `Array` + `Indexed` for lists (`lists.ts`), `Indexed` for dictionaries (`dictionaries.ts`)—orthogonal to `Schema`/`Variant` row polymorphism but still assembled with row spines where the grammar supplies field lists.
 
 Lowering treats `Struct` applications as data (`src/lowering/lower.ts` `StructApp` arm) and routes `Proj`/`Inj` through `src/lowering/struct.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MOTIVATES → [[row-polymorphism]] — All composite = rows
+- FORMS → [[structural-records]] — Records, variants, tuples, lists, dicts
+- MOTIVATES → [[row-data-structure]] — Row structure choice
+- MOTIVATES → [[row-rewriting]] — Row mechanism choice
+- REJECTS → [[nominal-typing]] — Not primary type discipline
+
+**Incoming**
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

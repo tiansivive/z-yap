@@ -27,3 +27,23 @@ tags:
 **Related:** constraint solving `src/elaboration/solver/solver.ts`, unification `src/elaboration/unification/unification.ts` (both use `V2.Do`).
 
 **Module layout:** inference handlers under `src/elaboration/inference/` (re-exported from `index.ts`); checking in `src/elaboration/check.ts`. Older migration prose sometimes names `inference.v2/` / `checking.v2/` — those directory names are placeholders; the live code uses `inference/` + `check.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- SUPERSEDES → [[v1-elaboration-pipeline]] — Fresh implementation
+- MIRRORS → [[v1-elaboration-pipeline]] — Same theory, new code
+- FOLLOWS → [[v1-elaboration-pipeline]] — Sequential development
+- MIRRORS → [[v1-elaboration-pipeline]] — Same theory, fresh implementation
+
+**Incoming**
+- [[tree-sitter-parser]] ← PRODUCES — CST.SyntaxNode
+- [[tmp-pipeline-stub]] ← BLOCKS — Stubs prevent integration
+- [[elaboration-monad]] ← ENABLES — V2 pipeline
+- [[lsp]] ← USES — Incremental analysis
+- [[elaboration-v2.thread]] ← INCLUDES
+- [[test-coverage-gaps]] ← DETECTS — Missing modal inference (22/23), missing checking.v2 match
+
+<!-- connections:end -->

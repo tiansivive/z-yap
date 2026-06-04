@@ -26,3 +26,17 @@ If resolution ran before or interleaved with assignment solving, an implicit arg
 ## Interaction with empty-subst guard
 
 The ordering and the [[empty-subst-guard]] are complementary. Ordering ensures resolution sees solved types; the guard ensures resolution doesn't *produce* solutions as a side effect. Together they keep resolution as pure selection from the implicit environment.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[constraint-solver]] — Ordering invariant
+- COMPOSES_WITH → [[empty-subst-guard]] — Complementary invariants
+
+**Incoming**
+- [[idris-2-influence]] ← INSPIRES — Ordering discipline
+- [[elaboration-v2.thread]] ← RELIES_ON
+
+<!-- connections:end -->

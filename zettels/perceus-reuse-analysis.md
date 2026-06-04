@@ -33,3 +33,23 @@ Koka's advanced compilation method for reference counting. Achieves garbage-free
 - Constructor contexts (top-down building) are orthogonal to uniqueness — useful even with static guarantees.
 
 **References:** Reinking et al., "Perceus: Garbage Free Reference Counting with Reuse" (ICFP 2021). Lorenzen et al., "FP²: Fully in-Place Functional Programming" (2023).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[crud-strategy-choice]] — Research input to strategy decision
+- INSPIRES → [[reuse-analysis-strategy]] — Reuse tokens concept
+- INSPIRES → [[constructor-context-strategy]] — Constructor contexts concept
+- INSPIRES → [[gram-crud-enrichment]] — FBIP concept adapted for graph IR
+- EXTENDS → [[koka-influence]] — Perceus is part of Koka ecosystem
+- CONTRASTS_WITH → [[modalities]] — Runtime refcount vs compile-time QTT
+- CONTRASTS_WITH → [[counting-immutable-beans]] — Same problem, different mechanisms
+
+**Incoming**
+- [[counting-immutable-beans]] ← CONTRASTS_WITH — Lean vs Koka: different RC strategies
+- [[clean-uniqueness-types]] ← CONTRASTS_WITH — Type-level vs runtime analysis
+- [[koka-influence]] ← INSPIRES — Same ecosystem
+
+<!-- connections:end -->

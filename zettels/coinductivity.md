@@ -37,3 +37,24 @@ The conceptual foundation draws from [[codata]]: types defined by observations r
 Coinductivity also connects to [[bisimulation-type-equality]]: bisimulation is itself a coinductive proof method — two recursive types are equal when they produce the same observations at every step.
 
 Hub: [[nu-types]], [[codata]], [[bisimulation-type-equality]], [[productivity-checking]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DUAL_OF → [[inductive-types]] — Coinduction is the dual of induction
+- INFORMS → [[nu-types]] — Nu abstraction is Yap's coinductivity mechanism
+- USES → [[bisimulation-type-equality]] — Bisimulation is a coinductive proof method
+- EXTENDS → [[recursion.thread]] — Coinductivity extends the recursion story
+- INFORMS → [[agda-influence]] — Agda's coinductive types
+
+**Incoming**
+- [[inductive-types]] ← DUAL_OF — Coinduction is the dual of induction
+- [[codata]] ← INFORMS — Observation-defined types ground coinductivity
+- [[bisimulation-type-equality]] ← USES — Bisimulation is itself coinductive
+- [[productivity-checking]] ← APPLIES_TO — Static guarantee for coinductive data
+- [[recursion.thread]] ← INCLUDES — Coinductivity is part of recursion thread
+- [[codata-vs-coinductive-types]] ← DETAILS — Coinductive type theory side
+
+<!-- connections:end -->

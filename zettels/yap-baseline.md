@@ -55,3 +55,13 @@ Source: [`src/cli/`](https://github.com/<org>/yap/tree/main/src/cli)
 > **TODO** — path aliases, V2 monad migration baseline, testing patterns.
 
 See `AGENTS.md`, `.cursor/rules/` for live conventions; this section snapshots what existed when tracking began.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INCLUDES — Locked pre-z-yap baseline
+- [[pulse]] ← REFERENCES — Curated narrative links to locked baseline
+
+<!-- connections:end -->

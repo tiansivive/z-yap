@@ -21,3 +21,17 @@ GHC's pipeline: Core -> STG -> Cmm -> native. Yap's GRAM pipeline mirrors this l
 **Key divergence:** STG -> Cmm is a single monolithic translation (one pass produces all of Cmm). GRAM separates into composable passes (pattern compilation, closure conversion, shift-reset enrichment) that can be selectively applied. This enables compilation-by-selection.
 
 **What GRAM preserves that STG doesn't:** In GHC, Core is discarded after STG generation. In GRAM, the semantic structure (the "STG level") persists alongside the operational structure (the "Cmm level"). Both views coexist in the same graph.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[gram]] — Pipeline layering inspiration
+- DISTINGUISHES → [[gram-pattern-translation]] — Translation = STG-level (semantic)
+- DISTINGUISHES → [[gram-pattern-pass]] — Pass = Cmm-level (operational)
+- CONTRASTS_WITH → [[mir-lowering]] — Monolithic (STG->Cmm) vs composable (GRAM passes)
+- INSPIRES → [[compilation-by-selection]] — Selective = improvement over GHC's fused approach
+- INFORMS → [[gram-crud-enrichment]] — STG case = semantic; operational compiled later
+
+<!-- connections:end -->

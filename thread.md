@@ -1300,3 +1300,96 @@ RESOLVED [[programmable-gram-passes-mvp.plan]] phases 1–6 — MVP implementati
 - `[[gram-kernel-pass]]` — replaced `planned` + `needs-design` with `implemented`.
 - `[[gram-rule-as-yap-value]]` — replaced `planned` with `implemented`.
 - `[[gram-evolution.thread]]` — item 19 updated to `implemented, incomplete` with issue links.
+
+---
+
+## Session: JIT-vs-AOT positioning + NbE acceleration cluster — @2026-06-03 [adr, compilation, nbe, normalization, evaluation, strategy, design]
+
+Recorded Yap's compilation-strategy stance and the NbE acceleration design space. Two clusters, deliberately distinct in scope: one is the architectural commitment (AOT, with user-controlled compile-time optimisation, rejecting runtime JIT for user programs); the other is the elaborator-internal performance design space (where JIT *concepts* — speculation, dual representation, compiled dispatch — are still in play, applied to the compiler's own evaluator). The two meet at one precise hinge: D-007 explicitly does not foreclose internal acceleration of the elaborator's NbE.
+
+Backlog check: `z-yap/tmp/zettel-quality-backlog.md` section #7 ("Normalization / evaluation") had been marked DONE in the 2026-05-28 pass, covering the *what the evaluator does today* cluster. Nothing on acceleration strategy, on the WHNF-vs-glued distinction, on JIT-vs-AOT positioning, or on partial evaluation as the JIT substitute existed. All four were added in this session.
+
+Tag gap: none of the 12 zettels in the existing NbE cluster carried the `nbe` tag — not even `[[nbe]]` itself. The hub did not tag its own facet. All 12 received the `nbe` tag in this pass (excluded `[[strict-vs-lazy]]` as primarily-runtime).
+
+Registered vocabulary additions in `REGISTRY.md`:
+
+- **Core**: `strategy`, `alternative`, `user-control`, `extensibility`
+- **Pipeline**: `nbe` (the facet that didn't exist as a registered tag)
+- **Compiler**: `aot`, `jit`, `vm`, `optimization`, `partial-evaluation`, `monomorphisation`, `specialisation`, `meta-circular`
+- **Representation**: `representation`, `dual-rep`
+- **Infrastructure**: `profile`, `measurement`
+
+No new edge labels — all 14 labels used (`INCLUDES`, `ADDRESSES`, `GROUNDED_IN`, `REFERENCES`, `APPLIES_TO`, `INFORMS`, `DOCUMENTS`, `MOTIVATES`, `REJECTS`, `RELIES_ON`, `IMPLEMENTS`, `COMPOSES_WITH`, `GENERALIZES`, `DEFERS`, `CONTRASTS_WITH`) were already registered.
+
+### Spawned
+
+SPAWN [[nbe-acceleration]] — design discussion: JIT concepts applied to the elaborator's NbE
+SPAWN [[nbe-performance-profile]] — empirical grounding prerequisite (currently unmeasured)
+SPAWN [[glued-evaluation]] — dual-rep evaluation strategy (Coq/Lean precedent)
+SPAWN [[compiled-nbe]] — compile the evaluator itself (MetaCoq/Agda precedent)
+SPAWN [[compilation-strategy.adr]] — D-007, AOT-with-user-controlled-optimisation, standalone
+SPAWN [[aot-compilation]] — concept describing what AOT means concretely in Yap
+SPAWN [[static-partial-evaluation]] — the JIT substitute: NbE + programmable passes + specialisation
+SPAWN [[jit-for-user-programs]] — rejected alternative companion to D-007
+
+### Updates
+
+- 12 existing NbE cluster zettels gained the `nbe` tag: `[[nbe]]`, `[[whnf-vs-full-normalization]]`, `[[cbv-evaluation]]`, `[[variable-evaluation-dispatch]]`, `[[quoting]]`, `[[closures]]`, `[[trampoline-evaluator]]`, `[[knot-tying]]`, `[[evaluation-step-limit]]`, `[[application-evaluation]]`, `[[neutrals]]`, `[[nf-value]]`.
+- `REGISTRY.md` — added 15 tag entries across 5 sections.
+
+### Edges
+
+[[nbe]] --[:INCLUDES]--> [[nbe-acceleration]]
+[[nbe]] --[:INCLUDES]--> [[nbe-performance-profile]]
+[[nbe]] --[:INCLUDES]--> [[glued-evaluation]]
+[[nbe]] --[:INCLUDES]--> [[compiled-nbe]]
+[[nbe-acceleration]] --[:ADDRESSES]--> [[nbe-performance-profile]]
+[[nbe-acceleration]] --[:GROUNDED_IN]--> [[glued-evaluation]]
+[[nbe-acceleration]] --[:REFERENCES]--> [[compiled-nbe]]
+[[glued-evaluation]] --[:APPLIES_TO]--> [[closures]]
+[[glued-evaluation]] --[:APPLIES_TO]--> [[quoting]]
+[[glued-evaluation]] --[:APPLIES_TO]--> [[variable-evaluation-dispatch]]
+[[compiled-nbe]] --[:APPLIES_TO]--> [[trampoline-evaluator]]
+[[compiled-nbe]] --[:APPLIES_TO]--> [[variable-evaluation-dispatch]]
+[[lean-4-influence]] --[:INFORMS]--> [[glued-evaluation]]
+[[lean-4-influence]] --[:INFORMS]--> [[nbe-acceleration]]
+[[agda-influence]] --[:INFORMS]--> [[compiled-nbe]]
+[[compilation-strategy.adr]] --[:DOCUMENTS]--> [[aot-compilation]]
+[[compilation-strategy.adr]] --[:MOTIVATES]--> [[static-partial-evaluation]]
+[[compilation-strategy.adr]] --[:REJECTS]--> [[jit-for-user-programs]]
+[[compilation-strategy.adr]] --[:RELIES_ON]--> [[programmable-gram-passes]]
+[[aot-compilation]] --[:IMPLEMENTS]--> [[compilation-strategy.adr]]
+[[aot-compilation]] --[:COMPOSES_WITH]--> [[compile-orchestration]]
+[[aot-compilation]] --[:RELIES_ON]--> [[gram-canonical-ir.adr]]
+[[programmable-gram-passes]] --[:IMPLEMENTS]--> [[compilation-strategy.adr]]
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[nbe]]
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[programmable-gram-passes]]
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[singleshot-static-specialization]]
+[[static-partial-evaluation]] --[:GENERALIZES]--> [[singleshot-static-specialization]]
+[[jit-for-user-programs]] --[:CONTRASTS_WITH]--> [[static-partial-evaluation]]
+[[nbe-acceleration]] --[:RELIES_ON]--> [[compilation-strategy.adr]]
+[[compilation-strategy.adr]] --[:DEFERS]--> [[nbe-acceleration]]
+[[nbe-acceleration]] --[:CONTRASTS_WITH]--> [[jit-for-user-programs]]
+
+---
+
+## Session: PAP pass implementation — @2026-06-04 [gram, pap, bridge, lowering, implementation, bugfix]
+
+Implemented the builtin PAP pass (`[[gram-pap-pass]]`) to resolve the bridge unsaturated external gap (`[[bridge-unsaturated-external]]`). The pass transforms unsaturated `EXTERNAL` nodes into explicit `PAP` nodes using a DPO rule plus imperative capture wiring (GRS cannot express variable-length aggregate patterns). The bridge translates PAP nodes into MIR closure wrapper chains.
+
+Design follows GRAM's additive enrichment principle: PAP nodes connect to EXTERNAL via `:materializes` edges, preserving original structure. Bridge remains mechanical — GRAM adds semantics.
+
+### Resolved
+
+RESOLVED [[bridge-unsaturated-external]] — PAP pass eliminates unsaturated externals before bridge
+
+### Updates
+
+- `[[gram-pap-pass]]` — `planned` → `implemented`, removed status prose (Tests/Resolves lines)
+- `[[bridge-unsaturated-external]]` — `bug`+`planned` → `implemented`+`bugfix`, removed "(resolved)" from title, removed Status line, fixed tense to past
+- `[[pipeline-stabilization.thread]]` — item 13 marked implemented
+
+### Edges
+
+(Already recorded in prior session)
+[[gram-pap-pass]] --[:RESOLVES]--> [[bridge-unsaturated-external]]

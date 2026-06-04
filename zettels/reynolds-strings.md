@@ -22,3 +22,13 @@ Context-dependent rewrites on string constraints using partial assignments from 
 **Yap:** analogous to [[liang-strings]] — **IVL** still treats user strings as coarse / uninterpreted-style atoms in **`translate.ts`**; native sequence rewrites this paper optimizes for are **future work** once Milestone 3 lands ([[milestone-3-strings]], [[required-theory-support]]).
 
 **Status:** `incomplete` (string verification remains partial relative to industrial DPLL(T) string solvers).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[string-theory]] — Context-dependent simplification
+- INFORMS → [[milestone-3-strings]] — Context-dependent rewrites as future plugin
+
+<!-- connections:end -->

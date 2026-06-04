@@ -20,3 +20,23 @@ tags:
 **Current code:** DPO under `src/GRAM/grs/` is the active rewrite core; LoGRAM would add aggregate joins (e.g. variable-length capture sets) as described in `src/GRAM/grs/README.md` and `src/GRAM/passes/closure.ts`.
 
 **Relationship to egglog:** README mentions egglog only as conceptual kin to equality-saturation-style joins—not an integrated dependency.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[gram]] — Speculative substrate
+- TRANSLATES_TO → [[gram]] — Triple store / Datalog facts
+- USES → [[egglog-influence]] — Equality saturation substrate
+
+**Incoming**
+- [[egglog-influence]] ← INSPIRES — Equality saturation
+- [[egglog-influence]] ← MIRRORS — Equality saturation ↔ graph saturation
+- [[gram-interpreter]] ← REQUIRES — Practical with indexed queries
+- [[gram-evolution.thread]] ← INCLUDES
+- [[constructor-context-strategy]] ← RELIES_ON — Benefits from indexed graph traversal
+- [[programmable-gram-passes]] ← DEFERS_TO — Whole-graph queries await richer substrate
+- [[gram-rule-as-yap-value]] ← DEFERS_TO — Capture-set analysis, ancestor walks need it
+
+<!-- connections:end -->

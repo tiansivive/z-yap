@@ -39,3 +39,16 @@ Surface syntax and elaboration representation may warrant separation: `%ruleName
 3. **Annotation layer** — a general-purpose annotation mechanism (like Rust `#[...]` or Java `@...`) orthogonal to modalities
 
 Option 1 is the status quo. Option 2 separates concerns cleanly. Option 3 generalises beyond gram rules.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DISCOVERED_BY → [[programmable-gram-passes-mvp-retrospective]] — Design issue discovered during MVP impl
+- APPLIES_TO → [[modality-system]] — Pragma separation applies to modality design
+
+**Incoming**
+- [[gram-evolution.thread]] ← INCLUDES — Design issue tracked in the thread
+
+<!-- connections:end -->

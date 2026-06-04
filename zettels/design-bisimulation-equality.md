@@ -20,3 +20,15 @@ Current μ-type unification uses structural unfolding with an occurs check. Bisi
 The design must settle: whether bisimulation is needed (are there practical μ-type equalities the current unifier rejects?), integration with the existing constraint solver, interaction with row-based recursive types, and performance implications of coinductive checking.
 
 See [[bisimulation-type-equality]] for the concept analysis and literature references.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[bisimulation-type-equality]] — Design task for the concept
+
+**Incoming**
+- [[recursion.thread]] ← INCLUDES — Design work item
+
+<!-- connections:end -->

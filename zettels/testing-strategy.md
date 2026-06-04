@@ -42,3 +42,27 @@ The dominant pattern is **snapshot testing** — parse or elaborate a source str
 - **Codegen**: 3 files — JS, C, Erlang emit snapshots
 
 **Gaps under exploration:** fuzz testing ([[fuzz-testing]]), property-based generators ([[property-based-testing]]), systematic negative testing ([[negative-testing]]), codegen round-trip verification ([[integration-testing]]), and deeper solver stress testing ([[solver-testing]]). These will come online progressively as the core stabilizes.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[snapshot-testing]]
+- INCLUDES → [[fuzz-testing]]
+- INCLUDES → [[property-based-testing]]
+- INCLUDES → [[ci-pipeline]]
+- INCLUDES → [[integration-testing]]
+- INCLUDES → [[negative-testing]]
+- INCLUDES → [[solver-testing]]
+- INCLUDES → [[test-coverage-gaps]] — Gap tracking
+- INCLUDES → [[v1-test-cleanup]] — Cleanup event
+
+**Incoming**
+- [[testing.thread]] ← INCLUDES
+- [[ci-pipeline]] ← SUPPORTS
+- [[snapshot-testing]] ← DETAILS
+- [[test-coverage-gaps]] ← DETAILS — Inventory of skipped suites
+- [[v1-test-cleanup]] ← ADDRESSES — Closes v1/v2 test drift
+
+<!-- connections:end -->

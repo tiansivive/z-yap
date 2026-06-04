@@ -37,3 +37,23 @@ One path: open variants at the type level. A type family `F` is an open variant 
 The exploration is less about adding type families as a feature and more about understanding the capabilities they provide and how Yap's type system can or cannot express them. Trade-offs include decidability of type-level reduction, coherence of overlapping type-level cases, and whether the ergonomics of `let F : Type -> Type = ...` are sufficient for the use cases type families serve.
 
 Related: [[type-level-computation]], [[dependent-types]], [[functional-dependencies]], [[nbe]], [[row-polymorphism]], [[open-closed-variants]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EMULATES → [[type-level-computation]] — Type families as type-level functions
+- CONTRASTS_WITH → [[type-level-computation]] — Separate mechanism vs unified terms
+- USES → [[nbe]] — Type-level reduction via evaluation
+- INFORMS → [[type-level-computation]] — Capabilities Yap should reproduce
+- COMPOSES_WITH → [[open-closed-variants]] — Open type families as open rows
+- INFORMS → [[functional-dependencies]] — Overlapping solution space
+- INFORMS → [[ghc-influence]] — GHC's primary type-level mechanism
+- INFORMS → [[ghc-influence]] — GHC's type families
+
+**Incoming**
+- [[type-level-computation]] ← SUBSUMES — Dependent functions subsume closed families
+- [[open-closed-variants]] ← COMPOSES_WITH — Open families as open rows
+
+<!-- connections:end -->

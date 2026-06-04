@@ -18,3 +18,17 @@ Observed in the `fact` test case: `fact` is a struct with a `:compute` field con
 **Root cause:** The label resolution pass in `emit.ts` resolves `:label` references by looking at the immediately enclosing struct scope. When a match expression introduces new scopes (alternatives, pattern binders), the struct scope is shadowed, and `:label` lookups fail to find the enclosing struct field.
 
 **Difference from [[bridge-label-resolution]]:** That fix handled direct field self-references. This gap is about field self-references *nested under additional scope-introducing forms* (match, let, etc.) within the same field body.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[bridge-label-resolution]] — Edge case of prior fix
+- APPLIES_TO → [[gram-to-mir-bridge]] — Scope resolution under match
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Label self-ref under match scope
+- [[bridge-forward-label-refs]] ← DISCOVERED_BY — Surfaced during #9 investigation
+
+<!-- connections:end -->

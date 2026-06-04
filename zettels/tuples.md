@@ -22,3 +22,17 @@ Elaboration reuses struct inference: `infer` in `src/elaboration/inference/tuple
 Lists are **not** tuples: `list` inference (`lists.ts`) demands homogeneous element unification and produces `Array` + `Indexed Num` typing. Numeric labels here index **heterogeneous** struct fields, not array cells.
 
 Projection uses the same `Proj` typing as records (`projection.ts`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DESUGARS_TO → [[structural-records]] — Positional labels
+- SPECIALIZES → [[structural-records]] — Numeric labels only
+
+**Incoming**
+- [[lists]] ← CONTRASTS_WITH — Homogeneous indexed vs heterogeneous positional
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

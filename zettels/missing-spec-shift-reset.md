@@ -35,3 +35,17 @@ Authoritative behavior today lives in **implementation sources**:
 - Lowering: `src/lowering/continuations/{reset,shift,kcall}.ts` — block graphs, `Alloc`/`Read`/`Jump`/`Branch`, multishot via shared resume block + indexed `Jump`.
 
 One approach for onboarding would be a single typed-rule write-up (answer types, `Continuation` binder, replay invariant, lowering prerequisites such as enclosing `Reset`) aligned with those files.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[shift-reset]] — Impl ahead of spec
+- ADDRESSES → [[documentation-debt]] — Spec gap
+
+**Incoming**
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[bubble-semantics]] ← ADDRESSES — Makes nondeterministic semantics explicit in AST
+
+<!-- connections:end -->

@@ -90,3 +90,47 @@ Extracted as standalone ADR zettels for reuse and independent traversal:
 1. [[inline-theory-assert]] — Theory.assert inline during BCP, not batched after propagation.
 2. [[dual-polarity-registration]] — Both polarities registered as atoms for arithmetic bound tracking.
 3. [[complementary-atom-encoding]] — Quantifier lemma encoder resolves complement atoms lazily.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[milestone-2-euf-quant-lia]] — Realizes the milestone
+- ADDRESSES → [[milestone-2-euf-quant-lia]] — Closes the open work item
+- DEPENDS_ON → [[m1-implementation]] — Structurally built on IVL
+- CONSUMES → [[m1-implementation]] — Solver ingests IVL formulas
+- IMPLEMENTS → [[cdcl-t-solver]] — Realizes the CDCL(T) concept
+- INSTANTIATES → [[cdcl-t-solver]] — Concrete core.ts from abstract design
+- IMPLEMENTS → [[euf-theory]] — Realizes EUF via CC
+- ENCODES → [[euf-theory]] — Hash-consed arena representation
+- IMPLEMENTS → [[arithmetic-theory]] — Realizes simplex arithmetic
+- ENCODES → [[arithmetic-theory]] — Rational bounds + fixed tableau representation
+- IMPLEMENTS → [[quantifier-engine]] — Realizes quantifier instantiation
+- DELEGATES_TO → [[quantifier-engine]] — Solver delegates rounds to quantifier loop
+- IMPLEMENTS → [[theory-plugin-interface]] — Realizes the Theory API contract
+- IMPLEMENTS → [[watched-literals]] — Two-watch in watched.ts
+- IMPLEMENTS → [[bcp]] — Unit propagation in core.ts
+- IMPLEMENTS → [[one-uip]] — 1UIP conflict analysis in core.ts
+- IMPLEMENTS → [[congruence-closure]] — CC in euf/cc.ts
+- IMPLEMENTS → [[e-matching]] — Trigger matching in quantifiers/ematch.ts
+- VALIDATES → [[required-theory-support]] — Covers EUF + arithmetic + quantifiers
+- USES → [[nieuwenhuis-oliveras]] — DPLL(T) architecture directly implemented
+- USES → [[dutertre-arithmetic]] — Fixed-tableau simplex directly implemented
+- USES → [[ge-de-moura-quantifiers]] — E-matching directly implemented
+- USES → [[nelson-oppen]] — Theory combination via shared equalities
+- IMPLEMENTS → [[z3-replacement.adr]] — M2 delivered EUF + quantifiers + LIA
+
+**Incoming**
+- [[session-m2-completion]] ← PRODUCED — Session delivered M2
+- [[verification-backend.thread]] ← INCLUDES
+- [[session-trace-observability]] ← DEPENDS_ON — Built on top of the M2 solver
+- [[solver-trace]] ← DEPENDS_ON — Structurally built on the M2 solver
+- [[solver-trace]] ← CONSUMES — Trace consumes solver generator output
+- [[pipeline-explorer]] ← USES — Solver.createTraced() for trace generation
+- [[z3-replacement.adr]] ← PRODUCES
+- [[inline-theory-assert]] ← DETAILS — Extracted from M2 record
+- [[dual-polarity-registration]] ← DETAILS — Extracted from M2 record
+- [[complementary-atom-encoding]] ← DETAILS — Extracted from M2 record
+
+<!-- connections:end -->

@@ -28,3 +28,18 @@ Each pair is an elaborated candidate term and its type in normal form. Module `u
 Ordering matters: earlier entries win; there is no separate multiset merge in types.
 
 Hub: [[implicits.md]], [[implicit-resolution.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[implicit-resolution]] — Provides Δ
+- THREADS_THROUGH → [[elaboration-context]] — ctx.implicits
+
+**Incoming**
+- [[elaboration-context]] ← INCLUDES — Δ in context
+- [[block-level-using-gap]] ← APPLIES_TO — Block-local Δ
+- [[typeclass-emulation]] ← ENCODES — Instances as record values in Δ
+
+<!-- connections:end -->

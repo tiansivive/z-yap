@@ -36,3 +36,24 @@ In `src/elaboration/inference/shift.ts`, `shift` introduces continuation variabl
 After checking the shift body, inference stores `yield* V2.modifySt(set(\`skolems.${skolem.val}\`, tm))` where `tm` is the composed `Shift` term. `NF.generalize` excludes metas satisfying `skolems[m.val]` from the quantification candidate list (`src/elaboration/normalization/generalization.ts`, `allMetas` filter).
 
 In lowering (`src/lowering/lower.ts`), `App(Var(Bound i), arg)` routes to `Continuation.KCall.lower` when `shiftBodyCtx` is active and `ctx.bound.get(i)?.stamp === shiftBodyCtx.kRef.stamp` (stamp equality ties aliases like `let k2 = k` to the same continuation ref).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[meta-variables]] — Skolem-like metas
+- RELIES_ON → [[nondeterminism]] — Multishot semantics
+- THREADS_THROUGH → [[elaboration-monad]] — Via MutState
+- ENCODES → [[meta-variables]] — Resumption as meta in MutState.skolems
+
+**Incoming**
+- [[shift-reset]] ← USES — Resume encoded via metas
+- [[shift-reset]] ← INTRODUCES — Shift captures k
+- [[nondeterminism-multishot]] ← IMPLEMENTS — Multishot resume semantics
+- [[shift-reset]] ← INSTANTIATES — Via skolem-like metas
+- [[shift-reset]] ← ELIMINATES — Resume applies k
+- [[delimited-continuations.thread]] ← INCLUDES
+- [[bubble-semantics]] ← SUPERSEDES — Replaces skolem-meta indirection with explicit Bubble node
+
+<!-- connections:end -->

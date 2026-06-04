@@ -27,6 +27,10 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `problem` | An identified difficulty or challenge |
 | `proposal` | A structured design proposal with options and trade-offs |
 | `design` | A design task requiring exploration and decisions before implementation |
+| `strategy` | A directional choice that orients downstream decisions |
+| `alternative` | A rejected or non-chosen design option preserved for the record |
+| `user-control` | The user retains visibility and authority over the behaviour |
+| `extensibility` | The mechanism is intentionally open for user/library extension |
 
 ## Type theory tags
 
@@ -48,6 +52,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 |-----|-------------|
 | `elaboration` | Bidirectional inference, checking, type synthesis |
 | `normalization` | NbE, evaluation, normal forms |
+| `nbe` | Normalisation-by-evaluation specifically — the semantic-domain evaluator + readback |
 | `parser` | Parsing, grammar, CST/AST concerns |
 | `mir` | Machine-Independent IR, lowering, compilation |
 | `verification` | Liquid types, refinements, SMT, VC generation |
@@ -105,6 +110,14 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `refcounting` | Reference counting, drop/dup, RC optimization |
 | `data-access` | Structural operations: read, update, CRUD on records/variants |
 | `compilation` | Compilation strategy, code generation approach |
+| `aot` | Ahead-of-time compilation; all artefacts built before the program runs |
+| `jit` | Just-in-time compilation; runtime compilation/recompilation based on observed behaviour |
+| `vm` | Virtual machine, bytecode interpreter, runtime execution layer |
+| `optimization` | The activity of improving compiled output; distinct from `performance` (the concern) |
+| `partial-evaluation` | Specialising a program against statically known inputs |
+| `monomorphisation` | Specialising a polymorphic definition to each concrete type-instantiation site |
+| `specialisation` | Generating a tailored version of a definition for a specific calling context |
+| `meta-circular` | Concerns the compiler/interpreter operating on its own evaluator or representation |
 
 ## Verification tags
 
@@ -125,6 +138,8 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `error-handling` | Error types, causes, propagation |
 | `tracing` | Provenance, breadcrumbs, diagnostic context |
 | `monad` | Monadic abstractions, V2 Do notation |
+| `representation` | The choice of data structure or encoding for a domain value |
+| `dual-rep` | Keeps two parallel representations of the same value (e.g. syntactic + semantic) |
 
 ## Infrastructure tags
 
@@ -146,6 +161,8 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `comparison` | Side-by-side comparison, diffing, before/after analysis |
 | `debugging` | Debugging tools, diagnostic aids, root-cause analysis |
 | `stabilization` | Focused effort to fix/document issues surfaced by new visibility |
+| `profile` | Captured measurement of where time/cost goes in a system |
+| `measurement` | Empirical observation of system behaviour; data collection |
 
 ## Meta tags
 
@@ -273,6 +290,7 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `EMULATES` | Source achieves effect of target without native support |
 | `INSPIRES` | Source external work inspired target design |
 | `MIRRORS` | Source and target are parallel/analogous constructs |
+| `REPLICATES` | Source aims to reproduce the behavior of target |
 | `INTRODUCES` | Source is the introduction form for target type |
 | `ELIMINATES` | Source is the elimination form for target type |
 | `FORMS` | Source is the formation rule for target |
@@ -313,6 +331,16 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `DEFINES` | Source defines the contract/shape of target |
 | `DOCUMENTS` | Source documents a decision or rationale from target |
 | `REFERENCES` | Source references target as supporting material |
+| `DEFERS_TO` | Source defers resolution/completion to target |
+| `TARGETS` | Source testing/analysis approach targets target component |
+| `MODIFIES` | Source fix/change modifies target mechanism |
+| `REVEALS` | Source issue/investigation reveals insight about target |
+| `CONCERNS` | Source testing approach concerns target area |
+| `SUPPORTS` | Source infrastructure supports target strategy |
+| `MAY_RESOLVE_VIA` | Source issue may be resolved via target fix (tentative) |
+| `MOTIVATED_BY` | Source is motivated by target (passive of MOTIVATES) |
+| `INCLUDED_IN` | Source is included in target collection (passive of INCLUDES) |
+| `PRODUCED` | Source session produced target artifact |
 
 ## Ref prefixes
 

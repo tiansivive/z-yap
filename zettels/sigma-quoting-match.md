@@ -19,3 +19,20 @@ The fix applies the closure to a **symbolic NF.Row** of label neutrals (`NF.Neut
 This is the same fix as [[sigma-quoting-field-ref]]: both stem from applying the closure to concrete annotations rather than symbolic neutrals.
 
 `StuckMatch` is the existing NbE mechanism for suspended pattern matches (`src/elaboration/normalization/syntax/term.ts`). The sigma fix merely ensures sigma quoting produces the right inputs for it.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[sigma-types]] — Sigma body quoting
+- APPLIES_TO → [[quoting]] — Readback limitation
+- RELIES_ON → [[sigma-bindings]] — Sigma binding strategy
+- COMPOSES_WITH → [[sigma-quoting-field-ref]] — Same root cause, different manifestation
+- GROUNDED_IN → [[sigma-architecture]] — StuckMatch requires symbolic neutrals from the row abstraction
+- MIRRORS → [[quoting]] — Symbolic application during readback, analogous to Pi quoting
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Sigma body match can't reduce on symbolic binder
+
+<!-- connections:end -->

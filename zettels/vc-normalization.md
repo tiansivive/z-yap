@@ -29,3 +29,21 @@ Without normalization, Tseitin encoding produces unnecessary proxy variables for
 ## Relationship to Build.simplify
 
 Smart constructors in `build.ts` enforce some invariants at construction time (e.g. `And(true, φ) = φ`). `Build.simplify` is a global toggle that gates these algebraic rewrites — turning it off preserves raw formula structure for debugging. Normalization as a pass operates after the full VC is assembled, complementing but not replacing build-time invariants.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- NORMALIZES_TO → [[vc-ir]] — Simplifies formulas
+- FOLLOWS → [[translation-boundary-vc]] — After translation
+- TRAVERSES → [[vc-ir]] — Walk and simplify formulas
+
+**Incoming**
+- [[quantifier-preparation]] ← FOLLOWS — After normalization
+- [[verification-backend.thread]] ← RELIES_ON — Normalization mechanism
+- [[m1-implementation]] ← IMPLEMENTS — normalize.ts realizes formula simplification
+- [[build-simplify-toggle]] ← GATES — Algebraic simplification is a form of normalization
+- [[design-vc-normalization]] ← ADDRESSES — Design task for the concept
+
+<!-- connections:end -->

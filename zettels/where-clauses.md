@@ -28,3 +28,15 @@ No **`where`** keyword or production appears in **`src/parser/grammar.ne`**; Nea
 Using trailing local definitions today means nested **`block`**/`let` surface syntax (`blocks.md`), not a postfix `where { … }` form.
 
 Status: **deferred / planned** surface sugar only—semantics would likely reuse existing block/`let` elaboration if added later.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DESUGARS_TO → [[blocks]] — Let bindings
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES
+
+<!-- connections:end -->

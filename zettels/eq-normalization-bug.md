@@ -20,3 +20,18 @@ tags:
 **Discovered via:** integration pipeline test snapshot audit (`typeclasses.test.ts`, tests: "traits with implicits" → `same`, "multiple constraints" → `msg`).
 
 **Verified via:** runtime instrumentation confirmed `isEqual(x, y)` returning `false` for `{id:1468, type:"Lit", value:{type:"Num", value:10}}` vs `{id:1470, type:"Lit", value:{type:"Num", value:10}}`. Post-fix: `equality` returns `true`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[primitive-signature]] — $eq is a registered primop
+- RELIES_ON → [[nbe]] — Bug fires during normalization
+- RELIES_ON → [[cbv-evaluation]] — Primop compute runs under CBV evaluation
+- RELIES_ON → [[application-evaluation]] — PrimOps dispatch is application evaluation
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — $eq returns wrong result on equal literals
+
+<!-- connections:end -->

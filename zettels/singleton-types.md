@@ -21,3 +21,18 @@ This behavior emerges from two bidirectional checking cases, with no dedicated `
 Singleton types interact with sigma dependencies: `{ fst: Num, snd: :fst }` produces a sigma where each field's type depends on the concrete value of `fst`. When `fst` is `1`, `snd`'s type is `1` — only the value `1` inhabits it.
 
 This requires the `check([struct, Sigma])` path to traverse-and-check rather than infer-then-constrain, so that the bidirectional checking direction is preserved and `check(1, 1)` fires instead of `infer(1) = Num` being unified against `1` (see [[sigma-checking-infer-constrain]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[sigma-value-semantics]] — Singletons give sigma over Num its meaning
+- RELIES_ON → [[bidirectional-checking]] — Emerges from bidir checking cases
+- COMPOSES_WITH → [[sigma-types]] — Singleton + sigma interaction
+
+**Incoming**
+- [[sigma-value-semantics]] ← RELIES_ON — Numbers as types make Num-dependent sigma coherent
+- [[sigma-checking-infer-constrain]] ← RELIES_ON — Singletons expose the bug
+
+<!-- connections:end -->

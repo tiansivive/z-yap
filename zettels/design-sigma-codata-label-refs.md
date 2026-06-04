@@ -22,3 +22,16 @@ Sigma references are parametric (type-level, deferred via closure application). 
 The design must settle: whether a syntax split is needed now or deferred until nu types land, how elaboration should dispatch between the two mechanisms, whether the context refactoring (labels/sigma/record split) is sufficient for correct semantics, and interaction with mutual recursion and recursive records.
 
 See [[sigma-vs-codata-label-refs]] for the concept analysis; [[sigma-codata-syntax-proposal]] for the syntax proposal.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[sigma-vs-codata-label-refs]] — Design task for the concept
+- RELIES_ON → [[sigma-codata-syntax-proposal]] — Syntax proposal feeds this design
+
+**Incoming**
+- [[recursion.thread]] ← INCLUDES — Design work item
+
+<!-- connections:end -->

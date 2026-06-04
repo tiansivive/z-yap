@@ -1,6 +1,7 @@
 ---
 tags:
 - mechanism
+- nbe
 - normalization
 - elaboration
 - performance
@@ -20,3 +21,19 @@ Two separate limits operate:
 This is not a semantic design — it's pragmatic non-termination prevention. The limit is high enough to never trigger on well-formed programs (10M steps covers deeply nested elaboration) but catches genuine divergence. The error message includes the term being evaluated, aiding diagnosis.
 
 The step limit complements the trampoline architecture: the trampoline prevents stack overflow (bounded depth), the step limit prevents heap exhaustion (bounded steps).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[trampoline-evaluator]] — Prevents non-termination
+- DETECTS → [[nbe]] — Infinite loops
+- ADDRESSES → [[nbe]] — Non-termination prevention
+
+**Incoming**
+- [[nbe]] ← INCLUDES — Non-termination guard
+- [[whnf-vs-full-normalization]] ← RELIES_ON — Safety net for one-evaluator design
+- [[trampoline-evaluator]] ← RELIES_ON — Step limit complements trampoline
+
+<!-- connections:end -->

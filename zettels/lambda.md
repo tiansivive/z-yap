@@ -23,3 +23,34 @@ Inference of a lambda produces both the core term (`EB.Constructors.Lambda`) and
 Explicit vs implicit icitness matters at the checking boundary: a surface lambda only checks against a Pi type when their icit markers agree. Mismatched icitness falls through to the general infer-then-assign path.
 
 At lowering, lambda is the only binder that produces runtime code — closure conversion lifts lambda bodies to MIR functions with captured environments.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INTRODUCES → [[pi-types]] — Intro form for functions
+- DUAL_OF → [[application]] — Intro/elim pair for Pi
+- ENCODES → [[closures]] — Function values as closures
+- DISPATCHES_ON → [[pi-types]] — Explicit λ vs implicit λ{} icit matching
+- COMPOSES_WITH → [[application]] — β-redex pair
+
+**Incoming**
+- [[pi-types]] ← GENERALIZES — Arrow → is non-dependent Pi
+- [[pi-types]] ← FORMS — Π is formation rule for functions
+- [[loop-sugar]] ← DESUGARS_TO — Tail-recursive functions
+- [[ffi-saturation-gram]] ← PRESERVES — Calling convention via closures
+- [[closure-conversion]] ← ERASES — Flattens lexical scope
+- [[de-bruijn-levels]] ← ENABLES — Evaluation under binders
+- [[closures]] ← IMPLEMENTS — Closure = captured env + body
+- [[elaboration-context]] ← THREADS_THROUGH — Binder extension
+- [[application]] ← DUAL_OF — Intro/elim pair for Pi
+- [[closures]] ← PRESERVES — Lexical scope captured at binding site
+- [[application]] ← COMPOSES_WITH — β-redex pair
+- [[closure-conversion]] ← ERASES — Flattens lexical scope to heap allocation
+- [[superclasses]] ← ENCODES — Superclass is just a lambda
+- [[unified-binder]] ← APPLIES_TO — Lambda uses Abs with binding.type Lambda
+- [[standard-closure]] ← ENABLES — Lambda bodies are standard closures
+- [[closure-conversion]] ← RELIES_ON — Only lambda closures survive to lowering
+
+<!-- connections:end -->

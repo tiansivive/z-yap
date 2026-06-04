@@ -24,3 +24,12 @@ S-expression storage would encode the IR as homogeneous nested lists with positi
 **Why trees are a poor fit for GRAM:** Sharing and cyclic structure are first-class in the GRAM workload. DPO rewriting matches pinned subgraphs by node identity and edge patterns; tree encoding forces synthetic IDs or duplicates and pushes graph bookkeeping into ad hoc metadata. Open-vocabulary tagging — new passes contribute new tag/label kinds — sits awkwardly on top of fixed-arity tree grammars.
 
 **Where sexps remain useful:** as a display format only. `display.ts` pretty-prints graphs as structured text for human inspection without claiming an S-expression interchange format.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[gram-graph-ir.adr]] ← REJECTS — Tree encoding loses identity, sharing, cycles
+
+<!-- connections:end -->

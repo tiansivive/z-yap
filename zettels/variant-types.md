@@ -24,3 +24,31 @@ Introducing a **value** arm uses `:tag payload` elaboration (`tagged.ts`), which
 Elimination compiles through `Match` and lowering (`src/lowering/matching/`, entry from `src/lowering/lower.ts`); `Inj` lowers via `Struct.injection` (`lower.ts`).
 
 Adding or removing variant tags changes the `Row` spine; compatibility is via unification / explicit row parameters, **not** structural subtyping ([[structural-subtyping.md]]). Related: [[structural-records.md]] (products), [[row-polymorphism.md]], [[open-closed-variants]], [[data-declarations]], [[codata]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[row-polymorphism]] — Row-backed unions
+- DUAL_OF → [[structural-records]] — Sum vs product over rows
+- MIRRORS → [[structural-records]] — Row-backed dual
+
+**Incoming**
+- [[injection]] ← INTRODUCES — Tag injection
+- [[tagged-values]] ← INTRODUCES — Intro form for variants
+- [[match]] ← ELIMINATES — Elim form for variants
+- [[elm-ocaml-influence]] ← INSPIRES — Polymorphic variants
+- [[unification-algorithm]] ← IMPLEMENTS — Variant-Variant equality checking case
+- [[row-polymorphism]] ← SUBSUMES — Rows generalize fixed-tag unions
+- [[sigma-types]] ← COMPOSES_WITH — Dependent elimination produces variants
+- [[match]] ← DISPATCHES_ON — Variant, Struct, Lit, List, Wildcard, Binder
+- [[row-types.thread]] ← INCLUDES
+- [[codata]] ← CONTRASTS_WITH — Constructors (data) vs observations (codata)
+- [[data-declarations]] ← DESUGARS_TO — Data decls are sugar over row variants
+- [[pattern-synonyms]] ← COMPOSES_WITH — Named variant patterns
+- [[active-patterns]] ← USES — Partial patterns return option variant
+- [[open-closed-variants]] ← APPLIES_TO — Open vs closed row tails
+- [[exhaustiveness-checking]] ← USES — Tag sets determine coverage
+
+<!-- connections:end -->

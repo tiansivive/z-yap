@@ -25,3 +25,17 @@ MLIR's Transform dialect ([mlir.llvm.org/docs/Dialects/Transform](https://mlir.l
 ## Mapping to Yap
 
 The shape directly informs [[programmable-gram-passes]]: a Yap-level rule language whose constructs reduce under NbE to a residual that the GRAM Kernel ([[gram-kernel-pass]]) interprets against the host graph, with a deliberately restricted primitive surface. The Transform dialect's bootstrap arc — C++ first, dialect-native later — parallels the proposed Yap arc of TS-implemented primitives migrating to Yap-native rules once [[logram]] lands.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[programmable-gram-passes]]
+
+**Incoming**
+- [[programmable-gram-passes]] ← GROUNDED_IN — Transformations as ops in the IR being transformed
+- [[gram-kernel-pass]] ← GROUNDED_IN — Controlled primitive set interpreted by pass manager
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+
+<!-- connections:end -->

@@ -27,3 +27,17 @@ The paper presents a typed embedding of database queries in a host language (F#-
 ## Mapping to Yap
 
 The pattern grounds [[gram-rule-as-yap-value]]: GRAM rules as Yap struct expressions that normalize via NbE to a DPO-rule residual, with FFI and other non-reducing constructs stuck by construction. The `Rule` type and its component struct types define the sublanguage; the existing NbE machinery is the normalizer; the GRAM Kernel ([[gram-kernel-pass]]) extracts the residual.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[gram-rule-as-yap-value]]
+
+**Incoming**
+- [[programmable-gram-passes]] ← GROUNDED_IN — Restricted host sublanguage normalizing to a domain residual
+- [[gram-rule-as-yap-value]] ← GROUNDED_IN — Stuck terms as well-formedness boundary
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+
+<!-- connections:end -->

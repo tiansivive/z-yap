@@ -28,3 +28,18 @@ This invariant follows the Idris 2 and Lean approach to implicit resolution. Bot
 ## Interaction with ordering
 
 The [[assign-before-resolve]] ordering ensures resolution sees fully zonked types, so the empty-subst guard rarely triggers on "almost right" candidates — by the time resolution runs, types are specific enough that the right candidate matches cleanly.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[constraint-solver]] — Resolution acceptance rule
+- CONSTRAINS → [[implicit-resolution-solver]] — Selection-not-computation semantics
+
+**Incoming**
+- [[assign-before-resolve]] ← COMPOSES_WITH — Complementary invariants
+- [[idris-2-influence]] ← INSPIRES — Empty-subst invariant
+- [[elaboration-v2.thread]] ← RELIES_ON
+
+<!-- connections:end -->

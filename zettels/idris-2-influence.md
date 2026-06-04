@@ -20,3 +20,23 @@ tags:
 Broader overlap (bidirectional checking, postponed metavariables) matches **common** Idris-style practice but is not labeled “Idris” file-by-file outside that comment.
 
 Related: [[case-tree-elaboration]], [[dependent-pattern-matching]], [[dictionary-passing]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[empty-subst-guard]] — Empty-subst invariant
+- INSPIRES → [[assign-before-resolve]] — Ordering discipline
+- INSPIRES → [[meta-variables]] — Contextual metas
+- INSPIRES → [[bidirectional-checking]] — TT core
+- INSPIRES → [[dependent-types]] — Dependent TT
+- INSPIRES → [[constraint-solver]] — Unification approach
+
+**Incoming**
+- [[case-tree-elaboration]] ← INFORMS — Idris 2's DPM approach
+- [[dictionary-passing]] ← INFORMS — Idris 2 dictionary passing
+- [[dependent-pattern-matching]] ← INFORMS — Idris 2's DPM
+- [[case-tree-elaboration]] ← INFORMS — Idris 2's case trees
+
+<!-- connections:end -->

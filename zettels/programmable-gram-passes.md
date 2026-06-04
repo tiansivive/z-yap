@@ -34,3 +34,43 @@ Compiler defaults like monomorphization are static DPO rules with a structural f
 ## Boundary
 
 The user-facing primitive set is local. Rule predicates see bindings and payloads, no host graph handle. Whole-graph queries — capture-set analysis, ancestor walks, cross-subgraph joins — belong to a richer substrate; see [[logram]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[gram-kernel-pass]] — Kernel meta-pass mechanism
+- INCLUDES → [[gram-rule-as-yap-value]] — Surface type for user rules
+- INCLUDES → [[pass-activation-by-reference]] — Discovery-by-reference principle
+- RELIES_ON → [[gram-additive-enrichment]] — Static passes ignore unfamiliar modal tags
+- RELIES_ON → [[typed-pass-composition]] — Reuses Descriptor requires/delta for topological sort
+- RELIES_ON → [[dpo-rewriting]] — Existing match/rewrite engine runs user rules
+- RELIES_ON → [[modality-system]] — Carrier is a new gram field on Modal.Annotations
+- RELIES_ON → [[gram-pattern-translation]] — Modal node emitted by EB→GRAM translation
+- MOTIVATED_BY → [[extensibility-via-modalities.adr]] — ADR for the broader stance
+- GROUNDED_IN → [[mlir-transform-dialect]] — Transformations as ops in the IR being transformed
+- GROUNDED_IN → [[t-linq]] — Restricted host sublanguage normalizing to a domain residual
+- DEFERS_TO → [[logram]] — Whole-graph queries await richer substrate
+- REVISES → [[passes-in-yap]] — Replaces speculative self-hosted-passes paragraph
+- IMPLEMENTS → [[extensibility-via-modalities.adr]] — Programmable passes realise D-005
+- IMPLEMENTS → [[compilation-strategy.adr]] — Canonical example of AOT user-control
+
+**Incoming**
+- [[modality-system]] ← MOTIVATES — Third dimension consumer
+- [[mlir-transform-dialect]] ← INFORMS
+- [[gram-evolution.thread]] ← INCLUDES — Sequence item 19
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+- [[programmable-gram-passes-mvp.plan]] ← IMPLEMENTS — Sequenced MVP plan for the design hub
+- [[singleshot-static-specialization]] ← RELIES_ON — Realised as a programmable GRAM pass
+- [[programmable-gram-passes-mvp-retrospective]] ← DOCUMENTS — Retrospective documents the hub
+- [[programmable-gram-passes-mvp.plan]] ← IMPLEMENTS — Plan realises the hub design
+- [[gram-kernel-pass]] ← IMPLEMENTS — Kernel pass realises the hub
+- [[gram-rule-as-yap-value]] ← IMPLEMENTS — Rule-as-value mechanism realises the hub
+- [[pass-activation-by-reference]] ← IMPLEMENTS — Activation principle realises the hub
+- [[gram-string-escaping.bug]] ← BLOCKS — Bug blocks full completion
+- [[gram-rule-scoping.design]] ← BLOCKS — Scoping issue blocks correct semantics
+- [[compilation-strategy.adr]] ← RELIES_ON — Canonical example of AOT user-control
+- [[static-partial-evaluation]] ← RELIES_ON — Term-level PE site
+
+<!-- connections:end -->

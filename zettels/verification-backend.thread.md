@@ -96,3 +96,53 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 
 23. **Syn-App-Ex modification** [[syn-app-ex-modification]] — implemented  
     Incorporate-uses **check** instead of synth+subtype for application arguments; extrinsic terms; optional **`nf`** precision through application chains (see zettel).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[verification-pipeline]]
+- INCLUDES → [[verification-artefacts-revised]]
+- INCLUDES → [[smt-translation]]
+- INCLUDES → [[refinement-types]]
+- INCLUDES → [[refinement-inference]]
+- INCLUDES → [[translation-boundary-vc]]
+- INCLUDES → [[milestone-1-ir-boundary]]
+- INCLUDES → [[milestone-2-euf-quant-lia]]
+- INCLUDES → [[milestone-3-strings]]
+- INCLUDES → [[milestone-4-rows]]
+- INCLUDES → [[milestone-5-explanations]]
+- INCLUDES → [[constraint-solver]]
+- INCLUDES → [[solver-module-layout]]
+- INCLUDES → [[vc-ir]]
+- RELIES_ON → [[vc-normalization]] — Normalization mechanism
+- INCLUDES → [[vc-provenance]]
+- INCLUDES → [[z3-replacement.adr]]
+- REFERENCES → [[required-formula-forms]] — Deprecated Z3-era reference
+- RELIES_ON → [[required-theory-support]] — Theory requirements
+- RELIES_ON → [[verification-backend]] — Hub zettel
+- INCLUDES → [[ivl-boundary]]
+- INCLUDES → [[bidir-subtype-verification]]
+- INCLUDES → [[z3-adapter-strategy]]
+- INCLUDES → [[inline-theory-assert]]
+- INCLUDES → [[dual-polarity-registration]]
+- INCLUDES → [[complementary-atom-encoding]]
+- SHARED_WITH → [[row-types.thread]] — milestone-4-rows / row-theory
+- INCLUDES → [[session-m2-completion]]
+- INCLUDES → [[m1-implementation]]
+- INCLUDES → [[m2-implementation]]
+- INCLUDES → [[session-trace-observability]]
+- INCLUDES → [[solver-trace]]
+- INCLUDES → [[build-simplify-toggle]]
+- INCLUDES → [[lambda-synthesis-fix]]
+- INCLUDES → [[shift-reset-verification-stub]]
+- SHARED_WITH → [[delimited-continuations.thread]] — shift-reset-verification, shift-reset-verification-stub
+- INCLUDES → [[design-vc-normalization]] — Design work item
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[delimited-continuations.thread]] ← SHARED_WITH — shift-reset-verification
+- [[syn-app-ex-modification]] ← INCLUDES — Thread item
+
+<!-- connections:end -->

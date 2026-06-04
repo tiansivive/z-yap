@@ -25,3 +25,19 @@ Defined in `src/elaboration/solver/solver.ts` as `Constraint` (re-exported throu
 A commented `usage` variant is absent from the active sum; usage-related `tell` calls in `check.ts` / `statements.ts` remain commented.
 
 Solver entry `solve(cs: Array<WithProvenance<Constraint>>)` returns `{ zonker: Subst; resolutions: Resolutions }` with `Resolutions = Record<number, EB.Term>` keyed by meta `val`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[constraint-solver]] — Typed constraints
+- DISPATCHES_ON → [[constraint-solver]] — Assign vs resolve
+
+**Incoming**
+- [[implicit-resolution]] ← RESOLVES — Δ lookup for resolve constraints
+- [[constraint-solver]] ← RESOLVES — Processes queue
+- [[deferred-constraint-solving]] ← RESOLVES — At let boundaries
+- [[implicit-resolution]] ← DISPATCHES_ON — Resolve → Δ, assign → unify
+
+<!-- connections:end -->

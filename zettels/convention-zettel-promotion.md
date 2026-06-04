@@ -46,3 +46,12 @@ This zettel records the proposal. Resolution requires:
 - Doing the extraction batch in a dedicated session
 
 Close the queue item once a path is picked, and spawn a new queue item for the extraction work itself.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INCLUDES — Open meta question
+
+<!-- connections:end -->

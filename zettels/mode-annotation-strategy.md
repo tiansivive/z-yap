@@ -45,3 +45,26 @@ The simplest CRUD enrichment: annotate `inj` nodes with an access mode derived f
 - `translate.ts` already emits `modal` nodes with `{ quantity }` payload.
 - `proj`/`inj` nodes already exist with `:target`/`:value` edges.
 - Pass reads existing graph structure — pure additive enrichment.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[gram-crud-enrichment]] — Simplest enrichment pass
+- CONSUMES → [[modalities]] — Reads quantity from modal nodes
+- PRODUCES → [[gram]] — access_mode edges on inj nodes
+- RELIES_ON → [[verification-modal-phase]] — Conservative defaults without enforcement
+- INSTANTIATES → [[gram-additive-enrichment]] — Pure annotation, no deletion
+- CONTRASTS_WITH → [[reuse-analysis-strategy]] — Different concern: ownership vs allocation
+- CONTRASTS_WITH → [[constructor-context-strategy]] — Different concern: ownership vs construction pattern
+
+**Incoming**
+- [[crud-strategy-choice]] ← USES — Phase A: chosen first
+- [[reuse-analysis-strategy]] ← COMPOSES_WITH — Orthogonal enrichments; both compose
+- [[reuse-analysis-strategy]] ← FOLLOWS — Phase B after Phase A
+- [[constructor-context-strategy]] ← COMPOSES_WITH — Contexts are always exclusive
+- [[clean-uniqueness-types]] ← INSPIRES — Whole-object uniqueness → per-field in Yap
+- [[idris-1-qtt-paper]] ← INSPIRES — QTT multiplicities drive access mode
+
+<!-- connections:end -->

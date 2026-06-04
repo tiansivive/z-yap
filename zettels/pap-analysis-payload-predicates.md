@@ -27,8 +27,22 @@ v1's locked tag-only LHS and constant `Constructor.payload : JSON` rule out both
 
 ## What PAP would look like in v2
 
-Once payload predicates and Bindings-derived payloads land, a user-written PAP rule would mirror `saturate.initial` from `src/GRAM/passes/saturate.ts` — match `$app :func $ref :refers_to $foreign` with the predicate `p.arity !== undefined && p.args < p.arity` on a derived `$ext` node, and construct a `pap` node carrying `{ name, remaining_arity, captured_args }`. The static `saturate` pass keeps doing its work; the user rule layers a backend-facing PAP view on top.
+Once payload predicates and Bindings-derived payloads land, a user-written PAP rule could replicate or customize what the predefined PAP pass ([[gram-pap-pass]]) does — match unsaturated externals with `p.saturated === false`, construct `pap` nodes carrying `{ name, remaining_arity, captured_args }`. The ability to write this rule validates that the programmable passes system is expressive enough to replicate builtin behavior. Users could also define PAP-like patterns for their own higher-order abstractions beyond the builtins.
 
 ## Position relative to other v2 milestones
 
 PAP analysis stays within the additive-only invariant — it adds a `pap` node and `:represents` (or similar) edge without touching existing structure. It is therefore a clean v2 milestone for the payload-predicate feature, separate from the larger v2 questions of node deletion, redirect, fixpoint strategies, and `where` predicates.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REPLICATES → [[gram-pap-pass]] — User-written rule aims to match builtin behavior
+- MOTIVATES → [[programmable-gram-passes-mvp.plan]] — Canonical v2 motivator for payload predicates and Bindings-derived payloads
+
+**Incoming**
+- [[programmable-gram-passes-mvp.plan]] ← DEFERS_TO — v1 ships tailcall demo; PAP returns as v2 motivator
+- [[gram-evolution.thread]] ← INCLUDES — v2 milestone candidate
+
+<!-- connections:end -->

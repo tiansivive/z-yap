@@ -35,3 +35,17 @@ It snapshots `ctx.trace` into `provenance` and embeds full `ctx` for `V2.display
 Side channels (`tell` for constraints, binders, metas, types, zonker) merge via `concat` until a `Left` appears; the returned `Collector` on error is the one that first went `Left`.
 
 `track(provenance, ma)` prefixes provenance onto `ctx.trace` for nested `ask`/`fail` contexts.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[error-causes]] — Lifts into monad
+- USES → [[provenance-system]] — Carries trace
+- PROPAGATES_VIA → [[elaboration-monad]] — V2.fail + yield
+
+**Incoming**
+- [[provenance-system]] ← ENABLES — Meaningful errors need context
+
+<!-- connections:end -->

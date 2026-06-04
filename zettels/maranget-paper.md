@@ -22,3 +22,20 @@ Clause matrices, DAG sharing, and “necessity”-motivated heuristics to keep d
 **Yap:** `src/lowering/lower.ts` documents `match.ts` as **Maranget clause-matrix compilation**; implementation lives under `src/lowering/matching/` (`compileSubMatrix`, filters for variant/literal/struct branches, exhaustiveness failure block in `matching/index.ts`). Not a line-by-line port of the OCaml compiler, but the same compilation problem and matrix discipline.
 
 **Status:** `implemented` (lowering pipeline uses this approach by design).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[pattern-matching-compilation]] — Decision-tree construction
+- SUPERSEDES → [[augustsson-paper]] — Better column selection, no body duplication
+
+**Incoming**
+- [[pattern-matching-compilation]] ← USES — Decision-tree algorithm
+- [[gram-pattern-pass]] ← USES — Decision tree algorithm
+- [[pettersson-paper]] ← EXTENDS — DAG sharing over trees (deferred)
+- [[pattern-algorithm-choice]] ← USES — Chosen algorithm
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

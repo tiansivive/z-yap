@@ -2057,6 +2057,20 @@
 [[bridge-struct-dispatch]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Struct pattern compilation
 [[bridge-struct-dispatch]] --[:ADDRESSES]--> [[pattern-matching]]  -- Struct vs variant dispatch paths
 
+[[bridge-unsaturated-external]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Bridge lacks partial application handling  @2026-06-03
+[[bridge-unsaturated-external]] --[:RELIES_ON]--> [[ffi-saturation-gram]]  -- Depends on saturate pass marking `saturated: false`  @2026-06-03
+[[bridge-unsaturated-external]] --[:RELIES_ON]--> [[saturation]]  -- Saturation mechanism marks partial vs full application  @2026-06-03
+[[bridge-unsaturated-external]] --[:MIRRORS]--> [[bridge-closure-capture]]  -- Sibling bridge closure gap  @2026-06-03
+[[bridge-unsaturated-external]] --[:ADDRESSES]--> [[primop-closure]]  -- Primop closures need synthetic wrappers when unsaturated  @2026-06-03
+
+[[gram-pap-pass]] --[:RESOLVES]--> [[bridge-unsaturated-external]]  -- PAP pass eliminates unsaturated externals before bridge  @2026-06-03
+[[gram-pap-pass]] --[:FOLLOWS]--> [[ffi-saturation-gram]]  -- Runs after saturate marks unsaturated externals  @2026-06-03
+[[gram-pap-pass]] --[:RELIES_ON]--> [[saturation]]  -- Consumes `saturated: false` payload from saturate pass  @2026-06-03
+[[gram-pap-pass]] --[:COMPOSES_WITH]--> [[closure-conversion]]  -- May emit closure structure or compose with closure pass  @2026-06-03
+[[gram-pap-pass]] --[:PRESERVES]--> [[gram-to-mir-bridge]]  -- Keeps bridge mechanical: GRAM adds semantics, bridge translates  @2026-06-03
+[[pap-analysis-payload-predicates]] --[:REPLICATES]--> [[gram-pap-pass]]  -- User-written rule aims to match builtin behavior  @2026-06-03
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-pap-pass]]  -- Thread member  @2026-06-03
+
 [[verification-unconstrained-meta]] --[:ADDRESSES]--> [[verification-pipeline]]  -- Unsolved meta reaches IVL
 [[verification-unconstrained-meta]] --[:MAY_RESOLVE_VIA]--> [[module-zonker-fix]]  -- Zonker fix may solve it
 
@@ -2247,6 +2261,7 @@
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-struct-dispatch]]  -- Backlog: struct pattern dispatch
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Backlog: curried closure capture
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[type-erasure]]  -- Backlog: type-only let erasure
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-unsaturated-external]]  -- Bug: unsaturated externals need closure wrappers  @2026-06-03
 
 ### Thread cross-references
 [[pipeline-stabilization.thread]] --[:SHARED_WITH]--> [[gram-evolution.thread]]  -- Bridge bugs overlap
@@ -2632,3 +2647,109 @@
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-payload-constraint-emission.design]]  -- Design issue tracked in the thread
 
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-modality-vs-pragma.design]]  -- Design issue tracked in the thread
+
+## NbE acceleration cluster  @2026-06-03
+
+
+
+### Hub + atoms
+
+[[nbe]] --[:INCLUDES]--> [[nbe-acceleration]]  -- JIT-ideas-applied-to-elaborator design discussion
+
+[[nbe]] --[:INCLUDES]--> [[nbe-performance-profile]]  -- Empirical grounding for any acceleration decision
+
+[[nbe]] --[:INCLUDES]--> [[glued-evaluation]]  -- Dual-rep evaluation strategy
+
+[[nbe]] --[:INCLUDES]--> [[compiled-nbe]]  -- Compile the evaluator itself
+
+
+
+### Internal cross-links
+
+[[nbe-acceleration]] --[:ADDRESSES]--> [[nbe-performance-profile]]  -- The design space addresses the perf question
+
+[[nbe-acceleration]] --[:GROUNDED_IN]--> [[glued-evaluation]]  -- The main artefact of JIT-ideas-in-NbE
+
+[[nbe-acceleration]] --[:REFERENCES]--> [[compiled-nbe]]  -- Secondary candidate strategy
+
+
+
+### Strategy → existing NbE machinery
+
+[[glued-evaluation]] --[:APPLIES_TO]--> [[closures]]  -- Closures gain a lazy value cell beside body/context
+
+[[glued-evaluation]] --[:APPLIES_TO]--> [[quoting]]  -- Quote becomes a fallback when syntax is preserved
+
+[[glued-evaluation]] --[:APPLIES_TO]--> [[variable-evaluation-dispatch]]  -- Each variable kind resolves to a glued cell
+
+[[compiled-nbe]] --[:APPLIES_TO]--> [[trampoline-evaluator]]  -- The dispatch machinery the compiled form would replace
+
+[[compiled-nbe]] --[:APPLIES_TO]--> [[variable-evaluation-dispatch]]  -- Principal dispatch hot path
+
+
+
+### Prior-art grounding
+
+[[lean-4-influence]] --[:INFORMS]--> [[glued-evaluation]]  -- Lean's elaborator uses dual-rep
+
+[[lean-4-influence]] --[:INFORMS]--> [[nbe-acceleration]]  -- Lean-style elaborator perf shapes the design space
+
+[[agda-influence]] --[:INFORMS]--> [[compiled-nbe]]  -- Agda --compile-nbe as design-space precedent
+
+
+
+## JIT vs AOT cluster (D-007)  @2026-06-03
+
+
+
+### ADR positioning
+
+[[compilation-strategy.adr]] --[:DOCUMENTS]--> [[aot-compilation]]  -- The strategy IS AOT
+
+[[compilation-strategy.adr]] --[:MOTIVATES]--> [[static-partial-evaluation]]  -- The substitute for runtime JIT
+
+[[compilation-strategy.adr]] --[:REJECTS]--> [[jit-for-user-programs]]  -- Rejected alternative
+
+[[compilation-strategy.adr]] --[:RELIES_ON]--> [[programmable-gram-passes]]  -- Canonical example of AOT user-control
+
+
+
+### Implementations and substrate
+
+[[aot-compilation]] --[:IMPLEMENTS]--> [[compilation-strategy.adr]]  -- AOT concept realises the decision
+
+[[aot-compilation]] --[:COMPOSES_WITH]--> [[compile-orchestration]]  -- Pipeline that performs AOT
+
+[[aot-compilation]] --[:RELIES_ON]--> [[gram-canonical-ir.adr]]  -- D-006 defines the canonical AOT pipeline shape
+
+[[programmable-gram-passes]] --[:IMPLEMENTS]--> [[compilation-strategy.adr]]  -- Canonical example of AOT user-control
+
+
+
+### Static PE substrate
+
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[nbe]]  -- Type-level PE site
+
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[programmable-gram-passes]]  -- Term-level PE site
+
+[[static-partial-evaluation]] --[:RELIES_ON]--> [[singleshot-static-specialization]]  -- Pass-driven specialisation example
+
+[[static-partial-evaluation]] --[:GENERALIZES]--> [[singleshot-static-specialization]]  -- A specific instance of the general pattern
+
+
+
+### Rejected alternative
+
+[[jit-for-user-programs]] --[:CONTRASTS_WITH]--> [[static-partial-evaluation]]  -- Runtime-JIT vs compile-time-PE substitution
+
+
+
+## NbE acceleration ↔ AOT cluster bridge  @2026-06-03
+
+
+
+[[nbe-acceleration]] --[:RELIES_ON]--> [[compilation-strategy.adr]]  -- AOT scopes JIT-style work to the elaborator, not user programs
+
+[[compilation-strategy.adr]] --[:DEFERS]--> [[nbe-acceleration]]  -- Internal elaborator acceleration deliberately not foreclosed
+
+[[nbe-acceleration]] --[:CONTRASTS_WITH]--> [[jit-for-user-programs]]  -- JIT for the elaborator is in scope; JIT for user code is not

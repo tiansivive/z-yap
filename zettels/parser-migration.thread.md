@@ -27,3 +27,17 @@ processor sync, and CST export cleanup.
    External tree-sitter-yap repo. CST helpers, pnpm ts-dts. Known drift:
    missing ts-dts in package.json, barrel may not export CST yet.
    Module grammar shapes (qualified/hiding) not produced by Nearley.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[nearley-parser]]
+- INCLUDES → [[parser-processors]]
+- INCLUDES → [[tree-sitter-parser]]
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+
+<!-- connections:end -->

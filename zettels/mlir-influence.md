@@ -21,3 +21,17 @@ tags:
 **Verified in Yap:** MIR uses **block parameters instead of φ-nodes**—the same idiom as **MLIR, Swift SIL, and Rust MIR**. The implemented IR and lowering live under `src/lowering/` (e.g. `lowerToMir` used from `src/cli/explore/pipeline.ts`).
 
 Yap does not link the LLVM MLIR C++ project; the parallel is **control-flow structuring** (SSA-style blocks with parameters), not dialect reuse.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[gram]] — Open vocabulary / dialects
+- INSPIRES → [[structural-vs-representational-passes]] — Pass scheduling
+- MIRRORS → [[gram]] — Dialects ↔ tag vocabularies, passes ↔ rewrites
+
+**Incoming**
+- [[gram-additive-enrichment]] ← MIRRORS — Multi-dialect coexistence pattern
+
+<!-- connections:end -->

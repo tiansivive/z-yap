@@ -84,3 +84,56 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
     MVP (phases 1–6): [[programmable-gram-passes-mvp.plan]]. Retrospective: [[programmable-gram-passes-mvp-retrospective]].
     Open issues: [[gram-string-escaping.bug]], [[gram-rule-scoping.design]], [[gram-payload-constraint-emission.design]], [[gram-modality-vs-pragma.design]].
     _Shared with: modality-system extension surface_
+
+20. **PAP pass** [[gram-pap-pass]] — planned
+    Transform unsaturated `EXTERNAL` nodes into explicit partial application structure.
+    Runs after `saturate`. Keeps the bridge mechanical — GRAM adds semantics, bridge translates.
+    Resolves [[bridge-unsaturated-external]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[gram]]
+- RELIES_ON → [[gram-additive-enrichment]] — Foundational invariant
+- INCLUDES → [[gram-graph-ir.adr]]
+- RELIES_ON → [[gram-dataflow-semantics]] — Partial-order principle
+- INCLUDES → [[gram-interpreter]]
+- INCLUDES → [[gram-next-steps]]
+- INCLUDES → [[gram-step-1]]
+- INCLUDES → [[gram-to-mir-bridge]]
+- INCLUDES → [[gram-pattern-pass]]
+- INCLUDES → [[gram-pattern-translation]]
+- INCLUDES → [[gram-shift-reset-pass]]
+- INCLUDES → [[dpo-rewriting]]
+- RELIES_ON → [[dpo-vs-imperative-passes]] — Pass classification decision
+- INCLUDES → [[logram]]
+- RELIES_ON → [[compilation-by-selection]] — Backend selection architecture
+- SHARED_WITH → [[delimited-continuations.thread]] — gram-shift-reset-pass
+- SHARED_WITH → [[pattern-matching.thread]] — gram-pattern-pass, gram-pattern-translation
+- INCLUDES → [[gram-crud-enrichment]]
+- RELIES_ON → [[crud-strategy-choice]] — Phased decision informing CRUD enrichment
+- INCLUDES → [[lambda-lifting]]
+- SHARED_WITH → [[usage-semantics.thread]] — CRUD depends on multiplicity
+- INCLUDES → [[gram-pap-pass]] — Thread member
+- INCLUDES → [[programmable-gram-passes]] — Sequence item 19
+- INCLUDES → [[programmable-gram-passes-mvp.plan]] — MVP work item for sequence item 19
+- INCLUDES → [[pap-analysis-payload-predicates]] — v2 milestone candidate
+- INCLUDES → [[gram-canonical-ir.adr]] — Canonical-IR decision is a GRAM-evolution milestone
+- INCLUDES → [[programmable-gram-passes-mvp-retrospective]] — Retrospective is a thread milestone
+- INCLUDES → [[gram-string-escaping.bug]] — Bug tracked in the thread
+- INCLUDES → [[gram-rule-scoping.design]] — Design issue tracked in the thread
+- INCLUDES → [[gram-payload-constraint-emission.design]] — Design issue tracked in the thread
+- INCLUDES → [[gram-modality-vs-pragma.design]] — Design issue tracked in the thread
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[explorer-evolution.thread]] ← SHARED_WITH — Graph viz depends on GRAM substrate
+- [[explorer-graph-viz]] ← SHARED_WITH — Graph viz depends on GRAM substrate
+- [[explorer-audit.thread]] ← SHARED_WITH — Bridge fixes
+- [[type-erasure]] ← INCLUDED_IN — GRAM bridge handles interim erasure
+- [[ffi-saturation-gram]] ← INCLUDED_IN — GRAM saturation pass
+- [[pipeline-stabilization.thread]] ← SHARED_WITH — Bridge bugs overlap
+
+<!-- connections:end -->

@@ -31,3 +31,15 @@ Coherence becomes a concern when structurally compatible [[implicits]] prolifera
 Distinct from explicit implicit application via `@`, which is a mechanism for choosing which implicit to apply — the `@` annotation means explicit application of an implicit argument, not a coherence override or selection mechanism. These are separate concepts (see [[implicits]], [[annotations]]).
 
 Related: [[typeclass-emulation]], [[implicit-resolution]], [[implicit-resolution-solver]], [[implicits]], [[annotations]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[typeclass-emulation]] — Coherence concerns for implicit records
+- APPLIES_TO → [[implicit-resolution]] — First-match semantics
+- APPLIES_TO → [[implicit-resolution-solver]] — Solver selection policy
+- CONTRASTS_WITH → [[ghc-influence]] — Haskell enforces global coherence
+
+<!-- connections:end -->

@@ -26,3 +26,19 @@ Defined in `src/elaboration/shared/errors.ts` as `Cause`:
 Elaboration failures carried as `Err` in `src/elaboration/shared/monad.v2.ts` extend `Cause` with `provenance?: P.Provenance[]` and `ctx: EB.Context`. `V2.display(err)` calls `Errors.display` on the cause, then optional `P.display` for the trace.
 
 `V2.fail(cause)` builds a `Left` of that enriched `Err` (see error-propagation zettel).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REPORTS → [[unification-algorithm]] — Type error rendering
+- USES → [[pretty-printing]] — Zonked NF in error messages
+- DISPATCHES_ON → [[nf-value]] — UnificationFailure, RowMismatch, etc.
+
+**Incoming**
+- [[error-propagation]] ← USES — Lifts into monad
+- [[provenance-display]] ← REPORTS — Error paths
+- [[explorer-provenance-trace]] ← ADDRESSES — Traces errors to their elaboration origin
+
+<!-- connections:end -->

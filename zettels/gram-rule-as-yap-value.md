@@ -30,3 +30,23 @@ The pattern mirrors language-integrated query ([[t-linq]]): a restricted host-la
 ## Graph access
 
 The Yap-side primitive set is local: predicates see bindings and payloads. Whole-graph queries (capture-set analysis, ancestor walks, cross-subgraph joins) require primitives that the [[logram]] substrate provides; rules needing them remain in TS until that lands.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MIRRORS → [[dpo-rewriting]] — Surface type maps engine-side Rule
+- GROUNDED_IN → [[t-linq]] — Stuck terms as well-formedness boundary
+- DEFERS_TO → [[logram]] — Capture-set analysis, ancestor walks need it
+- IMPLEMENTS → [[programmable-gram-passes]] — Rule-as-value mechanism realises the hub
+
+**Incoming**
+- [[programmable-gram-passes]] ← INCLUDES — Surface type for user rules
+- [[gram-kernel-pass]] ← CONSUMES — Reads Rule values from modal annotations
+- [[t-linq]] ← INFORMS
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+- [[programmable-gram-passes-mvp.plan]] ← IMPLEMENTS — Phases 1+5 realize the Rule surface type
+- [[gram-payload-constraint-emission.design]] ← APPLIES_TO — Constraint emission affects rule-as-value typing
+
+<!-- connections:end -->

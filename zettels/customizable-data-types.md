@@ -32,3 +32,23 @@ The design principle: most users should not need to care. The high-level structu
 Open questions: how is this type-checked when "just" compilation semantics still affects observable behavior (performance, memory layout)? How does customization interact with the [[ffi]]? Can strategies be composed? Is there a default that is good enough for 90% of cases? How does the relational/Datalog angle interact with [[row-polymorphism]] — are indexed tuples just rows with implicit lookup strategies?
 
 Hub: [[indexing-strategies]], [[rows-universal-substrate]], [[opaque-types]], [[module-system-exploration]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[indexing-strategies]] — Pluggable backends
+- RELIES_ON → [[rows-universal-substrate]] — Records as base abstraction
+- USES → [[implicits]] — Strategy threading via implicits
+- USES → [[dictionary-passing]] — Strategies as implicit dictionaries
+- COMPOSES_WITH → [[ffi]] — FFI-specified backends
+- EXTENDS → [[structural-records]] — Custom records with pluggable backends
+- INFORMS → [[module-system-exploration]] — Abstraction boundaries for strategies
+
+**Incoming**
+- [[indexing-strategies]] ← APPLIES_TO — Strategy application
+- [[module-system-exploration]] ← INFORMS — Abstraction for strategies
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

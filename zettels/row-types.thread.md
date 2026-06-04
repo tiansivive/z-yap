@@ -68,3 +68,42 @@ mechanism.
 16. **Sigma/codata syntax proposal** [[sigma-codata-syntax-proposal]] — needs-design
     Separate sigils for sigma (dependent type-level refs) and codata (value-level self-ref).
     Candidates: `:`, `&`, `*`, `\`, `^`. Decision deferred pending codata/nu commitment.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[row-polymorphism]]
+- INCLUDES → [[row-data-structure]]
+- INCLUDES → [[row-rewriting]]
+- INCLUDES → [[row-unification]]
+- INCLUDES → [[row-unification-mechanism]]
+- INCLUDES → [[rows-universal-substrate]]
+- INCLUDES → [[structural-row-based-types]]
+- INCLUDES → [[structural-records]]
+- INCLUDES → [[tuples]]
+- INCLUDES → [[variant-types]]
+- INCLUDES → [[injection]]
+- INCLUDES → [[projection]]
+- INCLUDES → [[tagged-values]]
+- INCLUDES → [[lists]]
+- INCLUDES → [[dedicated-row-constructors]]
+- RELIES_ON → [[row-theory]] — Structural row reasoning principle
+- INCLUDES → [[label-lookup]]
+- INCLUDES → [[data-declarations]]
+- RELIES_ON → [[open-closed-variants]] — Concept: variant openness
+- INCLUDES → [[customizable-data-types]]
+- INCLUDES → [[indexing-strategies]]
+- INCLUDES → [[sigma-checking-infer-constrain]] — Sigma checking bug
+- INCLUDES → [[sigma-codata-syntax-proposal]] — Syntax proposal
+- INCLUDES → [[design-open-closed-variant-semantics]] — Design work item
+- INCLUDES → [[design-row-theory-verification]] — Design work item
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[verification-backend.thread]] ← SHARED_WITH — milestone-4-rows / row-theory
+- [[pattern-matching.thread]] ← SHARED_WITH — exhaustiveness-checking depends on row/variant structure
+- [[pipeline-stabilization.thread]] ← SHARED_WITH — Row/schema unification bug
+
+<!-- connections:end -->

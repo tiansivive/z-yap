@@ -20,3 +20,20 @@ tags:
 The module centralizes `display`, `displayDoc`, `traverse`, `fold`, `append`, and `rewrite` (used from inference, e.g. `src/elaboration/inference/injection.ts` for label / row transformation). Errors from `rewrite` are `Either` tagged `Mismatch` / `ExpectedExtension` / `Other` (`rows.ts`).
 
 Row **terms** inside `EB.Term` also include the standalone `{ type: "Row"; row }` constructor for type-level row objects; record/variant/schema **data** uses `App(Lit(Atom(...)), Row(...))` patterns in `CtorPatterns` (`src/elaboration/syntax/term.ts`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[row-rewriting]] — Rewrite over rows
+- ENABLES → [[row-polymorphism]] — Shared data type
+- FORMS → [[structural-records]] — Basis of row-backed types
+
+**Incoming**
+- [[row-rewriting]] ← REWRITES — Moves label to head
+- [[row-rewriting]] ← TRAVERSES — Recursive tail descent
+- [[structural-row-based-types]] ← MOTIVATES — Row structure choice
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

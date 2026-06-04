@@ -24,3 +24,21 @@ tags:
 Levels index binders by absolute depth at introduction; indices (`EB`) encode distance-to-binder from the inner scope.
 
 See also: [[de-bruijn.md]], [[levels-vs-indices.md]], [[level-to-index-conversion.md]], [[quoting.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[de-bruijn]] — NF-level detail
+- ENABLES → [[lambda]] — Evaluation under binders
+
+**Incoming**
+- [[de-bruijn-indices]] ← CONTRASTS_WITH — Dual representations
+- [[level-to-index-conversion]] ← USES — Source representation
+- [[levels-vs-indices]] ← MOTIVATES — Level representation choice
+- [[closures]] ← RELIES_ON — Level-indexed environments
+- [[quoting]] ← RELIES_ON — Levels in NF.Value
+- [[maplist-schema-unification]] ← RELIES_ON — Levels are stable; NF.Value unaffected by binder extension
+
+<!-- connections:end -->

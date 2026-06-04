@@ -21,3 +21,19 @@ tags:
 **Fix:** Destructure `{ constraints, metas, zonker: toldZonker }` from `listen()` and compose `toldZonker` into the final zonker chain.
 
 **File:** `src/elaboration/module.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[elaboration-monad]] — Told zonker dropped by listen()
+- ADDRESSES → [[meta-variables]] — Prevents leaked meta re-generalization
+- FIXES → [[letpoly-implicit-escape]] — Zonker propagation stopped meta escape
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+- [[verification-unconstrained-meta]] ← MAY_RESOLVE_VIA — Zonker fix may solve it
+- [[verification-rigid-mismatch]] ← MAY_RESOLVE_VIA — Zonker fix may solve it
+
+<!-- connections:end -->

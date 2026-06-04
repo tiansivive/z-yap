@@ -28,3 +28,23 @@ tags:
 **Parser tests**: Nearley **`ParserStart: "Ann"`**, assert **`data.results.length === 1`**, snapshot **`data.results[0]`**.
 
 **Displays**: prefer **`EB.Display.Term`**, **`NF.display`**, constraint pretty-printers — avoid brittle exact string equality on full dumps.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[test-utility]] — elaborateFrom
+- SNAPSHOTS → [[pretty-printing]] — Inline snapshots
+- PRESERVES → [[test-utility]] — Determinism via resets
+- DETAILS → [[testing-strategy]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+- [[property-based-testing]] ← EXTENDS
+- [[ci-pipeline]] ← USES
+- [[v1-test-cleanup]] ← REVISES — Old tests used v1 API; ported coverage to v2 suites
+- [[v1-test-cleanup]] ← FIXES — Removed stale vitest exclusions
+- [[explorer-diff-mode]] ← COMPOSES_WITH — Diff mode complements snapshot-based testing
+
+<!-- connections:end -->

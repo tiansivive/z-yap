@@ -36,3 +36,20 @@ Modal annotations preserve a separation. Source syntax is closed. Elaboration is
 - The pattern composes: a single program can carry quantity, liquid, and gram annotations on the same term, each discharged by its respective consumer without interaction.
 
 The shape generalizes the precedent set by [[verification-modal-phase]] and [[gram-crud-enrichment]], which implement this division for their dimensions, and motivates [[programmable-gram-passes]] as the third consumer.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- GENERALIZES → [[verification-modal-phase]] — Verification reads liquid dimension
+- GENERALIZES → [[gram-crud-enrichment]] — CRUD reads multiplicity dimension
+- GENERALIZES → [[usage-semantics]] — Usage pass reads quantity dimension
+- RELIES_ON → [[modality-system]] — Modal layer is the extension surface
+
+**Incoming**
+- [[programmable-gram-passes]] ← MOTIVATED_BY — ADR for the broader stance
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+- [[programmable-gram-passes]] ← IMPLEMENTS — Programmable passes realise D-005
+
+<!-- connections:end -->

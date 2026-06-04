@@ -65,3 +65,38 @@ tracks the full vertical of delimited control in Yap.
 13. **Open shift verification** [[open-shift-verification]] — speculative, needs-design
     Symbolic mode for cross-module and open-term shifts. ARM-style answer
     refinement tracking. Deferred until module system exists.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[shift-reset]]
+- INCLUDES → [[answer-type-polymorphism]]
+- INCLUDES → [[continuation-binders]]
+- INCLUDES → [[nondeterminism]]
+- INCLUDES → [[nondeterminism-multishot]]
+- INCLUDES → [[multishot-serialization]]
+- INCLUDES → [[shift-reset-mir-lowering]]
+- INCLUDES → [[selective-cps]]
+- INCLUDES → [[direct-style-lowering.adr]]
+- INCLUDES → [[missing-spec-shift-reset]]
+- INCLUDES → [[gram-shift-reset-pass]]
+- INCLUDES → [[session-lowering-branch-split]]
+- INCLUDES → [[bubble-semantics]]
+- INCLUDES → [[shift-reset-verification]]
+- INCLUDES → [[open-shift-verification]]
+- SHARED_WITH → [[verification-backend.thread]] — shift-reset-verification
+- INCLUDES → [[bubble-semantics-phase1.implementation]] — Phase 1 work item
+- INCLUDES → [[tell-listen-resumption-refactor]] — Tech debt work item
+- INCLUDES → [[gram-canonical-ir.adr]] — D-006 amends/reframes D-004 in this thread
+- INCLUDES → [[shift-reset-bridge-lowering]] — Current shift/reset lowering site
+- INCLUDES → [[multishot-bridge-serialization]] — Current multishot serialisation site
+- INCLUDES → [[singleshot-static-specialization]] — Planned optimisation in the thread
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[gram-evolution.thread]] ← SHARED_WITH — gram-shift-reset-pass
+- [[verification-backend.thread]] ← SHARED_WITH — shift-reset-verification, shift-reset-verification-stub
+
+<!-- connections:end -->

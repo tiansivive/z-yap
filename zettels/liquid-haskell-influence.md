@@ -18,3 +18,18 @@ tags:
 **Verified in Yap:** `src/verification/V2/` lowers refinements into **IVL** verification conditions (`translate.ts`), exercises them through the **in-tree CDCL(T)** solver (tests under `src/verification/__tests__/` and `src/verification/solver/__tests__/`), and can still round-trip IVL to Z3 via **`z3.adapter.ts`**. **`pnpm yap explore`** exposes **IVL + Trace** tabs (`src/cli/explore/pipeline.ts`, [[pipeline-explorer]]).
 
 Architectural parallel: refinements stay mostly **annotations + VC generation**, not full dependent proof tactics — same coarse split as Liquid Haskell, on Yap’s dependent core.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[refinement-types]] — SMT automation
+- INSPIRES → [[smt-translation]] — VC generation pipeline
+- INSPIRES → [[vc-ir]] — Formula fragment
+
+**Incoming**
+- [[first-order-restriction.adr]] ← IMPLEMENTS — Standard Liquid Types convention
+- [[vazou-refinement-reflection-2018]] ← INFORMS — Core LH paper
+
+<!-- connections:end -->

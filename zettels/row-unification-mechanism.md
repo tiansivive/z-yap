@@ -34,3 +34,21 @@ Match order on **`[r1, r2]`** in **`Row.unify`** (`src/elaboration/unification/r
 **`rewrite`** is defined in the same file; **`U.unify.gen(value, rewritten.value, lvl, Sub.compose(o1, s))`** uses **`lvl = ctx.env.length`**.
 
 Tracking: **`V2.track({ tag: "unify", type: "row", rows: [r1, r2], ... })`**.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[unification-algorithm]] — Row extension
+- DELEGATES_TO → [[row-rewriting]] — Label lookup
+- INSTANTIATES → [[meta-variables]] — Fresh row metas
+- IMPLEMENTS → [[row-polymorphism]] — Type-level row unification
+
+**Incoming**
+- [[unification-algorithm]] ← USES — Row case delegation
+- [[row-rewriting]] ← ENABLES — Restructuring for unification
+- [[row-theory]] ← MIRRORS — Same label decomposition
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

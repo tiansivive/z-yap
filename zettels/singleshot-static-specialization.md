@@ -39,3 +39,21 @@ Dependencies:
 Boundary: the specialisation only fires when usage is statically provable. Resumes whose count is data-dependent (e.g. inside a recursive function whose call count is unknown) stay on the multishot path. The fallback shape is correct, so the pass is purely performance-improving — never required for soundness.
 
 Status: planned. The pass lives downstream of [[programmable-gram-passes-mvp.plan]] and consumes the quantity dimension once usage analysis lands.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[multishot-bridge-serialization]] — Specialises the conservative multishot shape when usage allows
+- RELIES_ON → [[usage-semantics]] — Needs continuation-parameter usage upper bound
+- RELIES_ON → [[programmable-gram-passes]] — Realised as a programmable GRAM pass
+- RELIES_ON → [[gram-kernel-pass]] — Kernel meta-pass orders the specialisation rule
+- CONSUMES → [[modality-system]] — Reads the quantity dimension off Modal.Annotations
+
+**Incoming**
+- [[delimited-continuations.thread]] ← INCLUDES — Planned optimisation in the thread
+- [[static-partial-evaluation]] ← RELIES_ON — Pass-driven specialisation example
+- [[static-partial-evaluation]] ← GENERALIZES — A specific instance of the general pattern
+
+<!-- connections:end -->

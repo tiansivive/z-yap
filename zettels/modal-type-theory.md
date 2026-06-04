@@ -27,3 +27,14 @@ Petricek and Orchard's coeffect framework ([[petricek-orchard]]) provides a comp
 ## Relationship to Yap
 
 Yap draws on this tradition but extends it: the modal wrapper carries *multiple* modality dimensions (quantity and liquid refinements) in a single system, rather than treating them as separate concerns. See [[modality-system]] for the design and [[usage-semantics]] for the specific QTT-inspired quantity dimension.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[usage-semantics]] ← IMPLEMENTS — QTT semiring in Yap
+- [[modality-system]] ← IMPLEMENTS — Multi-dimension modal design
+- [[usage-semantics.thread]] ← RELIES_ON — Foundational theory
+
+<!-- connections:end -->

@@ -46,3 +46,20 @@ Four issues surfaced during implementation requiring follow-up design work:
 ## Deferred
 
 Phase 7 (boundary policy for user-rule-introduced tags at the MIR boundary, z-yap documentation pass) deferred pending resolution of the above issues.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DOCUMENTS → [[programmable-gram-passes-mvp.plan]] — Retrospective documents the plan execution
+- DOCUMENTS → [[programmable-gram-passes]] — Retrospective documents the hub
+
+**Incoming**
+- [[gram-string-escaping.bug]] ← DISCOVERED_BY — Bug discovered during MVP impl
+- [[gram-rule-scoping.design]] ← DISCOVERED_BY — Design issue discovered during MVP impl
+- [[gram-payload-constraint-emission.design]] ← DISCOVERED_BY — Design issue discovered during MVP impl
+- [[gram-modality-vs-pragma.design]] ← DISCOVERED_BY — Design issue discovered during MVP impl
+- [[gram-evolution.thread]] ← INCLUDES — Retrospective is a thread milestone
+
+<!-- connections:end -->

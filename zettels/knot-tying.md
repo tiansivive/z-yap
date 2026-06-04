@@ -1,6 +1,7 @@
 ---
 tags:
 - mechanism
+- nbe
 - normalization
 - elaboration
 - recursion
@@ -22,3 +23,26 @@ Three cases use this pattern:
 - **Mu bindings**: when reading a Bound variable whose binder is Mu, the evaluator wraps the result in `Neutral(entry.nf)` instead of returning the plain NF. This blocks unfolding during normalization — the mu body can reference itself, but each reference produces a neutral rather than triggering re-evaluation. Unfolding only happens in unification, where it's controlled.
 
 The pattern relies on mutable cells in the environment — a controlled use of mutation in an otherwise functional evaluation pipeline.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[generalization]] — Recursive let evaluation
+- ENABLES → [[mu-type-unification]] — Recursive self-reference
+- INSTANTIATES → [[nbe]] — Placeholder entry
+- IMPLEMENTS → [[blocks]] — Recursive let self-referential evaluation
+- IMPLEMENTS → [[typing-rules]] — Recursive types (Mu) typing (no spec)
+- WRAPS → [[nbe]] — Placeholder entry mutated after evaluation
+- ENABLES → [[blocks]] — Recursive let-bindings
+- ENABLES → [[mu-types]] — Mu bindings wrap in Neutral
+- RELIES_ON → [[nf-value]] — Placeholder mutation in env entries
+- RELIES_ON → [[elaboration-context]] — Environment extension for placeholders
+
+**Incoming**
+- [[nbe]] ← INCLUDES — Recursive evaluation pattern
+- [[variable-evaluation-dispatch]] ← RELIES_ON — Free variables use placeholder pattern
+- [[length-recursive-debruijn]] ← RELIES_ON — Recursive binder pattern
+
+<!-- connections:end -->

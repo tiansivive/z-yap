@@ -23,3 +23,19 @@ The source annotation form (`expr : Type`) does not survive into EB.Term as a di
 EB.Term's `Ann` constructor pairs a term with a quoted type annotation, giving the core a fully typed representation where type information persists past elaboration. Any downstream pass can recover the type of an annotated node locally, without re-inference — the annotation is a quoted `EB.Term` that can be evaluated in the consumer's own context.
 
 Modality stripping preserves user-written modalities on annotated types: `stripModalities` ensures that annotations with modality information do not lose that information when the inferred type is used downstream.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- COERCES_TO → [[pi-types]] — Term validated against annotation
+- ENABLES → [[bidirectional-checking]] — Switches infer → check mode
+- RELIES_ON → [[nf-value]] — Annotation evaluated to NF before checking
+- RELIES_ON → [[pi-types]] — Annotation often provides expected Pi type
+- COMPOSES_WITH → [[modalities]] — stripModalities preserves user modalities
+
+**Incoming**
+- [[fst-closure-annotation]] ← FIXES — Ann now carries EB.Term instead of NF.Value
+
+<!-- connections:end -->

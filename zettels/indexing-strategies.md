@@ -30,3 +30,21 @@ Whether strategies should also be specifiable from pure Yap code (not just FFI) 
 The type-checking story is unclear: if two values have the same Yap type but different strategies, are they interchangeable? If yes, strategy is purely a compilation hint. If no, strategy affects the type, which changes the [[structural-typing]] story.
 
 Related: [[customizable-data-types]], [[ffi]], [[rows-universal-substrate]], [[dictionary-passing]], [[implicits]], [[structural-typing]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[customizable-data-types]] — Strategy application
+- USES → [[implicits]] — Strategies as implicit parameters
+- USES → [[dictionary-passing]] — Strategy records as dictionaries
+- COMPOSES_WITH → [[ffi]] — FFI-specified indexing
+- INFORMS → [[structural-typing]] — Same type, different representation
+
+**Incoming**
+- [[dictionary-passing]] ← INFORMS — Strategies as implicit dictionaries
+- [[customizable-data-types]] ← RELIES_ON — Pluggable backends
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

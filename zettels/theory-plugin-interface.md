@@ -33,3 +33,32 @@ EUF (congruence closure), linear arithmetic (simplex + branch-and-bound), and qu
 ## Design rationale
 
 Modular theories following the Nelson-Oppen / DPLL(T) tradition allow each decision procedure to be developed, tested, and traced independently. The shared arena avoids redundant term representations across theories. Generator-based `assertTrace`/`checkTrace` variants yield per-step events for the pipeline explorer without changing the solving logic.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[cdcl-t-solver]] — Modular theories
+- SPECIALIZES → [[nelson-oppen]] — Cooperating decision procedures
+- DISPATCHES_ON → [[cdcl-t-solver]] — Theories receive literals from SAT
+
+**Incoming**
+- [[cdcl-t-solver]] ← DELEGATES_TO — Theory propagation
+- [[euf-theory]] ← IMPLEMENTS — Congruence closure
+- [[arithmetic-theory]] ← IMPLEMENTS — Simplex
+- [[string-theory]] ← IMPLEMENTS — Word equations
+- [[row-theory]] ← IMPLEMENTS — Row containment
+- [[quantifier-engine]] ← IMPLEMENTS — Instantiation
+- [[required-theory-support]] ← CONSTRAINS — All theories needed
+- [[nelson-oppen]] ← INFORMS — Cooperating procedures
+- [[solver-module-layout]] ← APPLIES_TO — Separation of concerns
+- [[cdcl-t-solver]] ← DISPATCHES_ON — EUF, arithmetic, strings, rows, quantifiers
+- [[m2-implementation]] ← IMPLEMENTS — Realizes the Theory API contract
+- [[solver-trace]] ← EXTENDS — Added assertTrace/checkTrace generator methods
+- [[solver-trace]] ← DISPATCHES_ON — Step rendering dispatches on theory name
+- [[inline-theory-assert]] ← CONSTRAINS — How theories receive literals
+- [[dual-polarity-registration]] ← CONSTRAINS — Atom registration rule
+- [[complementary-atom-encoding]] ← CONSTRAINS — Lemma encoding rule
+
+<!-- connections:end -->

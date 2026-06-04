@@ -25,3 +25,13 @@ Reflects user-defined function definitions into output refinement types, enablin
 - **T-Exact rule**: generalizes [[selfification]] from Knowles & Flanagan to reflected functions, strengthening output types with `v = f x ∧ def(f, x)`.
 
 Yap does not currently implement refinement reflection, but the sort distinction (`Type` vs `Fn` in IVL) and the [[first-order-restriction.adr]] on selfification follow the same design.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- GENERALIZES → [[selfification]] — T-Exact generalizes T-Var to reflected definitions
+- INFORMS → [[liquid-haskell-influence]] — Core LH paper
+
+<!-- connections:end -->

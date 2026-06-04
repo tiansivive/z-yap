@@ -9,3 +9,13 @@ Computer-algebra discharge (CAS instead of SMT) was considered early on and reje
 The refinement pipeline stays **SMT-first in spirit**: VC generation targets **IVL** and is discharged by **`src/verification/solver/`** (CDCL(T)); **`z3-solver`** remains an optional oracle path via adapters ([[verification-backend]], [[z3-replacement.adr]]).
 
 A CAS sidecar would need a defined obligation split, sound interfaces to dependent refinements, and fallbacks when no closed form exists — out of scope for current `src/verification/` paths.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[smt-translation]] — CAS alternative
+- CONTRASTS_WITH → [[z3-replacement.adr]] — Alternative rejected
+
+<!-- connections:end -->

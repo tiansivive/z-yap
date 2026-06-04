@@ -34,3 +34,18 @@ Resolution shape: replace `src/compile.ts` and `src/Codegen/modules.ts` with a m
 Boundary: the deprecation of `lowerToMir` cannot be completed before this migration. Test suites that exercise lowering directly will need to be reframed against the bridge or kept as legacy regression tests.
 
 Status: queued; no implementation work in flight. Tracked from [[global-pending-queue]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DEFERS_TO → [[gram-canonical-ir.adr]] — Resolution shape is the canonical pipeline
+- APPLIES_TO → [[compile-orchestration]] — The yap <file> entry runs the legacy path
+- BLOCKS → [[gram-canonical-ir.adr]] — Full canonical adoption blocked on the file-path migration
+
+**Incoming**
+- [[compile-orchestration]] ← DELEGATES_TO — Current file-compile delegation
+- [[global-pending-queue]] ← INCLUDES — Tech debt tracked in the global queue
+
+<!-- connections:end -->

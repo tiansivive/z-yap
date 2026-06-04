@@ -34,3 +34,19 @@ Current coverage focuses on correctness of individual theory plugins and basic i
 **Gaps.** No stress testing with large or deeply nested formulas. No adversarial inputs designed to trigger worst-case CDCL behavior (many restarts, deep backjumps). No differential testing against an external solver oracle. No benchmarking of solver performance across formula families. These become relevant as the solver matures and handles more complex verification conditions from real Yap programs.
 
 Related: [[testing-strategy]], [[cdcl-t-solver]], [[e-matching]], [[arithmetic-theory]], [[vc-ir]], [[fuzz-testing]], [[property-based-testing]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DETAILS → [[cdcl-t-solver]]
+- DETAILS → [[e-matching]]
+- DETAILS → [[arithmetic-theory]]
+- USES → [[vc-ir]]
+
+**Incoming**
+- [[z3-adapter-strategy]] ← ENABLES — Differential testing
+- [[testing-strategy]] ← INCLUDES
+
+<!-- connections:end -->

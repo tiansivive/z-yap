@@ -26,3 +26,18 @@ AI pair-programming session that implemented milestones 1 and 2 of the in-house 
 **Code quality pass:** Enforced fp-ts combinators, ts-pattern structural dispatch, immutability discipline, and namespace-based API style across all solver modules. Documented deviations where mutable state is justified (trail, watched-literal arrays, simplex tableau).
 
 See [[m1-implementation]] and [[m2-implementation]] for per-milestone details with source file links.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCED → [[m1-implementation]] — Session delivered M1
+- PRODUCED → [[m2-implementation]] — Session delivered M2
+- FOLLOWS → [[z3-replacement.adr]] — Continues Z3 replacement
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+- [[session-trace-observability]] ← FOLLOWS — Continuation of solver development
+
+<!-- connections:end -->

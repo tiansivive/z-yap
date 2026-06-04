@@ -24,3 +24,20 @@ Arity for primops is the `ARITIES` table in `src/lowering/shared/primops.ts` (`$
 **Prerequisite:** Saturation requires `var:foreign` nodes (not `var:free`) with `arity` in their payload. Two fixes enable this: (1) the elaboration context `lookup` function (`src/elaboration/shared/context.ts`) now correctly produces `EB.Constructors.Var({ type: "Foreign" })` for imported primops (previously always produced `Free`); (2) the explorer passes `ARITIES` from `src/lowering/shared/primops.ts` to `GRAM.Pipeline.compile`.
 
 Use "saturation" language for both, but they are different code paths: lowering drives emitted code; GRAM drives the displayed/transformed EB graph.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REWRITES → [[application]] — App chains → primop nodes
+- DISPATCHES_ON → [[ffi]] — Known-arity foreign/ref functions
+- ADDRESSES → [[application]] — Collapse App chains into primop nodes
+
+**Incoming**
+- [[gram-shift-reset-pass]] ← FOLLOWS — Pipeline order
+- [[gram-to-mir-bridge]] ← RELIES_ON — Needs external/primop
+- [[bridge-unsaturated-external]] ← RELIES_ON — Saturation mechanism marks partial vs full application
+- [[gram-pap-pass]] ← RELIES_ON — Consumes `saturated: false` payload from saturate pass
+
+<!-- connections:end -->

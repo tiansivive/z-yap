@@ -21,3 +21,16 @@ The explorer snippet `\obj -> obj.x` with `deBruijn: "both"` caused a segmentati
 **Files:** `src/elaboration/normalization/quoting.ts`, `src/elaboration/normalization/syntax/term.ts`, `src/elaboration/normalization/evaluation.v2.ts`, `src/elaboration/normalization/arity.ts`.
 
 **Visibility:** Only triggered by `deBruijn: "both"` because that mode quotes the normalized value back to an EB term for display alongside de Bruijn indices. Default mode doesn't quote stuck values.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[pipeline-explorer]] — Segfault on stuck projection/injection quoting
+- MODIFIES → [[normalization]] — New StuckProj/StuckInj patterns in quoting
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

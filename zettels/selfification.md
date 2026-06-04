@@ -33,3 +33,22 @@ In Yap, `selfify` (`src/verification/V2/utils/refinements.ts`) is called from `s
 - **Bare types** (otherwise) — wraps in a fresh `Modal` carrying `v = x` as the liquid predicate.
 
 The `NF.force` call before matching ensures meta-variables are zonked, so Pi types hidden behind unsolved metas are correctly identified and excluded by the guard.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- COMPOSES_WITH → [[modalities]] — Conjoins self-equality into existing liquid predicate
+- RELIES_ON → [[verification-pipeline]] — Called from synth (Bound var path)
+- CONSTRAINS → [[first-order-restriction.adr]] — Guarded by isFirstOrder
+
+**Incoming**
+- [[first-order-restriction.adr]] ← CONSTRAINS — isFirstOrder top-level guard
+- [[syn-app-ex-modification]] ← USES — check returns selfified nf for precision
+- [[ou-et-al-2004]] ← INFORMS — Coined the term
+- [[knowles-flanagan-2010]] ← INFORMS — T-Var formalization
+- [[vazou-mechanizing-refinement-types-2024]] ← INFORMS — Mechanized self() function
+- [[vazou-refinement-reflection-2018]] ← GENERALIZES — T-Exact generalizes T-Var to reflected definitions
+
+<!-- connections:end -->

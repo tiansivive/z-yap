@@ -24,3 +24,20 @@ Dummy pass-through handling so verification no longer throws on shift/reset expr
 **Code:** `src/verification/V2/synth.ts` (Reset + Shift cases), `src/verification/V2/subtype.ts` (Any cases), `src/verification/V2/logic/translate.ts` (Meta variable case).
 
 Superseded eventually by [[shift-reset-verification]] once Bubble semantics lands.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[shift-reset]] — Dummy verification pass-through
+- EXTENDS → [[verification-pipeline]] — Adds Reset/Shift cases (transparent/opaque)
+- USES → [[vc-ir]] — Build.true_() for shift VC
+
+**Incoming**
+- [[shift-reset-verification]] ← SUPERSEDES — Replaces dummy with real verification
+- [[session-bubble-verification-design]] ← PRODUCES
+- [[verification-backend.thread]] ← INCLUDES
+- [[bubble-semantics-phase1.implementation]] ← RELIES_ON — Verification stub preserved
+
+<!-- connections:end -->

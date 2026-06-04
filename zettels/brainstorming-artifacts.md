@@ -22,3 +22,12 @@ Sibling repo path: `/Users/t.vilaverde/Workspace/panlogion/brainstorming/yap/` (
 **Use:** Treat as **intent and scratch**—cross-check against `src/` and z-yap zettels (e.g. pipeline, lowering, verification notes) before assuming behavior. Contradictions belong in explicit decisions or graph updates, not silent override.
 
 **Status:** `speculative` (artifacts may outpace or lag the tree).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[yap]] — Roadmap decisions
+
+<!-- connections:end -->

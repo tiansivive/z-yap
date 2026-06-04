@@ -17,3 +17,16 @@ tags:
 **Fix:** Added dispatch cases erasing all three to empty records (`emptyStruct`). Type-level nodes have no runtime representation; erasure is the correct semantics until QTT-based principled erasure is implemented.
 
 **Files:** `src/GRAM/bridge/emit.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- FIXES → [[gram-to-mir-bridge]] — PI/SIGMA/VAR_META dispatch
+- ADDRESSES → [[type-erasure]] — Interim erasure until QTT
+
+**Incoming**
+- [[explorer-audit.thread]] ← INCLUDES — Thread member
+
+<!-- connections:end -->

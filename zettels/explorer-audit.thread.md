@@ -74,3 +74,27 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
 
 15. ~~**Test rename** — deferred~~
     Rename `implicit-app-eval.test.ts` to reflect actual coverage. Low priority; deferred.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[stuck-quoting-fix]] — Thread member
+- INCLUDES → [[explorer-snippet-syntax-fixes]] — Thread member
+- INCLUDES → [[bridge-type-erasure]] — Thread member
+- INCLUDES → [[bridge-label-resolution]] — Thread member
+- INCLUDES → [[pattern-row-binder-fix]] — Thread member
+- INCLUDES → [[wraplambda-fix]] — Thread member
+- DOCUMENTS → [[implicit-generalization-semantics]] — Decision from audit
+- INCLUDES → [[module-zonker-fix]] — Thread member
+- INCLUDES → [[bridge-closure-capture]] — Thread member
+- INCLUDES → [[bridge-struct-dispatch]] — Thread member
+- INCLUDES → [[verification-unconstrained-meta]] — Thread member
+- INCLUDES → [[verification-rigid-mismatch]] — Thread member
+- SHARED_WITH → [[gram-evolution.thread]] — Bridge fixes
+- SHARED_WITH → [[elaboration-v2.thread]] — Monad/zonker fixes
+- SHARED_WITH → [[pattern-matching.thread]] — Struct dispatch, row binders
+- SHARED_WITH → [[explorer-evolution.thread]] — Snippet fixes, pipeline
+
+<!-- connections:end -->

@@ -26,3 +26,17 @@ Yap's verification operates post-elaboration, where some terms are extrinsic —
 The `incorporate` function in `src/verification/V2/synth.ts` modifies Syn-App-Ex by using `check` instead of `synth` for arguments. Checking leverages the Pi binder's annotation as the expected type, properly handling extrinsic terms. When `check` synthesizes a more precise type (e.g., with [[selfification]] refinements), it returns it via the optional `nf` field. `incorporate` uses `nf` when available, falling back to the Pi binder's annotation otherwise. This propagates subtype precision through application chains.
 
 The `incorporate` function also handles existential unpacking: when the function type is `Existential`, it recurses through the existential binder before reaching the underlying Pi. The result is re-wrapped in `Exists` to preserve the quantified variable for downstream VC generation.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[application]] — Uses check instead of synth+subtype for arguments
+- RELIES_ON → [[bidirectional-checking]] — check provides expected type for extrinsic terms
+- RELIES_ON → [[verification-pipeline]] — incorporate fn in synth.ts
+- USES → [[selfification]] — check returns selfified nf for precision
+- INFORMS → [[knowles-flanagan-2010]] — Modifies their Syn-App-Ex rule
+- INCLUDES → [[verification-backend.thread]] — Thread item
+
+<!-- connections:end -->

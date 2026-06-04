@@ -79,3 +79,12 @@ The plan is to move the transcripts to a private GitHub repo (`tiansivive/z-yap-
 - `sessions/` resolves as a submodule in `git status`
 - Cloning public z-yap with `--recurse-submodules` fails cleanly for non-authorised users
 - A new transcript can be added and shows up referenced via existing `session:UUID` refs without further changes
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INCLUDES — Open todo
+
+<!-- connections:end -->

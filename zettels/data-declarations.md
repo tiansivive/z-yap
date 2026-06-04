@@ -30,3 +30,28 @@ This fits Yap's [[structural-typing]] philosophy: the underlying type is still a
 The relationship between data declarations and [[nominal-identity]] is worth exploring but should not be conflated — sugar syntax over rows does not require nominal typing, and nominal typing does not require dedicated declaration syntax. How data declarations interact with [[open-closed-variants]] (inferring closed variants from complete declarations vs leaving row tails open) connects to [[exhaustiveness-checking]].
 
 Related: [[variant-types]], [[structural-records]], [[rows-universal-substrate]], [[nominal-identity]], [[mu-types]], [[inductive-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DESUGARS_TO → [[variant-types]] — Data decls are sugar over row variants
+- DESUGARS_TO → [[structural-records]] — Product parts desugar to struct rows
+- RELIES_ON → [[rows-universal-substrate]] — Desugars into row machinery
+- USES → [[row-polymorphism]] — Structural identity via rows
+- INFORMS → [[open-closed-variants]] — Data decl could default to closed
+- INFORMS → [[nominal-identity]] — Sugar syntax does not require nominality
+- COMPOSES_WITH → [[mu-types]] — Recursive data uses mu wrapping
+- ENABLES → [[exhaustiveness-checking]] — Named constructors enable coverage
+- CONTRASTS_WITH → [[nominal-typing]] — Structural sugar vs nominal declaration
+
+**Incoming**
+- [[inductive-types]] ← INFORMS — Constructor-based definition motivates data syntax
+- [[nominal-identity]] ← INFORMS — Whether data decls carry nominal identity
+- [[pattern-synonyms]] ← INFORMS — Pattern names supplement data decls
+- [[open-closed-variants]] ← INFORMS — Data decls produce closed variants
+- [[opaque-types]] ← COMPOSES_WITH — Opaque wrappers for data types
+- [[row-types.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -28,3 +28,21 @@ View patterns could fit Yap as desugared function application before structural 
 The implementation path through Yap's [[match]] and [[pattern-matching-compilation]] is relatively clear: desugar the view application before feeding into the existing clause-matrix compilation. The elaboration cost is one additional function application per view pattern.
 
 Related: [[match]], [[pattern-matching-compilation]], [[pattern-synonyms]], [[active-patterns]], [[exhaustiveness-checking]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[match]] — Function-applied matching
+- CONTRASTS_WITH → [[pattern-synonyms]] — Runtime computation vs static alias
+- CONTRASTS_WITH → [[active-patterns]] — No failure protocol vs explicit failure
+- INFORMS → [[exhaustiveness-checking]] — Views can simplify coverage
+- DESUGARS_TO → [[pattern-matching-compilation]] — Desugars before clause matrix
+- INFORMS → [[ghc-influence]] — Haskell ViewPatterns extension
+
+**Incoming**
+- [[active-patterns]] ← EXTENDS — View patterns with failure protocol
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

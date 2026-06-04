@@ -28,3 +28,14 @@ Surface syntax already distinguishes **anonymous rows / structs / tuples / varia
 Internally, **`EB.Constructors.HashMap`** composes foreign **`Indexed`** with optional strategy (`src/elaboration/syntax/term.ts`), separate from plain **`Struct`/`Schema`** row encodings.
 
 Residual confusion is pedagogical/tooling-level (similar braces vs brackets). Sharper segregation — clearer syntax ↔ elaborator mapping, diagnostics — depends on coordinated grammar (`grammar.ne`), eventual tree-sitter parity, and any **`dedicated-row-constructors`**-style EB cleanup.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[structural-records]] — Syntax confusion with indexed types
+- ADDRESSES → [[lists]] — Indexed vs plain record clarity
+- ADDRESSES → [[dictionaries]] — Indexed vs plain record clarity
+
+<!-- connections:end -->

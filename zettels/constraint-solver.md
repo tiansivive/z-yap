@@ -37,3 +37,40 @@ Hub for Yap's elaboration-time constraint solver — the subsystem that resolves
 ## Provenance
 
 Idris 2 and Lean influenced the solver's design, particularly the empty-subst guard on resolution and the assign-before-resolve ordering.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[unification]] — Assign constraints → unify
+- USES → [[nondeterminism]] — Multishot replay
+- RESOLVES → [[constraint-types]] — Processes queue
+- DELEGATES_TO → [[unification-algorithm]] — Assign constraints
+- DELEGATES_TO → [[implicit-resolution-solver]] — Resolve constraints
+- IMPLEMENTS → [[constraint-solving]] — Solver realizes the concept
+- USES → [[implicit-resolution-solver]] — Resolve → Δ lookup
+- ENABLES → [[deferred-constraint-solving]] — Batch processing at let boundaries
+- ENABLES → [[implicit-resolution]] — Δ lookup phase
+
+**Incoming**
+- [[zonking]] ← FOLLOWS — After solving
+- [[deferred-constraint-solving]] ← RELIES_ON — Batch processing at let boundaries
+- [[constraint-solving]] ← DELEGATES_TO — Concept realized by the solver
+- [[assign-before-resolve]] ← CONSTRAINS — Ordering invariant
+- [[empty-subst-guard]] ← CONSTRAINS — Resolution acceptance rule
+- [[idris-2-influence]] ← INSPIRES — Unification approach
+- [[constraint-types]] ← ENABLES — Typed constraints
+- [[constraint-types]] ← DISPATCHES_ON — Assign vs resolve
+- [[nondeterminism-multishot]] ← USES — Runs after solving
+- [[test-utility]] ← USES — Solve constraints
+- [[implicit-resolution]] ← DELEGATES_TO — Batch processing
+- [[bidirectional-checking]] ← DELEGATES_TO — At let boundaries
+- [[mutual-recursion]] ← REQUIRES — Multi-pass constraint solving
+- [[nondeterminism-multishot]] ← DISPATCHES_ON — Solution emptiness check
+- [[nondeterminism]] ← DISPATCHES_ON — Solution emptiness (single vs replay)
+- [[verification-backend.thread]] ← INCLUDES
+- [[elaboration-v2.thread]] ← USES
+- [[explorer-timing]] ← REPORTS — Solver timing breakdown
+
+<!-- connections:end -->

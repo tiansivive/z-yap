@@ -24,3 +24,37 @@ Constructors cover the full core language: `Lit`, `Var`, `Abs`, `App`, `Row`, `P
 Variables carry their own discriminant: `Bound` (de Bruijn index), `Free`, `Foreign`, `Label` (sigma field reference), and `Meta` (unsolved unknown). Patterns for Match cover `Binder`, `Var`, `Lit`, `Row`, `Struct`, `Variant`, `List`, `Wildcard`. Block statements are `Expression`, `Let`, or `Using`.
 
 All binders (Pi, Sigma, Lambda, Mu, Let) share the single `Abs` node — see unified-binder for the design rationale.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- NORMALIZES_TO → [[nf-value]] — Via evaluation
+- CONTRASTS_WITH → [[nf-value]] — Syntax vs semantic domain
+- RELIES_ON → [[ast-pipeline]] — Second layer of the pipeline
+
+**Incoming**
+- [[v1-elaboration-pipeline]] ← PRODUCES — EB.Term output
+- [[mir-lowering]] ← TRANSLATES_TO — EB.Term → SSA blocks
+- [[mir-lowering]] ← TRAVERSES — Pattern-match walk
+- [[zonking]] ← TRAVERSES — Walks replacing metas
+- [[smt-translation]] ← TRAVERSES — Walks producing Z3
+- [[branded-types]] ← CONSTRAINS — Type-level separation
+- [[quoting]] ← QUOTES_TO — NF.Value → EB.Term
+- [[src-term]] ← PRODUCES — Via elaboration
+- [[nf-value]] ← QUOTES_TO — Via quoting
+- [[src-term]] ← CONTRASTS_WITH — Surface vs core
+- [[src-to-eb-transformation]] ← PRODUCES — Elaborated output
+- [[nbe]] ← QUOTES_TO — Readback direction
+- [[mir-lowering]] ← CONSUMES — EB.Term for IR translation
+- [[closures]] ← WRAPS — Deferred substitution (EB.Term + Context)
+- [[elaboration-v2.thread]] ← INCLUDES
+- [[ast-pipeline]] ← DEFINES — Core layer of three-layer design
+- [[unified-binder]] ← CONSTRAINS — All binders share Abs in EB.Term
+- [[standard-closure]] ← RELIES_ON — Body is an EB.Term
+- [[holes]] ← DESUGARS_TO — Holes become meta Var nodes in core
+- [[fst-closure-annotation]] ← APPLIES_TO — Changed Ann.ann field from NF.Value to EB.Term
+- [[gram-type-uniformity]] ← MOTIVATES — EB.Term as candidate uniform representation
+
+<!-- connections:end -->

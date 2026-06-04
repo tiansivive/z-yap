@@ -20,3 +20,18 @@ The original implementation inferred the struct, applied the sigma closure, and 
 The fix delegates to `check(sourceStruct, appliedSigmaBody)`, which dispatches to the `[struct, Schema]` case when the body is a Schema. That case traverses each field and checks individually, letting the singleton check fire. When the body is a meta or other form, the standard check dispatch handles it.
 
 The source struct is elaborated twice: once during inference (for the value row needed by the sigma closure) and once during checking (for the correct elaborated term). A potential optimization would extract values without full inference.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[sigma-types]] — Affects sigma checking
+- APPLIES_TO → [[sigma-bindings]] — Sigma apply in check path
+- RELIES_ON → [[singleton-types]] — Singletons expose the bug
+- APPLIES_TO → [[bidirectional-checking]] — Infer-then-constrain loses bidir info
+
+**Incoming**
+- [[row-types.thread]] ← INCLUDES — Sigma checking bug
+
+<!-- connections:end -->

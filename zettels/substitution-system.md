@@ -27,3 +27,19 @@ tags:
 - **`compose(newer, old)`** — **`{ ...old, ...newer }`** (left **`older`** shadowed by **`newer`** keys).
 
 **Usage**: **`unification.ts`** **`unify`** finishes **`Sub.compose(unifierResult, subst)`**; **`solve`** threads **`subst`** through **`U.unify`** and merges into **`ctx.zonker`** via **`Sub.compose(subst, ctx.zonker)`** for forcing.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[zonking]] — Subst for resolution
+- ENABLES → [[unification-algorithm]] — Solution accumulation
+- ZONKS → [[meta-variables]] — Maps IDs to solutions
+- ZONKS → [[holes]] — Fresh metas after solving
+
+**Incoming**
+- [[unification-algorithm]] ← USES — Accumulates solutions
+- [[flex-rigid-unification]] ← RECOVERS_FROM — Chases solved metas
+
+<!-- connections:end -->

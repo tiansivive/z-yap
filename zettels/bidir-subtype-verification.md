@@ -31,3 +31,18 @@ Bidirectional flow minimizes annotation burden while keeping VC generation predi
 ## Relationship to the solver
 
 All three forms emit `IVL.Formula` obligations through `translate.ts`. The solver sees only formulas — it has no knowledge of which judgment form produced them. Obligation labels carry enough provenance to trace results back to source ([[vc-provenance]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[verification-backend]] — VC generation strategy
+- USES → [[ivl-boundary]] — Emits IVL.Formula obligations
+- PRODUCES → [[vc-provenance]] — Obligations carry provenance
+- GROUNDED_IN → [[refinement-types]] — Liquid type theory
+
+**Incoming**
+- [[verification-backend.thread]] ← INCLUDES
+
+<!-- connections:end -->

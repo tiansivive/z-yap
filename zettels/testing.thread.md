@@ -27,3 +27,19 @@ Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+
 - **Integration testing** ([[integration-testing]]) — the REPL integration test exists but is skipped; codegen round-trips and multi-module programs are unexplored.
 - **Negative testing** ([[negative-testing]]) — systematic coverage of error paths: type errors, parse failures, unsatisfiable refinements, non-termination.
 - **Solver stress testing** ([[solver-testing]]) — adversarial formulas, performance benchmarking, differential testing.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[testing-strategy]]
+- INCLUDES → [[fuzz-testing]]
+- INCLUDES → [[property-based-testing]]
+- INCLUDES → [[integration-testing]]
+- INCLUDES → [[negative-testing]]
+
+**Incoming**
+- [[v1-test-cleanup]] ← DETAILS — Thread item
+
+<!-- connections:end -->

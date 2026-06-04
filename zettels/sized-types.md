@@ -39,3 +39,23 @@ Alternative to [[syntactic-guardedness]]. Sized types are more expressive (can e
 The interaction with [[equirecursive-types]] is worth noting: sized types give a way to bound the unfolding depth of recursive types, which connects to the step-budget approach already in place. A sized type system would replace the engineering guard (`maxSteps`) with a type-level guarantee.
 
 Related: [[termination-checking]], [[productivity-checking]], [[syntactic-guardedness]], [[dependent-types]], [[equirecursive-types]], [[nu-types]], [[inductive-types]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[productivity-checking]] — Size annotations ensure productivity
+- ADDRESSES → [[termination-checking]] — Size annotations ensure termination
+- CONTRASTS_WITH → [[syntactic-guardedness]] — More expressive but more complex
+- EXTENDS → [[dependent-types]] — Size indices are dependent type params
+- ADDRESSES → [[equirecursive-types]] — Bounds unfolding depth type-theoretically
+- USES → [[nbe]] — Size reduction via evaluation
+- INFORMS → [[agda-influence]] — Agda's sized types
+
+**Incoming**
+- [[productivity-checking]] ← RELIES_ON — One approach to productivity
+- [[syntactic-guardedness]] ← CONTRASTS_WITH — Simpler but less expressive
+- [[recursion.thread]] ← INCLUDES
+
+<!-- connections:end -->

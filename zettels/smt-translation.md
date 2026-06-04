@@ -41,3 +41,31 @@ Observed mappings in `translate.ts` (Z3 era): numeric literals → **`Z3.Real.va
 Reset/Shift NF forms: sort mapping and translation threw unsupported errors (see **[[shift-reset-verification-stub]]** for the bridging story).
 
 **Today:** **`z3.adapter.ts`** translates **IVL** formulas **to** Z3 for cross-checking when desired.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[verification-pipeline]] — Z3 translation
+- TRANSLATES_TO → [[verification-pipeline]] — Z3 sorts/assertions
+- TRAVERSES → [[eb-term]] — Walks producing Z3
+- ERASES → [[pi-types]] — Functions → uninterpreted
+- TRANSLATES_TO → [[refinement-types]] — Verification conditions
+- ERASES → [[pi-types]] — Functions → uninterpreted in SMT
+
+**Incoming**
+- [[verification-pipeline]] ← TRANSLATES_TO — Types → Z3 assertions
+- [[cas-instead-of-smt]] ← CONTRASTS_WITH — CAS alternative
+- [[liquid-haskell-influence]] ← INSPIRES — VC generation pipeline
+- [[vc-ir]] ← SUPERSEDES — Backend-neutral replaces Z3
+- [[translation-boundary-vc]] ← SUPERSEDES — New translation tools
+- [[z3-replacement.adr]] ← SUPERSEDES — Z3 dependency removed
+- [[cdcl-t-solver]] ← SUPERSEDES — Replaces Z3 invocation
+- [[verification-backend.thread]] ← INCLUDES
+- [[m1-implementation]] ← SUPERSEDES — IVL replaces direct Z3 encoding
+- [[m1-implementation]] ← DEPRECATES — translate.ts path now legacy
+- [[lambda-synthesis-fix]] ← FIXES — Incorrect VC formula was downstream of wrong type
+- [[pipeline-explorer]] ← SUPERSEDES — IVL + Trace tabs replaced Z3 Verify tab
+
+<!-- connections:end -->

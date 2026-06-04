@@ -40,3 +40,24 @@ modal phase.
 
 8. **QTT paper** [[idris-1-qtt-paper]] — reference
    Brady's QTT in Idris 2 (ECOOP 2021). Primary implementation precedent.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[modalities]] — Hub concept
+- RELIES_ON → [[modal-type-theory]] — Foundational theory
+- RELIES_ON → [[modality-system]] — Yap's modality design
+- INCLUDES → [[usage-semantics]]
+- RELIES_ON → [[verification-modal-phase]] — Modal phase decision
+- INCLUDES → [[modality-polymorphism]]
+- INCLUDES → [[effects-as-modality]]
+- REFERENCES → [[idris-1-qtt-paper]] — QTT paper reference
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[gram-evolution.thread]] ← SHARED_WITH — CRUD depends on multiplicity
+- [[type-erasure]] ← INCLUDED_IN — QTT drives principled erasure
+
+<!-- connections:end -->

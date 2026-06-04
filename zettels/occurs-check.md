@@ -24,3 +24,18 @@ tags:
 **`NF.Value` traversal**: **`Var`** (meta equality), **`Neutral`** (into **`value`**), **`Lambda`/`Pi`/`Sigma`** delegate to **`occursInTerm(closure.ctx, v, closure.term)`**, **`App`** (func + arg), **`Modal`** (**`value`** + **`modalities.liquid`**), **`Row`** via **`R.fold`**. Any other **`NF.Value`** shape hits **`.otherwise(() => false)`** — no explicit **`Mu`** / **`Lit`** / … descent.
 
 **`occursInTerm`** walks **`EB.Term`**: **`Var` Meta** (zonker chase or equality), **`Abs`**, **`App`**, **`Match`**, **`Block`**, **`Row`**, **`Proj`**, **`Inj`**, **`Lit`** false, **`Modal`**, **`.otherwise`** false.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[unification-algorithm]] — Prevents cycles
+- TRAVERSES → [[nf-value]] — Walks checking meta presence
+- DETECTS → [[mu-types]] — Cyclic types
+- DETECTS → [[typing-rules]] — Failures producing Mu wrapping
+
+**Incoming**
+- [[unification-algorithm]] ← USES — Prevents infinite types
+
+<!-- connections:end -->

@@ -19,3 +19,15 @@ The GRAM→MIR bridge emitted `unknown` for `var:free` definition nodes.
 **Fix:** Changed `Leaves.free` to read `payload.name` directly from the node instead of following a non-existent edge. Same pattern as `Leaves.label`.
 
 **Impact:** Fixed MIR/codegen output for any multi-binding script where one definition references another. 25 integration test snapshots updated.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[gram-to-mir-bridge]] — Var resolution gap
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Bridge var:free → unknown
+
+<!-- connections:end -->

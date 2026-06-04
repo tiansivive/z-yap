@@ -16,3 +16,15 @@ Normalized forms display closures as `(closure: x -| Γ: x)` because NbE values 
 This is correct and intentional: the NF tab shows the internal NbE representation, distinct from the elaborated/quoted display. The capture environment is valuable for debugging closures, unification, and generalization.
 
 A config toggle (e.g. `closureContext: "show" | "hide"`) could suppress the `Γ: ...` suffix for users who want cleaner output without switching to the quoted view (`deBruijn: "both"` already re-quotes via `NF.quote → EB.Display.Term`).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[normalization]] — Closure display in NbE output
+
+**Incoming**
+- [[fst-closure-annotation]] ← APPLIES_TO — Stale closure annotations no longer appear in Ann nodes
+
+<!-- connections:end -->

@@ -26,3 +26,32 @@ Maranget-style clause matrix compilation -- decision tree construction from patt
 **Coverage:** Variant, lit, struct, binder, wildcard. List patterns are a natural extension of the same column-matrix pipeline and remain to be wired through lowering.
 
 **Algorithm:** Column heuristic (fewest wildcards), matrix specialization per head constructor, default matrix for wildcards/binders. Same conceptual algorithm in both MIR and GRAM -- different output representations.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- LOWERS_TO → [[mir-lowering]] — Decision trees → MIR
+- DISPATCHES_ON → [[match]] — Pattern shape
+- ERASES → [[match]] — Patterns removed after compilation
+- USES → [[maranget-paper]] — Decision-tree algorithm
+- TRANSLATES_TO → [[mir-lowering]] — Maranget decision trees
+- INCLUDES → [[gram-pattern-translation]] — Representation phase
+- INCLUDES → [[gram-pattern-pass]] — Compilation phase
+
+**Incoming**
+- [[match]] ← LOWERS_TO — Decision trees
+- [[maranget-paper]] ← INFORMS — Decision-tree construction
+- [[augustsson-paper]] ← INFORMS — Original algorithm (1985)
+- [[pettersson-paper]] ← INFORMS — DAG variant (1992)
+- [[pattern-algorithm-choice]] ← CONSTRAINS — Algorithm for MIR too
+- [[pattern-matching.thread]] ← INCLUDES
+- [[case-tree-elaboration]] ← EXTENDS — Semantic decision trees for types
+- [[case-tree-elaboration]] ← CONTRASTS_WITH — Type checking vs code generation
+- [[view-patterns]] ← DESUGARS_TO — Desugars before clause matrix
+- [[pattern-synonyms]] ← DESUGARS_TO — Desugars to structural patterns
+- [[exhaustiveness-checking]] ← RELIES_ON — Coverage from decision tree
+- [[match]] ← LOWERS_TO — Maranget clause-matrix at MIR level
+
+<!-- connections:end -->

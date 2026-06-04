@@ -34,3 +34,20 @@ Drift between user-facing prose and the compiler tree shows up in several places
 - Tree-sitter `ts-dts` script naming vs root `package.json` ([[tree-sitter-parser]]).
 
 **Status:** `incomplete` — reconcile by editing upstream docs or absorbing fixes into z-yap zettels; sibling registry `brainstorming/yap/KNOWN-DOC-ISSUES.md` may enumerate concrete items when federated.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[yap]] — README/FAQ drift
+- DETECTS → [[yap]] — Drift between docs and impl
+
+**Incoming**
+- [[missing-spec-shift-reset]] ← ADDRESSES — Spec gap
+- [[missing-spec-let-polymorphism]] ← ADDRESSES — Spec gap
+- [[missing-spec-sigma-types]] ← ADDRESSES — Spec gap
+- [[missing-spec-recursive-types]] ← ADDRESSES — Spec gap
+- [[global-pending-queue]] ← INCLUDES
+
+<!-- connections:end -->

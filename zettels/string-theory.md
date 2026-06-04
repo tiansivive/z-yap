@@ -30,3 +30,23 @@ tags:
 **IVL / planned atoms:** richer **`StrConcat`**, **`StrLen`**, **`str.prefix`**, etc. are **targets** for Milestone 3 solver + translation wiring (see **`ivl/types.ts`** evolution alongside [[milestone-3-strings]]).
 
 **Current translation gap:** string-like values remain **EUFlite / uninterpreted** in **`translate.ts`** (Z3-direct era used `Z3.Sort.declare("String")` — [[smt-translation]]); no dedicated **`theories/strings`** decision procedure yet in the Yap solver.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[theory-plugin-interface]] — Word equations
+- DELEGATES_TO → [[arithmetic-theory]] — Length lemmas
+- VALIDATES → [[primitive-signature]] — String primitives
+- REWRITES → [[cdcl-t-solver]] — Contains/prefix/suffix → concat equalities
+- INSTANTIATES → [[meta-variables]] — Fresh witnesses for decomposition
+- USES → [[arithmetic-theory]] — Length coupling
+
+**Incoming**
+- [[arithmetic-theory]] ← COMPOSES_WITH — Length coupling
+- [[milestone-3-strings]] ← PRODUCES — String module
+- [[liang-strings]] ← INFORMS — DPLL(T) string solver
+- [[reynolds-strings]] ← INFORMS — Context-dependent simplification
+
+<!-- connections:end -->

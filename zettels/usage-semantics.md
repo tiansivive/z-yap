@@ -35,3 +35,19 @@ Idris 2 is the primary implementation precedent. Yap shares the same grade vocab
 ## Current state
 
 Usage vectors are threaded through inference alongside terms and types, but the constraint solver does not yet consume usage constraints — the infrastructure is scaffolded but not wired. See [[verification-modal-phase]] for the design decision on where enforcement will live.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[modal-type-theory]] — QTT semiring in Yap
+- GROUNDED_IN → [[idris-1-qtt-paper]] — Idris 2 implementation precedent
+- EXTENDS → [[modalities]] — Quantity dimension of the modal system
+
+**Incoming**
+- [[usage-semantics.thread]] ← INCLUDES
+- [[extensibility-via-modalities.adr]] ← GENERALIZES — Usage pass reads quantity dimension
+- [[singleshot-static-specialization]] ← RELIES_ON — Needs continuation-parameter usage upper bound
+
+<!-- connections:end -->

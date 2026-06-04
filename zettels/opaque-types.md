@@ -29,3 +29,20 @@ The question is not whether to break structural typing but whether to layer nomi
 Separate from the question of type alias transparency in lowering and [[ffi]], which is about lookup and variable resolution rather than abstraction.
 
 Related: [[nominal-identity]], [[structural-typing]], [[module-system-exploration]], [[customizable-data-types]], [[data-declarations]], [[nominal-typing]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RELIES_ON → [[nominal-identity]] — Opacity requires nominal notion
+- CONTRASTS_WITH → [[structural-typing]] — Hiding structure from consumers
+- INFORMS → [[module-system-exploration]] — Module boundaries for opacity
+- EXTENDS → [[nominal-typing]] — Layering nominal abstraction
+- COMPOSES_WITH → [[data-declarations]] — Opaque wrappers for data types
+
+**Incoming**
+- [[nominal-identity]] ← INFORMS — Opacity requires some nominal notion
+- [[module-system-exploration]] ← INFORMS — Module boundaries as abstraction
+
+<!-- connections:end -->

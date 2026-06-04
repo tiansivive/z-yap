@@ -26,3 +26,23 @@ tags:
 - Also `Constraint`, `Context` (object dump of env), `Env`, `Alternative`, `Pattern`, `Statement`, and `doc` for low-level layout.
 
 Meta vars: `options.verbose` controls `?n` vs `(? n :: ann)`; bound names come from `ctx.env[index]?.name.variable`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[nf-value]] — Renders normal forms
+- REPORTS → [[elaboration]] — Human-readable output
+- USES → [[quoting]] — NF → EB → render
+- USES → [[zonking]] — Resolves metas before display
+
+**Incoming**
+- [[error-causes]] ← USES — Zonked NF in error messages
+- [[provenance-display]] ← USES — Term display
+- [[snapshot-testing]] ← SNAPSHOTS — Inline snapshots
+- [[quoting]] ← ENABLES — NF values → readable terms
+- [[yap-explore]] ← USES — Term rendering
+- [[solver-trace]] ← USES — prettier-printer for structured output
+
+<!-- connections:end -->

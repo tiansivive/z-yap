@@ -32,3 +32,20 @@ Fuzz testing targets three pipeline stages where malformed or adversarial input 
 **Tooling.** `fast-check` provides TypeScript-native property-based testing with shrinking. For parser fuzzing, a grammar-derived `Arbitrary` that produces syntactically valid (or near-valid) Yap programs would be the highest-value generator. For the solver, composing IVL `Term` trees via `fast-check` combinators over the `DSL` constructors is straightforward.
 
 Related: [[testing-strategy]], [[nearley-parser]], [[tree-sitter-parser]], [[cdcl-t-solver]], [[nbe]], [[exhaustiveness-checking]], [[property-based-testing]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- TARGETS → [[nearley-parser]]
+- TARGETS → [[tree-sitter-parser]]
+- TARGETS → [[cdcl-t-solver]]
+- TARGETS → [[nbe]]
+- INFORMS → [[exhaustiveness-checking]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+- [[testing.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -1,6 +1,7 @@
 ---
 tags:
 - concept
+- nbe
 - normalization
 - elaboration
 - unification
@@ -30,3 +31,23 @@ Neutrals arise from:
 - **Mu application**: applying a Mu-binder Abs produces a neutral App rather than unfolding, preventing infinite expansion during normalization.
 
 The flex/rigid distinction in unification operates on neutrals: a flex neutral has an unsolved meta at its head (solvable), while a rigid neutral has a bound variable (structural).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[closures]] — Closures reduce; neutrals are stuck — dual roles in NbE
+- WRAPS → [[nf-value]] — Unsolved computations wrapped
+- ENABLES → [[nbe]] — Stuck terms represent unknowns
+
+**Incoming**
+- [[meta-variables]] ← PRODUCES — Unsolved metas produce neutral terms
+- [[nbe]] ← USES — Stuck computations
+- [[primop-closure]] ← PRODUCES — Neutral when arg is stuck
+- [[application-evaluation]] ← DISPATCHES_ON — Grow spine when head is stuck
+- [[nbe]] ← INCLUDES — Stuck computation
+- [[whnf-vs-full-normalization]] ← RELIES_ON — WHNF is emergent from neutral blocking
+- [[variable-evaluation-dispatch]] ← RELIES_ON — Unsolved metas → neutral
+
+<!-- connections:end -->

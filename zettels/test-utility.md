@@ -35,3 +35,20 @@ tags:
 **Return**: **`{ src, displays: { term, type, constraints }, structure: { term, type, constraints, metas, typedTerms }, state, zonker }`** — **`displays`** uses **`EB.Display.Term`**, **`NF.display`**, **`EB.Display.Constraint`**.
 
 **`mkCtx`**: **`Lib.defaultContext()`** from **`@yap/shared/lib/primitives`**.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[parser-processors]] — Parses input
+- USES → [[elaboration-monad]] — V2.Do pipeline
+- USES → [[constraint-solver]] — Solve constraints
+- SNAPSHOTS → [[elaboration]] — Pretty + structure output
+
+**Incoming**
+- [[snapshot-testing]] ← USES — elaborateFrom
+- [[snapshot-testing]] ← PRESERVES — Determinism via resets
+- [[v1-test-cleanup]] ← USES — Ported tests use elaborateFrom
+
+<!-- connections:end -->

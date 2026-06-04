@@ -11,3 +11,13 @@ tags:
 **In-house solver:** `src/verification/solver/theories/arithmetic/` targets **linear** (real) arithmetic (simplex + branch-and-bound). Non-linear atoms are not handled by that theory plugin.
 
 **Heavy oracles:** **Z3**, via **`z3.adapter`** on translated IVL, remains the usual fallback for richer non-linear fragments when tooling opts into it ([[de-moura-bjorner-z3]]).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[arithmetic-theory]] — Linearizable subset first
+- COMPOSES_WITH → [[nbe]] — Constant-folding removes ground arith
+
+<!-- connections:end -->

@@ -27,3 +27,22 @@ The pass queries the host graph for `modal` nodes carrying gram annotations and 
 The engine in `src/GRAM/grs/match.ts` and `src/GRAM/grs/rewrite.ts` accepts a predicate-application strategy. The Kernel pass installs one that calls `NF.apply` on `NF.Value` closures instead of invoking TS callbacks. Payloads cross the boundary through a structural `Payload ⇆ NF.Value` bridge — atoms, records, lists, and primitives map directly; opaque or non-reducing values stay opaque, and the engine treats a stuck predicate as a non-match.
 
 The pass operates additively per [[gram-additive-enrichment]] — RHS constructors only add nodes and edges, never remove existing structure.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSUMES → [[gram-rule-as-yap-value]] — Reads Rule values from modal annotations
+- USES → [[dpo-rewriting]] — Delegates execution to the engine
+- RELIES_ON → [[gram-additive-enrichment]] — RHS constructors only add structure
+- GROUNDED_IN → [[mlir-transform-dialect]] — Controlled primitive set interpreted by pass manager
+- IMPLEMENTS → [[programmable-gram-passes]] — Kernel pass realises the hub
+
+**Incoming**
+- [[programmable-gram-passes]] ← INCLUDES — Kernel meta-pass mechanism
+- [[programmable-gram-passes-design.session]] ← PRODUCED
+- [[programmable-gram-passes-mvp.plan]] ← IMPLEMENTS — Phase 6 realizes the Kernel meta-pass
+- [[singleshot-static-specialization]] ← RELIES_ON — Kernel meta-pass orders the specialisation rule
+
+<!-- connections:end -->

@@ -30,3 +30,23 @@ Deletion of legacy v1-API test files and porting of missing coverage to active v
 **Audit method:** compared every `describe`/`it` block in the old files against the 19 active `inference/__tests__/*.test.ts` files. Only pattern matching had coverage gaps; all other categories (literals, functions, rows, structs, recursion, blocks, annotations, holes, projections, injections, lambdas, pi types, applications, tuples, tagged values, lists, dictionaries) were already covered by existing v2 suites.
 
 **Config changes:** removed explicit vitest exclusions for the deleted files from `vitest.config.mts`. Added `@yap/gram` path aliases to `tsc.tsconfig.json`. Added `src/cli/explore/static` and `tooling/syntax-highlighting` to `tsc.tsconfig.json` excludes (static assets causing `checkJs` errors).
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- REVISES → [[snapshot-testing]] — Old tests used v1 API; ported coverage to v2 suites
+- DEPRECATES → [[v1-elaboration-pipeline]] — Last v1 API test consumers removed
+- MOTIVATES → [[test-coverage-gaps]] — Audit revealed skipped suites
+- ADDRESSES → [[testing-strategy]] — Closes v1/v2 test drift
+- ENRICHES → [[match]] — 8 pattern matching tests ported
+- USES → [[test-utility]] — Ported tests use elaborateFrom
+- FIXES → [[snapshot-testing]] — Removed stale vitest exclusions
+- DETAILS → [[testing.thread]] — Thread item
+
+**Incoming**
+- [[test-coverage-gaps]] ← DISCOVERED_BY — Audit that created the gaps inventory
+- [[testing-strategy]] ← INCLUDES — Cleanup event
+
+<!-- connections:end -->

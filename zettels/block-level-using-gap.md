@@ -26,3 +26,17 @@ Block inference: `src/elaboration/inference/block.ts` walks `Src.Statement`s via
 Runtime path: `src/elaboration/normalization/evaluation.v2.ts` `processStatementsAndPush` matches `{ type: "Using" }` and appends to `implicits`, so evaluation and inference disagree on scoped instances.
 
 Hub: [[implicits.md]], [[implicit-environment.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[blocks]] — Using in block scope
+- APPLIES_TO → [[implicit-environment]] — Block-local Δ
+- DETECTS → [[module-system]] — Gap in implementation
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES
+
+<!-- connections:end -->

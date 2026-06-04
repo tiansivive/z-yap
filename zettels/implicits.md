@@ -34,3 +34,24 @@ Let-generalization interaction: unsolved locals become implicit binders via `NF.
 Note: the solver selects the first successful implicit candidate with empty residual substitution (`solver.ts`).
 
 Hub: [[implicit-resolution.md]], [[implicit-environment.md]], [[meta-variables.md]], [[generalization.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[meta-variables]] — Inserts metas at call sites for implicit params
+- RELIES_ON → [[unification]] — Unification-driven resolution solves implicit metas
+
+**Incoming**
+- [[generalization]] ← PRODUCES — Generalization wraps terms in implicit lambdas
+- [[implicit-resolution]] ← EXTENDS — Resolver mechanism
+- [[superclasses]] ← USES — Implicit threading of superclass deps
+- [[dictionary-passing]] ← RELIES_ON — Implicit Pi binders carry dictionaries
+- [[implicits-as-coeffects-exploration]] ← CONTRASTS_WITH — Ad-hoc vs principled implicit tracking
+- [[customizable-data-types]] ← USES — Strategy threading via implicits
+- [[indexing-strategies]] ← USES — Strategies as implicit parameters
+- [[wraplambda-fix]] ← FIXES — Rigid(0) + unextended ctx
+- [[implicit-generalization-semantics]] ← INFORMS — Unconstrained implicits generalize
+
+<!-- connections:end -->

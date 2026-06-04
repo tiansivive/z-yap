@@ -28,3 +28,18 @@ The theoretical foundation is Robert Atkey's **Syntax and Semantics of Quantitat
 ## Relationship to Yap
 
 Yap's usage semantics ([[usage-semantics]]) shares Idris 2's grade vocabulary ({0, 1, ω}) and design approach. The primary divergence is that Yap composes quantity with liquid refinements in a unified modal wrapper ([[modality-system]]) and defers modal checking to the verification pass ([[verification-modal-phase]]) rather than checking inline during elaboration.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INSPIRES → [[modalities]] — Quantity tracking
+- INSPIRES → [[mode-annotation-strategy]] — QTT multiplicities drive access mode
+- INSPIRES → [[gram-crud-enrichment]] — Compile-time uniqueness from types
+
+**Incoming**
+- [[usage-semantics]] ← GROUNDED_IN — Idris 2 implementation precedent
+- [[usage-semantics.thread]] ← REFERENCES — QTT paper reference
+
+<!-- connections:end -->

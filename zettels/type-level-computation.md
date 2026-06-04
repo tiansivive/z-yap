@@ -34,3 +34,26 @@ Pragmatic limit: equirecursive type-level computation is capped by a step budget
 Compared to Haskell: type-level computation is more uniform (no promotion) but less controlled (no termination). Compared to Agda: similar in spirit (types are terms) but without the termination checker that makes it safe. The key insight is that because Yap has type-level functions, features like [[type-families]], [[functional-dependencies]], and promoted data kinds are not needed as separate mechanisms.
 
 Related: [[types-as-terms]], [[type-type]], [[nbe]], [[dependent-types]], [[equirecursive-types]], [[termination-checking]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[types-as-terms]] — Types are terms foundation
+- USES → [[type-type]] — Type : Type enables type-level functions
+- USES → [[nbe]] — NbE evaluates type-level functions
+- USES → [[unification]] — Type equality for computed types
+- SUBSUMES → [[type-families]] — Dependent functions subsume closed families
+- CONSTRAINS → [[equirecursive-types]] — Step budget limits computation
+- EXTENDS → [[dependent-types]] — Types computed from values
+- CONTRASTS_WITH → [[ghc-influence]] — No promotion needed
+
+**Incoming**
+- [[type-families]] ← EMULATES — Type families as type-level functions
+- [[type-families]] ← CONTRASTS_WITH — Separate mechanism vs unified terms
+- [[type-families]] ← INFORMS — Capabilities Yap should reproduce
+- [[functional-dependencies]] ← EMULATES — Determinacy via dependent functions
+- [[functional-dependencies]] ← CONTRASTS_WITH — Annotation vs computation
+
+<!-- connections:end -->

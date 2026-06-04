@@ -24,3 +24,20 @@ But laziness is powerful. Memoized or lazy evaluation could enable:
 Options: strict-by-default, opt-in laziness annotations, or lazy-by-default with strictness annotations (Haskell-style). The modality system could potentially encode evaluation strategy as a type-level property.
 
 A deliberate lowering choice supports this openness: administrative beta-redexes are NOT collapsed during MIR lowering, keeping the source→MIR translation transparent. This means the lowering layer doesn't bake in assumptions about reduction that would foreclose lazy alternatives.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[cbv-evaluation]] — Lazy alternative
+- RELIES_ON → [[cbv-evaluation]] — NbE is settled as CBV
+- COMPOSES_WITH → [[modalities]] — Modality system could encode eval strategy
+- APPLIES_TO → [[lowering]] — Lowering preserves source order
+- APPLIES_TO → [[codegen]] — Backend eval strategy
+
+**Incoming**
+- [[cbv-evaluation]] ← CONTRASTS_WITH — Evaluation strategy contrast
+- [[cbv-evaluation]] ← CONTRASTS_WITH — Compile-time settled, runtime open
+
+<!-- connections:end -->

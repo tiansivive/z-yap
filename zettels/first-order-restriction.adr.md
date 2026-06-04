@@ -33,3 +33,21 @@ The restriction appears at three points in the pipeline:
 The `isFirstOrder` predicate (`src/verification/V2/utils/refinements.ts`) is the shared boundary: it unwraps `Modal` and `Neutral` wrappers, then returns `false` for Pi, Lambda, and Sigma types. All verification code that needs to decide whether a type is refinable uses this single predicate.
 
 This aligns with the standard treatment in the [[liquid-haskell-influence]] lineage — see [[knowles-flanagan-2010]], [[vazou-mechanizing-refinement-types-2024]], [[vazou-refinement-reflection-2018]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[refinement-types]] — Restricts self-equality and quantification to first-order types
+- CONSTRAINS → [[selfification]] — isFirstOrder top-level guard
+- PRESERVES → [[vc-ir]] — Keeps IVL formulas in decidable QF-EUFLIA fragment
+- RELIES_ON → [[verification-pipeline]] — Used in synth (selfify) and subtype (Pi parameter)
+- IMPLEMENTS → [[liquid-haskell-influence]] — Standard Liquid Types convention
+
+**Incoming**
+- [[selfification]] ← CONSTRAINS — Guarded by isFirstOrder
+- [[knowles-flanagan-2010]] ← INFORMS — Restricts selfification to base types
+- [[vazou-mechanizing-refinement-types-2024]] ← INFORMS — Formal proof of restriction
+
+<!-- connections:end -->

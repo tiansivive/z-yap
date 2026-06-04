@@ -22,3 +22,16 @@ tags:
 **MIR lowering (`src/lowering/`):** Single worklist pass producing `MIR.Module` (`lowerToMir` in `lower.ts`). Closure conversion, call saturation, pattern compilation, and shift/reset state machines all happen in one fused traversal. Eta-reduction of `App(Lambda,.)` stays out of lowering (preserving program-to-MIR mapping; NbE handles admin beta when desired).
 
 **Key contrast:** GRAM separates concerns into composable passes with explicit ordering tracked by descriptors. MIR fuses everything into one traversal. GRAM's approach enables compilation-by-selection; MIR's approach enables a single canonical output.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[gram]] — Ordering principle
+- DISTINGUISHES → [[gram]] — Eta/beta/fold before closure-conv/defunc
+
+**Incoming**
+- [[mlir-influence]] ← INSPIRES — Pass scheduling
+
+<!-- connections:end -->

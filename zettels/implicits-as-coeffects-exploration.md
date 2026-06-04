@@ -40,3 +40,18 @@ The guiding instinct is to avoid adding complexity to the user-facing type syste
 See [[petricek-orchard]] for the foundational paper. See [[implicits-as-coeffects]] for the existing design sketch.
 
 Related: [[implicits-as-coeffects]], [[petricek-orchard]], [[implicit-resolution]], [[shift-reset]], [[modality-polymorphism]], [[typeclass-emulation]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[implicits-as-coeffects]] — Deeper exploration of the design sketch
+- EXTENDS → [[implicit-resolution]] — Coeffect model for implicit requirements
+- USES → [[petricek-orchard]] — Foundational coeffect paper
+- COMPOSES_WITH → [[shift-reset]] — Coeffects meet delimited continuations
+- INFORMS → [[modality-polymorphism]] — Graded modalities from coeffects
+- INFORMS → [[typeclass-emulation]] — Coeffect-based implicit model
+- CONTRASTS_WITH → [[implicits]] — Ad-hoc vs principled implicit tracking
+
+<!-- connections:end -->

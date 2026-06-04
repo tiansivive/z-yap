@@ -35,3 +35,16 @@ Coverage reports in HTML and LCOV formats. The Vitest config (`vitest.config.mts
 Pre-commit hooks via `lint-staged` catch formatting and lint issues before they reach CI.
 
 Related: [[testing-strategy]], [[snapshot-testing]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[snapshot-testing]]
+- SUPPORTS → [[testing-strategy]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+
+<!-- connections:end -->

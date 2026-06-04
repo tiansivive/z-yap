@@ -25,3 +25,25 @@ Resolution is **selection**, not computation. The solver is choosing from existi
 ## Relationship to typeclasses
 
 This mechanism is the foundation for Yap's implicit/typeclass story. `using` declarations populate the implicit environment; resolution searches it. The quality of resolution depends on the environment's contents and ordering. Coherence ([[typeclass-coherence]]), functional dependencies ([[functional-dependencies]]), and superclass propagation ([[superclasses]]) all refine how candidates enter and are prioritized in this search.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[constraint-solving]] — Resolution as proof search via unification
+- USES → [[unification-algorithm]] — Candidate matching by unification
+- IMPLEMENTS → [[implicit-resolution]] — Solver-side mechanism
+- USES → [[unification-algorithm]] — Candidate matching
+- PRESERVES → [[generalization]] — Rejects subst-producing candidates
+
+**Incoming**
+- [[constraint-solver]] ← DELEGATES_TO — Resolve constraints
+- [[empty-subst-guard]] ← CONSTRAINS — Selection-not-computation semantics
+- [[constraint-solver]] ← USES — Resolve → Δ lookup
+- [[elaboration-v2.thread]] ← USES
+- [[functional-dependencies]] ← INFORMS — Solver determinacy
+- [[typeclass-coherence]] ← APPLIES_TO — Solver selection policy
+- [[superclasses]] ← INFORMS — Auto-propagation of superclass implicits
+
+<!-- connections:end -->

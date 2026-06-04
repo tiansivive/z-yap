@@ -55,3 +55,35 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 
 12. **Sigma types spec** [[missing-spec-sigma-types]] — needs-design
     Nested-sigma / ctx.sigma stacking TODO in inference/rows.ts.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INCLUDES → [[elaboration]]
+- INCLUDES → [[v2-elaboration-pipeline]]
+- INCLUDES → [[v1-elaboration-pipeline]]
+- INCLUDES → [[elaboration-monad]]
+- INCLUDES → [[elaboration-context]]
+- INCLUDES → [[eb-term]]
+- INCLUDES → [[src-term]]
+- INCLUDES → [[src-to-eb-transformation]]
+- INCLUDES → [[generator-monad]]
+- INCLUDES → [[monad-split]]
+- INCLUDES → [[missing-spec-let-polymorphism]]
+- INCLUDES → [[missing-spec-sigma-types]]
+- USES → [[constraint-solver]]
+- RELIES_ON → [[constraint-solving]]
+- RELIES_ON → [[deferred-constraint-solving]]
+- CONTRASTS_WITH → [[eager-constraint-solving]]
+- RELIES_ON → [[assign-before-resolve]]
+- RELIES_ON → [[empty-subst-guard]]
+- USES → [[implicit-resolution-solver]]
+- SHARED_WITH → [[recursion.thread]] — missing-spec-let-polymorphism (mu recovery at let boundaries)
+
+**Incoming**
+- [[thread-queue-system.thread]] ← INFORMS — System design
+- [[explorer-audit.thread]] ← SHARED_WITH — Monad/zonker fixes
+
+<!-- connections:end -->

@@ -32,3 +32,22 @@ tags:
 **Commands**: `:help`, `:exit`/`:quit`/`:q`, `:load <filepath>` (uses `mkInterface` from `src/modules/loading.ts`, optional `.ffi.js`), `:set elaboration` toggles `options.showElaboration`, `:implicits` dumps context implicits.
 
 **Context**: starts `defaultContext` (`@yap/shared/lib/constants`); `:load` merges imports/foreign/**let** bindings into **`ctx.imports`** / **`ctx.ffi`**.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[parser-processors]] — Parses each input
+- USES → [[v1-elaboration-pipeline]] — Elaborates
+- USES → [[mir-lowering]] — Optional MIR mode
+- THREADS_THROUGH → [[elaboration-context]] — Persistent ctx
+- USES → [[js-codegen]] — Code generation
+- DISPATCHES_ON → [[mir-lowering]] — Standard, --mir, --codegen modes
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES
+- [[test-coverage-gaps]] ← DEFERS — Integration test skipped (infrastructure)
+- [[explorer-snippet-library]] ← COMPOSES_WITH — Similar curated-input concept
+
+<!-- connections:end -->

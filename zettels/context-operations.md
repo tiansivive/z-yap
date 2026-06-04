@@ -30,3 +30,13 @@ tags:
 - `lookup(variable, ctx)` — if `Src.Variable` is `{ type: "label" }`, reads `ctx.sigma[variable.value]` and returns `[EB.Var Label, nf, usages]`; otherwise walks `env` for bound names, then `imports`. `resolveImplicit` tries `ctx.implicits` with `U.unify`.
 
 Re-exported as `EB.Context` via `src/elaboration/index.ts`.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[elaboration-context]] — Bind, extend, augment, prune
+- THREADS_THROUGH → [[elaboration-monad]] — All phases
+
+<!-- connections:end -->

@@ -22,3 +22,15 @@ Rule-based Abstract DPLL with clause learning/backjumping; extension to DPLL(X)/
 **Yap:** `VerificationServiceV2` produces obligations as **IVL** formulas; `src/verification/solver/` implements Abstract DPLL → CDCL(T) directly: `cdcl/core.ts` (clause learning, backjumping), `theories/theory.ts` (plugin interface), EUF and arithmetic plugins, and `quantifiers/` for lazy theory lemmas. Useful when reading [[solver-trace]] output, explaining Boolean propagation vs. theory conflicts, or comparing this architecture to industrial Z3/cvc5 (see [[de-moura-bjorner-z3]], [[barbosa-cvc5]]).
 
 **Status:** `implemented` — CDCL(T) orchestration is in-tree; see [[cdcl-t-solver]] and [[m2-implementation]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[cdcl-t-solver]] — DPLL(T) architecture
+
+**Incoming**
+- [[m2-implementation]] ← USES — DPLL(T) architecture directly implemented
+
+<!-- connections:end -->

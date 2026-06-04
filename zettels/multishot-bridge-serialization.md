@@ -34,3 +34,22 @@ Single-resume reset (no `Resume` neighbours) skips `Branch` entirely and termina
 Cost model in the current implementation: multishot **always** heap-allocates the environment record and the continuation record. There is no stack-resume fast path; there is no count-based specialisation. The trade-off is the same one taken by the legacy MIR lowering and is preserved here intentionally — the bridge produces a uniform shape, and specialisation is a downstream pass concern.
 
 Site move: this serialisation strategy was originally implemented in `src/lowering/continuations/{shift,kcall}.ts` ([[multishot-serialization]] documents that site). The bridge re-implements the same shape directly on the GRAM graph, so the `Resume` index assignment now comes from the graph topology rather than from a worklist counter.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[gram-canonical-ir.adr]] — Canonical multishot serialisation site
+- SUPERSEDES → [[multishot-serialization]] — Canonical site replaces legacy implementation
+- DEPRECATES → [[multishot-serialization]] — Lifecycle event: legacy site marked deprecated
+- MIRRORS → [[multishot-serialization]] — Same shape, new site
+- REVISES → [[multishot-serialization]] — Refines the serialisation description to the bridge
+- COMPOSES_WITH → [[shift-reset-bridge-lowering]] — Multishot serialisation runs inside the bridge state machine
+
+**Incoming**
+- [[singleshot-static-specialization]] ← APPLIES_TO — Specialises the conservative multishot shape when usage allows
+- [[delimited-continuations.thread]] ← INCLUDES — Current multishot serialisation site
+- [[gram]] ← INCLUDES — Bridge-resident multishot serialisation
+
+<!-- connections:end -->

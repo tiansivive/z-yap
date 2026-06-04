@@ -16,3 +16,13 @@ Maintains equivalence classes over EUF ([EUF theory](euf-theory.md)) ground term
 Key **congruence lemma**: whenever `ai ≡ bi` for all positions `i`, then `f(a1,…,an) ≡ f(b1,…,bn)`; after each `merge`, scan parent applications for newly implied equalities (**parent propagation / congruence explosions**) until quiescence.
 
 Produces **minimal explanation sets** tracing a derived equality to user merge operations (the Nelson–Oppen / SCC style justification sets used later by theory lemmas). Implemented in `src/verification/solver/theories/euf/cc.ts`; see also [nelson-oppen.md](nelson-oppen.md) for combining theories.
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[m2-implementation]] ← IMPLEMENTS — CC in euf/cc.ts
+- [[solver-trace]] ← RESOLVES — Enode IDs resolved to term names
+
+<!-- connections:end -->

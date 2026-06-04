@@ -34,3 +34,20 @@ System F adds type abstraction and ∀-quantified types to the simply typed λ-c
 **Not verified here:** impredicativity claims, exact rank‑k fragment of surface Yap, or correspondence to a pure Fω presentation—treat those as external type-theory references, not repo facts.
 
 Related: [[hindley-milner.md]], [[dependent-types.md]], [[type-type.md]], [[types-as-terms.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[de-bruijn]] — System F's binding structure motivates de Bruijn representation
+- INFORMS → [[pi-types]] — Parametric polymorphism foundation
+- INFORMS → [[hindley-milner]] — Explicit polymorphism
+
+**Incoming**
+- [[yap]] ← EXTENDS — Parametric polymorphism foundation
+- [[dependent-types]] ← EXTENDS — Types that depend on values
+- [[type-type]] ← GENERALIZES — Collapses all universe levels
+- [[type-type]] ← CONTRASTS_WITH — Single universe vs stratified
+
+<!-- connections:end -->

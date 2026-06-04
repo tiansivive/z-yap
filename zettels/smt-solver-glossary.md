@@ -24,3 +24,12 @@ Abbreviations for the owned-solver roadmap (`docs/SMT-SOLVER.md`).
 - **IVL** — Intermediate Verification Language: `IVL` terms/formulas under `src/verification/solver/` (`ivl.ts` with builder/print/adapters). Milestone 1 boundary before the owned CDCL core; see [`milestone-1-ir-boundary.md`](milestone-1-ir-boundary.md).
 - **LIA / LRA** — linear integer / linear real arithmetic; encoding today and eventual dedicated theory hooks are summarized in [arithmetic theory](arithmetic-theory.md); roadmap slice in [Milestone 2](milestone-2-euf-quant-lia.md).
 - **E-matching** — [trigger-based instantiation](e-matching.md) for guarded quantifiers; complements complete-instantiation discussion in [Ge & de Moura](ge-de-moura-quantifiers.md).
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[glossary]] ← EXTENDS — Global glossary references domain-specific glossary
+
+<!-- connections:end -->

@@ -34,3 +34,20 @@ Property-based testing verifies invariants over randomly generated inputs, compl
 **Generators.** `fast-check` supports compositional `Arbitrary` definitions. The key generators would be: well-typed terms (for NbE), row types (for unification), IVL formulas (for solver), and pattern matrices (for coverage). Each requires type-guided construction to produce meaningful inputs rather than random noise.
 
 Related: [[testing-strategy]], [[fuzz-testing]], [[snapshot-testing]], [[nbe]], [[unification]], [[cdcl-t-solver]], [[exhaustiveness-checking]], [[row-types]]
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- TARGETS → [[unification]]
+- TARGETS → [[nbe]]
+- TARGETS → [[cdcl-t-solver]]
+- TARGETS → [[row-types]]
+- EXTENDS → [[snapshot-testing]]
+
+**Incoming**
+- [[testing-strategy]] ← INCLUDES
+- [[testing.thread]] ← INCLUDES
+
+<!-- connections:end -->

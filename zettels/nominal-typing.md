@@ -26,3 +26,22 @@ Elaboration types live in `EB`/`NF`. `src/elaboration/shared/context.ts` tracks 
 Contrast zettel: documents nominal typing literature against Yap’s structural core.
 
 Related: [[nominal-identity]], [[opaque-types]], [[data-declarations]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONTRASTS_WITH → [[structural-typing]] — Name-based vs structure-based identity
+- CONTRASTS_WITH → [[typeclass-emulation]] — Class hierarchy vs structural
+
+**Incoming**
+- [[structural-typing]] ← CONTRASTS_WITH — Name-based vs structure-based identity
+- [[typeclass-emulation]] ← EMULATES — Structural alternative to classes
+- [[typeclass-emulation]] ← CONTRASTS_WITH — No class hierarchy
+- [[structural-row-based-types]] ← REJECTS — Not primary type discipline
+- [[data-declarations]] ← CONTRASTS_WITH — Structural sugar vs nominal declaration
+- [[nominal-identity]] ← EXTENDS — Explores adding nominal identity to Yap
+- [[opaque-types]] ← EXTENDS — Layering nominal abstraction
+
+<!-- connections:end -->

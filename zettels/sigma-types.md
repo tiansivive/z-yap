@@ -24,3 +24,40 @@ Unification of Sigma types unifies annotations first, then applies each sigma cl
 The label-reference mechanism that makes field-to-field dependency work at elaboration time is ctx.sigma — see sigma-bindings for that mechanism.
 
 ctx.sigma is a flat map. Nested dependent records (a record whose field is itself a dependent record) require a sigma stack to properly scope inner field references — the flat map cannot distinguish inner from outer label bindings.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[dependent-types]] — Existential with row dependency
+- USES → [[row-polymorphism]] — Row-backed dependent records
+- FORMS → [[structural-records]] — Σ forms dependent record types
+- COMPOSES_WITH → [[variant-types]] — Dependent elimination produces variants
+- RELIES_ON → [[sigma-bindings]] — ctx.sigma provides field references
+
+**Incoming**
+- [[pi-types]] ← DUAL_OF — Universal vs existential
+- [[pi-types]] ← COMPOSES_WITH — Dependent function returning dependent record
+- [[refinement-types]] ← COMPOSES_WITH — :fst in predicates
+- [[projection]] ← ELIMINATES — Dependent field access
+- [[missing-spec-sigma-types]] ← IMPLEMENTS — No spec formalization
+- [[sigma-bindings]] ← APPLIES_TO — Σ field dependency
+- [[unification-algorithm]] ← IMPLEMENTS — Sigma-Sigma equality checking case
+- [[sigma-bindings]] ← IMPLEMENTS — Dependent field references
+- [[dependent-types]] ← FORMS — Existential quantification with dependency
+- [[dependent-pattern-matching]] ← RELIES_ON — Dependent pairs carry evidence
+- [[unified-binder]] ← APPLIES_TO — Sigma uses Abs with binding.type Sigma
+- [[standard-closure]] ← ENABLES — Sigma bodies are standard closures
+- [[dependent-types]] ← INCLUDES — Existential quantifier
+- [[type-type]] ← ENABLES — Row types classified by Type
+- [[sigma-quoting-match]] ← APPLIES_TO — Sigma body quoting
+- [[sigma-quoting-field-ref]] ← APPLIES_TO — Field ref substitution
+- [[sigma-architecture]] ← DETAILS — Two-step row abstraction mechanics
+- [[sigma-value-semantics]] ← DETAILS — Clarifies field ref semantics
+- [[singleton-types]] ← COMPOSES_WITH — Singleton + sigma interaction
+- [[sigma-checking-infer-constrain]] ← APPLIES_TO — Affects sigma checking
+- [[sigma-vs-codata-label-refs]] ← DETAILS — Sigma side of the duality
+- [[sigma-codata-syntax-proposal]] ← APPLIES_TO — Sigma sigil
+
+<!-- connections:end -->

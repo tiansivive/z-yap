@@ -23,3 +23,15 @@ tags:
 Conversion at the NbE boundary is **`NF.quote`** (and `lvl2idx` for index-oriented context code). Same physical context length links the two formulas: `index = envLength - 1 - lvl` at a fixed boundary, or `lvl_quote - v.lvl - 1` under nested quoting (`quoting.ts`).
 
 See also: [[de-bruijn.md]], [[de-bruijn-indices.md]], [[de-bruijn-levels.md]], [[level-to-index-conversion.md]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[de-bruijn]] — Representation split
+- APPLIES_TO → [[nbe]] — Levels for evaluation
+- MOTIVATES → [[de-bruijn-indices]] — Index representation choice
+- MOTIVATES → [[de-bruijn-levels]] — Level representation choice
+
+<!-- connections:end -->

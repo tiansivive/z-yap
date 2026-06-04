@@ -20,3 +20,20 @@ This is Yap's analog of ARM (Answer Refinement Modification) — tracking how th
 Symbolic shift verification remains open design work. The Bubble design in [[bubble-semantics]] supports both concrete and symbolic modes (via the `values` list: non-empty for concrete, empty for symbolic) so concrete expansion need not be redesigned when symbolic quantification is added.
 
 Cross-module effects would need effect signature export/import. Yap's module system is rudimentary (file-level imports, exports, FFI — see [[module-system]]); cross-module shift verification can follow as modules and effect signatures mature.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MOTIVATES → [[bubble-semantics]] — Design for symbolic mode upfront
+- EXTENDS → [[shift-reset-verification]] — Symbolic generalization of concrete expansion
+- COMPOSES_WITH → [[effects-as-modality]] — Effect annotations needed for cross-module
+
+**Incoming**
+- [[shift-reset-verification]] ← ADDRESSES — Symbolic mode handles open shifts
+- [[arm-paper]] ← INFORMS — Theoretical foundation for symbolic mode
+- [[session-bubble-verification-design]] ← PRODUCES
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->
