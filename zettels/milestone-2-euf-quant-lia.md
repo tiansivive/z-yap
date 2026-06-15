@@ -19,7 +19,7 @@ tags:
 
 **Goal:** minimum CDCL(T) stack for liquid-style obligations once IVL literals exist.
 
-**Deliverables:** EUF congruence closure (`theories/euf/`), quantifier triggers and ematching (`quantifiers/`), linear real arithmetic (`theories/arithmetic/`), boolean CDCL core (`cdcl/`), orchestrated from `src/verification/solver/solver.ts`.
+**Deliverables:** EUF congruence closure (`src/verification/solver/v2/euf/`), quantifier triggers and E-matching/MBQI (`v2/quantifier/`), linear real arithmetic (`v2/arithmetic/`), boolean CDCL core (`v2/cdcl/`), orchestrated from `src/verification/solver/v2/solver.ts`.
 
 Depends on Milestone 1 IVL feeding literals/clauses (normalize → Skolem → CNF → CDCL(T)).
 

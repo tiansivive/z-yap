@@ -16,25 +16,28 @@ tags:
   - generator
 refs:
   src:
-    - src/verification/solver/trace.ts
-    - src/verification/solver/theories/theory.ts
-    - src/verification/solver/solver.ts
+    - src/verification/solver/v2/trace/index.ts
+    - src/verification/solver/v2/trace/replay.ts
+    - src/verification/solver/v2/trace/print.ts
+    - src/verification/solver/v2/solver.ts
   tests:
-    - src/verification/solver/__tests__/trace.test.ts
+    - src/verification/solver/v2/trace/__tests__/trace.test.ts
 ---
 # Solver trace
 
-Generator-based observability system for the CDCL(T) solver. The solver's control flow is factored into generator functions (`function*`) that `yield` fine-grained `Step` events at every state transition, producing a complete execution trace without altering solving semantics.
+Writer-based observability system for the v2 CDCL(T) solver. Solver components emit domain-owned events through the RWSE runtime from [[solver-v2-effect-runtime.adr]], producing a complete small-step trace without altering solving semantics.
 
-**Step types** (`trace.ts`): `propagate` (BCP forces a literal), `decide` (heuristic pick), `conflict` (clause falsified), `analyze` (1UIP conflict analysis result), `backjump` (non-chronological backtrack), `theory-assert` (theory receives a literal), `theory-check` (theory consistency check), `quantifier-round` (instantiation pass), `sat`/`unsat` (terminal).
+**Event types** (`v2/trace/index.ts`): CDCL propagation, decisions, conflicts, analysis, backjumping, theory assertion/check detail, quantifier rounds, formula setup, and terminal `sat`/`unsat`/`unknown` results.
 
-**Theory sub-events** (`theory.ts`): Each `theory-assert` and `theory-check` step carries a `detail` array of `TheoryStep` events — a union of `EUFTrace.Step` (merge, merge-skip, congruence, conflict, scan) and `ArithTrace.Step` (bound, bound-conflict, violation, pivot, infeasible, feasible). These expose the internal state transitions of each theory module per solver step.
+**Theory detail events**: EUF emits registry/active assertion, merge, scan, and conflict events; arithmetic emits bound registration and feasibility events. These payloads expose internal theory transitions per solver step.
 
-**TracedSolverInstance**: Parallel API (`Solver.createTraced()`) that returns the generator plus atom table, proxy table, clause list, and EUF arena — everything needed for external consumption of the trace.
+**One-shot trace API**: `Solver.run(formula)` returns the result, writer events, encoding artefacts, clauses, and arena for one generated IVL formula.
 
-**Replay renderer** (`Trace.replay`): ~600 lines of `prettier-printer`-based presentation logic. Renders the trace as a human-readable small-step log: formula display, Tseitin proxy resolution back to original IVL subformulas, enode ID resolution to term names, equivalence class display after EUF merges, bound interval display after arithmetic updates, clause satisfaction tracking. Two modes: `symbolic` (proxy names) and `expanded` (inlined formulas).
+**Replay renderer** (`v2/trace/replay.ts`): reconstructs a human-readable small-step log: formula display, Tseitin proxy resolution back to original IVL subformulas, registry/active theory facts, trail assignments, EUF class changes, arithmetic bound summaries, quantifier lemma insertion, clause satisfaction tracking, and terminal result.
 
-**Collection**: `Trace.collect(generator)` drains the generator into a `{ steps, result }` pair. `Trace.replay({ formula, steps, atoms, proxies, clauses, arena })` renders the collected steps.
+The top-level replay option `showRegistry` defaults to `true` so registered-vs-active theory facts are visible by default. Quantifier events are emitted by the E-matching and MBQI modules themselves and carry generated lemmas so replay can append quantifier clauses without relying on persistent clause IDs.
+
+V2 replay has snapshot coverage for propositional contradiction, EUF contradiction, arithmetic UNSAT, arithmetic SAT, and quantifier UNSAT. The snapshots are intentionally paired with targeted assertions for semantic toggles such as `showRegistry: false` and EUF active/scan detail.
 
 <!-- connections:start -->
 

@@ -34,6 +34,9 @@ This AI pair-programming session designed and implemented the additive v2 solver
 - The v2 solver owns its domain types and imports only stable shared syntax such as IVL.
 - Solver modules are organized by domain concern: formulas, encoding, CDCL, EUF, arithmetic, theory orchestration, quantifiers, trace, and the public solver API.
 - EUF distinguishes `registry`, `active`, and `conclusions`: registered Boolean-literal meanings, trail-active theory literals, and theory-derived facts for future CDCL propagation.
+- The v2 public API is one-shot: `Solver.run(formula)` for result plus trace artefacts and `Solver.check(formula)` for result only. Incremental `assert`/`push`/`pop` state is outside the v2 API.
+- CDCL clauses carry provenance through `origin`; unused clause IDs and clause-id counters were removed.
+- Quantifier subrounds are monadic: E-matching, E-matching term matching, and MBQI read current solver state through `Core.State.get`, update quantifier bookkeeping through the monad, and emit their own trace events.
 - The phase audit protocol uses a mechanical discrepancy pass, a holistic judgment pass, and accepted remediation; guidelines such as top-down ordering are not treated as cosmetic.
 
 ## Deferred

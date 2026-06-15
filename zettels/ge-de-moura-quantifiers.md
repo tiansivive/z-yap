@@ -20,7 +20,7 @@ tags:
 
 Identifies fragments where quantified SMT problems admit finite instantiation schemes that preserve completeness (plus model construction when satisfiable), contrasted with heuristic E-matching–only regimes; discusses hybrid strategies when decidability fails.
 
-Yap's in-house quantifier engine (`src/verification/solver/quantifiers/`) implements both regimes the paper contrasts: trigger-based E-matching ([[e-matching]]) and a bounded variant of complete instantiation ([[mbqi]]) as fallback. The paper clarifies when instantiation can close proofs outright versus when solver heuristics dominate—useful background when crafting refinement lemmas or polymorphic axiom sketches without assuming a miracle from triggers alone.
+Yap's in-house quantifier engine (`src/verification/solver/v2/quantifier/`) implements both regimes the paper contrasts: trigger-based E-matching ([[e-matching]]) and a bounded variant of complete instantiation ([[mbqi]]) as fallback. The paper clarifies when instantiation can close proofs outright versus when solver heuristics dominate—useful background when crafting refinement lemmas or polymorphic axiom sketches without assuming a miracle from triggers alone.
 
 <!-- connections:start -->
 

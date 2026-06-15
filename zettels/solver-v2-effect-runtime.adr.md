@@ -22,7 +22,7 @@ refs:
 ---
 # Solver v2 effect runtime
 
-**Decision:** Use a generator-interpreted RWSE runtime for the v2 solver. Reader carries immutable configuration and problem metadata; Writer carries trace, diagnostics, proof hooks, and stats; State carries CDCL, encoding, theory, quantifier, arena, assertion, and scope data; Either carries internal errors and invariants. `sat`, `unsat`, and `unknown` remain ordinary solver result values.
+**Decision:** Use a generator-interpreted RWSE runtime for the v2 solver. Reader carries immutable configuration and problem metadata; Writer carries trace, diagnostics, proof hooks, and stats; State carries CDCL, encoding, arena, concrete theories, and quantifier data; Either carries internal errors and invariants. `sat`, `unsat`, and `unknown` remain ordinary solver result values.
 
 ## Scope
 
@@ -36,7 +36,7 @@ The shape also matches existing Yap architecture. Elaboration already uses gener
 
 ## Consequences
 
-Mutation is allowed only at explicit boundaries: the `Core.Do` interpreter, encapsulated solver-state modules, and the public incremental solver API. Trace events are writer payloads owned by their emitting components and composed by the top-level trace module. Domain modules own their v2 types instead of being beholden to old solver definitions, while stable IVL syntax remains shared.
+Mutation is allowed only at explicit boundaries: the `Core.Do` interpreter and encapsulated solver-state or domain modules. Trace events are writer payloads owned by their emitting components and composed by the top-level trace module. Domain modules own their v2 types instead of being beholden to old solver definitions, while stable IVL syntax remains shared.
 
 This runtime makes future theory propagation and richer trace/proof replay easier to express, but does not implement those features by itself.
 

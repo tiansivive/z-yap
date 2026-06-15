@@ -9,9 +9,12 @@ tags:
 - monad
 - speculative
 - planned
+- deprecated
 - code
 ---
 # Solver Effect System (Future Work)
+
+**Superseded by [[solver-v2-effect-runtime.adr]].** Original future-work sketch preserved below for reference.
 
 The CDCL and EUF theory modules currently use internal mutability (union-find path compression, trail append, assignment map updates) behind pure API boundaries. This is a performance pragmatism, not a design goal.
 
@@ -53,8 +56,9 @@ When profiling shows the state-threading allocations are a bottleneck (likely at
 ## References
 
 - Yap elaboration monad: `src/elaboration/shared/monad.v2.ts`
-- Current CDCL: `src/verification/solver/cdcl/core.ts`
-- Current EUF/CC: `src/verification/solver/theories/euf/cc.ts`
+- v2 solver runtime: `src/verification/solver/v2/core.ts`
+- v2 CDCL: `src/verification/solver/v2/cdcl/`
+- v2 EUF/CC: `src/verification/solver/v2/euf/cc.ts`
 
 <!-- connections:start -->
 

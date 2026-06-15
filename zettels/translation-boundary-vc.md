@@ -44,5 +44,6 @@ tags:
 - [[verification-backend.thread]] ← INCLUDES
 - [[m1-implementation]] ← IMPLEMENTS — z3.adapter.ts realizes the boundary
 - [[m1-implementation]] ← PRESERVES — Keeps Z3 working during transition
+- [[block-scoped-let-vc-parity-bug]] ← AFFECTS — Generated IVL shape appears suspicious
 
 <!-- connections:end -->

@@ -30,7 +30,7 @@ refs:
 ---
 # Solver v2 monadic port
 
-The v2 solver is an additive re-architecture of the in-tree CDCL(T) backend around a generator-interpreted RWSE runtime. It keeps the existing solver entrypoints intact while exposing a parallel v2 path whose state, events, and algorithms are owned by domain modules under `src/verification/solver/v2`.
+The v2 solver is the current in-tree CDCL(T) backend. It is built around a generator-interpreted RWSE runtime whose state, events, and algorithms are owned by domain modules under `src/verification/solver/v2`; the prior root-level solver implementation and Z3 adapter have been removed.
 
 ## Effect runtime
 
@@ -50,19 +50,27 @@ The v2 solver is an additive re-architecture of the in-tree CDCL(T) backend arou
 
 ## Quantifiers
 
-`quantifier/` owns trigger extraction, E-matching, and bounded MBQI. E-matching uses the current EUF arena and representative lookup to generate CDCL lemmas from trigger substitutions. MBQI enumerates bounded ground-term candidates when E-matching yields no lemmas.
+`quantifier/` owns trigger extraction, E-matching, bounded MBQI, and the monadic quantifier step. `quantifier/round.ts` runs E-matching first and falls back to MBQI when no lemmas are produced. `ematch/round.ts`, `ematch/matching.ts`, and `mbqi/round.ts` are `Core.G` computations: they read the current arena, EUF representatives, encoding table, quantifier state, and generation through the solver monad instead of receiving snapshots or callbacks. E-matching and MBQI emit their own trace events from inside those computations.
 
 ## Public API and trace
 
-`solver.ts` exposes `Solver.create`, `Solver.createTraced`, and `Solver.check` as the additive v2 API. Trace presentation lives in `trace/print.ts` and `trace/replay.ts`; component events remain owned by the emitting domains and are composed by `trace.ts`.
+`solver.ts` exposes the one-shot v2 API: `Solver.run(formula)` returns the result plus trace, encoding, clauses, and arena, while `Solver.check(formula)` returns only the result. The intermediate incremental `create`/`assert`/`push`/`pop` surface was removed because Yap solves generated IVL formulas as self-contained verification conditions. Trace presentation lives in `trace/print.ts` and `trace/replay.ts`; `trace/index.ts` composes event types and writer helpers while component events remain owned by the emitting domains.
+
+`trace/replay.ts` is a replay state machine, not just a formatter. It reconstructs formula context, variables/proxies, registry entries, clause status, trail assignments, EUF classes and active disequality scans, arithmetic bound summaries, quantifier lemma insertion, and terminal results from the writer event stream. `showRegistry` defaults to `true` because the registry/active distinction is central to debugging CDCL(T) theory behavior. EUF and arithmetic detail payloads are emitted by their domains through `theory/orchestrate.ts`, while E-matching and MBQI trace events carry generated lemmas so replay can append quantifier clauses with renderer-local labels instead of restoring persistent clause IDs.
+
+Replay snapshots now mirror v1 trace coverage for propositional, EUF, arithmetic, and quantifier cases. Adding those snapshots exposed a writer-duplication bug in nested `Core.Do` execution: child computations were returning the parent writer and the outer interpreter concatenated it again. The interpreter now runs yielded children with an empty writer accumulator, preserving state threading while treating child output as a delta.
+
+The live interactive verification paths use the v2 solver: the REPL checks generated VCs through `Solver.check`, while the explorer and integration pipeline helpers render solver traces through `Solver.run` plus `trace/replay.ts`. Source-level verification parity now lives in integration snapshots, which include IVL and v2 trace output. Module compilation verification cleanup remains separate migration work.
+
+The temporary Z3-vs-v2 discrepancy pass found two replacement blockers. They are now tracked as source-level integration `test.fails` cases and queued as [[solver-v2-universal-refinement-false-sat]] and [[block-scoped-let-vc-parity-bug]] rather than as a permanent discrepancy harness.
 
 ## Validation
 
-The v2 solver path is covered by colocated tests under `src/verification/solver/v2`. The closeout validation ran `pnpm typecheck` and `pnpm test src/verification/solver/v2`.
+The v2 solver path is covered by colocated tests under `src/verification/solver/v2`, including replay snapshots under `trace/__tests__/__snapshots__`. The v1/Z3 removal validation ran `pnpm typecheck`, `pnpm test src/verification/solver/v2`, `pnpm test src/verification`, and `pnpm test src/__tests__/integration`.
 
 ## Known limitations
 
-Theory conclusions are not yet generated or consumed by CDCL; see [[theory-conclusions-propagation]]. Quantifier-generated formulas are projected into the initial CNF abstraction rather than extending it; see [[incremental-abstraction-extension]]. The current production solver entrypoints still point at the existing solver path until v2 replacement is reviewed.
+Theory conclusions are not yet generated or consumed by CDCL; see [[theory-conclusions-propagation]]. Quantifier-generated formulas are projected into the initial CNF abstraction rather than extending it; see [[incremental-abstraction-extension]]. Two source-level parity bugs remain tracked as integration `test.fails` cases: [[solver-v2-universal-refinement-false-sat]] and [[block-scoped-let-vc-parity-bug]]. Module compilation does not yet emit IVL verification artefacts or run non-blocking v2 verification diagnostics.
 
 <!-- connections:start -->
 
@@ -77,8 +85,12 @@ Theory conclusions are not yet generated or consumed by CDCL; see [[theory-concl
 - EXPOSES → [[solver-trace]] — v2 trace print/replay
 - DEFERRED_TO → [[theory-conclusions-propagation]] — Theory conclusions are named but not produced/consumed
 - DEFERRED_TO → [[incremental-abstraction-extension]] — Quantifier fresh-atom abstraction extension remains future work
+- DEFERRED_TO → [[solver-v2-universal-refinement-false-sat]] — Z3 replacement blocker
+- DEFERRED_TO → [[block-scoped-let-vc-parity-bug]] — Z3 replacement blocker and VC-generation review item
 
 **Incoming**
+- [[solver-v1-z3-removal]] ← FOLLOWS — v2 became the active solver backend before v1 deletion
+- [[pipeline-explorer]] ← USES — Solver.run() for trace generation
 - [[solver-v2-monadic-port.session]] ← PRODUCED — Session delivered the v2 port
 - [[solver-v2-effect-runtime.adr]] ← MOTIVATES — Runtime decision orients the implementation
 - [[verification-backend.thread]] ← INCLUDES — Thread item 25

@@ -1516,3 +1516,78 @@ Closed out the bounded MBQI plan's testing and audit todos (`resources/plans/bou
 - `src/verification/solver/quantifiers/mbqi.ts`, `solver.ts`, `trace.ts`, `__tests__/quantifier.test.ts` — audit remediation as above.
 - `resources/plans/bounded-mbqi-implementation.md` — todos: unit-tests, integration-tests, audit → completed; audit-remediation added (in progress).
 - [[verification-backend.thread]] — item 24 status note refreshed (tests pass, audit done, remediation scope narrowed).
+
+---
+
+## Session: Solver v2 z-yap sync — @2026-06-15 [solver, verification, monad, quantifiers, tracing, documentation]
+
+Synced the post-closeout solver v2 changes back into z-yap after the implementation moved beyond the first promoted notes. The sync keeps historical M2/current-solver zettels intact and updates only the records whose wording had drifted from the v2 implementation.
+
+### Updates
+
+- [[solver-v2-monadic-port.implementation]] — refreshed public API wording to `Solver.run(formula)` / `Solver.check(formula)`, documented the removal of incremental `create`/`assert`/`push`/`pop`, and recorded monadic E-matching/MBQI state access plus component-owned trace emission.
+- [[solver-v2-effect-runtime.adr]] — removed assertion/scope state from the runtime decision text and narrowed mutation boundaries to `Core.Do` plus encapsulated solver-state/domain modules.
+- [[solver-v2-monadic-port.session]] — added decisions for one-shot v2 API, removed clause IDs, and monadic quantifier subrounds.
+- [[verification-backend.thread]] — refreshed items 24 and 25 so bounded MBQI no longer points at v2 incremental API remediation and solver v2 records the one-shot API, removed clause IDs, and monadic quantifier trace ownership.
+- [[solver-trace]] — added a v2 note distinguishing RWSE writer-based `Solver.run(formula)` traces from the older traced incremental instance.
+- [[mbqi]] — added a v2 note for `src/verification/solver/v2/quantifier/mbqi/`, monadic state access, fallback ownership, and `{ tag: "mbqi" }` trace events.
+- [[e-matching]] — added a v2 note for `src/verification/solver/v2/quantifier/ematch/`, monadic matching, and `{ tag: "round" }` trace events.
+- `resources/plans/solver-v2-algorithm-port.md` — corrected `trace/index.ts` wording and removed stale callback language from the Phase 6 drift note.
+
+---
+
+## Session: Solver v2 verification parity tests — @2026-06-15 [solver, verification, testing, integration, bug]
+
+Migrated the temporary Z3-vs-v2 discrepancy findings into source-level integration parity coverage. The old discrepancy harness was temporary; permanent coverage belongs in `src/__tests__/integration` for Yap-source end-to-end cases. Integration snapshots now include `ivl` and `solverTrace` directly.
+
+### Updates
+
+- `src/__tests__/integration/refinement-types.test.ts` — added missing source-level refinement cases and direct `[sat]`/`[unsat]` v2 trace assertions.
+- `src/__tests__/integration/helpers/pipeline.ts` — added `ivl` and `solverTrace` to integration snapshots.
+- `src/verification/__tests__/check.test.ts`, `helpers.ts`, `__snapshots__/check.test.ts.snap` — removed after source-level parity moved to integration snapshots.
+- `src/verification/__tests__/solver-v2-discrepancy.test.ts` — removed after its findings were promoted to integration tests and z-yap bugs.
+- [[solver-v2-universal-refinement-false-sat]] — spawned and enqueued as a v2 false-SAT blocker.
+- [[block-scoped-let-vc-parity-bug]] — spawned and enqueued as a v2/Z3 parity blocker plus VC-generation review item.
+- [[verification-backend.thread]] — added items 28 and 29 for the two parity bugs.
+- [[solver-v2-monadic-port.implementation]] and `resources/plans/solver-v2-algorithm-port.md` — replaced the temporary discrepancy-test note with permanent `DEFERRED_TO` references.
+
+### Queue updates
+
+ENQUEUE [[solver-v2-universal-refinement-false-sat]] — added to [[global-pending-queue]]
+ENQUEUE [[block-scoped-let-vc-parity-bug]] — added to [[global-pending-queue]]
+
+### Edges
+
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[solver-v2-universal-refinement-false-sat]]
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[block-scoped-let-vc-parity-bug]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[block-scoped-let-vc-parity-bug]]
+
+---
+
+## Session: Solver v1 and Z3 removal z-yap sync — @2026-06-15 [solver, verification, z3, documentation, migration]
+
+Synced z-yap after the codebase removed the root-level v1 solver and remaining Z3 dependency. The active solver record now points at `src/verification/solver/v2`, D-001 states that `z3-solver` and `z3.adapter.ts` are gone, and the former Z3 adapter strategy is deprecated rather than presented as live infrastructure. The two known former-oracle disagreements remain open as integration `test.fails` parity bugs.
+
+### Updates
+
+- [[solver-v2-monadic-port.implementation]] — changed the port description from additive parallel path to current solver backend, refreshed validation, and removed stale "Z3 removal incomplete" wording.
+- `resources/plans/solver-v2-algorithm-port.md` — marked current solver entrypoints as v2 and reframed Z3 discrepancy closure as completed removal plus remaining `test.fails` blockers.
+- [[solver-v1-z3-removal]] — spawned as the implemented removal record for deleting v1 solver code and the Z3 dependency.
+- [[verification-backend.thread]] — refreshed the thread overview, translation-boundary item, solver architecture item, trace item, and added item 30 for solver v1/Z3 removal closeout.
+- [[z3-replacement.adr]] — updated status, architecture layers, top-level API, implementation list, and graph edge to reflect full adapter/dependency removal.
+- [[z3-adapter-strategy]] — marked deprecated with a supersession banner.
+- [[solver-trace]], [[mbqi]], and [[cdcl-t-solver]] — replaced live references to deleted v1 files with v2 paths and one-shot API wording.
+- [[global-pending-queue]] — clarified that the two remaining parity bugs compare against the former Z3 oracle.
+
+### Actions
+
+SPAWN [[solver-v1-z3-removal]] — implemented removal record for deleting v1 solver code and Z3 dependency
+RESOLVED [[z3-adapter-strategy]] — deprecated after `z3.adapter.ts` and `z3-solver` removal
+
+### Edges
+
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[z3-adapter-strategy]]  -- Adapter removed after v2 parity tests replaced the temporary oracle harness
+[[solver-v1-z3-removal]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- Removed Z3 dependency and adapter
+[[solver-v1-z3-removal]] --[:FOLLOWS]--> [[solver-v2-monadic-port.implementation]]  -- v2 became the active solver backend before v1 deletion
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v1-z3-removal]]  -- Thread item 30

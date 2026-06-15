@@ -15,7 +15,7 @@ Instantiation heuristic registered with a guarded quantifier `∀x. P[x]`: solve
 
 Quality depends entirely on triggers; bad patterns induce either thrash (too many lemmas) or non-termination absent other simplifications.
 
-**Yap:** Implemented in `src/verification/solver/quantifiers/ematch.ts` with trigger registration in `triggers.ts` and orchestration in `quantifiers/solver.ts`, wired into the CDCL(T) loop via the shared EUF arena ([congruence closure](congruence-closure.md)). See [[m2-implementation]].
+**Yap:** Implemented under `src/verification/solver/v2/quantifier/ematch/`, with trigger registration in `v2/quantifier/triggers.ts` and orchestration in `v2/quantifier/round.ts`. `matching.ts` exposes monadic matching operations that read the current arena and EUF representatives through `Core.State.get`; `round.ts` owns trigger-based instantiation, quantifier-state updates, CDCL lemma construction, and the `{ tag: "round" }` trace event. See [[solver-v2-monadic-port.implementation]].
 
 <!-- connections:start -->
 

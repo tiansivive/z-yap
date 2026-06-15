@@ -489,7 +489,12 @@
 [[z3-replacement.adr]] --[:MOTIVATES]--> [[vc-ir]]  -- Backend-neutral IR needed
 [[z3-replacement.adr]] --[:MOTIVATES]--> [[cdcl-t-solver]]  -- Own solver needed
 [[z3-replacement.adr]] --[:SUPERSEDES]--> [[smt-translation]]  -- Z3 dependency removed
+[[z3-replacement.adr]] --[:SUPERSEDES]--> [[z3-adapter-strategy]]  -- Adapter removed after v2 parity tests replaced the temporary oracle harness  @2026-06-15
 [[z3-replacement.adr]] --[:PRESERVES]--> [[verification-pipeline]]  -- Shape unchanged
+[[solver-v1-z3-removal]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- Removed Z3 dependency and adapter  @2026-06-15
+[[solver-v1-z3-removal]] --[:FOLLOWS]--> [[solver-v2-monadic-port.implementation]]  -- v2 became the active solver backend before v1 deletion  @2026-06-15
+[[solver-v1-z3-removal]] --[:PRESERVES]--> [[solver-v2-universal-refinement-false-sat]]  -- Former-oracle disagreement remains as integration test.fails bug  @2026-06-15
+[[solver-v1-z3-removal]] --[:PRESERVES]--> [[block-scoped-let-vc-parity-bug]]  -- Former-oracle disagreement remains as integration test.fails bug  @2026-06-15
 [[num-sort-semantics]] --[:APPLIES_TO]--> [[arithmetic-theory]]  -- Int vs Real
 [[non-linear-arithmetic]] --[:CONSTRAINS]--> [[arithmetic-theory]]  -- Linearizable subset first
 [[non-linear-arithmetic]] --[:COMPOSES_WITH]--> [[nbe]]  -- Constant-folding removes ground arith
@@ -1138,7 +1143,7 @@
 [[verification-backend.thread]] --[:RELIES_ON]--> [[verification-backend]]  -- Hub zettel
 [[verification-backend.thread]] --[:INCLUDES]--> [[ivl-boundary]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[bidir-subtype-verification]]
-[[verification-backend.thread]] --[:INCLUDES]--> [[z3-adapter-strategy]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[z3-adapter-strategy]]  -- Deprecated transition strategy
 [[verification-backend.thread]] --[:INCLUDES]--> [[inline-theory-assert]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[dual-polarity-registration]]
 [[verification-backend.thread]] --[:INCLUDES]--> [[complementary-atom-encoding]]
@@ -1456,7 +1461,7 @@
 [[pipeline-explorer]] --[:USES]--> [[solver-trace]]  -- Trace tab displays solver replay
 [[pipeline-explorer]] --[:USES]--> [[vc-ir]]  -- IVL tab displays s-expression formula
 [[pipeline-explorer]] --[:USES]--> [[m1-implementation]]  -- IVLPrint for formula rendering
-[[pipeline-explorer]] --[:USES]--> [[m2-implementation]]  -- Solver.createTraced() for trace generation
+[[pipeline-explorer]] --[:USES]--> [[solver-v2-monadic-port.implementation]]  -- Solver.run() for trace generation
 [[pipeline-explorer]] --[:USES]--> [[build-simplify-toggle]]  -- ivlSimplify config option
 [[pipeline-explorer]] --[:SUPERSEDES]--> [[smt-translation]]  -- IVL + Trace tabs replaced Z3 Verify tab
 [[pipeline-explorer]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- Calls VerificationServiceV2 directly
@@ -2797,4 +2802,18 @@
 [[verification-backend.thread]] --[:INCLUDES]--> [[incremental-abstraction-extension]]  -- Thread item 27  @2026-06-15
 [[thread-queue-system.thread]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]  -- Meta-thread item 1  @2026-06-15
 [[global-pending-queue]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]  -- Cross-cutting queue item  @2026-06-15
+
+## Solver v2 verification parity gaps  @2026-06-15
+
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[solver-v2-universal-refinement-false-sat]]  -- Z3 replacement blocker  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[block-scoped-let-vc-parity-bug]]  -- Z3 replacement blocker and VC-generation review item  @2026-06-15
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]  -- Thread item 28  @2026-06-15
+[[verification-backend.thread]] --[:INCLUDES]--> [[block-scoped-let-vc-parity-bug]]  -- Thread item 29  @2026-06-15
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v1-z3-removal]]  -- Thread item 30  @2026-06-15
+[[global-pending-queue]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]  -- Pending v2 parity bug  @2026-06-15
+[[global-pending-queue]] --[:INCLUDES]--> [[block-scoped-let-vc-parity-bug]]  -- Pending v2/VC parity bug  @2026-06-15
+[[solver-v2-universal-refinement-false-sat]] --[:AFFECTS]--> [[quantifier-engine]]  -- Universal refinement obligation needs quantifier reasoning  @2026-06-15
+[[solver-v2-universal-refinement-false-sat]] --[:AFFECTS]--> [[arithmetic-theory]]  -- Refutation depends on arithmetic inconsistency  @2026-06-15
+[[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[translation-boundary-vc]]  -- Generated IVL shape appears suspicious  @2026-06-15
+[[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[arithmetic-theory]]  -- Divergence involves arithmetic equalities  @2026-06-15
 [[agent-guidelines-zettelization]] --[:EXTENDS]--> [[convention-zettel-promotion]]  -- Agent/code rules are a concrete convention extraction case  @2026-06-15

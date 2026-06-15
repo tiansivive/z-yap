@@ -23,6 +23,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 ## Open items
 
+- [ ] [[solver-v2-universal-refinement-false-sat]] — v2 reports SAT for a universal arithmetic refinement VC that the former Z3 oracle rejected
+- [ ] [[block-scoped-let-vc-parity-bug]] — former Z3 oracle divergence on block-local let VC; generated IVL shape is suspicious
 - [ ] [[euf-congruence-propagation-bug]] — EUF congruence closure fails to propagate merges to function applications; returns SAT for UNSAT formula
 - [ ] [[spineful-applications]] — cross-cutting IR refactor (App representation migration)
 - [ ] [[where-clauses]] — deferred surface syntax, no parser/elab support
@@ -70,6 +72,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[whnf-codification]]
 - INCLUDES → [[legacy-file-compile]] — Tech debt tracked in the global queue
 - INCLUDES → [[agent-guidelines-zettelization]] — Cross-cutting queue item
+- INCLUDES → [[solver-v2-universal-refinement-false-sat]] — Pending v2 parity bug
+- INCLUDES → [[block-scoped-let-vc-parity-bug]] — Pending v2/VC parity bug
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

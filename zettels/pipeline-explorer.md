@@ -33,7 +33,7 @@ tags:
 
 **IVL tab**: Displays the IVL formula (s-expression) produced by `VerificationServiceV2`. Uses `smtlib` syntax highlighting mode.
 
-**Trace tab**: Displays the solver execution trace produced by `Solver.createTraced()` + `Trace.replay`. Shows step-by-step CDCL(T) execution: clause state, propagations, decisions, theory sub-steps (EUF merges, arithmetic bounds), quantifier rounds.
+**Trace tab**: Displays the solver execution trace produced by `Solver.run()` + v2 trace replay. Shows step-by-step CDCL(T) execution: clause state, propagations, decisions, theory sub-steps (EUF merges, arithmetic bounds), quantifier rounds.
 
 **Config sidebar**: Snippet library (19 built-in examples across 5 groups), parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle.
 
@@ -52,7 +52,7 @@ tags:
 - USES → [[solver-trace]] — Trace tab displays solver replay
 - USES → [[vc-ir]] — IVL tab displays s-expression formula
 - USES → [[m1-implementation]] — IVLPrint for formula rendering
-- USES → [[m2-implementation]] — Solver.createTraced() for trace generation
+- USES → [[solver-v2-monadic-port.implementation]] — Solver.run() for trace generation
 - USES → [[build-simplify-toggle]] — ivlSimplify config option
 - SUPERSEDES → [[smt-translation]] — IVL + Trace tabs replaced Z3 Verify tab
 - DELEGATES_TO → [[verification-pipeline]] — Calls VerificationServiceV2 directly

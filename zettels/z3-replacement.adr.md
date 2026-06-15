@@ -24,7 +24,7 @@ refs:
 
 **Decision:** Replace the `z3-solver` npm dependency as Yap's primary verification backend with a custom **Intermediate Verification Language (IVL)** and an in-tree **CDCL(T)** satisfiability engine.
 
-**Status:** Implemented on the default verification path. `VerificationServiceV2` produces `IVL.Formula`; `src/verification/solver/` runs the owned stack. `z3.adapter.ts` remains for cross-check and fallback only.
+**Status:** Implemented. `VerificationServiceV2` produces `IVL.Formula`; `src/verification/solver/v2` runs the owned stack. The `z3-solver` dependency, Z3 adapter, and root-level v1 solver implementation have been removed.
 
 ## Scope (what changes, what does not)
 
@@ -55,21 +55,21 @@ refs:
 | Layer | Role | Location |
 | ----- | ---- | -------- |
 | VC IR | Solver-neutral formulas from `translate.ts` | `src/verification/solver/ivl/` |
-| Lowering | Normalize, Skolemize, Tseitin CNF | `normalize.ts`, `skolem.ts`, `cnf.ts` |
-| SAT core | CDCL with 2WL, 1UIP, non-chronological backjump | `cdcl/core.ts`, `cdcl/watched.ts` |
-| Theories | EUF (congruence closure), LIA (simplex + branch), quantifiers (E-matching) | `theories/`, `quantifiers/` |
+| Lowering | Normalize, Skolemize, separate formulas, Tseitin CNF | `src/verification/solver/v2/formulas/`, `src/verification/solver/v2/encoding/` |
+| SAT core | CDCL with BCP, conflict analysis, non-chronological backjump | `src/verification/solver/v2/cdcl/` |
+| Theories | EUF (congruence closure), LIA (simplex), quantifiers (E-matching + MBQI) | `src/verification/solver/v2/euf/`, `arithmetic/`, `quantifier/`, `theory/` |
 
-Top-level API: `solve(formula)` and `Solver.create()` in `solver.ts`. Optional `origin` on `assert` for provenance (full obligation linking is milestone work).
+Top-level API: one-shot `Solver.run(formula)` and `Solver.check(formula)` in `src/verification/solver/v2/solver.ts`. Full obligation-linked explanations remain milestone work.
 
 ## Implemented (M1 + M2)
 
 - **IVL IR** — types, build DSL, printer (`ivl/types.ts`, `build.ts`, `print.ts`, `dsl.ts`).
-- **CNF translation** — Tseitin equisatisfiable encoding (`cnf.ts`).
-- **CDCL core** — boolean search with clause learning (`cdcl/`).
-- **EUF theory** — hash-consed term arena, congruence closure (`theories/euf/`).
-- **Arithmetic theory** — linear normalization, rational simplex, integer branch-and-bound (`theories/arithmetic/`).
-- **Quantifier engine** — trigger registration, E-matching instantiation (`quantifiers/ematch.ts`, `triggers.ts`, `solver.ts`).
-- **Z3 adapter** — `formulaToZ3` / `solve` for regression cross-check (`z3.adapter.ts`).
+- **CNF translation** — Tseitin equisatisfiable encoding (`v2/encoding/cnf.ts`).
+- **CDCL core** — boolean search with clause learning (`v2/cdcl/`).
+- **EUF theory** — hash-consed term arena, congruence closure (`v2/euf/`).
+- **Arithmetic theory** — linear normalization, rational simplex (`v2/arithmetic/`).
+- **Quantifier engine** — trigger registration, E-matching instantiation, bounded MBQI (`v2/quantifier/`).
+- **Trace replay** — writer-event collection plus small-step debugger replay (`v2/trace/`).
 
 See [[m1-implementation]] and [[m2-implementation]] for milestone detail; [[cdcl-t-solver]] for mechanism overview.
 
@@ -94,6 +94,7 @@ Z3-era zettels that described `Expr`-based artefacts, planned-only solver layout
 - MOTIVATES → [[vc-ir]] — Backend-neutral IR needed
 - MOTIVATES → [[cdcl-t-solver]] — Own solver needed
 - SUPERSEDES → [[smt-translation]] — Z3 dependency removed
+- SUPERSEDES → [[z3-adapter-strategy]] — Adapter removed after v2 parity tests replaced the temporary oracle harness
 - PRESERVES → [[verification-pipeline]] — Shape unchanged
 - SUPERSEDES → [[verification-artefacts-revised]]
 - SUPERSEDES → [[solver-module-layout]]
@@ -104,6 +105,7 @@ Z3-era zettels that described `Expr`-based artefacts, planned-only solver layout
 - PRODUCES → [[m2-implementation]]
 
 **Incoming**
+- [[solver-v1-z3-removal]] ← IMPLEMENTS — Removed Z3 dependency and adapter
 - [[milestone-1-ir-boundary]] ← FOLLOWS — First step
 - [[cas-instead-of-smt]] ← CONTRASTS_WITH — Alternative rejected
 - [[verification-backend.thread]] ← INCLUDES

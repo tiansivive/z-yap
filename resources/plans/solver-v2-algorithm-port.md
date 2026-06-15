@@ -39,7 +39,7 @@ Apply the same rules used for the scaffold:
 - Keep v2 domain-owned types; import shared IVL syntax from [`src/verification/solver/ivl`](src/verification/solver/ivl), not old solver implementation types.
 - Organize by domain concern, not technical buckets. Avoid catch-all `types.ts`/`state.ts` files unless scoped inside one domain directory.
 - Use namespace APIs: `Clause.add`, `Trail.assign`, `Theory.enter`, `EUF.CC.merge`, `Quantifier.round`.
-- Keep trace events owned by the emitting component; [`src/verification/solver/v2/trace.ts`](src/verification/solver/v2/trace.ts) only composes/writes events.
+- Keep trace events owned by the emitting component; [`src/verification/solver/v2/trace/index.ts`](src/verification/solver/v2/trace/index.ts) only composes event types and writer helpers.
 - Use the v2 `Core.Do` monad for orchestration; pure algorithms can remain pure helpers within their domain.
 - Preserve controlled ST-style mutation only inside the `Do` interpreter or explicitly owned performance hotspots.
 - Use `ts-pattern` pattern objects for structural dispatch. Avoid `if`/`else` chains for ADT dispatch.
@@ -207,7 +207,7 @@ Phase 1 was implemented with the following drift from the original plan. The ori
   - `model.ts` owns shared quantifier descriptors, state, generated lemma provenance, simplification payloads, and trace event types.
   - `triggers.ts` owns annotated and heuristic trigger extraction from IVL quantifiers.
   - `ematch/matching.ts` owns E-matching over the v2 EUF arena using a supplied representative lookup.
-  - `ematch/round.ts` owns trigger-based instantiation rounds, local callback/result types, generation tracking, deduplication keys, and CDCL lemma construction.
+  - `ematch/round.ts` owns trigger-based instantiation rounds, result types, generation tracking, deduplication keys, and CDCL lemma construction.
   - `mbqi/round.ts`, `mbqi/universe.ts`, `mbqi/candidates.ts`, and `mbqi/grounding.ts` own bounded Model-Based Quantifier Instantiation, its finite term universe, binder candidates, and grounded simplification classification.
   - `quantifier.ts` remains a facade over the domain directory.
 - Phase 6 intentionally does not wire quantifier rounds into a v2 top-level solver loop; Phase 7 still owns the v2 solver API, trace presentation/replay, and full quantifier/CDCL loop exposure.
@@ -216,15 +216,29 @@ Phase 1 was implemented with the following drift from the original plan. The ori
   - `pnpm test src/verification/solver/v2/quantifier`
   - `pnpm test src/verification/solver/v2`
 - Phase 7 API and trace presentation were implemented additively:
-  - `src/verification/solver/v2/solver.ts` exposes `Solver.create`, `Solver.createTraced`, and `Solver.check` without replacing v1 entrypoints.
+  - `src/verification/solver/v2/solver.ts` exposes the one-shot `Solver.run(formula)` trace-producing API and `Solver.check(formula)` result API; the intermediate incremental `create`/`assert`/`push`/`pop` surface was removed because Yap solves one generated IVL formula at a time.
   - The v2 solver loop runs the formulas pipeline, CNF encoding, theory installation, CDCL(T), E-matching, and MBQI rounds, then re-runs CDCL with generated quantifier lemmas.
-  - `src/verification/solver/v2/trace/print.ts` and `src/verification/solver/v2/trace/replay.ts` provide compact textual trace presentation; this is intentionally lighter than a proof/state replay.
+  - `src/verification/solver/v2/trace/print.ts` provides compact event formatting.
+  - `src/verification/solver/v2/trace/replay.ts` provides a small-step debugger replay over the writer event stream: formula, variables/proxies, optional registry display, clause status, trail, theory detail, quantifier lemma insertion, and terminal result.
+  - Replay uses renderer-local clause labels instead of persistent `Clause.id`. The top-level `showRegistry` option defaults to `true` so registered-vs-active facts are visible during solver debugging.
   - `src/verification/solver/v2/euf/cc.ts` now tracks asserted equality/disequality literals so registered-but-unasserted disequality polarities do not cause conflicts during theory checks.
+  - `src/verification/solver/v2/euf/cc.ts` names registered literals as `registry`, asserted literals as `active`, and inferred theory payloads as `conclusions`.
+  - `Clause.id`, `nextClauseId`, and the `cdcl/ids.ts` helper were removed; clause provenance remains in `Clause.origin`.
+  - Flat top-level re-export shims such as `arithmetic.ts`, `euf.ts`, `quantifier.ts`, `theory.ts`, `encoding.ts`, and `trace.ts` were removed or folded into directory-owned `index.ts` files.
+  - `src/verification/solver/v2/quantifier/round.ts` owns the monadic quantifier step. E-matching, E-matching term matching, and MBQI are `Core.G` computations that read solver state through the monad instead of receiving encoding, arena, generation, state snapshots, or callback parameters. E-matching and MBQI now emit their own trace events from inside those monadic computations.
+  - Theory trace details are produced by the emitting domains: EUF emits active literal, merge, scan, and conflict events; arithmetic emits bound and feasibility events.
+  - Quantifier trace events carry generated lemmas, allowing replay to append quantifier clauses during the rendered run without reintroducing clause IDs.
   - `src/verification/solver/v2/__tests__/solver.test.ts` compares v1/v2 results where behavior is shared and documents v2's intended EUF congruence improvement over v1.
-  - `src/verification/solver/v2/trace/__tests__/trace.test.ts` checks factual trace output with explicit assertions instead of snapshots.
+  - `src/verification/solver/v2/trace/__tests__/trace.test.ts` checks factual trace output with explicit assertions and replay snapshots mirroring v1's trace categories: propositional contradiction, EUF contradiction, arithmetic UNSAT, arithmetic SAT, and quantifier UNSAT.
+  - Snapshot review exposed duplicated writer output from nested `Core.Do` computations; `core.ts` now treats yielded child computations as writer deltas so replay does not re-emit prior events when the solver re-enters CDCL after quantifier instantiation.
+  - Live interactive verification call sites now use v2: `src/cli/repl.ts` calls `Solver.check(vc)`, while `src/cli/explore/pipeline.ts` and `src/__tests__/integration/helpers/pipeline.ts` render traces via `Solver.run(vc)` and v2 replay.
+  - Source-level verification parity moved from the old Z3-backed `src/verification/__tests__/check.test.ts` suite into `src/__tests__/integration/refinement-types.test.ts`, and integration snapshots now include IVL plus v2 solver trace output.
+  - Stale `module.ts` verification cleanup and non-blocking compile-time IVL/verification artefact output remain deferred follow-up work.
 - Phase 7 audit drift:
   - The discrepancy pass flagged pre-existing `core.ts` interpreter mutation/config literals, new trace narration headers, test decision-level literals, and the solver fresh-id callback counter.
-  - The holistic pass accepted the explicit mutation boundaries (`Core.Do`, public incremental API, fresh-id callback), deferred pre-existing `core.ts` cleanup, and required fixing the new trace headers plus named decision-level constants.
+  - Follow-up review rejected the incremental API and clause-id plumbing as unnecessary for Yap's one-shot VC solver use case; both were removed rather than carried forward as abstractions.
+  - The quantifier API was simplified again after review: `Quantifier.Round.step()` is the monadic boundary, and recursive solver control stays in generator `yield*` flow instead of introducing callback-driven or custom cycle machinery.
+  - A Yap style review over the quantifier-state refactor flagged ordering and test-literal naming issues; accepted fixes were applied. Required algorithm headers were kept despite the mechanical R7/R12 tension.
 - Validation completed for Phase 7:
   - `pnpm typecheck`
   - `pnpm test src/verification/solver/v2`
@@ -374,14 +388,21 @@ Audit gate: same audit/remediation pipeline, then stop.
 
 ## Deferred Work
 
-- Watched literals from [`src/verification/solver/cdcl/watched.ts`](src/verification/solver/cdcl/watched.ts) unless CDCL performance becomes the goal.
-- Arithmetic branch-and-bound from [`src/verification/solver/theories/arithmetic/branch.ts`](src/verification/solver/theories/arithmetic/branch.ts), because it is not wired in v1.
-- Replacing the current solver entrypoints with v2. Keep v2 additive until the behavior is reviewed.
-- Model extraction, which is stubbed in v1.
+- Watched-literal BCP for the v2 CDCL core, unless CDCL performance becomes the goal.
+- Arithmetic branch-and-bound for integer variables, because the active v2 arithmetic path currently uses rational simplex only.
+- Model extraction remains future work.
 - Wire the v2 public solver's quantifier limit to `Core.Env.config.maxQuantifierRounds` instead of the current local default.
 - Core runtime cleanup: name default config constants and revisit the pre-existing `Core.Do` `Either` short-circuit style in a dedicated core pass.
+- Z3 has been removed after the temporary discrepancy harness findings were promoted into source-level integration parity tests. Current `test.fails` blockers:
+  - [[solver-v2-universal-refinement-false-sat]]: the former Z3 oracle reported `unsat`, while v2 reports `sat` for a universal obligation equivalent to requiring all reals to be positive.
+  - [[block-scoped-let-vc-parity-bug]]: the former Z3 oracle reported `unsat`, while v2 reports `sat` for a nested quantified arithmetic/equality obligation generated from block-local lets; the generated IVL shape itself is suspicious.
+  These remain replacement blockers because v2 is accepting VCs that the previous oracle rejected.
 - Theory conclusions / theory propagation: `EUF.CC.State.conclusions` and the theory `propagations` return shape are scaffolded, but neither EUF nor arithmetic currently produce non-empty conclusions and CDCL currently consumes only conflicts. This is a CDCL(T) strength/performance feature, not an immediate correctness blocker for the fixed Boolean abstraction. It is likely useful for larger QF-EUFLIA-style refinement VCs with disjunctions, path joins, or encoded conditionals, but non-urgent for the common Yap/liquid pattern where negated obligations tend to produce direct theory conflicts from active assumptions.
 - Incremental abstraction extension for quantified instances that introduce fresh atoms not present in the initial ground CNF. This is a real SMT completeness improvement, but non-urgent for the liquid-types use case because classic liquid systems are designed around quantifier-free refinement logics and avoid general quantified axioms by construction. References: [Real World LiquidHaskell](https://goto.ucsd.edu/~rjhala/papers/real_world_liquid.pdf) describes QF-EUFLIA refinements; [Liquid Types vs. Floyd-Hoare Logic](https://ucsd-progsys.github.io/liquidhaskell-blog/2019/10/20/why-types.lhs/) explains keeping measures uninterpreted with no quantified axioms; [Efficient E-matching for SMT Solvers](https://leodemoura.github.io/files/ematching.pdf) and [Complete instantiation for quantified formulas in SMT](https://leodemoura.github.io/files/citr09.pdf) describe the general SMT setting where quantifier instantiation feeds new ground instances back into the ground solver.
+
+## Completed Follow-Up
+
+- Current solver entrypoints use v2; the root-level v1 solver implementation and tests have been removed. See [[solver-v1-z3-removal]].
 
 ### Quality Control Backlog
 

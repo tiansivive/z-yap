@@ -23,7 +23,7 @@ tags:
 
 **IVL emission (today):** the same surface numerics lower to **`Build.Real`**, **`Build.num`**, **`Build.arith`** in **`translate.ts`** (IVL).
 
-**In-house arithmetic (M2):** `src/verification/solver/theories/arithmetic/` — normalization to linear form (`normalize.ts`), arbitrary-precision rationals (`rational.ts`), fixed-tableau simplex with sliding bounds per Dutertre & de Moura (`simplex.ts`, `bounds.ts`), branch-and-bound for integer variables (`branch.ts`), and a `Theory`-conformant solver wrapper (`solver.ts`). Both literal polarities are registered so negated arithmetic atoms correctly tighten bounds. See [[m2-implementation]] for integration details.
+**In-house arithmetic:** `src/verification/solver/v2/arithmetic/` — normalization to linear form (`normalize.ts`), arbitrary-precision rationals (`rational.ts`), fixed-tableau simplex with sliding bounds per Dutertre & de Moura (`simplex.ts`, `bounds.ts`), and a theory-facing wrapper (`theory.ts`). Both literal polarities are registered so negated arithmetic atoms correctly tighten bounds. See [[solver-v2-monadic-port.implementation]] for current integration details.
 
 NbE constant-folding (`src/shared/lib/primitives.ts` arithmetic `compute`) reduces ground work before VC generation; it is not a substitute for a dedicated non-linear theory.
 
@@ -52,5 +52,7 @@ NbE constant-folding (`src/shared/lib/primitives.ts` arithmetic `compute`) reduc
 - [[dual-polarity-registration]] ← APPLIES_TO — Specific to arithmetic
 - [[solver-testing]] ← DETAILS
 - [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — v2 arithmetic domain port
+- [[solver-v2-universal-refinement-false-sat]] ← AFFECTS — Refutation depends on arithmetic inconsistency
+- [[block-scoped-let-vc-parity-bug]] ← AFFECTS — Divergence involves arithmetic equalities
 
 <!-- connections:end -->

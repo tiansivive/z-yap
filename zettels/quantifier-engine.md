@@ -4,9 +4,9 @@ tags:
 ---
 # Quantifier engine
 
-**Implemented (M2):** `src/verification/solver/quantifiers/` contains trigger extraction (`triggers.ts`), E-matching against the EUF arena (`ematch.ts`), and per-round instantiation (`solver.ts`). Each round walks active quantifiers, matches triggers against ground terms in the congruence closure, produces substitutions, and asserts ground lemma instances as CNF clauses into the SAT core. Complementary atom encoding handles negated atoms not directly in the atom table.
+**Implemented:** `src/verification/solver/v2/quantifier/` contains trigger extraction (`triggers.ts`), E-matching against the EUF arena (`ematch/`), bounded MBQI (`mbqi/`), and the monadic per-round dispatch (`round.ts`). Each round walks active quantifiers, matches triggers against ground terms in the congruence closure, produces substitutions, and asserts ground lemma instances as CNF clauses into the SAT core. Abstraction lookup handles generated atoms that already exist in the initial Boolean encoding.
 
-**Two-stage dispatch:** E-matching runs first (syntactic, fast); when a round produces no new lemmas, bounded [[mbqi]] enumerates ground terms by sort as the fallback (`mbqi.ts`) — covering quantifiers without usable triggers, such as pure arithmetic bodies. Formulas with no propositional part bypass CNF/CDCL entirely and run MBQI rounds directly.
+**Two-stage dispatch:** E-matching runs first (syntactic, fast); when a round produces no new lemmas, bounded [[mbqi]] enumerates ground terms by sort as the fallback — covering quantifiers without usable triggers, such as pure arithmetic bodies.
 
 **VC generation:** guarded quantifiers in `check`/`subtype` use **`translation.quantify`** → **IVL** **`Build.forall` / `Build.implies`** (`translate.ts`). The **instantiation engine** here is the M2 match to industrial trigger-based QI ([[ge-de-moura-quantifiers]]).
 
@@ -33,5 +33,6 @@ tags:
 - [[solver-trace]] ← EXPOSES — Quantifier round events visible in trace
 - [[complementary-atom-encoding]] ← APPLIES_TO — Specific to quantifiers
 - [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — v2 E-matching and MBQI port
+- [[solver-v2-universal-refinement-false-sat]] ← AFFECTS — Universal refinement obligation needs quantifier reasoning
 
 <!-- connections:end -->

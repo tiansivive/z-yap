@@ -5,7 +5,7 @@ tags: [verification, mechanism, implemented, backend, reference, project, unific
 
 **Concept:** equality with uninterpreted functions — congruence closure over a union-find of terms; axiomatic substrate for industrial SMT solvers such as **Z3** ([[de-moura-bjorner-z3]]).
 
-**Implemented in Yap (M2):** `src/verification/solver/theories/euf/` — hash-consed arena (`arena.ts`), congruence closure (`cc.ts`) with path compression, union-by-rank, merge-driven equality propagation; integrated with **`quantifiers/`** E-matching. Same algorithmic core Z3 exposes as one theory plug-in inside its CDCL(T) loop.
+**Implemented in Yap:** `src/verification/solver/v2/euf/` — hash-consed arena (`intern.ts`), congruence closure (`cc.ts`) with path compression, union-by-rank, merge-driven equality propagation, and registry/active literal separation; integrated with **`v2/quantifier/`** E-matching. Same algorithmic core Z3 exposes as one theory plug-in inside its CDCL(T) loop.
 
 **VC path:** refinement checking builds **IVL** atoms in **`translate.ts`** ([[verification-pipeline]]); this module is **solve-time** EUF over those atoms, not “Z3-only” or “IVL-only” as a mathematical object.
 

@@ -127,7 +127,6 @@ Extracted as standalone ADR zettels for reuse and independent traversal:
 - [[session-trace-observability]] ← DEPENDS_ON — Built on top of the M2 solver
 - [[solver-trace]] ← DEPENDS_ON — Structurally built on the M2 solver
 - [[solver-trace]] ← CONSUMES — Trace consumes solver generator output
-- [[pipeline-explorer]] ← USES — Solver.createTraced() for trace generation
 - [[z3-replacement.adr]] ← PRODUCES
 - [[inline-theory-assert]] ← DETAILS — Extracted from M2 record
 - [[dual-polarity-registration]] ← DETAILS — Extracted from M2 record

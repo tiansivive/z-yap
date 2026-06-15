@@ -17,25 +17,27 @@ tags:
   ]
 refs:
   src:
-    - src/verification/solver/quantifiers/mbqi.ts
-    - src/verification/solver/solver.ts
-    - src/verification/solver/trace.ts
+    - src/verification/solver/v2/quantifier/mbqi/round.ts
+    - src/verification/solver/v2/quantifier/mbqi/universe.ts
+    - src/verification/solver/v2/quantifier/mbqi/candidates.ts
+    - src/verification/solver/v2/quantifier/mbqi/grounding.ts
+    - src/verification/solver/v2/quantifier/round.ts
   tests:
-    - src/verification/solver/__tests__/quantifier.test.ts
+    - src/verification/solver/v2/quantifier/__tests__/quantifier.test.ts
 ---
 # Bounded MBQI (model-based quantifier instantiation)
 
 Fallback instantiation engine for quantifiers that E-matching cannot reach. Triggers require function applications containing the bound variables; pure arithmetic quantifiers such as `∀v. v = 1 ⇒ v > 10` have none, so an E-matching-only regime saturates with zero lemmas and the solver wrongly reports SAT. Bounded MBQI closes that gap.
 
-**Algorithm** (`quantifiers/mbqi.ts`): enumerate ground terms by sort from two sources — the EUF arena (terms the congruence closure already knows) and the quantifier bodies themselves (so constants like `1` in `v = 1` are candidates even before any ground assertion mentions them). Generate substitutions as the cartesian product over binder sorts, capped at 10 ground terms per sort. Deduplicate against the instantiation-key set shared with E-matching. Each grounded body is simplified three-ways: `true` (vacuous, dropped), `false` (contradiction witness), or residual formula (encoded as a CNF lemma via the same complementary-atom encoder E-matching uses, asserted into the SAT core).
+**Algorithm** (`v2/quantifier/mbqi/`): enumerate ground terms by sort from two sources — the EUF arena (terms the congruence closure already knows) and the quantifier bodies themselves (so constants like `1` in `v = 1` are candidates even before any ground assertion mentions them). Generate substitutions as the cartesian product over binder sorts, capped at 10 ground terms per sort. Deduplicate against the instantiation-key set shared with E-matching. Each grounded body is simplified as a tagged `Simplification`: vacuous truth, contradiction witness, or residual formula encoded as a CNF lemma through abstraction lookup.
 
-**Dispatch** (`solver.ts`): two entry points.
-1. *Fallback in the CDCL(T) loop* — when an E-matching round produces no new lemmas, an MBQI round runs before declaring SAT; any lemmas it produces feed the next round with an incremented generation.
-2. *Pure-quantifier fast path* — formulas whose propositional part is trivially `True` skip Tseitin/CDCL entirely and run MBQI rounds directly; a substitution simplifying to `false` yields UNSAT, all-`true` yields SAT, and the round limit yields `unknown`.
+**Dispatch** (`v2/quantifier/round.ts`): E-matching runs first; when it produces no new lemmas, an MBQI round runs before the solver declares SAT. Any lemmas it produces feed the next solver round through the same v2 monadic state.
 
-Both paths emit `mbqi-round` (and the fast path `pure-quantifier`) trace steps, so instantiation choices are visible in trace replay alongside E-matching rounds.
+MBQI emits `{ tag: "mbqi" }` trace events, so instantiation choices are visible in trace replay alongside E-matching rounds.
 
 **Deviation from full MBQI** ([[ge-de-moura-quantifiers]]): no counterexample-guided refinement — witness terms are not constructed from the arithmetic model; enumeration is restricted to ground terms already present in the problem. This is sound and adequate for Yap's VCs because they are generated from local program structure, so the relevant constants always appear in the formula. Generation and per-sort bounds follow the Z3/cvc5 convention of bounding instantiation to avoid divergence.
+
+`mbqi/round.ts` is a `Core.G` computation that reads the current arena, quantifier state, and encoding through the solver monad, updates quantifier bookkeeping when it emits lemmas, and emits its trace event from inside the computation.
 
 <!-- connections:start -->
 
