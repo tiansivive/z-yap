@@ -31,6 +31,7 @@ This is a robustness measure: without it, quantifier instantiation silently fail
 - CONSTRAINS → [[theory-plugin-interface]] — Lemma encoding rule
 - DETAILS → [[m2-implementation]] — Extracted from M2 record
 - APPLIES_TO → [[quantifier-engine]] — Specific to quantifiers
+- APPLIES_TO → [[mbqi]] — Same lemma encoder as E-matching instantiation
 
 **Incoming**
 - [[verification-backend.thread]] ← INCLUDES

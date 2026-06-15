@@ -1393,3 +1393,126 @@ RESOLVED [[bridge-unsaturated-external]] — PAP pass eliminates unsaturated ext
 
 (Already recorded in prior session)
 [[gram-pap-pass]] --[:RESOLVES]--> [[bridge-unsaturated-external]]
+
+---
+
+## Session: Bounded MBQI tracking — @2026-06-10 [solver, quantifiers, mbqi, verification, sat, implementation]
+
+Recorded the bounded MBQI work (in flight on the `stabilization` branch, `src/verification/solver/quantifiers/mbqi.ts`) which previously existed in z-yap only as a gap note ("MBQI is not yet implemented" in [[quantifier-engine]]) and an anticipatory edge note ("Triggers → E-match, none → bounded MBQI"). The implementation plan lives in `resources/plans/bounded-mbqi-implementation.md`; its todo statuses were synced to reality (module, trace step, solver wiring complete; unit tests in progress; integration tests and audit pending).
+
+The mechanism: when an E-matching round produces no lemmas, bounded MBQI enumerates ground terms by sort from the EUF arena and quantifier bodies, generates capped cartesian substitutions, and asserts simplified ground lemmas — closing the soundness gap where trigger-less quantifiers (pure arithmetic bodies) caused spurious SAT. A pure-quantifier fast path bypasses CNF/CDCL entirely. Deviation from full Ge–de Moura MBQI (no model-guided witness construction) recorded in the zettel with its justification.
+
+Treated as a standalone post-M2 increment — M2 milestone/implementation records left untouched as history; positioning expressed via EXTENDS edges instead.
+
+Registered vocabulary in `REGISTRY.md`:
+
+- **Core**: `fallback`
+- **Verification**: `mbqi`, `instantiation`
+- **Connection labels**: `FALLS_BACK_TO`
+
+### Spawned
+
+SPAWN [[mbqi]] — bounded model-based quantifier instantiation mechanism, `implemented` + `incomplete`
+
+### Updates
+
+- [[quantifier-engine]] — replaced "MBQI is not yet implemented" status prose with positive two-stage dispatch description; added `instantiation` + `mbqi` tags.
+- [[ge-de-moura-quantifiers]] — refreshed stale Z3-era prose (`z3-solver`/`V2/pretty.ts`) to reference the in-house engine and both instantiation regimes.
+- [[verification-backend.thread]] — item 24 added: Bounded MBQI fallback, `implemented, incomplete`.
+- `resources/plans/bounded-mbqi-implementation.md` — todo statuses synced.
+
+### Edges
+
+[[quantifier-engine]] --[:INCLUDES]--> [[mbqi]]
+[[quantifier-engine]] --[:FALLS_BACK_TO]--> [[mbqi]]
+[[mbqi]] --[:CONTRASTS_WITH]--> [[e-matching]]
+[[ge-de-moura-quantifiers]] --[:INFORMS]--> [[mbqi]]
+[[mbqi]] --[:USES]--> [[euf-theory]]
+[[mbqi]] --[:INSTANTIATES]--> [[cdcl-t-solver]]
+[[mbqi]] --[:EXTENDS]--> [[milestone-2-euf-quant-lia]]
+[[mbqi]] --[:EXTENDS]--> [[m2-implementation]]
+[[solver-trace]] --[:EXPOSES]--> [[mbqi]]
+[[complementary-atom-encoding]] --[:APPLIES_TO]--> [[mbqi]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[mbqi]]
+
+---
+
+## Session: Solver v2 monadic port closeout — @2026-06-15 [solver, verification, monad, cdcl, quantifiers, tracing, adr, meta]
+
+Closed out the solver v2 monadic port session and promoted its durable output into z-yap. The session implemented the additive v2 solver path under `src/verification/solver/v2`: generator RWSE runtime, domain-organized CDCL(T), EUF, arithmetic, quantifier, encoding, formulas, trace, and public solver API. It also surfaced two non-urgent deferred solver features and one meta/process follow-up for turning agent guidelines into zettels and reusable skills.
+
+ADR-worthy decision: the solver v2 effect runtime is D-008. It records the RWSE generator runtime, the distinction between solver outcomes and internal errors, and the controlled mutation boundaries for the interpreter and solver state modules.
+
+Registered vocabulary in `REGISTRY.md`:
+
+- **Verification**: `cdcl`, `smt-theory`, `propagation`
+- **Representation**: `cnf`
+- **Infrastructure**: `agent`, `skills`
+- **Zettelkasten**: `convention`
+- **Connection labels**: `DEFERRED_TO`
+
+### Spawned
+
+SPAWN [[solver-v2-monadic-port.session]] — session record for the v2 solver monadic port
+SPAWN [[solver-v2-monadic-port.implementation]] — implementation zettel for the additive v2 solver path
+SPAWN [[solver-v2-effect-runtime.adr]] — D-008, accepted runtime decision
+SPAWN [[theory-conclusions-propagation]] — deferred CDCL(T) theory propagation work
+SPAWN [[incremental-abstraction-extension]] — deferred quantifier/CNF fresh-atom abstraction work
+SPAWN [[agent-guidelines-zettelization]] — meta work item for convention/skill extraction
+
+### Updates
+
+- [[verification-backend.thread]] — added items 25–27 for the v2 solver port and the two deferred solver follow-ups.
+- [[thread-queue-system.thread]] — added item 1 for agent guideline zettelization.
+- [[global-pending-queue]] — enqueued [[agent-guidelines-zettelization]] as a cross-cutting meta item.
+- [[sessions.hub]] — added [[solver-v2-monadic-port.session]] to the session index.
+- `REGISTRY.md` — added new tags and `DEFERRED_TO`.
+- `connections.md` — added the solver v2 closeout connection cluster.
+- `sessions/f093a294-7950-4037-b562-eb4717ae7.jsonl` — copied the private transcript snapshot for continuity.
+
+### Edges
+
+[[sessions.hub]] --[:INCLUDES]--> [[solver-v2-monadic-port.session]]
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[solver-v2-effect-runtime.adr]]
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[solver-v2-monadic-port.implementation]]
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[theory-conclusions-propagation]]
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[incremental-abstraction-extension]]
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[agent-guidelines-zettelization]]
+[[solver-v2-monadic-port.session]] --[:FOLLOWS]--> [[m2-implementation]]
+[[solver-v2-effect-runtime.adr]] --[:REFRAMES]--> [[solver-effect-system]]
+[[solver-v2-effect-runtime.adr]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]
+[[solver-v2-effect-runtime.adr]] --[:MOTIVATES]--> [[solver-v2-monadic-port.implementation]]
+[[solver-v2-effect-runtime.adr]] --[:CONSTRAINS]--> [[theory-conclusions-propagation]]
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[solver-v2-effect-runtime.adr]]
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[cdcl-t-solver]]
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[congruence-closure]]
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[arithmetic-theory]]
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[quantifier-engine]]
+[[solver-v2-monadic-port.implementation]] --[:EXPOSES]--> [[solver-trace]]
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[theory-conclusions-propagation]]
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[incremental-abstraction-extension]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v2-monadic-port.implementation]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[theory-conclusions-propagation]]
+[[verification-backend.thread]] --[:INCLUDES]--> [[incremental-abstraction-extension]]
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]
+[[global-pending-queue]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]
+[[agent-guidelines-zettelization]] --[:EXTENDS]--> [[convention-zettel-promotion]]
+
+## Session: MBQI testing completion + style audit + remediation — @2026-06-11 [solver, quantifiers, mbqi, verification, testing, audit, implementation]
+
+Closed out the bounded MBQI plan's testing and audit todos (`resources/plans/bounded-mbqi-implementation.md`; also relocated the plan there from a stray `plans/` directory).
+
+**Testing.** The four MBQI unit tests in `quantifier.test.ts` pass. Added two integration tests to `refinement-types.test.ts` (`badOne: Num [| \v -> v > 10 |] = 1` must fail, a `v < 10` counterpart must pass). Key finding: the integration pipeline helper computes the solver trace but excludes it from snapshots, and verification is not an enforcing pipeline stage (thread item 12 — solver dispatch not wired as default backend), so snapshots alone proved nothing; the tests now assert directly on the trace text (`[mbqi]` + `[unsat]`/`[sat]`), confirming MBQI engages in the real VC pipeline. Full suite verified against a HEAD worktree: zero MBQI-caused regressions; the 19 remaining failures are pre-existing stabilization wip (stale selfification snapshots from `elaborate.ts`, shift/reset, and [[euf-congruence-propagation-bug]]).
+
+**Audit.** Ran the yap-reviewer skill (independent agent, rules-only prompt): 29 violations across 5 files, 16 questions; `normalize.test.ts` and `refinement-types.test.ts` clean; `mbqi.ts` itself near-clean (1 finding).
+
+**Remediation (done).** MBQI-introduced subset: `mbqi.ts` grounded-formula dispatch → exhaustive ts-pattern match, header abbreviations + [[mbqi]] zettel link; `solver.ts` pure-quantifier check → match, narration comment and identity map removed, header zettel link + abbreviations; `quantifier.test.ts` `let arena` → const chaining, narration comments culled to two WHY comments, unused type imports dropped. Then `trace.ts` fully: inverted file structure righted (public `Trace` export first — safe because helpers are only called at runtime, never dereferenced at module init), both `as` casts removed (the `ArithTrace.Step` cast was redundant — the two-way `TheoryStep` union narrows via the `isEUFStep` guard), three mutation sites rewritten immutably (`evalClause` recursion + match, conditional `initialDoc`, single-expression `mergeClasses`), magic `36`/`+2` named (`REPLAY_COL_WIDTH`, `STATUS_GUTTER`), header completed. `trace.ts` lint: 19 problems → 0.
+
+**Remaining** (plan todo `audit-remediation`, in progress): `ivl/build.ts` (mutable `simplify` export, loops/`else`, tag if-chains, `parseFloat` precision question) and `solver.ts` incremental push/pop API + `createBase` placement. All work uncommitted in both repos by request.
+
+### Updates
+
+- `src/__tests__/integration/refinement-types.test.ts` — two MBQI integration tests with trace-verdict assertions.
+- `src/verification/solver/quantifiers/mbqi.ts`, `solver.ts`, `trace.ts`, `__tests__/quantifier.test.ts` — audit remediation as above.
+- `resources/plans/bounded-mbqi-implementation.md` — todos: unit-tests, integration-tests, audit → completed; audit-remediation added (in progress).
+- [[verification-backend.thread]] — item 24 status note refreshed (tests pass, audit done, remediation scope narrowed).

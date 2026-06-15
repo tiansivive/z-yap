@@ -24,5 +24,6 @@ Produces **minimal explanation sets** tracing a derived equality to user merge o
 **Incoming**
 - [[m2-implementation]] ← IMPLEMENTS — CC in euf/cc.ts
 - [[solver-trace]] ← RESOLVES — Enode IDs resolved to term names
+- [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — v2 EUF registry/active state and CC port
 
 <!-- connections:end -->

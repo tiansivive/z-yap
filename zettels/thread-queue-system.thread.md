@@ -46,6 +46,13 @@ units; threads and queues are workflows over them.
 - Readiness: `ready` (unblocked), `blocked` (waiting), `needs-design` (requires exploration)
 - Worklist items are tagged directly; no hub file. The tag is the source of truth, scripts produce views
 
+## Sequence
+
+1. **Agent guideline zettelization** [[agent-guidelines-zettelization]] — planned [needs-design]  
+   Distill `.cursor/rules`, `AGENTS.md`, `.github/copilot-instructions.md`,
+   `~/.config/ai-agents`, and session-discovered agent/code rules into convention
+   zettels and reusable Cursor skills.
+
 <!-- connections:start -->
 
 ## Connections
@@ -68,5 +75,6 @@ units; threads and queues are workflows over them.
 - INCLUDES → [[z3-stay-companion]] — Open meta question
 - INCLUDES → [[convention-zettel-promotion]] — Open meta question
 - INCLUDES → [[transcripts-private-submodule]] — Open todo
+- INCLUDES → [[agent-guidelines-zettelization]] — Meta-thread item 1
 
 <!-- connections:end -->

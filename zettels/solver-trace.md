@@ -63,6 +63,7 @@ Generator-based observability system for the CDCL(T) solver. The solver's contro
 - CONSUMES → [[vc-ir]] — Reads IVL formulas for display
 - USES → [[m1-implementation]] — Uses IVL printer for formula rendering
 - DEPENDS_ON → [[boolean-lowering-cnf]] — Trace reads atom table + proxy table from Tseitin
+- EXPOSES → [[mbqi]] — mbqi-round and pure-quantifier steps in trace replay
 
 **Incoming**
 - [[session-trace-observability]] ← PRODUCED — Session delivered the trace system
@@ -71,5 +72,6 @@ Generator-based observability system for the CDCL(T) solver. The solver's contro
 - [[pipeline-explorer]] ← USES — Trace tab displays solver replay
 - [[pipeline-explorer]] ← REPORTS — Renders trace output in Trace tab
 - [[verification-backend.thread]] ← INCLUDES
+- [[solver-v2-monadic-port.implementation]] ← EXPOSES — v2 trace print/replay
 
 <!-- connections:end -->

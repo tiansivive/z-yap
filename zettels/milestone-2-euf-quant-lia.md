@@ -40,5 +40,6 @@ Out of scope here: obligation-linked UNSAT cores and counterexample UX (Mileston
 - [[verification-backend.thread]] ← INCLUDES
 - [[m2-implementation]] ← IMPLEMENTS — Realizes the milestone
 - [[m2-implementation]] ← ADDRESSES — Closes the open work item
+- [[mbqi]] ← EXTENDS — Post-M2 increment to the quantifier engine
 
 <!-- connections:end -->

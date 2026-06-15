@@ -97,6 +97,23 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 23. **Syn-App-Ex modification** [[syn-app-ex-modification]] — implemented  
     Incorporate-uses **check** instead of synth+subtype for application arguments; extrinsic terms; optional **`nf`** precision through application chains (see zettel).
 
+24. **Bounded MBQI fallback** [[mbqi]] — implemented, incomplete  
+    Ground-term enumeration by sort when E-matching produces no lemmas; pure-quantifier
+    fast path bypassing CNF/CDCL. Unit + integration tests pass; style audit done,
+    remediation remaining in ivl/build.ts and the solver incremental API. Uncommitted.
+
+25. **Solver v2 monadic port** [[solver-v2-monadic-port.implementation]] — implemented  
+    Additive v2 solver architecture: generator RWSE runtime, domain-owned modules,
+    CDCL(T), EUF/arithmetic, quantifiers, public API, and trace presentation.
+
+26. **Theory conclusions propagation** [[theory-conclusions-propagation]] — deferred  
+    Theory propagation payloads are named and threaded, but not produced by theories
+    or consumed by CDCL. Useful for larger QF-EUFLIA VCs with disjunctions and path joins.
+
+27. **Incremental abstraction extension** [[incremental-abstraction-extension]] — deferred  
+    Quantifier instances that introduce fresh atoms need abstraction extension beyond
+    lookup into the initial CNF atom table.
+
 <!-- connections:start -->
 
 ## Connections
@@ -139,6 +156,10 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - INCLUDES → [[shift-reset-verification-stub]]
 - SHARED_WITH → [[delimited-continuations.thread]] — shift-reset-verification, shift-reset-verification-stub
 - INCLUDES → [[design-vc-normalization]] — Design work item
+- INCLUDES → [[mbqi]]
+- INCLUDES → [[solver-v2-monadic-port.implementation]] — Thread item 25
+- INCLUDES → [[theory-conclusions-propagation]] — Thread item 26
+- INCLUDES → [[incremental-abstraction-extension]] — Thread item 27
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

@@ -31,6 +31,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `alternative` | A rejected or non-chosen design option preserved for the record |
 | `user-control` | The user retains visibility and authority over the behaviour |
 | `extensibility` | The mechanism is intentionally open for user/library extension |
+| `fallback` | Secondary mechanism engaged when the primary strategy yields nothing |
 
 ## Type theory tags
 
@@ -82,6 +83,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 |-----|-------------|
 | `constraint` | Constraint generation and accumulation |
 | `solver` | Constraint solver, batched solving, implicit resolution dispatch |
+| `cdcl` | Conflict-driven clause learning and CDCL(T) search concerns |
 | `metavariable` | Unification metavariables, holes, freshening |
 | `unification` | Constraint solving, meta-variable resolution, row rewriting |
 | `generalization` | Let-polymorphism, meta generalization at block boundaries |
@@ -124,6 +126,10 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | Tag | Description |
 |-----|-------------|
 | `quantifiers` | Universal/existential quantification, instantiation |
+| `mbqi` | Model-based quantifier instantiation — ground-term enumeration when trigger matching cannot apply |
+| `instantiation` | Producing ground instances of quantified formulas (E-matching, MBQI, manual lemmas) |
+| `smt-theory` | SMT theory reasoning, theory plugins, and CDCL(T) theory interaction |
+| `propagation` | Derived fact propagation through Boolean or theory reasoning |
 | `arithmetic` | Numeric reasoning, simplex, linear arithmetic |
 | `strings` | String theory, word equations, concat |
 | `ivl` | Intermediate Verification Language |
@@ -140,6 +146,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `monad` | Monadic abstractions, V2 Do notation |
 | `representation` | The choice of data structure or encoding for a domain value |
 | `dual-rep` | Keeps two parallel representations of the same value (e.g. syntactic + semantic) |
+| `cnf` | Conjunctive normal form and Boolean abstraction encodings |
 
 ## Infrastructure tags
 
@@ -163,6 +170,8 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `stabilization` | Focused effort to fix/document issues surfaced by new visibility |
 | `profile` | Captured measurement of where time/cost goes in a system |
 | `measurement` | Empirical observation of system behaviour; data collection |
+| `agent` | AI agent behavior, configuration, prompts, and workflows |
+| `skills` | Reusable agent skills or procedural capabilities |
 
 ## Meta tags
 
@@ -177,6 +186,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `ai-session` | A recorded AI pair-programming session |
 | `drift` | Specification/implementation drift |
 | `frozen` | Intentionally not updated through normal flow; references a locked snapshot of state |
+| `convention` | Durable project or zettelkasten convention worth citing independently |
 
 ## Status tags
 
@@ -254,6 +264,7 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 |-------|-------------|
 | `USES` | Source uses or applies the target |
 | `EXTENDS` | Source extends or augments the target |
+| `FALLS_BACK_TO` | Source engages the target as secondary strategy when its primary strategy yields nothing |
 | `IMPLEMENTS` | Source realizes the target |
 | `CONTRASTS_WITH` | Source contrasts with the target |
 | `INFORMS` | Source is prior art or inspiration for the target |
@@ -322,6 +333,7 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `PRECEDES` | Source work item comes before target in a thread's sequence |
 | `SHARED_WITH` | Source thread shares target work item with another thread |
 | `DEFERRED_FROM` | Source work item was deferred from target thread or queue |
+| `DEFERRED_TO` | Source records completion or resolution as intentionally deferred to target work |
 | `EXPOSES` | Source makes target's internal state externally visible |
 | `GATES` | Source flag/toggle controls whether target behavior is active |
 | `FIXES` | Source corrects a defect in target |

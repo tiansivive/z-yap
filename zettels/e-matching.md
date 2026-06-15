@@ -24,5 +24,6 @@ Quality depends entirely on triggers; bad patterns induce either thrash (too man
 **Incoming**
 - [[m2-implementation]] ← IMPLEMENTS — Trigger matching in quantifiers/ematch.ts
 - [[solver-testing]] ← DETAILS
+- [[mbqi]] ← CONTRASTS_WITH — Semantic ground-term enumeration vs syntactic trigger matching
 
 <!-- connections:end -->

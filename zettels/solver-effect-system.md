@@ -55,3 +55,12 @@ When profiling shows the state-threading allocations are a bottleneck (likely at
 - Yap elaboration monad: `src/elaboration/shared/monad.v2.ts`
 - Current CDCL: `src/verification/solver/cdcl/core.ts`
 - Current EUF/CC: `src/verification/solver/theories/euf/cc.ts`
+
+<!-- connections:start -->
+
+## Connections
+
+**Incoming**
+- [[solver-v2-effect-runtime.adr]] ← REFRAMES — Future-work sketch becomes accepted v2 runtime decision
+
+<!-- connections:end -->

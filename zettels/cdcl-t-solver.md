@@ -57,5 +57,7 @@ See also [`smt-solver-glossary.md`](smt-solver-glossary.md) for shorthand (BCP, 
 - [[fuzz-testing]] ← TARGETS
 - [[property-based-testing]] ← TARGETS
 - [[solver-testing]] ← DETAILS
+- [[mbqi]] ← INSTANTIATES — Ground lemmas asserted as CNF clauses
+- [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — Additive v2 CDCL(T) path
 
 <!-- connections:end -->

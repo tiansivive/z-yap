@@ -40,6 +40,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] [[z3-stay-companion]] — decide if D-001 needs a stay-on-Z3 rejected-alternative companion
 - [ ] [[convention-zettel-promotion]] — decide whether to extract conventions into `<name>.convention.md` meta zettels
+- [ ] [[agent-guidelines-zettelization]] — distill agent/code guidelines into convention zettels and reusable skills
 - [ ] [[transcripts-private-submodule]] — migrate `sessions/` to a private GitHub submodule
 - [ ] Fill in `pulse.md` editorial prose per active thread
 - [ ] Fill in `yap-baseline.md` sections and replace `<org>` placeholder with the real GitHub org
@@ -68,6 +69,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[ffi-saturation-gram]]
 - INCLUDES → [[whnf-codification]]
 - INCLUDES → [[legacy-file-compile]] — Tech debt tracked in the global queue
+- INCLUDES → [[agent-guidelines-zettelization]] — Cross-cutting queue item
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

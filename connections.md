@@ -2753,3 +2753,48 @@
 [[compilation-strategy.adr]] --[:DEFERS]--> [[nbe-acceleration]]  -- Internal elaborator acceleration deliberately not foreclosed
 
 [[nbe-acceleration]] --[:CONTRASTS_WITH]--> [[jit-for-user-programs]]  -- JIT for the elaborator is in scope; JIT for user code is not
+
+## Bounded MBQI  @2026-06-10
+
+[[quantifier-engine]] --[:INCLUDES]--> [[mbqi]]  -- MBQI is the second stage of the instantiation engine  @2026-06-10
+[[quantifier-engine]] --[:FALLS_BACK_TO]--> [[mbqi]]  -- Engaged when an E-matching round produces no lemmas  @2026-06-10
+[[mbqi]] --[:CONTRASTS_WITH]--> [[e-matching]]  -- Semantic ground-term enumeration vs syntactic trigger matching  @2026-06-10
+[[ge-de-moura-quantifiers]] --[:INFORMS]--> [[mbqi]]  -- Bounded variant of complete instantiation (CAV 2009)  @2026-06-10
+[[mbqi]] --[:USES]--> [[euf-theory]]  -- Ground-term enumeration by sort from the arena  @2026-06-10
+[[mbqi]] --[:INSTANTIATES]--> [[cdcl-t-solver]]  -- Ground lemmas asserted as CNF clauses  @2026-06-10
+[[mbqi]] --[:EXTENDS]--> [[milestone-2-euf-quant-lia]]  -- Post-M2 increment to the quantifier engine  @2026-06-10
+[[mbqi]] --[:EXTENDS]--> [[m2-implementation]]  -- Builds on M2 quantifier loop, shares instantiation keys  @2026-06-10
+[[solver-trace]] --[:EXPOSES]--> [[mbqi]]  -- mbqi-round and pure-quantifier steps in trace replay  @2026-06-10
+[[complementary-atom-encoding]] --[:APPLIES_TO]--> [[mbqi]]  -- Same lemma encoder as E-matching instantiation  @2026-06-10
+[[verification-backend.thread]] --[:INCLUDES]--> [[mbqi]]  @2026-06-10
+
+## Solver v2 monadic port closeout  @2026-06-15
+
+[[sessions.hub]] --[:INCLUDES]--> [[solver-v2-monadic-port.session]]  -- Session record  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[solver-v2-effect-runtime.adr]]  -- Session settled the runtime decision  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[solver-v2-monadic-port.implementation]]  -- Session delivered the v2 port  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[theory-conclusions-propagation]]  -- Deferred theory propagation work discovered during v2 closeout  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[incremental-abstraction-extension]]  -- Deferred quantifier abstraction work discovered during v2 closeout  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:PRODUCED]--> [[agent-guidelines-zettelization]]  -- Meta follow-up from session guidelines  @2026-06-15
+[[solver-v2-monadic-port.session]] --[:FOLLOWS]--> [[m2-implementation]]  -- Ports M2 solver into the v2 architecture  @2026-06-15
+
+[[solver-v2-effect-runtime.adr]] --[:REFRAMES]--> [[solver-effect-system]]  -- Future-work sketch becomes accepted v2 runtime decision  @2026-06-15
+[[solver-v2-effect-runtime.adr]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- Additive v2 runtime advances the owned solver path  @2026-06-15
+[[solver-v2-effect-runtime.adr]] --[:MOTIVATES]--> [[solver-v2-monadic-port.implementation]]  -- Runtime decision orients the implementation  @2026-06-15
+[[solver-v2-effect-runtime.adr]] --[:CONSTRAINS]--> [[theory-conclusions-propagation]]  -- Future propagation must flow through the runtime/theory result shape  @2026-06-15
+
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[solver-v2-effect-runtime.adr]]  -- Concrete implementation of D-008  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[cdcl-t-solver]]  -- Additive v2 CDCL(T) path  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[congruence-closure]]  -- v2 EUF registry/active state and CC port  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[arithmetic-theory]]  -- v2 arithmetic domain port  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:IMPLEMENTS]--> [[quantifier-engine]]  -- v2 E-matching and MBQI port  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:EXPOSES]--> [[solver-trace]]  -- v2 trace print/replay  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[theory-conclusions-propagation]]  -- Theory conclusions are named but not produced/consumed  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[incremental-abstraction-extension]]  -- Quantifier fresh-atom abstraction extension remains future work  @2026-06-15
+
+[[verification-backend.thread]] --[:INCLUDES]--> [[solver-v2-monadic-port.implementation]]  -- Thread item 25  @2026-06-15
+[[verification-backend.thread]] --[:INCLUDES]--> [[theory-conclusions-propagation]]  -- Thread item 26  @2026-06-15
+[[verification-backend.thread]] --[:INCLUDES]--> [[incremental-abstraction-extension]]  -- Thread item 27  @2026-06-15
+[[thread-queue-system.thread]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]  -- Meta-thread item 1  @2026-06-15
+[[global-pending-queue]] --[:INCLUDES]--> [[agent-guidelines-zettelization]]  -- Cross-cutting queue item  @2026-06-15
+[[agent-guidelines-zettelization]] --[:EXTENDS]--> [[convention-zettel-promotion]]  -- Agent/code rules are a concrete convention extraction case  @2026-06-15

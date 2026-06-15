@@ -132,5 +132,7 @@ Extracted as standalone ADR zettels for reuse and independent traversal:
 - [[inline-theory-assert]] ← DETAILS — Extracted from M2 record
 - [[dual-polarity-registration]] ← DETAILS — Extracted from M2 record
 - [[complementary-atom-encoding]] ← DETAILS — Extracted from M2 record
+- [[mbqi]] ← EXTENDS — Builds on M2 quantifier loop, shares instantiation keys
+- [[solver-v2-monadic-port.session]] ← FOLLOWS — Ports M2 solver into the v2 architecture
 
 <!-- connections:end -->

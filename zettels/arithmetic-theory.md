@@ -51,5 +51,6 @@ NbE constant-folding (`src/shared/lib/primitives.ts` arithmetic `compute`) reduc
 - [[solver-trace]] ← REPORTS — Renders bound intervals after updates
 - [[dual-polarity-registration]] ← APPLIES_TO — Specific to arithmetic
 - [[solver-testing]] ← DETAILS
+- [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — v2 arithmetic domain port
 
 <!-- connections:end -->

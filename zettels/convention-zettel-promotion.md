@@ -53,5 +53,6 @@ Close the queue item once a path is picked, and spawn a new queue item for the e
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Open meta question
+- [[agent-guidelines-zettelization]] ← EXTENDS — Agent/code rules are a concrete convention extraction case
 
 <!-- connections:end -->

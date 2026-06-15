@@ -114,5 +114,6 @@ Z3-era zettels that described `Expr`-based artefacts, planned-only solver layout
 - [[m2-implementation]] ← IMPLEMENTS — M2 delivered EUF + quantifiers + LIA
 - [[required-theory-support]] ← MOTIVATES — Row theory gap drove the decision
 - [[ivl-boundary]] ← IMPLEMENTS — IVL is the core deliverable
+- [[solver-v2-effect-runtime.adr]] ← IMPLEMENTS — Additive v2 runtime advances the owned solver path
 
 <!-- connections:end -->
