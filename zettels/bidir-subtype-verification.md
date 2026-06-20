@@ -9,6 +9,9 @@ tags:
   - research
   - implemented
   - backend
+  - validity
+  - liquid
+  - fragment
   - inference
   - sat
 ---
@@ -30,7 +33,7 @@ Bidirectional flow minimizes annotation burden while keeping VC generation predi
 
 ## Relationship to the solver
 
-All three forms emit `IVL.Formula` obligations through `translate.ts`. The solver sees only formulas — it has no knowledge of which judgment form produced them. Obligation labels carry enough provenance to trace results back to source ([[vc-provenance]]).
+All three forms emit `IVL.Formula` obligations through `translate.ts`. Those obligations are verifier-facing validity judgments: guarded binders encode the local typing environment, and [[vc-validity-discharge]] consumes that structure before raw SAT. Obligation labels carry enough provenance to trace results back to source ([[vc-provenance]]).
 
 <!-- connections:start -->
 
@@ -44,5 +47,6 @@ All three forms emit `IVL.Formula` obligations through `translate.ts`. The solve
 
 **Incoming**
 - [[verification-backend.thread]] ← INCLUDES
+- [[liquid-vc-fragment]] ← CLARIFIES — Guarded quantifiers come from bidirectional judgments
 
 <!-- connections:end -->

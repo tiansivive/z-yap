@@ -3,6 +3,9 @@ tags:
   [
     type-system,
     verification,
+    liquid,
+    validity,
+    refinement,
     elaboration,
     normalization,
     sat,
@@ -23,7 +26,7 @@ Refinements live in the same `Modal.Annotations<_>` spine as multiplicities: a m
 
 Surface modal terms elaborate through `EB.Modal.infer`, which typechecks `liquid` against `Liquid.Predicate.Kind(ctx, nf)` (`src/elaboration/inference/modal.ts`, `src/elaboration/modalities.ts`).
 
-The verification subsystem (`VerificationServiceV2` in `src/verification/V2/service.ts`) checks elaborated terms against types by generating **IVL** verification conditions (`check`, `synth`, `subtype`). Translation is `src/verification/V2/logic/translate.ts`; refinement helpers include `selfify`, `meet`, `extractModalities` in `src/verification/V2/utils/refinements.ts`. (Z3-class solvers still enter via **`z3.adapter.ts`** when tooling uses them — [[verification-pipeline]].)
+The verification subsystem (`VerificationServiceV2` in `src/verification/V2/service.ts`) checks elaborated terms against types by generating **IVL** verification conditions (`check`, `synth`, `subtype`). Translation is `src/verification/V2/logic/translate.ts`; refinement helpers include `selfify`, `meet`, `extractModalities` in `src/verification/V2/utils/refinements.ts`. Generated VCs are verifier obligations and should be discharged through [[vc-validity-discharge]] before raw SAT.
 Modal subtyping relates liquid predicates (with neutral lift for non-modal sides) in `src/verification/V2/subtype.ts`.
 
 **Gaps:** multiplicity checking is not part of the verification pass today. `VerificationArtefacts = { vc; nf? }` (`src/verification/V2/types.ts`) carries VC formulas only; usage vectors live in the separate `Artefacts` shape in `modalities/shared.ts` and are not threaded through `VerificationServiceV2`.
@@ -57,5 +60,6 @@ End-to-end refinement tests live under `src/verification/__tests__/check.test.ts
 - [[negative-testing]] ← TARGETS
 - [[first-order-restriction.adr]] ← CONSTRAINS — Restricts self-equality and quantification to first-order types
 - [[sigma-value-semantics]] ← COMPOSES_WITH — Field refs in refinement predicates
+- [[liquid-vc-fragment]] ← CLARIFIES — Refinements target a restricted Liquid VC discipline
 
 <!-- connections:end -->

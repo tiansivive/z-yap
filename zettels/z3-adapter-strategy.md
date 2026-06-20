@@ -32,7 +32,7 @@ Z3 has no native row theory, which is a key driver for the owned-solver directio
 
 ## Long-term role
 
-The adapter narrowed from fallback to temporary test oracle, then was removed once source-level integration parity tests captured the known replacement blockers. The former oracle disagreements are tracked as [[solver-v2-universal-refinement-false-sat]] and [[block-scoped-let-vc-parity-bug]].
+The adapter narrowed from fallback to temporary test oracle, then was removed once source-level integration parity tests captured the known former-oracle disagreements. [[solver-v2-universal-refinement-false-sat]] is now resolved/reframed by D-009 for Yap's verification path; [[block-scoped-let-vc-parity-bug]] remains an open VC-generation review item.
 
 <!-- connections:start -->
 

@@ -32,5 +32,6 @@ Yap's in-house quantifier engine (`src/verification/solver/v2/quantifier/`) impl
 
 **Incoming**
 - [[m2-implementation]] ← USES — E-matching directly implemented
+- [[quantifier-instantiation-boundary]] ← GROUNDED_IN — General quantified SMT background
 
 <!-- connections:end -->

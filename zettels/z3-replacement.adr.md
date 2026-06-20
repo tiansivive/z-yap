@@ -6,6 +6,8 @@ tags:
     accepted,
     decision,
     verification,
+    validity,
+    liquid,
     solver,
     sat,
     ir,
@@ -13,9 +15,11 @@ tags:
     compiler,
     infrastructure,
     implemented,
+    reframed,
     reference,
     milestone,
   ]
+reframed-by: [adr:D-009]
 refs:
   - src: src/verification/solver/
     note: "IVL IR, CNF, CDCL core, EUF, arithmetic, quantifier engine"
@@ -55,11 +59,12 @@ refs:
 | Layer | Role | Location |
 | ----- | ---- | -------- |
 | VC IR | Solver-neutral formulas from `translate.ts` | `src/verification/solver/ivl/` |
+| Validity discharge | Interpret generated VCs as obligations before raw SAT | `src/verification/validity.ts` |
 | Lowering | Normalize, Skolemize, separate formulas, Tseitin CNF | `src/verification/solver/v2/formulas/`, `src/verification/solver/v2/encoding/` |
 | SAT core | CDCL with BCP, conflict analysis, non-chronological backjump | `src/verification/solver/v2/cdcl/` |
 | Theories | EUF (congruence closure), LIA (simplex), quantifiers (E-matching + MBQI) | `src/verification/solver/v2/euf/`, `arithmetic/`, `quantifier/`, `theory/` |
 
-Top-level API: one-shot `Solver.run(formula)` and `Solver.check(formula)` in `src/verification/solver/v2/solver.ts`. Full obligation-linked explanations remain milestone work.
+Raw solver API: one-shot `Solver.run(formula)` and `Solver.check(formula)` in `src/verification/solver/v2/solver.ts`. Verification-facing verdicts pass through [[vc-validity-discharge]]. Full obligation-linked explanations remain milestone work.
 
 ## Implemented (M1 + M2)
 
@@ -117,5 +122,6 @@ Z3-era zettels that described `Expr`-based artefacts, planned-only solver layout
 - [[required-theory-support]] ← MOTIVATES — Row theory gap drove the decision
 - [[ivl-boundary]] ← IMPLEMENTS — IVL is the core deliverable
 - [[solver-v2-effect-runtime.adr]] ← IMPLEMENTS — Additive v2 runtime advances the owned solver path
+- [[vc-validity-before-sat.adr]] ← REFRAMES — D-001 still stands; D-009 inserts validity between VC IR and raw SAT
 
 <!-- connections:end -->

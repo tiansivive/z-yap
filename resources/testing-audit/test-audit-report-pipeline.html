@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Audit: Pipeline View</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Compiler Pipeline View</h1>
+    <p class="subtitle">
+      Phase/harness view of the active test suite. Use this page to sequence cleanup by compiler layer.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <h2>Health Matrix</h2>
+    <p>
+      Parser findings are treated as tree-sitter migration awareness, not a request to substantially expand
+      the Nearley test suite before the migration.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Current State</th>
+          <th>Keep</th>
+          <th>Strengthen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Integration / Language Tour</td>
+          <td><span class="tag warn">Snapshot-primary</span> <span class="tag gap">Known errors embedded</span></td>
+          <td>Broad tour coverage and full-pipeline regression snapshots.</td>
+          <td>Add per-declaration semantic assertions: no unexpected error, expected type, normalized value, validity verdict, or expected known limitation.</td>
+        </tr>
+        <tr>
+          <td>Parser</td>
+          <td><span class="tag info">Useful migration baseline</span> <span class="tag gap">Tree-sitter pending</span></td>
+          <td><code>grammar.test.ts</code>, rows, refinements, usages, and focused AST snapshots document expected syntax shapes.</td>
+          <td>Carry gaps into the tree-sitter checklist: modules, FFI, <code>using</code>, dict types, list/wildcard patterns, <code>:field</code>, fuller shift/reset.</td>
+        </tr>
+        <tr>
+          <td>Elaboration / Inference</td>
+          <td><span class="tag info">Good islands</span> <span class="tag warn">Too many snapshot-only claims</span></td>
+          <td><code>structs.test.ts</code> helper style, application/rows/pi/projection focused checks.</td>
+          <td>Add explicit expectations to match, let-polymorphism, variants, tuples, holes, dictionaries, and modal tests. Keep snapshots as broad regression checks.</td>
+        </tr>
+        <tr>
+          <td>Normalization / Unification / Pretty</td>
+          <td><span class="tag good">Core strong</span> <span class="tag warn">Pretty/generalization need review</span></td>
+          <td>Direct WHNF/display assertions, arity tests, unification positives/negatives.</td>
+          <td>Audit generalization snapshots, add missing occurs/stuck-neutral cases, and convert simple pretty snapshots to exact string expectations.</td>
+        </tr>
+        <tr>
+          <td>Verification / SMT</td>
+          <td><span class="tag good">Solver strong</span> <span class="tag info">Validity layer present</span></td>
+          <td>CDCL/EUF/arithmetic/quantifier/trace tests and <code>validity.test.ts</code>.</td>
+          <td>Add explicit verdicts to all refinement integration scenarios; add unknown, variance negative, refinement-polymorphism negative, nonlinear-boundary tests.</td>
+        </tr>
+        <tr>
+          <td>GRAM</td>
+          <td><span class="tag good">Passes strong</span> <span class="tag gap">LoGRAM-era gaps</span></td>
+          <td>Graph/DPO, closure, pattern, eta, PAP, shift-reset, bridge runtime tests.</td>
+          <td>Add tests for type-level translate nodes, <code>using</code>, FAIL nodes, compile failures, idempotence, and bridge behavior for active source features.</td>
+        </tr>
+        <tr>
+          <td>Snapshots / Duplication</td>
+          <td><span class="tag warn">Regression-heavy</span></td>
+          <td>Snapshots that catch broad regressions after semantic assertions are present.</td>
+          <td>Classify snapshot errors; remove orphan snapshots; reduce duplicate same-layer claims; stop blessing known implementation bugs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Per-Layer Detail</h2>
+    <details open>
+      <summary>Integration</summary>
+      <ul>
+        <li><strong>Good:</strong> broad language-tour coverage and strong refinement examples.</li>
+        <li><strong>Needs work:</strong> most non-refinement tests need direct assertions and error classification.</li>
+        <li><strong>Issue:</strong> snapshots mix elaboration, verification, GRAM, MIR, and backend output, so downstream lag can obscure successful core semantic tests.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Parser</summary>
+      <ul>
+        <li><strong>Good:</strong> processed AST snapshots are valuable as a migration baseline for expected syntax shapes.</li>
+        <li><strong>Needs work:</strong> carry missing syntax and negative cases into the tree-sitter test plan rather than expanding the Nearley suite substantially.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Elaboration / Inference</summary>
+      <ul>
+        <li><strong>Good:</strong> struct/dependent-field tests show the desired style: semantic regex helpers plus snapshots.</li>
+        <li><strong>Needs work:</strong> broad snapshot-only suites should gain semantic string/regex/shape expectations.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Normalization / Unification / Pretty</summary>
+      <ul>
+        <li><strong>Good:</strong> direct normalized-value assertions and unification negative tests are strong.</li>
+        <li><strong>Needs work:</strong> pretty tests are format-only snapshots; generalization snapshots need semantic review; missing occurs/stuck-neutral edges.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Verification / SMT</summary>
+      <ul>
+        <li><strong>Good:</strong> solver internals and validity-vs-SAT unit tests are strong.</li>
+        <li><strong>Needs work:</strong> refinement integration tests should assert verdicts directly, then snapshot as regression evidence.</li>
+        <li><strong>Note:</strong> usage semantics are future verification work; current tests should avoid implying usage/resource properties are checked today.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>GRAM</summary>
+      <ul>
+        <li><strong>Good:</strong> graph and pass tests use tag/edge queries and are not just display snapshots.</li>
+        <li><strong>Needs work:</strong> active bridge parity, compile failure tests, type-level/implicit translate nodes, and LoGRAM-related backlog visibility.</li>
+      </ul>
+    </details>
+  </section>
+</main>
+</body>
+</html>

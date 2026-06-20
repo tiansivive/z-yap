@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Suite Audit</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Yap Test Suite Audit</h1>
+    <p class="subtitle">
+      Entry point for the active test-suite audit. The report is split by view so it can be read by compiler phase,
+      language feature, snapshot triage, and cleanup plan.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <div class="grid">
+      <div class="card metric">
+        <div class="value">93</div>
+        <div class="label">test files inventoried</div>
+      </div>
+      <div class="card metric">
+        <div class="value">66</div>
+        <div class="label">snapshot files inventoried</div>
+      </div>
+      <div class="card metric">
+        <div class="value">~550</div>
+        <div class="label">snapshot assertions estimated</div>
+      </div>
+    </div>
+
+    <div class="callout good">
+      <strong>Testing philosophy:</strong> snapshots remain useful regression artifacts. As core elaboration,
+      normalization, and language semantics stabilize, tests should pair snapshots with direct semantic
+      expectations so each test states the behavior it protects.
+    </div>
+  </section>
+
+  <section>
+    <h2>Main Verdict</h2>
+    <p>
+      The suite has real semantic coverage, especially in solver internals, GRAM graph passes,
+      struct/dependent-field inference, normalization core evaluation, unification, and focused shift/reset tests.
+      The main weakness is that many tests still rely on snapshots as the primary assertion.
+    </p>
+    <p>
+      The highest-value cleanup is an assertion pass: add string/regex/shape/verdict expectations that
+      state the semantic claim, preserve snapshots where they help catch collateral regressions, and audit
+      snapshots that currently bless known errors.
+    </p>
+  </section>
+
+  <section>
+    <h2>Choose A View</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Compiler Pipeline</h3>
+        <p>Phase/harness view for parser migration, elaboration, normalization, verification, GRAM, integration, and snapshots.</p>
+        <a href="./test-audit-report-pipeline.html">Open pipeline view</a>
+      </div>
+      <div class="card">
+        <h3>Language Features</h3>
+        <p>Vertical-slice view for records, implicits, refinements, shift/reset, modules, rows, and dependent types.</p>
+        <a href="./test-audit-report-features.html">Open feature view</a>
+      </div>
+      <div class="card">
+        <h3>Snapshot Triage</h3>
+        <p>Snapshot policy and error inventory: expected failures, known bugs, downstream lag, backend lag, and unexpected exceptions.</p>
+        <a href="./test-audit-report-snapshots.html">Open snapshot triage</a>
+      </div>
+      <div class="card">
+        <h3>Elaboration Plan</h3>
+        <p>Highest-leverage cleanup plan for adding direct semantic assertions while preserving regression snapshots.</p>
+        <a href="./test-audit-report-elaboration.html">Open elaboration plan</a>
+      </div>
+      <div class="card">
+        <h3>Action Plan</h3>
+        <p>Prioritized cleanup batches and active GRAM/bridge parity checklist.</p>
+        <a href="./test-audit-report-actions.html">Open action plan</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Top Findings</h2>
+    <ul>
+      <li><strong>Elaboration should be the first cleanup target.</strong> It is central, stabilizing, and many tests can be strengthened with displayed-type, displayed-term, constraint, and structure-shape expectations.</li>
+      <li><strong>Integration snapshots contain known errors.</strong> Some are expected invalid programs, but many are known implementation bugs or downstream GRAM/bridge lag.</li>
+      <li><strong>Parser coverage is migration context.</strong> Nearley gaps are useful to know, but the main payoff is carrying them into the tree-sitter test plan.</li>
+      <li><strong>Verification has strong solver tests but inconsistent integration verdict assertions.</strong> Refinement integration tests should assert verdicts directly.</li>
+      <li><strong>Shift/reset has meaningful focused coverage.</strong> Remaining gaps are nested delimiters, resume-without-shift, dependent continuation runtime, and active bridge/runtime parity.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

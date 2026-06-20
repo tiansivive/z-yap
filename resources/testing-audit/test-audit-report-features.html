@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Audit: Feature View</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Language Feature View</h1>
+    <p class="subtitle">
+      Vertical-slice view of user-facing Yap features. A feature is well covered when the relevant layers agree:
+      syntax shape where applicable, elaboration/type semantics, normalization or verification behavior where applicable,
+      and GRAM/runtime behavior when the feature is expected to execute.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <div class="grid">
+      <div class="card">
+        <h3>Shift/Reset</h3>
+        <p>Parser syntax, elaboration Bubble/meta semantics, normalization under delimiters, GRAM resumption graph, and active bridge/runtime behavior are separate claims.</p>
+      </div>
+      <div class="card">
+        <h3>Refinements</h3>
+        <p>Parser/elaboration should preserve refinements; verification should assert validity/invalidity; usage semantics remain future work and should not be implied.</p>
+      </div>
+      <div class="card">
+        <h3>Records</h3>
+        <p>Record syntax, dependent fields, row polymorphism, pattern matching, and bridge/runtime pattern dispatch need different tests even though they are one feature family.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Feature Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Status</th>
+          <th>Missing Or Weak Tests</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Primitives/literals</td>
+          <td><span class="tag info">Covered, duplicated</span></td>
+          <td>Use parser gaps as a tree-sitter migration baseline: floats, false, string escapes, negative numeric syntax. Collapse arbitrary literal duplicates into table cases elsewhere.</td>
+        </tr>
+        <tr>
+          <td>Functions/application</td>
+          <td><span class="tag info">Good core</span></td>
+          <td>Active full-pipeline runtime for curried closures is still behind; integration should assert elaboration success separately.</td>
+        </tr>
+        <tr>
+          <td>Blocks/FFI</td>
+          <td><span class="tag warn">Partial</span></td>
+          <td>Tree-sitter parser checklist for FFI declarations; real FFI load/runtime smoke; block side-effect expectations; backend-specific failures isolated from core tests.</td>
+        </tr>
+        <tr>
+          <td>Records/tuples/arrays/dicts</td>
+          <td><span class="tag info">Elaboration strong for records</span></td>
+          <td>Closed-record rejection, self-field references no longer golden as errors, dict parser/value tests, tuple/array negatives.</td>
+        </tr>
+        <tr>
+          <td>Variants/pattern matching</td>
+          <td><span class="tag warn">Parser and GRAM good, elaboration assertions weak</span></td>
+          <td>Invalid tags, bad payloads, branch joins, list/wildcard parser patterns for tree-sitter, bridge behavior split from elaboration semantics.</td>
+        </tr>
+        <tr>
+          <td>First-class types/dependent types</td>
+          <td><span class="tag info">Broad positives</span></td>
+          <td>Invalid type annotation RHS, type-level match failure, dependent field reference errors, generic dependent pair direct assertions.</td>
+        </tr>
+        <tr>
+          <td>Polymorphism/implicits/typeclass pattern</td>
+          <td><span class="tag warn">Many examples, weak direct claims</span></td>
+          <td><code>using</code> parser/inference, ambiguity, unresolved implicit remains abstract, explicit <code>@</code> override edges, module-boundary behavior.</td>
+        </tr>
+        <tr>
+          <td>Row polymorphism</td>
+          <td><span class="tag info">Relatively strong</span></td>
+          <td>Row literal integration, open/closed record negative pairs, extension preserving extra fields.</td>
+        </tr>
+        <tr>
+          <td>Refinements/verification</td>
+          <td><span class="tag good">Strongest integration area</span></td>
+          <td>Every refinement integration case needs direct verdict expectations; add variance, refinement-polymorphism, higher-order, false-branch, nonlinear, and unknown cases.</td>
+        </tr>
+        <tr>
+          <td>Shift/reset/resume</td>
+          <td><span class="tag good">Implemented and tested in focused layers</span></td>
+          <td>Nested reset delimiters, resume-without-shift, dependent continuation runtime, active graph/runtime parity, interaction with blocks/refinements.</td>
+        </tr>
+        <tr>
+          <td>Modules/import/export</td>
+          <td><span class="tag gap">Rudimentary and under-tested</span></td>
+          <td>Tree-sitter parser and integration coverage for <code>export *</code>, <code>import "..."</code>, and module-boundary implicit behavior.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Shift/Reset Slice</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Meaningful Existing Coverage</th>
+          <th>Gap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Parser</td>
+          <td>Smoke coverage exists.</td>
+          <td>Carry fuller syntax/error cases into tree-sitter migration.</td>
+        </tr>
+        <tr>
+          <td>Elaboration / inference</td>
+          <td>Bubble presence, multishot vs multiple shifts, answer-type constraints, wrong resume type in module tests.</td>
+          <td>Direct assertion for dependent continuation resolving <code>foo : String</code>.</td>
+        </tr>
+        <tr>
+          <td>Normalization</td>
+          <td>Simple shift/reset, multishot arithmetic, Bubble-neutral behavior.</td>
+          <td>Nested delimiters and dependent continuation runtime behavior.</td>
+        </tr>
+        <tr>
+          <td>GRAM</td>
+          <td>Strong resumption graph topology: bubbles, continuations, resumption edges, delimiter/captured-at relationships.</td>
+          <td>Multiple shifts and nested delimiters in the active pipeline.</td>
+        </tr>
+        <tr>
+          <td>Active runtime</td>
+          <td>Basic bridge cases.</td>
+          <td>Captured environments, multishot with captured values, block interactions, user FFI.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

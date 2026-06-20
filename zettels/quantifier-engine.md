@@ -1,6 +1,6 @@
 ---
 tags:
-  [verification, quantifiers, instantiation, mbqi, mechanism, implemented, backend, sat, reference, project, milestone, ffi, arithmetic, inference, ast, ir, tracing, pattern]
+  [verification, quantifiers, instantiation, mbqi, validity, liquid, fragment, mechanism, implemented, backend, sat, reference, project, milestone, ffi, arithmetic, inference, ast, ir, tracing, pattern]
 ---
 # Quantifier engine
 
@@ -8,7 +8,7 @@ tags:
 
 **Two-stage dispatch:** E-matching runs first (syntactic, fast); when a round produces no new lemmas, bounded [[mbqi]] enumerates ground terms by sort as the fallback — covering quantifiers without usable triggers, such as pure arithmetic bodies.
 
-**VC generation:** guarded quantifiers in `check`/`subtype` use **`translation.quantify`** → **IVL** **`Build.forall` / `Build.implies`** (`translate.ts`). The **instantiation engine** here is the M2 match to industrial trigger-based QI ([[ge-de-moura-quantifiers]]).
+**VC generation boundary:** guarded quantifiers in `check`/`subtype` use **`translation.quantify`** → **IVL** **`Build.forall` / `Build.implies`** (`translate.ts`). For Yap's Liquid fragment, [[vc-validity-discharge]] consumes that guarded structure before raw SAT. The instantiation engine remains the M2 match to industrial trigger-based QI ([[ge-de-moura-quantifiers]]) for quantified formulas that intentionally reach the backend.
 
 <!-- connections:start -->
 
@@ -34,5 +34,6 @@ tags:
 - [[complementary-atom-encoding]] ← APPLIES_TO — Specific to quantifiers
 - [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — v2 E-matching and MBQI port
 - [[solver-v2-universal-refinement-false-sat]] ← AFFECTS — Universal refinement obligation needs quantifier reasoning
+- [[quantifier-instantiation-boundary]] ← CLARIFIES — Quantified formulas that reach raw SAT still use instantiation
 
 <!-- connections:end -->

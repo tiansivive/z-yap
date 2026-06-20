@@ -32,6 +32,8 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `user-control` | The user retains visibility and authority over the behaviour |
 | `extensibility` | The mechanism is intentionally open for user/library extension |
 | `fallback` | Secondary mechanism engaged when the primary strategy yields nothing |
+| `architecture` | System-level structure and separation of responsibilities |
+| `logic` | Logical semantics, entailment, formula interpretation |
 
 ## Type theory tags
 
@@ -46,6 +48,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `singleton` | Singleton types: values that classify themselves as types |
 | `structural` | Structural typing properties (shape-based identity) |
 | `codata` | Data defined by observations rather than constructors |
+| `refinement` | Refinement predicates, refined types, and liquid obligations |
 
 ## Pipeline tags
 
@@ -134,6 +137,11 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `strings` | String theory, word equations, concat |
 | `ivl` | Intermediate Verification Language |
 | `observability` | Runtime inspection of internal solver/engine state, step-by-step traces |
+| `liquid` | Liquid / Logically Qualified Data Types and Yap's liquid-style refinement fragment |
+| `validity` | Validity obligations, entailment checks, and counterexample-query polarity |
+| `counterexample` | Models or assignments that witness invalid verification obligations |
+| `fragment` | A restricted logical fragment or syntactic/semantic subset |
+| `qf-euflia` | Quantifier-free EUF plus linear integer/real arithmetic style obligations |
 
 ## Representation tags
 
@@ -214,6 +222,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `backlog` | Feature, capability, or enhancement not yet built |
 | `limitation` | A known architectural constraint or design boundary that may be revisited |
 | `todo` | A concrete actionable work item with a defined outcome; lives as a zettel so the plan/steps are recorded |
+| `resolved` | Previously open issue whose active concern has been resolved or reframed |
 
 ### ADR lifecycle
 
@@ -353,6 +362,9 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `MOTIVATED_BY` | Source is motivated by target (passive of MOTIVATES) |
 | `INCLUDED_IN` | Source is included in target collection (passive of INCLUDES) |
 | `PRODUCED` | Source session produced target artifact |
+| `CLARIFIES` | Source explains, disambiguates, or makes target's intended interpretation precise |
+| `AVOIDS` | Source design makes the target mechanism unnecessary for the scoped path |
+| `AFFECTS` | Source issue or decision affects the target component or concern |
 
 ## Ref prefixes
 

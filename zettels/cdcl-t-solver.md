@@ -1,14 +1,14 @@
 ---
 tags:
-  [verification, sat, mechanism, implemented, backend, reference, project, milestone, ffi, arithmetic, quantifiers, strings, row-types, inference, tooling, observability, generator]
+  [verification, sat, validity, mechanism, implemented, backend, reference, project, milestone, ffi, arithmetic, quantifiers, strings, row-types, inference, tooling, observability, generator]
 ---
 # CDCL(T) solver
 
 **Concept:** DPLL(T) / CDCL(T) — boolean CDCL engine + cooperating theory plugins (Nelson–Oppen style) — is the standard architecture of **Z3**, **cvc5**, and related SMT solvers; this zettel tracks **Yap’s in-tree realization** of the same pattern ([[de-moura-bjorner-z3]], [[barbosa-cvc5]], [[nelson-oppen]]).
 
-**Implemented:** theory plugins (EUF, linear arithmetic, quantifiers), shared term arena, solver-level backtracking, and a one-shot `Solver.run` / `Solver.check` API. Strings and rows remain future theories ([[string-theory]], [[row-theory]]). Full `explain` / obligation-linked UNSAT cores are milestone work ([[milestone-5-explanations]]).
+**Implemented:** theory plugins (EUF, linear arithmetic, quantifiers), shared term arena, solver-level backtracking, and a one-shot raw satisfiability `Solver.run` / `Solver.check` API. Strings and rows remain future theories ([[string-theory]], [[row-theory]]). Full `explain` / obligation-linked UNSAT cores are milestone work ([[milestone-5-explanations]]).
 
-The active in-tree CDCL(T) solver lives in `src/verification/solver/v2/`: SAT core with scan-based BCP, conflict analysis, and non-chronological backjumping (`v2/cdcl/`); theory orchestration (`v2/theory/`); EUF via hash-consed term arena and congruence closure (`v2/euf/`); linear arithmetic via rational simplex (`v2/arithmetic/`); trigger-based quantifier instantiation with E-matching plus bounded MBQI (`v2/quantifier/`). Top-level entry points are `Solver.run(formula)` and `Solver.check(formula)` in `v2/solver.ts`. See [[solver-v2-monadic-port.implementation]] for implementation detail.
+The active in-tree CDCL(T) solver lives in `src/verification/solver/v2/`: SAT core with scan-based BCP, conflict analysis, and non-chronological backjumping (`v2/cdcl/`); theory orchestration (`v2/theory/`); EUF via hash-consed term arena and congruence closure (`v2/euf/`); linear arithmetic via rational simplex (`v2/arithmetic/`); trigger-based quantifier instantiation with E-matching plus bounded MBQI (`v2/quantifier/`). Top-level entry points are `Solver.run(formula)` and `Solver.check(formula)` in `v2/solver.ts`. Yap verification wraps this raw API with [[vc-validity-discharge]]. See [[solver-v2-monadic-port.implementation]] for implementation detail.
 
 **Observability:** v2 emits domain-owned writer events through the solver runtime. `Solver.run(formula)` returns the events and replay artefacts; `v2/trace/replay.ts` renders them as a human-readable small-step debugger trace. See [[solver-trace]].
 
@@ -59,5 +59,7 @@ See also [`smt-solver-glossary.md`](smt-solver-glossary.md) for shorthand (BCP, 
 - [[solver-testing]] ← DETAILS
 - [[mbqi]] ← INSTANTIATES — Ground lemmas asserted as CNF clauses
 - [[solver-v2-monadic-port.implementation]] ← IMPLEMENTS — Additive v2 CDCL(T) path
+- [[vc-validity-discharge]] ← DELEGATES_TO — Leaf counterexample queries use raw SAT solving
+- [[validity-vs-satisfiability]] ← CLARIFIES — Raw SAT API is not verifier verdict
 
 <!-- connections:end -->

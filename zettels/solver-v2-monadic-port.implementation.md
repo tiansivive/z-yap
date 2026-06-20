@@ -9,6 +9,8 @@ tags:
   - migration
   - tracing
   - quantifiers
+  - validity
+  - liquid
   - arithmetic
   - ivl
   - implemented
@@ -54,15 +56,15 @@ The v2 solver is the current in-tree CDCL(T) backend. It is built around a gener
 
 ## Public API and trace
 
-`solver.ts` exposes the one-shot v2 API: `Solver.run(formula)` returns the result plus trace, encoding, clauses, and arena, while `Solver.check(formula)` returns only the result. The intermediate incremental `create`/`assert`/`push`/`pop` surface was removed because Yap solves generated IVL formulas as self-contained verification conditions. Trace presentation lives in `trace/print.ts` and `trace/replay.ts`; `trace/index.ts` composes event types and writer helpers while component events remain owned by the emitting domains.
+`solver.ts` exposes the one-shot v2 raw satisfiability API: `Solver.run(formula)` returns the result plus trace, encoding, clauses, and arena, while `Solver.check(formula)` returns only the SAT result. The intermediate incremental `create`/`assert`/`push`/`pop` surface was removed because Yap solves generated IVL formulas as self-contained verification conditions. Verification-facing callers still need [[vc-validity-discharge]] to interpret those formulas as obligations before reporting user-facing verdicts. Trace presentation lives in `trace/print.ts` and `trace/replay.ts`; `trace/index.ts` composes event types and writer helpers while component events remain owned by the emitting domains.
 
 `trace/replay.ts` is a replay state machine, not just a formatter. It reconstructs formula context, variables/proxies, registry entries, clause status, trail assignments, EUF classes and active disequality scans, arithmetic bound summaries, quantifier lemma insertion, and terminal results from the writer event stream. `showRegistry` defaults to `true` because the registry/active distinction is central to debugging CDCL(T) theory behavior. EUF and arithmetic detail payloads are emitted by their domains through `theory/orchestrate.ts`, while E-matching and MBQI trace events carry generated lemmas so replay can append quantifier clauses with renderer-local labels instead of restoring persistent clause IDs.
 
 Replay snapshots now mirror v1 trace coverage for propositional, EUF, arithmetic, and quantifier cases. Adding those snapshots exposed a writer-duplication bug in nested `Core.Do` execution: child computations were returning the parent writer and the outer interpreter concatenated it again. The interpreter now runs yielded children with an empty writer accumulator, preserving state threading while treating child output as a delta.
 
-The live interactive verification paths use the v2 solver: the REPL checks generated VCs through `Solver.check`, while the explorer and integration pipeline helpers render solver traces through `Solver.run` plus `trace/replay.ts`. Source-level verification parity now lives in integration snapshots, which include IVL and v2 trace output. Module compilation verification cleanup remains separate migration work.
+The live interactive verification paths use the v2 solver, but D-009 clarifies that raw solver output is not the verifier verdict. The proof-of-concept validity integration is exercised by the integration pipeline helper and targeted refinement test; REPL, explorer, and remaining user-facing verdict paths need the same wrapper audit. Source-level verification parity now lives in integration snapshots, which include IVL and v2 trace output. Module compilation verification cleanup remains separate migration work.
 
-The temporary Z3-vs-v2 discrepancy pass found two replacement blockers. They are now tracked as source-level integration `test.fails` cases and queued as [[solver-v2-universal-refinement-false-sat]] and [[block-scoped-let-vc-parity-bug]] rather than as a permanent discrepancy harness.
+The temporary Z3-vs-v2 discrepancy pass found two issues. [[solver-v2-universal-refinement-false-sat]] is now reframed by validity discharge: it is no longer the ordinary Liquid verification path, though it remains relevant as a general quantified-SMT completeness case. [[block-scoped-let-vc-parity-bug]] remains an upstream VC-generation review item.
 
 ## Validation
 
@@ -70,7 +72,7 @@ The v2 solver path is covered by colocated tests under `src/verification/solver/
 
 ## Known limitations
 
-Theory conclusions are not yet generated or consumed by CDCL; see [[theory-conclusions-propagation]]. Quantifier-generated formulas are projected into the initial CNF abstraction rather than extending it; see [[incremental-abstraction-extension]]. Two source-level parity bugs remain tracked as integration `test.fails` cases: [[solver-v2-universal-refinement-false-sat]] and [[block-scoped-let-vc-parity-bug]]. Module compilation does not yet emit IVL verification artefacts or run non-blocking v2 verification diagnostics.
+Theory conclusions are not yet generated or consumed by CDCL; see [[theory-conclusions-propagation]]. Quantifier-generated formulas are projected into the initial CNF abstraction rather than extending it; see [[incremental-abstraction-extension]]. Validity discharge is only partially wired into verification entry points; see [[vc-validity-discharge]]. The block-scoped-let parity case remains open as a VC-generation review item. Module compilation does not yet emit IVL verification artefacts or run non-blocking v2 verification diagnostics.
 
 <!-- connections:start -->
 
@@ -85,8 +87,8 @@ Theory conclusions are not yet generated or consumed by CDCL; see [[theory-concl
 - EXPOSES → [[solver-trace]] — v2 trace print/replay
 - DEFERRED_TO → [[theory-conclusions-propagation]] — Theory conclusions are named but not produced/consumed
 - DEFERRED_TO → [[incremental-abstraction-extension]] — Quantifier fresh-atom abstraction extension remains future work
-- DEFERRED_TO → [[solver-v2-universal-refinement-false-sat]] — Z3 replacement blocker
-- DEFERRED_TO → [[block-scoped-let-vc-parity-bug]] — Z3 replacement blocker and VC-generation review item
+- DEFERRED_TO → [[solver-v2-universal-refinement-false-sat]] — Raw quantified-SMT discrepancy later reframed by D-009
+- DEFERRED_TO → [[block-scoped-let-vc-parity-bug]] — Former-oracle divergence and VC-generation review item
 
 **Incoming**
 - [[solver-v1-z3-removal]] ← FOLLOWS — v2 became the active solver backend before v1 deletion
@@ -94,5 +96,6 @@ Theory conclusions are not yet generated or consumed by CDCL; see [[theory-concl
 - [[solver-v2-monadic-port.session]] ← PRODUCED — Session delivered the v2 port
 - [[solver-v2-effect-runtime.adr]] ← MOTIVATES — Runtime decision orients the implementation
 - [[verification-backend.thread]] ← INCLUDES — Thread item 25
+- [[validity-vs-satisfiability]] ← CLARIFIES — Solver.check remains raw satisfiability
 
 <!-- connections:end -->

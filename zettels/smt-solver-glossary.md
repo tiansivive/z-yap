@@ -3,6 +3,9 @@ tags:
   - reference
   - verification
   - sat
+  - validity
+  - counterexample
+  - liquid
   - project
   - milestone
   - concept
@@ -13,7 +16,9 @@ tags:
 
 Abbreviations for the owned-solver roadmap (`docs/SMT-SOLVER.md`).
 
-- **SAT** — the formula admits a satisfying assignment; **UNSAT** — no assignment satisfies all constraints. Search status names for Boolean/CDCL cores; theories inherit the same vocabulary at the checker API.
+- **SAT** — the formula admits a satisfying assignment; **UNSAT** — no assignment satisfies all constraints. Search status names for Boolean/CDCL cores; theories inherit the same vocabulary at the raw checker API.
+- **Validity** — the formula holds in all models. Verification conditions are validity obligations, so Yap checks them by searching for a counterexample to the obligation.
+- **Counterexample query** — the raw SAT query `assumptions and not goal` used to refute a VC leaf. `unsat` means the VC leaf is valid; `sat` means the model witnesses invalidity.
 - **CDCL** — [Conflict-Driven Clause Learning](cdcl-t-solver.md): DPLL variant that learns asserting clauses from conflicts and may backjump non-chronologically.
 - **BCP** — [Boolean Constraint Propagation](bcp.md): unit propagation to fixpoint ([watched literals](watched-literals.md) avoid scanning every clause).
 - **UIP / 1UIP** — [Unique / First Unique Implication Point](one-uip.md): cut in the implication graph during conflict analysis so the learned clause asserts one literal at the jump level.
@@ -31,5 +36,6 @@ Abbreviations for the owned-solver roadmap (`docs/SMT-SOLVER.md`).
 
 **Incoming**
 - [[glossary]] ← EXTENDS — Global glossary references domain-specific glossary
+- [[validity-vs-satisfiability]] ← CLARIFIES — SAT/UNSAT vs valid/invalid terminology
 
 <!-- connections:end -->

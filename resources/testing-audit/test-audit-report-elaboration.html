@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Audit: Elaboration Plan</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Elaboration Cleanup Plan</h1>
+    <p class="subtitle">
+      Highest-leverage cleanup area: elaboration is close to the language semantics, is stabilizing,
+      and has many tests that can gain direct assertions while keeping snapshots for regression.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <h2>Default Pattern</h2>
+    <p>
+      The goal is to keep regression snapshots while adding direct claims about type, term, constraints, and shape.
+    </p>
+    <pre><code>const { displays, structure } = elaborateFrom(src);
+
+expect(displays.type).toContain("Num");
+expect(displays.term).toContain("FFI.$add");
+expect(displays.constraints).toContain("Num ~~ ?1");
+expect(structure.term.type).toBe("App");
+
+expect({ displays, structure }).toMatchSnapshot();</code></pre>
+  </section>
+
+  <section>
+    <h2>Priority Targets</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Target</th>
+          <th>Current Problem</th>
+          <th>Semantic Assertions To Add</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>match.test.ts</code></td>
+          <td>Broad snapshot-only coverage.</td>
+          <td>Branch result type, pattern binder presence, join constraints, mismatch as explicit failure or explicit unsolved constraint behavior.</td>
+        </tr>
+        <tr>
+          <td><code>let-polymorphism.test.ts</code></td>
+          <td>Many combinator snapshots with little direct signal.</td>
+          <td>Generalized type shape, use at multiple concrete types, monomorphism negative, recursive case expectation.</td>
+        </tr>
+        <tr>
+          <td><code>variants</code>, <code>tagged</code>, <code>injection</code></td>
+          <td>Thin positives and few negatives.</td>
+          <td>Tag/payload type, row/variant shape, unknown tag or wrong payload negative.</td>
+        </tr>
+        <tr>
+          <td><code>tuples</code>, <code>lists</code>, <code>dictionaries</code></td>
+          <td>Small snapshot-heavy tests.</td>
+          <td>Schema/indexed type shape, element constraints, heterogenous list negative, value-level dictionary if supported.</td>
+        </tr>
+        <tr>
+          <td><code>annotations</code>, <code>holes</code>, <code>modal</code></td>
+          <td>Positive-only or skipped coverage.</td>
+          <td>Bad annotation negative, hole meta/context behavior, modal/refinement preservation boundaries.</td>
+        </tr>
+        <tr>
+          <td><code>shift-reset</code></td>
+          <td>Some module-level tests are pretty-snapshot heavy.</td>
+          <td>Bubble count, Bubble meta/resumption relationship, dependent continuation resolved type, wrong resume type as explicit failure.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Good Existing Pattern</h2>
+    <p>
+      <code>structs.test.ts</code> is the model to spread: regex helpers like <code>Field.bare</code>,
+      <code>Field.modal</code>, and <code>Liquid.mentions</code> make semantic assertions readable while snapshots
+      still catch broader regressions.
+    </p>
+  </section>
+</main>
+</body>
+</html>

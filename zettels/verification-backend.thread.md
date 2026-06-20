@@ -8,10 +8,12 @@ tags:
 - project
 - ivl
 - quantifiers
+- validity
+- liquid
 ---
 # Verification Backend
 
-Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR plus an **in-tree v2 CDCL(T)** stack. The `z3-solver` dependency, Z3 adapter, and root-level v1 solver implementation have been removed; former Z3 comparison findings now live as integration parity bugs. **Open:** string/row theories, richer provenance/explanations, formal **`VerificationBackend`** trait — see milestones 9–16 below.
+Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR plus an **in-tree v2 CDCL(T)** stack. The `z3-solver` dependency, Z3 adapter, and root-level v1 solver implementation have been removed. D-009 adds the missing validity-discharge layer between generated Liquid VCs and raw SAT solving. **Open:** string/row theories, richer provenance/explanations, formal **`VerificationBackend`** trait — see milestones 9–16 below.
 
 ## Sequence
 
@@ -101,7 +103,8 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 24. **Bounded MBQI fallback** [[mbqi]] — implemented, incomplete  
     Ground-term enumeration by sort when E-matching produces no lemmas; pure-quantifier
     fast path bypassing CNF/CDCL. Unit + integration tests pass; style audit done.
-    Remaining remediation is outside the v2 one-shot solver API.
+    This remains general quantified-SMT backend support; ordinary nested Liquid VCs are
+    handled by validity discharge before raw SAT.
 
 25. **Solver v2 monadic port** [[solver-v2-monadic-port.implementation]] — implemented  
     Additive v2 solver architecture: generator RWSE runtime, domain-owned modules,
@@ -116,10 +119,12 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 
 27. **Incremental abstraction extension** [[incremental-abstraction-extension]] — deferred  
     Quantifier instances that introduce fresh atoms need abstraction extension beyond
-    lookup into the initial CNF atom table.
+    lookup into the initial CNF atom table. General quantified-SMT completeness work,
+    not the primary path for Yap's Liquid fragment.
 
-28. **Solver v2 universal refinement false SAT** [[solver-v2-universal-refinement-false-sat]] — open bug  
-    V2 reports SAT for a universal arithmetic refinement obligation that Z3 rejects.
+28. **Solver v2 universal refinement false SAT** [[solver-v2-universal-refinement-false-sat]] — resolved/reframed  
+    Verification-path issue resolved by [[vc-validity-discharge]]; the raw v2/Z3
+    discrepancy remains scoped to general quantified-SMT completeness.
 
 29. **Block-scoped let VC parity bug** [[block-scoped-let-vc-parity-bug]] — open bug  
     V2 reports SAT where Z3 rejects the current block-local-let VC; the generated IVL
@@ -130,6 +135,11 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
     v1 solver tests, and the final v2 test oracle dependency on v1. Validation passed:
     `pnpm typecheck`, `pnpm test src/verification/solver/v2`, `pnpm test src/verification`,
     and `pnpm test src/__tests__/integration`.
+
+31. **VC validity discharge** [[vc-validity-discharge]] / [[vc-validity-before-sat.adr]] — in-progress  
+    D-009 separates verifier-facing validity from raw satisfiability. The proof of concept
+    targets the unconstrained identity refinement test; CLI, explorer, and remaining
+    verification verdict paths need the same wrapper audit.
 
 <!-- connections:start -->
 
@@ -180,6 +190,11 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - INCLUDES → [[solver-v2-universal-refinement-false-sat]] — Thread item 28
 - INCLUDES → [[block-scoped-let-vc-parity-bug]] — Thread item 29
 - INCLUDES → [[solver-v1-z3-removal]] — Thread item 30
+- INCLUDES → [[liquid-vc-fragment]] — D-009 knowledge cluster
+- INCLUDES → [[validity-vs-satisfiability]] — D-009 knowledge cluster
+- INCLUDES → [[vc-validity-discharge]] — Thread item 31
+- INCLUDES → [[quantifier-instantiation-boundary]] — General SMT vs Liquid fragment boundary
+- INCLUDES → [[vc-validity-before-sat.adr]] — Thread item 31 decision record
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

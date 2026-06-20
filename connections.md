@@ -493,7 +493,7 @@
 [[z3-replacement.adr]] --[:PRESERVES]--> [[verification-pipeline]]  -- Shape unchanged
 [[solver-v1-z3-removal]] --[:IMPLEMENTS]--> [[z3-replacement.adr]]  -- Removed Z3 dependency and adapter  @2026-06-15
 [[solver-v1-z3-removal]] --[:FOLLOWS]--> [[solver-v2-monadic-port.implementation]]  -- v2 became the active solver backend before v1 deletion  @2026-06-15
-[[solver-v1-z3-removal]] --[:PRESERVES]--> [[solver-v2-universal-refinement-false-sat]]  -- Former-oracle disagreement remains as integration test.fails bug  @2026-06-15
+[[solver-v1-z3-removal]] --[:PRESERVES]--> [[solver-v2-universal-refinement-false-sat]]  -- Historical raw quantified-SMT discrepancy preserved after Z3 removal  @2026-06-15
 [[solver-v1-z3-removal]] --[:PRESERVES]--> [[block-scoped-let-vc-parity-bug]]  -- Former-oracle disagreement remains as integration test.fails bug  @2026-06-15
 [[num-sort-semantics]] --[:APPLIES_TO]--> [[arithmetic-theory]]  -- Int vs Real
 [[non-linear-arithmetic]] --[:CONSTRAINS]--> [[arithmetic-theory]]  -- Linearizable subset first
@@ -2805,15 +2805,59 @@
 
 ## Solver v2 verification parity gaps  @2026-06-15
 
-[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[solver-v2-universal-refinement-false-sat]]  -- Z3 replacement blocker  @2026-06-15
-[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[block-scoped-let-vc-parity-bug]]  -- Z3 replacement blocker and VC-generation review item  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[solver-v2-universal-refinement-false-sat]]  -- Raw quantified-SMT discrepancy later reframed by D-009  @2026-06-15
+[[solver-v2-monadic-port.implementation]] --[:DEFERRED_TO]--> [[block-scoped-let-vc-parity-bug]]  -- Former-oracle divergence and VC-generation review item  @2026-06-15
 [[verification-backend.thread]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]  -- Thread item 28  @2026-06-15
 [[verification-backend.thread]] --[:INCLUDES]--> [[block-scoped-let-vc-parity-bug]]  -- Thread item 29  @2026-06-15
 [[verification-backend.thread]] --[:INCLUDES]--> [[solver-v1-z3-removal]]  -- Thread item 30  @2026-06-15
-[[global-pending-queue]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]  -- Pending v2 parity bug  @2026-06-15
+[[global-pending-queue]] --[:INCLUDES]--> [[solver-v2-universal-refinement-false-sat]]  -- Resolved/reframed queue item  @2026-06-15
 [[global-pending-queue]] --[:INCLUDES]--> [[block-scoped-let-vc-parity-bug]]  -- Pending v2/VC parity bug  @2026-06-15
 [[solver-v2-universal-refinement-false-sat]] --[:AFFECTS]--> [[quantifier-engine]]  -- Universal refinement obligation needs quantifier reasoning  @2026-06-15
 [[solver-v2-universal-refinement-false-sat]] --[:AFFECTS]--> [[arithmetic-theory]]  -- Refutation depends on arithmetic inconsistency  @2026-06-15
+
+## VC validity discharge and Liquid fragment  @2026-06-16
+
+[[sessions.hub]] --[:INCLUDES]--> [[vc-validity-discharge.session]]  -- Session record  @2026-06-16
+[[vc-validity-discharge.session]] --[:PRODUCED]--> [[liquid-vc-fragment]]  -- Knowledge zettel from validity investigation  @2026-06-16
+[[vc-validity-discharge.session]] --[:PRODUCED]--> [[validity-vs-satisfiability]]  -- Knowledge zettel from validity investigation  @2026-06-16
+[[vc-validity-discharge.session]] --[:PRODUCED]--> [[vc-validity-discharge]]  -- Mechanism zettel from validity proof of concept  @2026-06-16
+[[vc-validity-discharge.session]] --[:PRODUCED]--> [[quantifier-instantiation-boundary]]  -- General SMT vs Liquid-fragment boundary  @2026-06-16
+[[vc-validity-discharge.session]] --[:PRODUCED]--> [[vc-validity-before-sat.adr]]  -- D-009 decision record  @2026-06-16
+
+[[vc-validity-before-sat.adr]] --[:REFRAMES]--> [[z3-replacement.adr]]  -- D-001 still stands; D-009 inserts validity between VC IR and raw SAT  @2026-06-16
+[[vc-validity-before-sat.adr]] --[:DEFINES]--> [[vc-validity-discharge]]  -- Decision defines the verifier-facing layer  @2026-06-16
+[[vc-validity-before-sat.adr]] --[:CLARIFIES]--> [[validity-vs-satisfiability]]  -- Verification verdict polarity  @2026-06-16
+[[vc-validity-before-sat.adr]] --[:CLARIFIES]--> [[verification-backend]]  -- Backend validates obligations, raw solver checks satisfiability  @2026-06-16
+[[vc-validity-before-sat.adr]] --[:CLARIFIES]--> [[verification-pipeline]]  -- Pipeline boundary between VC generation and raw SAT  @2026-06-16
+[[vc-validity-before-sat.adr]] --[:REFRAMES]--> [[solver-v2-universal-refinement-false-sat]]  -- Identity refinement failure was missing validity discharge on the Yap path  @2026-06-16
+
+[[liquid-haskell-influence]] --[:INFORMS]--> [[liquid-vc-fragment]]  -- Logically Qualified Data Types and Liquid checking discipline  @2026-06-16
+[[liquid-vc-fragment]] --[:GROUNDED_IN]--> [[liquid-haskell-influence]]  -- Yap fragment follows the Liquid split  @2026-06-16
+[[liquid-vc-fragment]] --[:CONSTRAINS]--> [[vc-validity-discharge]]  -- Guarded binders are consumed as environment structure  @2026-06-16
+[[liquid-vc-fragment]] --[:CLARIFIES]--> [[refinement-types]]  -- Refinements target a restricted Liquid VC discipline  @2026-06-16
+[[liquid-vc-fragment]] --[:CLARIFIES]--> [[bidir-subtype-verification]]  -- Guarded quantifiers come from bidirectional judgments  @2026-06-16
+
+[[vc-validity-discharge]] --[:USES]--> [[validity-vs-satisfiability]]  -- Counterexample-query polarity  @2026-06-16
+[[vc-validity-discharge]] --[:CONSUMES]--> [[vc-ir]]  -- Generated IVL formulas are validity obligations  @2026-06-16
+[[vc-validity-discharge]] --[:DELEGATES_TO]--> [[cdcl-t-solver]]  -- Leaf counterexample queries use raw SAT solving  @2026-06-16
+[[vc-validity-discharge]] --[:RESOLVES]--> [[solver-v2-universal-refinement-false-sat]]  -- Resolves the Yap verification-path interpretation  @2026-06-16
+[[vc-validity-discharge]] --[:CONTRASTS_WITH]--> [[block-scoped-let-vc-parity-bug]]  -- Block-local let issue remains VC-generation first  @2026-06-16
+[[vc-validity-discharge]] --[:AVOIDS]--> [[mbqi]]  -- Nested Liquid binders do not require full MBQI on the ordinary path  @2026-06-16
+
+[[quantifier-instantiation-boundary]] --[:CLARIFIES]--> [[mbqi]]  -- Bounded MBQI is general SMT fallback, not the Liquid VC proof path  @2026-06-16
+[[quantifier-instantiation-boundary]] --[:CLARIFIES]--> [[incremental-abstraction-extension]]  -- Fresh-atom extension is general quantified-SMT completeness work  @2026-06-16
+[[quantifier-instantiation-boundary]] --[:CLARIFIES]--> [[quantifier-engine]]  -- Quantified formulas that reach raw SAT still use instantiation  @2026-06-16
+[[quantifier-instantiation-boundary]] --[:GROUNDED_IN]--> [[ge-de-moura-quantifiers]]  -- General quantified SMT background  @2026-06-16
+
+[[validity-vs-satisfiability]] --[:CLARIFIES]--> [[smt-solver-glossary]]  -- SAT/UNSAT vs valid/invalid terminology  @2026-06-16
+[[validity-vs-satisfiability]] --[:CLARIFIES]--> [[cdcl-t-solver]]  -- Raw SAT API is not verifier verdict  @2026-06-16
+[[validity-vs-satisfiability]] --[:CLARIFIES]--> [[solver-v2-monadic-port.implementation]]  -- Solver.check remains raw satisfiability  @2026-06-16
+
+[[verification-backend.thread]] --[:INCLUDES]--> [[liquid-vc-fragment]]  -- D-009 knowledge cluster  @2026-06-16
+[[verification-backend.thread]] --[:INCLUDES]--> [[validity-vs-satisfiability]]  -- D-009 knowledge cluster  @2026-06-16
+[[verification-backend.thread]] --[:INCLUDES]--> [[vc-validity-discharge]]  -- Thread item 31  @2026-06-16
+[[verification-backend.thread]] --[:INCLUDES]--> [[quantifier-instantiation-boundary]]  -- General SMT vs Liquid fragment boundary  @2026-06-16
+[[verification-backend.thread]] --[:INCLUDES]--> [[vc-validity-before-sat.adr]]  -- Thread item 31 decision record  @2026-06-16
 [[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[translation-boundary-vc]]  -- Generated IVL shape appears suspicious  @2026-06-15
 [[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[arithmetic-theory]]  -- Divergence involves arithmetic equalities  @2026-06-15
 [[agent-guidelines-zettelization]] --[:EXTENDS]--> [[convention-zettel-promotion]]  -- Agent/code rules are a concrete convention extraction case  @2026-06-15

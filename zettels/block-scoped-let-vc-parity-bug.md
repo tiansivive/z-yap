@@ -5,6 +5,7 @@ tags:
   - solver
   - sat
   - ivl
+  - validity
   - arithmetic
   - testing
 ---
@@ -36,14 +37,14 @@ The current generated IVL contains suspicious self-referential arithmetic constr
       ...)))
 ```
 
-Z3 reports `unsat`; v2 currently reports `sat`. The formula itself may be malformed, but the solver divergence still needs tracking until Z3 can be removed.
+Z3 reports `unsat`; v2 currently reports `sat` for the current generated formula. The formula shape is the primary concern: an unrefined `Num -> Num` block-local computation should be reviewed at VC generation before treating the raw solver divergence as the main issue.
 
 ## Notes
 
 There are likely two separable follow-ups:
 
 - The verification pipeline should be checked for block-local let VC generation; an unrefined `Num -> Num` function should not obviously produce a contradictory VC.
-- The solver should still be evaluated against the generated IVL as it exists today, because replacement parity requires known Z3/v2 divergences to be explicit.
+- Validity discharge does not by itself explain this case. First establish the intended VC for the source program, then evaluate whether any remaining raw solver divergence is a general SMT issue.
 
 <!-- connections:start -->
 
@@ -55,8 +56,9 @@ There are likely two separable follow-ups:
 
 **Incoming**
 - [[solver-v1-z3-removal]] ← PRESERVES — Former-oracle disagreement remains as integration test.fails bug
-- [[solver-v2-monadic-port.implementation]] ← DEFERRED_TO — Z3 replacement blocker and VC-generation review item
+- [[solver-v2-monadic-port.implementation]] ← DEFERRED_TO — Former-oracle divergence and VC-generation review item
 - [[verification-backend.thread]] ← INCLUDES — Thread item 29
 - [[global-pending-queue]] ← INCLUDES — Pending v2/VC parity bug
+- [[vc-validity-discharge]] ← CONTRASTS_WITH — Block-local let issue remains VC-generation first
 
 <!-- connections:end -->

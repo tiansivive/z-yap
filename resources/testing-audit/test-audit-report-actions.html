@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Audit: Action Plan</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Action Plan</h1>
+    <p class="subtitle">
+      Prioritized cleanup batches plus active GRAM/bridge parity work. Parser gaps are tracked as tree-sitter
+      migration expectations, not as a Nearley expansion project.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <h2>Prioritized Cleanup</h2>
+    <h3>P0 - Stop Blessing Unclassified Errors</h3>
+    <ol>
+      <li>Classify every snapshot-embedded error as expected semantic failure, known implementation bug, downstream GRAM/bridge lag, backend lag, or unexpected exception.</li>
+      <li>For known implementation bugs in core/elaboration, either fix the feature or mark the test as an explicit known limitation. Do not keep it as ordinary passing output.</li>
+      <li>For downstream bridge lag, split the test: assert parser/elaboration semantics now, then track bridge parity separately.</li>
+      <li>Delete confirmed orphan snapshots: <code>projection.sigma.test.ts.snap</code> and <code>pattern.v2.test.ts.snap</code>.</li>
+    </ol>
+
+    <h3>P1 - Add Semantic Assertions To Existing Snapshots</h3>
+    <ol>
+      <li>Elaboration first: <code>match</code>, <code>let-polymorphism</code>, variants/tagged/injection, tuples/lists/dicts, annotations/holes/modal, shift/reset.</li>
+      <li>Integration second: expected type, normalized value, validity, and expected/no expected error per declaration.</li>
+      <li>Verification integration: add <code>Verdict.expect</code> or equivalent direct assertions to every refinement scenario.</li>
+      <li>Pretty/generalization: convert trivial snapshots to direct string expectations and audit suspicious generalization round-trip snapshots.</li>
+    </ol>
+
+    <h3>P2 - Add Missing Negative Baseline</h3>
+    <ol>
+      <li>Tree-sitter migration checklist: invalid syntax and ambiguity sentinels for the new parser.</li>
+      <li>Elaboration negatives: wrong annotation, missing/extra record field, heterogenous list, bad variant payload, invalid dependent field reference.</li>
+      <li>Verification negatives: contravariance reverse case, refinement-polymorphism failure, higher-order refinement failure, false-branch flow sensitivity, nonlinear fragment boundary.</li>
+      <li>Shift/reset negatives: resume without shift and nested delimiter behavior.</li>
+    </ol>
+
+    <h3>P3 - Build Active Pipeline Parity</h3>
+    <ol>
+      <li>Derive active GRAM/bridge parity tests from the legacy behavior matrix.</li>
+      <li>Add active GRAM/bridge/runtime tests for shift/reset capture, multishot, rich patterns, blocks, user FFI, and type erasure when the semantics are ready.</li>
+      <li>Keep LoGRAM-related limitations visible as active-path backlog with focused tests and known-limitations tracking.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>GRAM And Active Pipeline Notes</h2>
+    <p>
+      GRAM tests should be judged differently from core elaboration. The graph infrastructure and many passes are well tested,
+      but parts of lowering are behind because the current GRS layer cannot express aggregate joins such as "collect all captures"
+      as first-class graph patterns. The codebase notes LoGRAM as the planned Datalog/triple-store layer for those cases.
+    </p>
+    <p>
+      GRAM/bridge errors in integration snapshots should be split from core language claims. A record, pattern, or
+      higher-order program can have correct parser/elaboration semantics while still exposing active-pipeline lag. Tests should
+      say which layer they are protecting.
+    </p>
+  </section>
+
+  <section>
+    <h2>Active Pipeline Parity Checklist</h2>
+    <p class="small">
+      Legacy direct-lowering tests should be removed or quarantined. Their behavior matrix is useful only as
+      a parity checklist for active GRAM/bridge tests, adapted to current semantics.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Behavior To Regain In Active Tests</th>
+          <th>Why It Matters</th>
+          <th>Suggested Active Test</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Shift/reset with captured environment</td>
+          <td>Core control semantics plus closure/capture behavior.</td>
+          <td>Source or EB term through GRAM bridge, then interpret result.</td>
+        </tr>
+        <tr>
+          <td>Multiple resumptions with captured values</td>
+          <td>Multishot continuation semantics and environment threading.</td>
+          <td>Bridge runtime assertion plus graph resumption-count assertions.</td>
+        </tr>
+        <tr>
+          <td>Nested reset delimiter selection</td>
+          <td>Defines the semantics of the delimiter stack.</td>
+          <td>Parser/elaboration + normalization + GRAM graph edge test.</td>
+        </tr>
+        <tr>
+          <td>Rich struct/variant/list pattern dispatch</td>
+          <td>Pattern matching is a core language-tour feature.</td>
+          <td>GRAM pattern pass query plus bridge interpret result for at least one struct and one variant branch.</td>
+        </tr>
+        <tr>
+          <td>User FFI and blocks through active path</td>
+          <td>Blocks and pragmatic FFI are part of the language UX.</td>
+          <td>Active source-to-bridge/codegen smoke with minimal FFI stub.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Skipped Tests And Explicit Known Work</h2>
+    <ul>
+      <li><code>src/elaboration/inference/__tests__/modal.test.ts</code></li>
+      <li><code>src/elaboration/__tests__/pi-types.test.ts</code> dependent argument case</li>
+      <li><code>src/parser/__tests__/grammar.test.ts</code> boolean structural parse case</li>
+      <li><code>src/__tests__/integration/examples-readme.repl.test.ts</code></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Best First Batch</h2>
+    <div class="callout good">
+      Classify snapshot errors, add direct semantic expectations to elaboration tests, add explicit
+      verdict/type/no-error expectations to integration tests, delete orphan snapshots, and add the first negative baseline.
+      Keep snapshots as regression coverage, but stop making them the only source of truth.
+    </div>
+  </section>
+</main>
+</body>
+</html>

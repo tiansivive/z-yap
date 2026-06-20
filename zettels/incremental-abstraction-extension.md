@@ -6,6 +6,9 @@ tags:
   - instantiation
   - cnf
   - ivl
+  - validity
+  - liquid
+  - fragment
   - limitation
   - deferred
   - planned
@@ -18,7 +21,7 @@ Quantifier instantiation in the v2 solver projects generated ground formulas int
 
 Full SMT quantifier instantiation can extend the ground problem: a new instance may introduce atoms that must be encoded, registered with theories, and added to the CDCL clause database. The current v2 path instead treats lookup as a projection into the initial abstraction, so those fresh atoms are ignored by the generated lemma.
 
-This is a real completeness improvement for general quantified SMT solving. It is non-urgent for Yap's liquid-style verification path because common refinement VCs are generated around local program structure and aim at quantifier-free EUF + linear arithmetic fragments, where relevant ground atoms are usually present in the original problem.
+This is a real completeness improvement for general quantified SMT solving. It is non-urgent for Yap's Liquid verification path because guarded VC binders should be discharged by [[vc-validity-discharge]] before raw SAT, leaving the backend focused on quantifier-free EUF plus linear arithmetic leaves in the ordinary case.
 
 ## Work shape
 
@@ -32,5 +35,6 @@ The solver needs an operation that incrementally CNF-encodes fresh ground atoms,
 - [[solver-v2-monadic-port.session]] ← PRODUCED — Deferred quantifier abstraction work discovered during v2 closeout
 - [[solver-v2-monadic-port.implementation]] ← DEFERRED_TO — Quantifier fresh-atom abstraction extension remains future work
 - [[verification-backend.thread]] ← INCLUDES — Thread item 27
+- [[quantifier-instantiation-boundary]] ← CLARIFIES — Fresh-atom extension is general quantified-SMT completeness work
 
 <!-- connections:end -->

@@ -8,6 +8,8 @@ tags:
     implemented,
     backend,
     sat,
+    validity,
+    liquid,
     dependent,
     row-types,
     strings,
@@ -31,15 +33,15 @@ tags:
 
 **Previously:** the same pipeline stored **`vc`** as **`z3-solver` `Expr`** and built Z3 values directly in `translate.ts` — see [[smt-translation]] for that encoding record.
 
-**Elaboration hook:** `src/elaboration/module.ts` **`letdec`** runs **`Verification.check`**; downstream code may still construct **`z3-solver`** `Solver` instances for diagnostics or adapter-driven checks — that is separate from **how VCs are built** (IVL via `translate.ts`).
+**Elaboration hook:** `src/elaboration/module.ts` **`letdec`** runs **`Verification.check`**. VC construction is solver-neutral IVL via `translate.ts`; verifier-facing results should pass through [[vc-validity-discharge]] before raw SAT output is reported.
 
 Tests snapshot VC s-expressions (IVL printer): `src/verification/__tests__/check.test.ts`.
 
 ## Solver stack (`src/verification/solver/`)
 
-`src/verification/solver/`: **IVL** (`solver/ivl/`), **normalize**, **Skolem**, **CNF** (`cnf.ts`), **CDCL** (`cdcl/`), **EUF** (`theories/euf/`), linear **arithmetic** (`theories/arithmetic/`), **quantifiers** (`quantifiers/`). Primary satisfiability follows this stack ([[m1-implementation]], [[m2-implementation]]). **`z3.adapter.ts`** translates **IVL → Z3** when a Z3-side oracle or comparison is desired.
+`src/verification/solver/`: **IVL** (`solver/ivl/`), validity discharge (`src/verification/validity.ts`), v2 **normalization**, **Skolemization**, **CNF**, **CDCL**, **EUF**, linear **arithmetic**, and **quantifiers**. Primary raw satisfiability follows the v2 stack ([[m1-implementation]], [[m2-implementation]], [[solver-v2-monadic-port.implementation]]); verification verdicts use D-009 validity polarity before that raw solver result is exposed.
 
-**Still open:** dedicated **string** and **row** solver theories ([[milestone-3-strings]], [[milestone-4-rows]]), obligation-linked UNSAT / counterexample UX ([[milestone-5-explanations]]), pluggable **`VerificationBackend`** abstraction — merging the IVL/CDCL milestones did **not** close that roadmap ([[verification-backend.thread]]).
+**Still open:** dedicated **string** and **row** solver theories ([[milestone-3-strings]], [[milestone-4-rows]]), complete validity wrapper use across CLI/explorer/module verdict paths ([[vc-validity-discharge]]), obligation-linked UNSAT / counterexample UX ([[milestone-5-explanations]]), pluggable **`VerificationBackend`** abstraction — merging the IVL/CDCL milestones did **not** close that roadmap ([[verification-backend.thread]]).
 
 Related zettels: `milestone-1-ir-boundary.md`, `milestone-2-euf-quant-lia.md`, `milestone-3-strings.md`, `milestone-4-rows.md`, `milestone-5-explanations.md`, `translation-boundary-vc.md`, `solver-module-layout.md`, `smt-translation.md`, `euf-theory.md`, `arithmetic-theory.md`, `string-theory.md`, `row-theory.md`, `theory-plugin-interface.md`, `cdcl-t-solver.md`, `vc-ir.md`.
 
@@ -88,5 +90,6 @@ Related zettels: `milestone-1-ir-boundary.md`, `milestone-2-euf-quant-lia.md`, `
 - [[verification-unconstrained-meta]] ← ADDRESSES — Unsolved meta reaches IVL
 - [[verification-rigid-mismatch]] ← ADDRESSES — Rigid comparison failure
 - [[vacuous-ivl-vcs]] ← ADDRESSES — Tautological VCs from selfification
+- [[vc-validity-before-sat.adr]] ← CLARIFIES — Pipeline boundary between VC generation and raw SAT
 
 <!-- connections:end -->

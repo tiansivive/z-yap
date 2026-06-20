@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yap Test Audit: Snapshots</title>
+  <link rel="stylesheet" href="./test-audit-report.css">
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>Snapshot Triage</h1>
+    <p class="subtitle">
+      Snapshot policy and snapshot-embedded error inventory. Snapshots remain useful regression artifacts,
+      but each test should also state its semantic contract directly.
+    </p>
+  </section>
+
+  <nav class="topnav" aria-label="Report navigation">
+    <a href="./test-audit-report.html">Overview</a>
+    <a href="./test-audit-report-pipeline.html">Pipeline View</a>
+    <a href="./test-audit-report-features.html">Feature View</a>
+    <a href="./test-audit-report-snapshots.html">Snapshots</a>
+    <a href="./test-audit-report-elaboration.html">Elaboration</a>
+    <a href="./test-audit-report-actions.html">Actions</a>
+  </nav>
+
+  <section>
+    <h2>Policy</h2>
+    <div class="callout">
+      <strong>Policy:</strong> most existing snapshots should stay during cleanup, but tests should not rely on
+      snapshots alone for correctness. A test should say what it means directly, then snapshot the broader output for
+      regression detection.
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Direct Semantic Assertion</th>
+          <th>Snapshot Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Elaboration / Inference</td>
+          <td><code>displays.type</code>, <code>displays.term</code>, <code>displays.constraints</code>, regex helpers, <code>structure.term.type</code>.</td>
+          <td>Keep <code>displays</code> snapshots for regressions. Use full <code>structure</code> snapshots sparingly.</td>
+        </tr>
+        <tr>
+          <td>Integration</td>
+          <td>Expected type, normalized value, validity, and expected/no expected error per declaration.</td>
+          <td>Keep full-pipeline snapshots when they are useful archaeology; split core vs debug output later.</td>
+        </tr>
+        <tr>
+          <td>Parser</td>
+          <td>Unambiguous parse plus discriminant/shape assertions for key syntax.</td>
+          <td>Keep AST snapshots as migration references for tree-sitter where syntax shape is the contract.</td>
+        </tr>
+        <tr>
+          <td>Normalization</td>
+          <td><code>nf.type</code> and <code>NF.display(...)</code> exact values or neutral shape.</td>
+          <td>Keep snapshots only for complex neutral/Bubble displays.</td>
+        </tr>
+        <tr>
+          <td>Verification</td>
+          <td><code>valid</code>, <code>invalid</code>, <code>unknown</code>, raw SAT/UNSAT only in solver tests.</td>
+          <td>Keep solver trace snapshots in trace tests; integration traces should be supporting evidence.</td>
+        </tr>
+        <tr>
+          <td>GRAM</td>
+          <td>Graph tag counts, edge queries, pass invariants, runtime result for bridge.</td>
+          <td>Keep graph snapshots when paired with queries.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Error Inventory</h2>
+    <p>
+      A direct scan of snapshot files found embedded errors in integration snapshots, plus expected unification
+      failure snapshots. Each error should have an explicit testing role.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Error Class</th>
+          <th>Examples Found</th>
+          <th>Meaning</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag good">Expected semantic failure</span></td>
+          <td><code>Cannot unify</code> in unification error snapshots.</td>
+          <td>The test intentionally verifies a failure contract.</td>
+          <td>Keep, but pair with explicit error-type/message assertions when missing.</td>
+        </tr>
+        <tr>
+          <td><span class="tag bad">Known implementation bug</span></td>
+          <td><code>Unbound label: width</code>, <code>Expected number, got wildcard</code>, <code>Variable not found: fact</code>.</td>
+          <td>The tour says these features should work or are becoming expected to work.</td>
+          <td>Do not preserve as passing regression output. Fix, or mark as explicit known limitation until fixed.</td>
+        </tr>
+        <tr>
+          <td><span class="tag gap">Downstream GRAM/bridge lag</span></td>
+          <td><code>Bridge: struct pattern dispatch not yet implemented</code>, <code>Bridge: closure capture not yet implemented for curried returns</code>.</td>
+          <td>Elaboration may be correct while active graph/lowering is behind.</td>
+          <td>Split the claim: assert elaboration semantics now; track active bridge parity separately.</td>
+        </tr>
+        <tr>
+          <td><span class="tag warn">Backend lag/noise</span></td>
+          <td><code>emit_erl: unknown function arity for "unknown"</code>.</td>
+          <td>A backend-specific limitation is leaking into broad language-tour snapshots.</td>
+          <td>Keep only in backend-targeted tests; integration should not silently bless it unless the test is about backend lag.</td>
+        </tr>
+        <tr>
+          <td><span class="tag bad">Unexpected runtime exception</span></td>
+          <td><code>Cannot read properties of undefined (reading 'type')</code>, <code>Unbound bound variable in synth</code>.</td>
+          <td>Likely real bug or unclassified implementation failure.</td>
+          <td>Prioritize triage. These should not remain generic golden output.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Snapshot Files With Embedded Errors</h2>
+    <ul>
+      <li><code>src/__tests__/integration/__snapshots__/records.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/variants.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/functions.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/polymorphism.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/typeclasses.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/dependent-types.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/higher-kinded.test.ts.snap</code></li>
+      <li><code>src/__tests__/integration/__snapshots__/refinement-types.test.ts.snap</code> for downstream bridge lag in otherwise verification-focused cases.</li>
+      <li><code>src/elaboration/unification/__tests__/__snapshots__/unification.v2.test.ts.snap</code> for expected failure-contract snapshots.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

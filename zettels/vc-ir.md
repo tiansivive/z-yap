@@ -73,5 +73,6 @@ Yap historically stored verification conditions as **`z3-solver`** **`Expr`**; t
 - [[first-order-restriction.adr]] ← PRESERVES — Keeps IVL formulas in decidable QF-EUFLIA fragment
 - [[de-moura-bjorner-z3]] ← INFORMS — Z3 architectural template parallels IR + theory stack
 - [[barbosa-cvc5]] ← INFORMS — Modern DPLL(T) survey parallels in-tree CDCL(T) shape
+- [[vc-validity-discharge]] ← CONSUMES — Generated IVL formulas are validity obligations
 
 <!-- connections:end -->
