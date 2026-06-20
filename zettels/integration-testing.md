@@ -47,5 +47,7 @@ Related: [[testing-strategy]], [[ffi]], [[js-codegen]], [[c-codegen]], [[erlang-
 - [[testing-strategy]] ← INCLUDES
 - [[testing.thread]] ← INCLUDES
 - [[explorer-snippet-library]] ← COMPOSES_WITH — Snippets double as smoke tests
+- [[semantic-assertions-with-regression-snapshots]] ← INFORMS — Declaration-level type/validity/error expectations
+- [[snapshot-error-triage]] ← INFORMS — Downstream lag must be separated from core language claims
 
 <!-- connections:end -->

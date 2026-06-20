@@ -22,7 +22,7 @@ tags:
 
 Architectural survey of the CVC4 successor: cooperating theory engines, APIs (C++/Python/Java), features beyond core SMT-LIB (including higher-order and SyGuS-oriented tooling), and SMT-LIB benchmarking versus CVC4 and Z3.
 
-Yap’s **in-house CDCL(T) + IVL** track ([[verification-pipeline]], [[vc-ir]], [[cdcl-t-solver]], [[m2-implementation]]) is the same algorithmic family surveyed here; **z3-solver** stays an **optional** comparison target via **`z3.adapter.ts`**.
+Yap’s **in-house CDCL(T) + IVL** track ([[verification-pipeline]], [[vc-ir]], [[cdcl-t-solver]], [[m2-implementation]]) is the same algorithmic family surveyed here; external SMT solvers remain possible comparison targets for selected fragments.
 
 <!-- connections:start -->
 

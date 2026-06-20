@@ -40,6 +40,9 @@ Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+
 - INCLUDES → [[property-based-testing]]
 - INCLUDES → [[integration-testing]]
 - INCLUDES → [[negative-testing]]
+- INCLUDES → [[testing-audit-2026-06-20]] — Audit resource and findings index
+- INCLUDES → [[semantic-assertions-with-regression-snapshots]] — Testing methodology from audit
+- INCLUDES → [[snapshot-error-triage]] — Snapshot error classification from audit
 
 **Incoming**
 - [[v1-test-cleanup]] ← DETAILS — Thread item

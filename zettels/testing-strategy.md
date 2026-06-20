@@ -57,6 +57,9 @@ Snapshots remain useful regression artifacts, but the active testing direction i
 - INCLUDES → [[solver-testing]]
 - INCLUDES → [[test-coverage-gaps]] — Gap tracking
 - INCLUDES → [[v1-test-cleanup]] — Cleanup event
+- INCLUDES → [[testing-audit-2026-06-20]] — Audit findings index
+- INCLUDES → [[semantic-assertions-with-regression-snapshots]] — Direct assertions plus regression snapshots
+- INCLUDES → [[snapshot-error-triage]] — Embedded snapshot error classification
 
 **Incoming**
 - [[testing.thread]] ← INCLUDES
@@ -64,5 +67,6 @@ Snapshots remain useful regression artifacts, but the active testing direction i
 - [[snapshot-testing]] ← DETAILS
 - [[test-coverage-gaps]] ← DETAILS — Inventory of skipped suites
 - [[v1-test-cleanup]] ← ADDRESSES — Closes v1/v2 test drift
+- [[testing-audit-2026-06-20]] ← DOCUMENTS — Split HTML report records active-suite audit findings
 
 <!-- connections:end -->

@@ -20,7 +20,7 @@ tags:
 ---
 # VC IR
 
-Yap historically stored verification conditions as **`z3-solver`** **`Expr`**; the **IVL** module (`src/verification/solver/ivl/`) is the owned VC IR (**Intermediate Verification Language**). **`VerificationArtefacts.vc`** is **`IVL.Formula`**; the in-tree CDCL(T) solver consumes IVL (`src/verification/solver/`). **`z3.adapter.ts`** translates IVL to Z3 where useful.
+Yap historically stored verification conditions as **`z3-solver`** **`Expr`**; the **IVL** module (`src/verification/solver/ivl/`) is the owned VC IR (**Intermediate Verification Language**). **`VerificationArtefacts.vc`** is **`IVL.Formula`**; the in-tree CDCL(T) solver consumes IVL (`src/verification/solver/`).
 
 **Types (`ivl/types.ts`):** **`Sort`** — `Bool`, `Int`, `Real`, `String`, `Unit`, `Row`, **`Fn`** (arrow), **`Uninterpreted`**. **`RowTerm`** — empty, **`Extend`**, or tail **`Var`**. **`Term`** — `Var`, `Const`, numeric/string/boolean literals (`Num`, `Str`, `Bool`), `Arith`, `App`, `Select`, **`Row`**. **`Formula`** — `True`, `False`, `Atom`, `Not`, `And`, `Or`, `Implies`, `Forall`, `Exists` (optional **triggers** on `Forall`). (Targeted atoms like richer string primitives remain **milestones** — see [[milestone-3-strings]].)
 

@@ -40,7 +40,7 @@ Observed mappings in `translate.ts` (Z3 era): numeric literals → **`Z3.Real.va
 
 Reset/Shift NF forms: sort mapping and translation threw unsupported errors (see **[[shift-reset-verification-stub]]** for the bridging story).
 
-**Today:** **`z3.adapter.ts`** translates **IVL** formulas **to** Z3 for cross-checking when desired.
+**Later:** IVL replaced this direct encoding; the temporary Z3 adapter was removed after the in-tree solver path became primary.
 
 <!-- connections:start -->
 

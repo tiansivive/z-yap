@@ -19,7 +19,6 @@ refs:
     - src/verification/solver/ivl/print.ts
     - src/verification/solver/ivl/dsl.ts
     - src/verification/solver/ivl/index.ts
-    - src/verification/solver/z3.adapter.ts
     - src/verification/solver/normalize.ts
     - src/verification/solver/cnf.ts
     - src/verification/solver/skolem.ts
@@ -42,7 +41,7 @@ IVL (Intermediate Verification Language) replaces direct Z3 expression construct
 
 **DSL helpers** (`ivl/dsl.ts`): Convenience layer for test authoring — pre-built sorts, variable constructors, formula combinators.
 
-**Z3 bridge adapter** (`z3.adapter.ts`): Translates IVL formulas to Z3 expressions so the existing verification pipeline keeps working while the in-house solver is built. This is the translation boundary — it preserves the Z3 backend during the transition period.
+**Former Z3 bridge adapter**: The M1 transition included a temporary IVL-to-Z3 bridge while the in-house solver was built. That adapter was removed after the v2 solver path became primary; the durable result is the IVL translation boundary.
 
 **VC normalization** (`normalize.ts`): Formula simplification pass — constant folding, double negation, trivial conjunction/disjunction elimination.
 
@@ -63,8 +62,8 @@ Full translation boundary rewrite (`translate.ts` → IVL emission) deferred. Th
 - ADDRESSES → [[milestone-1-ir-boundary]] — Closes the open work item
 - IMPLEMENTS → [[vc-ir]] — IVL types/builder realize the VC IR concept
 - INSTANTIATES → [[vc-ir]] — Concrete TypeScript module from abstract design
-- IMPLEMENTS → [[translation-boundary-vc]] — z3.adapter.ts realizes the boundary
-- PRESERVES → [[translation-boundary-vc]] — Keeps Z3 working during transition
+- IMPLEMENTS → [[translation-boundary-vc]] — IVL builder and transition bridge realize the boundary
+- PRESERVES → [[translation-boundary-vc]] — Kept the solver boundary stable during transition
 - IMPLEMENTS → [[boolean-lowering-cnf]] — cnf.ts realizes Tseitin pass
 - IMPLEMENTS → [[vc-normalization]] — normalize.ts realizes formula simplification
 - IMPLEMENTS → [[quantifier-preparation]] — skolem.ts realizes skolemization

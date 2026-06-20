@@ -135,5 +135,6 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - [[type-erasure]] ← INCLUDED_IN — GRAM bridge handles interim erasure
 - [[ffi-saturation-gram]] ← INCLUDED_IN — GRAM saturation pass
 - [[pipeline-stabilization.thread]] ← SHARED_WITH — Bridge bugs overlap
+- [[testing-audit-2026-06-20]] ← INFORMS — Active bridge parity and LoGRAM-era gaps
 
 <!-- connections:end -->

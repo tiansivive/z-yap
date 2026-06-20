@@ -10,7 +10,8 @@ tags:
     module-system,
     pipeline,
     backend,
-    planned,
+    implemented,
+    incomplete,
     infrastructure,
     cli,
     js,
@@ -21,19 +22,11 @@ tags:
 ---
 # Legacy file-compile path
 
-`src/compile.ts` (the entry point reached by the file-level CLI flow via `Mod.mkInterface` + `CG.codegen` in `src/Codegen/modules.ts`) bypasses the canonical pipeline described by D-006: it does not route through `GRAM.Pipeline.compile` or `GRAM.Bridge.emit`, and it emits only JavaScript via the legacy `Codegen/modules.ts` path. The canonical pipeline (`src/cli/explore/pipeline.ts`) flows `EB.Term → GRAM → MIR → codegen` for all three backends; the file path does not.
+The file-level CLI now lowers each valid declaration through `Pipeline.lowerTerm`, emits GRAM and MIR artifacts, dispatches to JS/C/Erlang codegen, and copies FFI siblings. This closes the original file-compile bypass described by D-006.
 
-Consequences while the legacy path remains:
-- Programmable GRAM passes ([[programmable-gram-passes]]) and the Kernel pass do not run for the file-compile entry, so user-supplied modal annotations are silently ignored on that path.
-- Bridge-resident optimisations (closure conversion shape, multishot serialisation, future single-shot specialisation) are unreachable from the file path.
-- The C and Erlang backends are not exposed via this entry; they are reachable only through the explore CLI.
-- `src/lowering/lower.ts` retains `lowerToMir` carrying `@deprecated Use GRAM.Bridge.emit instead.` because the file path and a set of tests still depend on it. Removing it cleanly requires migrating both.
+The remaining legacy residue is the direct `lowerToMir` API retained for direct lowering and backend snapshot tests. Removing it cleanly requires reframing those tests around `GRAM.Bridge.emit` or keeping them as explicit legacy regression coverage.
 
-Resolution shape: replace `src/compile.ts` and `src/Codegen/modules.ts` with a module-level driver that walks each loaded module's let-decs, runs `GRAM.Pipeline.compile` per declaration with module context, emits via `GRAM.Bridge.emit`, and dispatches to the selected codegen backend. Module context threading is the open piece — the current GRAM pipeline is per-term and does not thread the elaboration context across module boundaries.
-
-Boundary: the deprecation of `lowerToMir` cannot be completed before this migration. Test suites that exercise lowering directly will need to be reframed against the bridge or kept as legacy regression tests.
-
-Status: queued; no implementation work in flight. Tracked from [[global-pending-queue]].
+Boundary: `lowerToMir` deprecation cannot complete while direct lowering/codegen tests still depend on it. The file-compile part of the work is implemented; the test-retirement part remains incomplete.
 
 <!-- connections:start -->
 
@@ -41,8 +34,8 @@ Status: queued; no implementation work in flight. Tracked from [[global-pending-
 
 **Outgoing**
 - DEFERS_TO → [[gram-canonical-ir.adr]] — Resolution shape is the canonical pipeline
-- APPLIES_TO → [[compile-orchestration]] — The yap <file> entry runs the legacy path
-- BLOCKS → [[gram-canonical-ir.adr]] — Full canonical adoption blocked on the file-path migration
+- APPLIES_TO → [[compile-orchestration]] — File compile path migrated; direct lowering residue remains
+- BLOCKS → [[gram-canonical-ir.adr]] — Direct lowerToMir tests still block removing the legacy API
 
 **Incoming**
 - [[compile-orchestration]] ← DELEGATES_TO — Current file-compile delegation

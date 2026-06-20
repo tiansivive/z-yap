@@ -2,6 +2,9 @@
 tags:
   - project
   - infrastructure
+  - documentation
+  - audit
+  - cleanup
   - problem
   - drift
   - parser
@@ -33,7 +36,7 @@ Drift between user-facing prose and the compiler tree shows up in several places
 - References to `inference.v2/` / `checking.v2/` directory names vs live `inference/` + `check.ts` ([[v2-elaboration-pipeline]], [[tmp-pipeline-stub]]).
 - Tree-sitter `ts-dts` script naming vs root `package.json` ([[tree-sitter-parser]]).
 
-**Status:** `incomplete` — reconcile by editing upstream docs or absorbing fixes into z-yap zettels; sibling registry `brainstorming/yap/KNOWN-DOC-ISSUES.md` may enumerate concrete items when federated.
+**Status:** `incomplete` — reconcile by editing public docs or absorbing unique knowledge into z-yap zettels.
 
 <!-- connections:start -->
 

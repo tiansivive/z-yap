@@ -25,7 +25,7 @@ tags:
 
 **Shape today:** `src/verification/V2/logic/translate.ts` emits **`IVL.Sort`**, **`IVL.Term`**, **`IVL.Formula`** via **`Build`**; **`quantify`** wraps modal/refinement payloads with **`Build.forall`** + **`Build.implies`** (see [[vc-ir]]).
 
-**Z3 bridging:** **`z3.adapter.ts`** encodes IVL formulas into Z3 for cross-checking, regressions, and tooling paths that still allocate a **`z3-solver`** `Context`.
+**External solver boundary:** IVL keeps external-oracle adapters possible without changing VC emission. The active repository path uses the in-tree solver; the removed Z3 adapter belongs to the superseded translation era.
 
 **Open design:** a small **`VerificationBackend`** (`solve` over IVL + obligations → result) formalizes swapping in-house **`solve`** vs external engines without rewriting VC emission ([[verification-backend]], [[verification-backend.thread]]).
 
@@ -42,8 +42,8 @@ tags:
 - [[vc-normalization]] ← FOLLOWS — After translation
 - [[milestone-1-ir-boundary]] ← PRODUCES — Translation tools
 - [[verification-backend.thread]] ← INCLUDES
-- [[m1-implementation]] ← IMPLEMENTS — z3.adapter.ts realizes the boundary
-- [[m1-implementation]] ← PRESERVES — Keeps Z3 working during transition
+- [[m1-implementation]] ← IMPLEMENTS — IVL builder and translation tools realize the boundary
+- [[m1-implementation]] ← PRESERVES — Kept the solver boundary stable during transition
 - [[block-scoped-let-vc-parity-bug]] ← AFFECTS — Generated IVL shape appears suspicious
 
 <!-- connections:end -->

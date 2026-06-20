@@ -20,4 +20,13 @@ Snapshot-embedded errors should be classified by testing role. Expected semantic
 
 ## Connections
 
+**Outgoing**
+- CLARIFIES → [[snapshot-testing]] — Embedded errors need explicit roles
+- INFORMS → [[test-coverage-gaps]] — Snapshot-embedded errors are coverage gaps until classified
+- INFORMS → [[integration-testing]] — Downstream lag must be separated from core language claims
+
+**Incoming**
+- [[testing.thread]] ← INCLUDES — Snapshot error classification from audit
+- [[testing-strategy]] ← INCLUDES — Embedded snapshot error classification
+
 <!-- connections:end -->

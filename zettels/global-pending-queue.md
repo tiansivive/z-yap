@@ -27,12 +27,14 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[block-scoped-let-vc-parity-bug]] — former Z3 oracle divergence on block-local let VC; generated IVL shape is suspicious
 - [ ] [[euf-congruence-propagation-bug]] — EUF congruence closure fails to propagate merges to function applications; returns SAT for UNSAT formula
 - [ ] [[spineful-applications]] — cross-cutting IR refactor (App representation migration)
+- [ ] [[surface-syntax-backlog]] — deferred parser/elaboration sugar backlog migrated from old TODO notes
 - [ ] [[where-clauses]] — deferred surface syntax, no parser/elab support
 - [ ] [[lsp]] — Language Server Protocol, depends on stable CST + incremental elaboration
 - [ ] [[repl]] — interactive evaluation mode
 - [ ] [[module-system]] — grammar drift, qualified/hiding shapes not produced by Nearley
 - [ ] [[block-level-using-gap]] — implicit scoping bug: module `using` updates implicits but block inference does not
-- [ ] [[documentation-debt]] — README/FAQ drift, enumerated in brainstorming/yap/KNOWN-DOC-ISSUES.md
+- [ ] [[documentation-debt]] — README/FAQ drift and stale repository prose
+- [ ] [[repo-docs-retirement-audit-2026-06-20]] — migrate unique TODO/resource atoms, retire superseded internal docs, then refresh public docs
 - [x] [[type-erasure]] — graduated to usage-semantics + gram-evolution threads
 - [ ] [[dynamic-reflection]] — design-space only, runtime witness / gradual typing
 - [x] [[ffi-saturation]] — split into [[ffi-saturation-gram]] (implemented) and [[ffi-saturation-mir]] (deprecated)
@@ -43,6 +45,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[z3-stay-companion]] — decide if D-001 needs a stay-on-Z3 rejected-alternative companion
 - [ ] [[convention-zettel-promotion]] — decide whether to extract conventions into `<name>.convention.md` meta zettels
 - [ ] [[agent-guidelines-zettelization]] — distill agent/code guidelines into convention zettels and reusable skills
+- [ ] [[z-yap-agent-skill]] — create a Cursor skill for z-yap interaction protocol, derived from an existing local skill template
 - [ ] [[transcripts-private-submodule]] — migrate `sessions/` to a private GitHub submodule
 - [ ] Fill in `pulse.md` editorial prose per active thread
 - [ ] Fill in `yap-baseline.md` sections and replace `<org>` placeholder with the real GitHub org
@@ -52,7 +55,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 ## GRAM canonical IR follow-ups (2026-06-03)
 
-- [ ] [[legacy-file-compile]] — migrate `src/compile.ts` + `src/Codegen/modules.ts` off `lowerToMir` onto `GRAM.Bridge.emit`; unblock the deprecation of `src/lowering/lower.ts`
+- [ ] [[legacy-file-compile]] — file compile migrated to pipeline lowering; direct `lowerToMir` tests still block removing the legacy API
 
 <!-- connections:start -->
 
@@ -60,18 +63,21 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 **Outgoing**
 - INCLUDES → [[spineful-applications]]
+- INCLUDES → [[surface-syntax-backlog]]
 - INCLUDES → [[where-clauses]]
 - INCLUDES → [[lsp]]
 - INCLUDES → [[repl]]
 - INCLUDES → [[module-system]]
 - INCLUDES → [[block-level-using-gap]]
 - INCLUDES → [[documentation-debt]]
+- INCLUDES → [[repo-docs-retirement-audit-2026-06-20]]
 - INCLUDES → [[type-erasure]]
 - INCLUDES → [[dynamic-reflection]]
 - INCLUDES → [[ffi-saturation-gram]]
 - INCLUDES → [[whnf-codification]]
 - INCLUDES → [[legacy-file-compile]] — Tech debt tracked in the global queue
 - INCLUDES → [[agent-guidelines-zettelization]] — Cross-cutting queue item
+- INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
 - INCLUDES → [[solver-v2-universal-refinement-false-sat]] — Resolved/reframed queue item
 - INCLUDES → [[block-scoped-let-vc-parity-bug]] — Pending v2/VC parity bug
 

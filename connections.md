@@ -2563,6 +2563,12 @@
 
 [[multishot-bridge-serialization]] --[:COMPOSES_WITH]--> [[shift-reset-bridge-lowering]]  -- Multishot serialisation runs inside the bridge state machine
 
+[[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[multishot-bridge-serialization]]  -- Worked pseudo-MIR for the bridge-resident serialization shape
+
+[[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[shift-reset-bridge-lowering]]  -- Concrete block-and-jump state-machine example
+
+[[multishot-mir-state-machine-example]] --[:MIRRORS]--> [[multishot-serialization]]  -- Same legacy state-machine shape, preserved as explanatory reference
+
 
 
 ### Single-shot specialisation (planned)
@@ -2602,6 +2608,8 @@
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[shift-reset-bridge-lowering]]  -- Current shift/reset lowering site
 
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-bridge-serialization]]  -- Current multishot serialisation site
+
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-mir-state-machine-example]]  -- Pedagogical pseudo-MIR walkthrough of multishot lowering
 
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[singleshot-static-specialization]]  -- Planned optimisation in the thread
 
@@ -2882,3 +2890,56 @@
 [[snapshot-error-triage]] --[:CLARIFIES]--> [[snapshot-testing]]  -- Embedded errors need explicit roles  @2026-06-20
 [[snapshot-error-triage]] --[:INFORMS]--> [[test-coverage-gaps]]  -- Snapshot-embedded errors are coverage gaps until classified  @2026-06-20
 [[snapshot-error-triage]] --[:INFORMS]--> [[integration-testing]]  -- Downstream lag must be separated from core language claims  @2026-06-20
+
+## Repository docs retirement audit  @2026-06-20
+
+[[global-pending-queue]] --[:INCLUDES]--> [[repo-docs-retirement-audit-2026-06-20]]  -- Documentation cleanup work item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:DOCUMENTS]--> [[documentation-debt]]  -- Audit of stale repository prose  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:ADDRESSES]--> [[documentation-debt]]  -- Retire superseded internal docs and refresh public docs  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[verification-backend.thread]]  -- Internal verification docs are superseded by IVL/CDCL(T) zettels  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[gram-evolution.thread]]  -- Internal MIR/GRAM prose is superseded by canonical GRAM/MIR zettels  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[parser-migration.thread]]  -- Parser docs retire into parser migration records  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- Elaboration docs retire into active pipeline records  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[testing.thread]]  -- README/tour updates should stay aligned with integration tests  @2026-06-20
+
+[[global-pending-queue]] --[:INCLUDES]--> [[z-yap-agent-skill]]  -- Planned Cursor skill for z-yap interaction protocol  @2026-06-20
+[[z-yap-agent-skill]] --[:ADDRESSES]--> [[agent-guidelines-zettelization]]  -- Convert z-yap interaction rules into reusable skill form  @2026-06-20
+[[z-yap-agent-skill]] --[:USES]--> [[repo-docs-retirement-audit-2026-06-20]]  -- Documentation cleanup surfaced the need for a dedicated ZK skill  @2026-06-20
+
+## Repository TODO/resources migration  @2026-06-20
+
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[surface-syntax-backlog]]  -- Migrated TODO syntax backlog atoms before deleting old docs  @2026-06-20
+[[surface-syntax-backlog]] --[:INCLUDES]--> [[where-clauses]]  -- Existing local-definition sugar item  @2026-06-20
+[[surface-syntax-backlog]] --[:INCLUDES]--> [[operator-and-application-syntax]]  -- Infix/custom/variadic/named application syntax  @2026-06-20
+[[surface-syntax-backlog]] --[:INCLUDES]--> [[structural-data-traversal-syntax]]  -- Indexing, deep access/update, traversal sugar  @2026-06-20
+[[surface-syntax-backlog]] --[:INCLUDES]--> [[implicit-hole-syntax]]  -- Surface handle for implicit metavariable resolution  @2026-06-20
+[[surface-syntax-backlog]] --[:INCLUDES]--> [[lacks-exclusion-type-operator]]  -- Row/effect exclusion design item  @2026-06-20
+[[global-pending-queue]] --[:INCLUDES]--> [[surface-syntax-backlog]]  -- Deferred syntax backlog  @2026-06-20
+[[surface-syntax-backlog]] --[:INFORMS]--> [[parser-migration.thread]]  -- Surface forms feed parser migration planning  @2026-06-20
+[[operator-and-application-syntax]] --[:INFORMS]--> [[spineful-applications]]  -- Call syntax pressure overlaps explicit application spines  @2026-06-20
+[[structural-data-traversal-syntax]] --[:INFORMS]--> [[row-types.thread]]  -- Traversal sugar targets row-backed structural data  @2026-06-20
+[[implicit-hole-syntax]] --[:INFORMS]--> [[implicit-resolution]]  -- Surface marker for existing implicit resolution behavior  @2026-06-20
+[[lacks-exclusion-type-operator]] --[:INFORMS]--> [[row-types.thread]]  -- Lacks constraints belong with row reasoning  @2026-06-20
+[[lacks-exclusion-type-operator]] --[:INFORMS]--> [[usage-semantics.thread]]  -- Effect exclusion is a usage/effect-row design pressure  @2026-06-20
+[[dependent-match-implication-constraints]] --[:INFORMS]--> [[pattern-matching.thread]]  -- Branch-local assumptions for dependent matches  @2026-06-20
+[[dependent-match-implication-constraints]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- Implication constraints affect unification/elaboration  @2026-06-20
+[[dependent-match-implication-constraints]] --[:USES]--> [[with-abstraction]]  -- Prior art for propagating match equalities into branch contexts  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[dependent-match-implication-constraints]]  -- Migrated dependent-match TODO atom  @2026-06-20
+
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[elaboration-zoo]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[language-garden]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[generating-verification-conditions]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[dependent-contract-types]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[implicit-calculus]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[leijen-scoped-labels]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[cong-asai-delimited-dependent]]  -- Migrated resources bibliography item  @2026-06-20
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[thiemann-anton-coroutines]]  -- Migrated resources bibliography item  @2026-06-20
+[[elaboration-zoo]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- Implementation references for dependent elaboration  @2026-06-20
+[[language-garden]] --[:INFORMS]--> [[yap]]  -- Comparative small-language implementation reference  @2026-06-20
+[[generating-verification-conditions]] --[:INFORMS]--> [[vc-ir]]  -- VC generation structure reference  @2026-06-20
+[[generating-verification-conditions]] --[:INFORMS]--> [[vc-validity-discharge]]  -- Verification obligations before solver discharge  @2026-06-20
+[[dependent-contract-types]] --[:INFORMS]--> [[refinement-types]]  -- Contract-style dependent obligations  @2026-06-20
+[[implicit-calculus]] --[:INFORMS]--> [[implicit-resolution]]  -- Prior art for principled implicit values  @2026-06-20
+[[leijen-scoped-labels]] --[:INFORMS]--> [[row-unification]]  -- Scoped labels and row unification prior art  @2026-06-20
+[[cong-asai-delimited-dependent]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Dependent typing pressure for shift/reset  @2026-06-20
+[[thiemann-anton-coroutines]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Coroutine typing adjacent to resumable control  @2026-06-20

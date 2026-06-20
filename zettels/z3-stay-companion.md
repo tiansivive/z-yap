@@ -22,7 +22,7 @@ The question is whether the symmetry is worth maintaining for D-001.
 ## Against
 
 - D-001's body already enumerates the rejection in the Rationale; a companion would risk being a rephrasing rather than a distinct knowledge atom
-- The Z3 path is not gone — `z3.adapter.ts` remains for cross-check and fallback, documented in [[z3-adapter-strategy]]. The "alternative" is partially preserved by that adapter, which is already its own zettel
+- The Z3 adapter path was later removed, so a rejected-alternative companion would now need to capture only the design alternative, not a live fallback path
 - D-001 was written before the split convention existed; retrofitting the split risks shoehorning
 
 ## Resolution shape

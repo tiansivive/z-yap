@@ -45,5 +45,6 @@ Related: [[testing-strategy]], [[match]], [[refinement-types]], [[termination-ch
 **Incoming**
 - [[testing-strategy]] ← INCLUDES
 - [[testing.thread]] ← INCLUDES
+- [[semantic-assertions-with-regression-snapshots]] ← INFORMS — Expected failures need explicit assertions
 
 <!-- connections:end -->

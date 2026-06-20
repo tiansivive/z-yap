@@ -51,6 +51,7 @@ Shape preserved from D-004: the lowering is direct-style; there is no continuati
 
 **Incoming**
 - [[multishot-bridge-serialization]] ← COMPOSES_WITH — Multishot serialisation runs inside the bridge state machine
+- [[multishot-mir-state-machine-example]] ← CLARIFIES — Concrete block-and-jump state-machine example
 - [[delimited-continuations.thread]] ← INCLUDES — Current shift/reset lowering site
 - [[gram]] ← INCLUDES — Bridge-resident continuation lowering
 

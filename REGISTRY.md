@@ -79,6 +79,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `recursion` | Mu types, equirecursion, coinduction, termination |
 | `sugar` | Syntactic sugar, desugaring, surface ergonomics |
 | `cps` | Continuation-passing style transformation |
+| `application` | Function application, call syntax, argument passing, and application spines |
 
 ## Elaboration tags
 
@@ -100,12 +101,14 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 |-----|-------------|
 | `compiler` | Compiler architecture, pipeline, passes |
 | `gram` | Graph rewriting abstract machine and graph-based compiler pipeline |
+| `bridge` | Translation or adapter boundary between IRs, runtimes, or compiler phases |
 | `rewriting` | Term/graph rewriting, DPO, algebraic graph transformation |
 | `backend` | Target-specific concerns (JS, C, Erlang, HVM, GPU) |
 | `performance` | Optimization, inlining, specialization, erasure |
 | `ir` | Intermediate representations |
 | `sat` | Boolean satisfiability, CDCL, CNF |
 | `graph` | Graph-based intermediate representation and rewriting |
+| `state-machine` | Control-flow encoded as explicit states, blocks, jumps, and dispatch |
 | `primitive` | Primitive operations, built-in signatures |
 | `memory` | Memory management, allocation, GC, heap concerns |
 | `allocation` | Heap allocation, stack allocation, placement strategy |
@@ -164,6 +167,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `project` | An organized body of work |
 | `infrastructure` | Tooling, scripts, dev environment |
 | `testing` | Test infrastructure, patterns, snapshot testing |
+| `documentation` | Repository prose, knowledge-base records, guides, and documentation lifecycle |
 | `tooling` | REPL, explorer, LSP, developer experience |
 | `automation` | CI/CD, GitHub Actions, automated checks, pre-commit hooks |
 | `integration` | End-to-end or multi-stage behavior across pipeline boundaries |
@@ -212,6 +216,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `planned` | Scoped and prioritized, not yet started |
 | `speculative` | Explored in brainstorming, no commitment |
 | `deprecated` | Was implemented, no longer the active approach |
+| `legacy` | Historical or residual path retained for context, compatibility, or migration tracking |
 | `rejected` | Considered and explicitly ruled out |
 | `deferred` | Considered worthwhile but postponed |
 | `incomplete` | Implemented with known gaps |

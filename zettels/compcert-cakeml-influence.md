@@ -20,7 +20,7 @@ tags:
 
 Both embody **refinement between semantics-aligned intermediate languages** and machine-checked pipeline proofs.
 
-**Codebase:** Yap couples refinement checking to **SMT-style evidence**: **IVL** formulas solved primarily by **CDCL(T)** (`src/verification/`), with **`z3-solver`** available through adapters—not the same foundational-proof model as CompCert/CakeML’s Coq/HOL pipelines.
+**Codebase:** Yap couples refinement checking to **SMT-style evidence**: **IVL** formulas solved by the in-tree **CDCL(T)** stack (`src/verification/`) — not the same foundational-proof model as CompCert/CakeML’s Coq/HOL pipelines.
 
 CompCert and CakeML are **external benchmarks** for what a fully machine-checked compilation chain looks like; Yap can draw design lessons without instantiating their proof artifacts today.
 

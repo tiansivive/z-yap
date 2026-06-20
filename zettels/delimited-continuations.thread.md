@@ -39,30 +39,34 @@ tracks the full vertical of delimited control in Yap.
 6. **Multishot serialization** [[multishot-serialization]] — implemented
    Heap allocation for multishot; single-shot/stack shortcuts deferred.
 
-7. **GRAM shift-reset pass** [[gram-shift-reset-pass]] — implemented
+7. **Multishot state-machine example** [[multishot-mir-state-machine-example]] — reference
+   Pedagogical pseudo-MIR walkthrough of shared continuation block, resume index
+   dispatch, environment updates, and reset exit.
+
+8. **GRAM shift-reset pass** [[gram-shift-reset-pass]] — implemented
    Bubble/continuation/resumption as data dependencies in graph IR.
 
-8. **Formal spec** [[missing-spec-shift-reset]] — needs-design
+9. **Formal spec** [[missing-spec-shift-reset]] — needs-design
    Single written calculus: answer types, Continuation binder, replay invariant,
    lowering prerequisites.
 
-9. **Direct-style lowering** [[direct-style-lowering.adr]] — D-004; implemented; rejects [[selective-cps]]
+10. **Direct-style lowering** [[direct-style-lowering.adr]] — D-004; implemented; rejects [[selective-cps]]
    Hypothetical alternate backend; must stay coherent with answer metas.
 
-10. **Session lowering notes** [[session-lowering-branch-split]] — reference
+11. **Session lowering notes** [[session-lowering-branch-split]] — reference
     Historical migration note on branch lineage.
 
-11. **Bubble semantics** [[bubble-semantics]] — planned, needs-design
+12. **Bubble semantics** [[bubble-semantics]] — planned, needs-design
     EB.Term Bubble constructor replacing skolem-meta indirection. Carries id,
     type, resume values, shift handler. Unifies representation for verification,
     lowering, and evaluation.
 
-12. **Shift/reset verification** [[shift-reset-verification]] — planned, needs-design
+13. **Shift/reset verification** [[shift-reset-verification]] — planned, needs-design
     VC generation for Reset/Bubble: concrete expansion (conjoin per value) +
     symbolic quantification (∀bubble. P → φ). Depends on Bubble semantics.
     _Shared with: verification-backend thread_
 
-13. **Open shift verification** [[open-shift-verification]] — speculative, needs-design
+14. **Open shift verification** [[open-shift-verification]] — speculative, needs-design
     Symbolic mode for cross-module and open-term shifts. ARM-style answer
     refinement tracking. Deferred until module system exists.
 
@@ -77,6 +81,7 @@ tracks the full vertical of delimited control in Yap.
 - INCLUDES → [[nondeterminism]]
 - INCLUDES → [[nondeterminism-multishot]]
 - INCLUDES → [[multishot-serialization]]
+- INCLUDES → [[multishot-mir-state-machine-example]]
 - INCLUDES → [[shift-reset-mir-lowering]]
 - INCLUDES → [[selective-cps]]
 - INCLUDES → [[direct-style-lowering.adr]]
@@ -98,5 +103,6 @@ tracks the full vertical of delimited control in Yap.
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[gram-evolution.thread]] ← SHARED_WITH — gram-shift-reset-pass
 - [[verification-backend.thread]] ← SHARED_WITH — shift-reset-verification, shift-reset-verification-stub
+- [[testing-audit-2026-06-20]] ← INFORMS — Shift/reset vertical-slice test gaps
 
 <!-- connections:end -->

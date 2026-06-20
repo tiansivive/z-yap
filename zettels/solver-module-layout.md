@@ -23,7 +23,7 @@ tags:
 
 `src/verification/solver/` is the in-repo SMT-style solver stack over **IVL** (internal verification language).
 
-**Top level:** `solver.ts` (assert/check, wires theories), `normalize.ts`, `skolem.ts`, `cnf.ts` (Tseitin), `trace.ts`, `z3.adapter.ts` (Z3 sort/term bridge for tests and comparison).
+**Top level:** `solver.ts` (assert/check, wires theories), `normalize.ts`, `skolem.ts`, `cnf.ts` (Tseitin), `trace.ts`. The former Z3 bridge was removed after IVL/v2 solver parity work.
 
 **IVL:** `ivl/types.ts` (`IVL.Sort`, `IVL.Term`, `IVL.Formula`, `IVL.RowTerm` with `Empty` / `Extend` / `Var`), `ivl/build.ts`, `ivl/dsl.ts`, `ivl/print.ts`.
 

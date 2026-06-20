@@ -20,7 +20,7 @@ tags:
 
 **Behavior:** Plain `http` server serves `src/cli/explore/static/` (`index.html`, `app.js`, `style.css`) and proxies `/syntax/*` into `tooling/syntax-highlighting/`. **`POST /run`** parses JSON `{ source, deBruijn, parserRule, rawJson, ivlSimplify }` and returns JSON snapshots.
 
-**Pipeline wired in `src/cli/explore/pipeline.ts`:** Nearley parse (`ParserRule` `Ann` | `Script`) → `EB.Mod.expression` → constraint/meta/zonker debug → `NF.quote` / `NF.evaluate` → `EB.Mod.verify` (Z3 VC pretty or sexpr) → `lowerToMir` → GRAM `translate` + `eta` / `saturate` / `closureConvert` → JS/C/Erlang codegen emits.
+**Pipeline wired in `src/cli/explore/pipeline.ts`:** Nearley parse (`ParserRule` `Ann` | `Script`) → `EB.Mod.expression` → constraint/meta/zonker debug → `NF.quote` / `NF.evaluate` → `VerificationServiceV2` IVL output, validity, and solver trace → GRAM pipeline + bridge → MIR display → JS/C/Erlang codegen previews.
 
 Explorer capabilities are whatever the static UI and `/run` payload implement today (`src/cli/explore/pipeline.ts`, `server.ts`).
 

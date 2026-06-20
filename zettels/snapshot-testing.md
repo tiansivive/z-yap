@@ -50,5 +50,7 @@ tags:
 - [[v1-test-cleanup]] ← REVISES — Old tests used v1 API; ported coverage to v2 suites
 - [[v1-test-cleanup]] ← FIXES — Removed stale vitest exclusions
 - [[explorer-diff-mode]] ← COMPOSES_WITH — Diff mode complements snapshot-based testing
+- [[semantic-assertions-with-regression-snapshots]] ← CLARIFIES — Snapshots are regression artifacts paired with direct claims
+- [[snapshot-error-triage]] ← CLARIFIES — Embedded errors need explicit roles
 
 <!-- connections:end -->

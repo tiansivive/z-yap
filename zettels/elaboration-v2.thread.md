@@ -85,5 +85,6 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[explorer-audit.thread]] ← SHARED_WITH — Monad/zonker fixes
+- [[testing-audit-2026-06-20]] ← INFORMS — Elaboration assertion cleanup is first priority
 
 <!-- connections:end -->

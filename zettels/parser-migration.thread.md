@@ -39,5 +39,6 @@ processor sync, and CST export cleanup.
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
+- [[testing-audit-2026-06-20]] ← INFORMS — Parser gaps feed tree-sitter migration expectations
 
 <!-- connections:end -->

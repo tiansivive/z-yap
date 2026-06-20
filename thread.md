@@ -1663,3 +1663,87 @@ SPAWN [[snapshot-error-triage]] — classification note for snapshot-embedded er
 [[testing-strategy]] --[:INCLUDES]--> [[snapshot-error-triage]]  -- Embedded snapshot error classification
 [[semantic-assertions-with-regression-snapshots]] --[:CLARIFIES]--> [[snapshot-testing]]  -- Snapshots are regression artifacts paired with direct claims
 [[snapshot-error-triage]] --[:INFORMS]--> [[test-coverage-gaps]]  -- Snapshot-embedded errors are coverage gaps until classified
+
+---
+
+## Session: Repository docs retirement audit — @2026-06-20 [documentation, audit, cleanup, drift, verification, gram, parser, elaboration]
+
+Integrated the repository-docs audit into z-yap using lifecycle/status edges instead of broad body rewrites. The new audit record states the split: public-facing prose remains in the repository, while durable design authority lives in z-yap plus source paths. Internal architecture/design prose can be retired after unique TODO and reference atoms are migrated into the graph.
+
+The session also corrected false current-state claims in existing zettels where they still described Z3 adapter/dependency paths or an obsolete file-compile pipeline as active. Historical Z3-era records remain preserved as historical records.
+
+### Spawned
+
+SPAWN [[repo-docs-retirement-audit-2026-06-20]] — audit/work item for retiring superseded internal repository docs
+SPAWN [[z-yap-agent-skill]] — planned Cursor skill for the z-yap interaction protocol
+
+### Updates
+
+- [[documentation-debt]] — added documentation/audit/cleanup facets and removed the stale external issue-list pointer.
+- [[global-pending-queue]] — added the repository-docs retirement audit and z-yap agent skill items; reframed the legacy file-compile item around remaining direct `lowerToMir` tests.
+- [[legacy-file-compile]] — marked the file-compile migration implemented and the direct-lowering residue incomplete.
+- [[compile-orchestration]], [[yap]], [[yap-explore]], [[v1-elaboration-pipeline]], [[translation-boundary-vc]], [[vc-ir]], [[fuzz-testing]], [[de-moura-bjorner-z3]], [[z3-stay-companion]], [[solver-module-layout]], [[smt-translation]], [[nelson-oppen]], [[m1-implementation]], [[compcert-cakeml-influence]], [[cas-instead-of-smt]], [[barbosa-cvc5]] — corrected active Z3 adapter/dependency and pipeline-shape claims.
+- `REGISTRY.md` — registered the `documentation` tag.
+- `connections.md` — added the repository-docs retirement edge cluster.
+
+### Edges
+
+[[global-pending-queue]] --[:INCLUDES]--> [[repo-docs-retirement-audit-2026-06-20]]  -- Documentation cleanup work item
+[[repo-docs-retirement-audit-2026-06-20]] --[:DOCUMENTS]--> [[documentation-debt]]  -- Audit of stale repository prose
+[[repo-docs-retirement-audit-2026-06-20]] --[:ADDRESSES]--> [[documentation-debt]]  -- Retire superseded internal docs and refresh public docs
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[verification-backend.thread]]  -- Internal verification docs are superseded by IVL/CDCL(T) zettels
+[[repo-docs-retirement-audit-2026-06-20]] --[:INFORMS]--> [[gram-evolution.thread]]  -- Internal MIR/GRAM prose is superseded by canonical GRAM/MIR zettels
+[[global-pending-queue]] --[:INCLUDES]--> [[z-yap-agent-skill]]  -- Planned Cursor skill for z-yap interaction protocol
+
+---
+
+## Session: Repository docs migration and deletion — @2026-06-20 [documentation, cleanup, syntax, references, parser, verification, gram]
+
+Migrated the remaining knowledge blockers from the old repository docs into z-yap, then deleted the superseded internal documentation files. Public-facing prose (`README.md`, `examples/README.md`, `FAQ.md`) remains for a later refresh.
+
+### Spawned
+
+SPAWN [[surface-syntax-backlog]] — hub for deferred syntax sugar migrated from old TODO notes
+SPAWN [[operator-and-application-syntax]] — infix/custom/variadic/named application syntax
+SPAWN [[structural-data-traversal-syntax]] — indexing, traversal, deep access/update sugar
+SPAWN [[implicit-hole-syntax]] — surface handle for implicit metavariable resolution
+SPAWN [[lacks-exclusion-type-operator]] — row/effect exclusion design item
+SPAWN [[dependent-match-implication-constraints]] — branch-local assumptions for dependent matches
+SPAWN [[elaboration-zoo]], [[language-garden]], [[generating-verification-conditions]], [[dependent-contract-types]], [[implicit-calculus]], [[leijen-scoped-labels]], [[cong-asai-delimited-dependent]], [[thiemann-anton-coroutines]] — reference zettels migrated from old resources notes
+
+### Updates
+
+- [[repo-docs-retirement-audit-2026-06-20]] — migration blockers cleared; remaining work is public README/FAQ/examples refresh.
+- [[global-pending-queue]] — added [[surface-syntax-backlog]].
+- `AGENTS.md` and `.github/copilot-instructions.md` — removed links to deleted internal docs and pointed architecture guidance at z-yap.
+- Removed superseded internal docs: `docs/*`, internal `ARCHITECTURE.md` files, GRAM READMEs, and the old multishot MIR sketch.
+
+### Edges
+
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[surface-syntax-backlog]]  -- Migrated TODO syntax backlog atoms before deleting old docs
+[[surface-syntax-backlog]] --[:INFORMS]--> [[parser-migration.thread]]  -- Surface forms feed parser migration planning
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[generating-verification-conditions]]  -- Migrated resources bibliography item
+[[repo-docs-retirement-audit-2026-06-20]] --[:PRODUCED]--> [[leijen-scoped-labels]]  -- Migrated resources bibliography item
+[[cong-asai-delimited-dependent]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Dependent typing pressure for shift/reset
+
+---
+
+## Session: Multishot MIR example preservation — @2026-06-20 [documentation, continuation, lowering, mir, gram]
+
+Restored the pedagogical content from the deleted `src/lowering/continuations/multishot.mir.md` as a z-yap reference rather than keeping it as a source-tree Markdown file.
+
+### Spawned
+
+SPAWN [[multishot-mir-state-machine-example]] — annotated pseudo-MIR walkthrough for multishot continuation lowering
+
+### Updates
+
+- [[delimited-continuations.thread]] — added the worked example to the sequence and thread membership.
+- [[multishot-bridge-serialization]] and [[shift-reset-bridge-lowering]] — added incoming links from the worked example.
+- `z-yap/REGISTRY.md` — registered `state-machine`, `bridge`, and `legacy`; folded one-off `contracts`/`coroutine` references back into existing tags.
+
+### Edges
+
+[[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[multishot-bridge-serialization]]  -- Worked pseudo-MIR for the bridge-resident serialization shape
+[[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[shift-reset-bridge-lowering]]  -- Concrete block-and-jump state-machine example
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-mir-state-machine-example]]  -- Pedagogical pseudo-MIR walkthrough of multishot lowering

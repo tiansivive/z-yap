@@ -49,5 +49,6 @@ The testing audit separates skipped tests from semantic coverage gaps. Skips are
 **Incoming**
 - [[testing-strategy]] ← INCLUDES — Gap tracking
 - [[v1-test-cleanup]] ← MOTIVATES — Audit revealed skipped suites
+- [[snapshot-error-triage]] ← INFORMS — Snapshot-embedded errors are coverage gaps until classified
 
 <!-- connections:end -->

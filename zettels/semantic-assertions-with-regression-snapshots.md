@@ -22,4 +22,13 @@ For elaboration tests, the semantic claim usually lives in displayed type text, 
 
 ## Connections
 
+**Outgoing**
+- CLARIFIES → [[snapshot-testing]] — Snapshots are regression artifacts paired with direct claims
+- INFORMS → [[integration-testing]] — Declaration-level type/validity/error expectations
+- INFORMS → [[negative-testing]] — Expected failures need explicit assertions
+
+**Incoming**
+- [[testing.thread]] ← INCLUDES — Testing methodology from audit
+- [[testing-strategy]] ← INCLUDES — Direct assertions plus regression snapshots
+
 <!-- connections:end -->

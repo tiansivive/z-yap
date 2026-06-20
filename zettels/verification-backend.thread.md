@@ -200,5 +200,6 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[delimited-continuations.thread]] ← SHARED_WITH — shift-reset-verification
 - [[syn-app-ex-modification]] ← INCLUDES — Thread item
+- [[testing-audit-2026-06-20]] ← INFORMS — Integration verdict assertions and unknown cases
 
 <!-- connections:end -->

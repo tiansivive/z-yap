@@ -26,4 +26,16 @@ The audit is stored as a navigable HTML resource under `resources/audits/testing
 
 ## Connections
 
+**Outgoing**
+- DOCUMENTS → [[testing-strategy]] — Split HTML report records active-suite audit findings
+- INFORMS → [[elaboration-v2.thread]] — Elaboration assertion cleanup is first priority
+- INFORMS → [[parser-migration.thread]] — Parser gaps feed tree-sitter migration expectations
+- INFORMS → [[gram-evolution.thread]] — Active bridge parity and LoGRAM-era gaps
+- INFORMS → [[verification-backend.thread]] — Integration verdict assertions and unknown cases
+- INFORMS → [[delimited-continuations.thread]] — Shift/reset vertical-slice test gaps
+
+**Incoming**
+- [[testing.thread]] ← INCLUDES — Audit resource and findings index
+- [[testing-strategy]] ← INCLUDES — Audit findings index
+
 <!-- connections:end -->
