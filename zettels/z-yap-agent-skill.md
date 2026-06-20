@@ -21,4 +21,11 @@ The skill should be derived from an existing local skill template rather than au
 
 ## Connections
 
+**Outgoing**
+- ADDRESSES → [[agent-guidelines-zettelization]] — Convert z-yap interaction rules into reusable skill form
+- USES → [[repo-docs-retirement-audit-2026-06-20]] — Documentation cleanup surfaced the need for a dedicated ZK skill
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES — Planned Cursor skill for z-yap interaction protocol
+
 <!-- connections:end -->

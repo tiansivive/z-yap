@@ -136,5 +136,6 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - [[ffi-saturation-gram]] ← INCLUDED_IN — GRAM saturation pass
 - [[pipeline-stabilization.thread]] ← SHARED_WITH — Bridge bugs overlap
 - [[testing-audit-2026-06-20]] ← INFORMS — Active bridge parity and LoGRAM-era gaps
+- [[repo-docs-retirement-audit-2026-06-20]] ← INFORMS — Internal MIR/GRAM prose is superseded by canonical GRAM/MIR zettels
 
 <!-- connections:end -->

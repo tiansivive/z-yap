@@ -52,5 +52,7 @@ Drift between user-facing prose and the compiler tree shows up in several places
 - [[missing-spec-sigma-types]] ← ADDRESSES — Spec gap
 - [[missing-spec-recursive-types]] ← ADDRESSES — Spec gap
 - [[global-pending-queue]] ← INCLUDES
+- [[repo-docs-retirement-audit-2026-06-20]] ← DOCUMENTS — Audit of stale repository prose
+- [[repo-docs-retirement-audit-2026-06-20]] ← ADDRESSES — Retire superseded internal docs and refresh public docs
 
 <!-- connections:end -->

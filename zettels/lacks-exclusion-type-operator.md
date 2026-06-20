@@ -23,4 +23,11 @@ For Yap, the useful case is likely effect/resource rows rather than unrestricted
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[row-types.thread]] — Lacks constraints belong with row reasoning
+- INFORMS → [[usage-semantics.thread]] — Effect exclusion is a usage/effect-row design pressure
+
+**Incoming**
+- [[surface-syntax-backlog]] ← INCLUDES — Row/effect exclusion design item
+
 <!-- connections:end -->

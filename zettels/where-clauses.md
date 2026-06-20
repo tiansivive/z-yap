@@ -38,5 +38,6 @@ Status: **deferred / planned** surface sugar only—semantics would likely reuse
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES
+- [[surface-syntax-backlog]] ← INCLUDES — Existing local-definition sugar item
 
 <!-- connections:end -->

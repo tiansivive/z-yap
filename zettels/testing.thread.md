@@ -46,5 +46,6 @@ Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+
 
 **Incoming**
 - [[v1-test-cleanup]] ← DETAILS — Thread item
+- [[repo-docs-retirement-audit-2026-06-20]] ← INFORMS — README/tour updates should stay aligned with integration tests
 
 <!-- connections:end -->

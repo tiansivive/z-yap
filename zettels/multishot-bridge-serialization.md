@@ -48,8 +48,8 @@ Site move: this serialisation strategy was originally implemented in `src/loweri
 - COMPOSES_WITH → [[shift-reset-bridge-lowering]] — Multishot serialisation runs inside the bridge state machine
 
 **Incoming**
-- [[singleshot-static-specialization]] ← APPLIES_TO — Specialises the conservative multishot shape when usage allows
 - [[multishot-mir-state-machine-example]] ← CLARIFIES — Worked pseudo-MIR for the bridge-resident serialization shape
+- [[singleshot-static-specialization]] ← APPLIES_TO — Specialises the conservative multishot shape when usage allows
 - [[delimited-continuations.thread]] ← INCLUDES — Current multishot serialisation site
 - [[gram]] ← INCLUDES — Bridge-resident multishot serialisation
 

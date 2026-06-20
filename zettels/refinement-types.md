@@ -61,5 +61,6 @@ End-to-end refinement tests live under `src/verification/__tests__/check.test.ts
 - [[first-order-restriction.adr]] ← CONSTRAINS — Restricts self-equality and quantification to first-order types
 - [[sigma-value-semantics]] ← COMPOSES_WITH — Field refs in refinement predicates
 - [[liquid-vc-fragment]] ← CLARIFIES — Refinements target a restricted Liquid VC discipline
+- [[dependent-contract-types]] ← INFORMS — Contract-style dependent obligations
 
 <!-- connections:end -->

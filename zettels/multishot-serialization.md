@@ -49,5 +49,6 @@ Cost model in this iteration: multi-shot **always** heap-allocates; stack alloca
 - [[multishot-bridge-serialization]] ← DEPRECATES — Lifecycle event: legacy site marked deprecated
 - [[multishot-bridge-serialization]] ← MIRRORS — Same shape, new site
 - [[multishot-bridge-serialization]] ← REVISES — Refines the serialisation description to the bridge
+- [[multishot-mir-state-machine-example]] ← MIRRORS — Same legacy state-machine shape, preserved as explanatory reference
 
 <!-- connections:end -->

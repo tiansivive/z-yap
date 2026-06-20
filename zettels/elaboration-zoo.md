@@ -22,4 +22,10 @@ Implementation-oriented reference collection for dependent type elaboration. It 
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[elaboration-v2.thread]] — Implementation references for dependent elaboration
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

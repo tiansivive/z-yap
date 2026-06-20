@@ -38,11 +38,11 @@ Let-bound top-level declarations run Liquid verification during `EB.Mod.elaborat
 - DELEGATES_TO → [[v1-elaboration-pipeline]] — Current delegation
 - DELEGATES_TO → [[verification-pipeline]] — On-demand
 - DELEGATES_TO → [[mir-lowering]] — Lowering step
-- DELEGATES_TO → [[legacy-file-compile]] — Direct lowerToMir residue after file-compile migration
+- DELEGATES_TO → [[legacy-file-compile]] — Current file-compile delegation
 
 **Incoming**
 - [[yap]] ← INCLUDES — Orchestration
-- [[legacy-file-compile]] ← APPLIES_TO — File compile path migrated; direct lowering residue remains
+- [[legacy-file-compile]] ← APPLIES_TO — The yap <file> entry runs the legacy path
 - [[aot-compilation]] ← COMPOSES_WITH — Pipeline that performs AOT
 
 <!-- connections:end -->

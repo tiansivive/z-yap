@@ -60,5 +60,7 @@ Hub: [[implicit-resolution-solver.md]], [[implicit-environment.md]], [[implicits
 - [[typeclass-coherence]] ← APPLIES_TO — First-match semantics
 - [[dictionary-passing]] ← RELIES_ON — Dictionaries threaded via implicits
 - [[implicits-as-coeffects-exploration]] ← EXTENDS — Coeffect model for implicit requirements
+- [[implicit-hole-syntax]] ← INFORMS — Surface marker for existing implicit resolution behavior
+- [[implicit-calculus]] ← INFORMS — Prior art for principled implicit values
 
 <!-- connections:end -->

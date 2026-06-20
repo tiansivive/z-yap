@@ -62,8 +62,8 @@ Full translation boundary rewrite (`translate.ts` → IVL emission) deferred. Th
 - ADDRESSES → [[milestone-1-ir-boundary]] — Closes the open work item
 - IMPLEMENTS → [[vc-ir]] — IVL types/builder realize the VC IR concept
 - INSTANTIATES → [[vc-ir]] — Concrete TypeScript module from abstract design
-- IMPLEMENTS → [[translation-boundary-vc]] — IVL builder and transition bridge realize the boundary
-- PRESERVES → [[translation-boundary-vc]] — Kept the solver boundary stable during transition
+- IMPLEMENTS → [[translation-boundary-vc]] — z3.adapter.ts realizes the boundary
+- PRESERVES → [[translation-boundary-vc]] — Keeps Z3 working during transition
 - IMPLEMENTS → [[boolean-lowering-cnf]] — cnf.ts realizes Tseitin pass
 - IMPLEMENTS → [[vc-normalization]] — normalize.ts realizes formula simplification
 - IMPLEMENTS → [[quantifier-preparation]] — skolem.ts realizes skolemization

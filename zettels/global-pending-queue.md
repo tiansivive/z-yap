@@ -63,23 +63,23 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 **Outgoing**
 - INCLUDES → [[spineful-applications]]
-- INCLUDES → [[surface-syntax-backlog]]
 - INCLUDES → [[where-clauses]]
 - INCLUDES → [[lsp]]
 - INCLUDES → [[repl]]
 - INCLUDES → [[module-system]]
 - INCLUDES → [[block-level-using-gap]]
 - INCLUDES → [[documentation-debt]]
-- INCLUDES → [[repo-docs-retirement-audit-2026-06-20]]
 - INCLUDES → [[type-erasure]]
 - INCLUDES → [[dynamic-reflection]]
 - INCLUDES → [[ffi-saturation-gram]]
 - INCLUDES → [[whnf-codification]]
 - INCLUDES → [[legacy-file-compile]] — Tech debt tracked in the global queue
 - INCLUDES → [[agent-guidelines-zettelization]] — Cross-cutting queue item
-- INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
 - INCLUDES → [[solver-v2-universal-refinement-false-sat]] — Resolved/reframed queue item
 - INCLUDES → [[block-scoped-let-vc-parity-bug]] — Pending v2/VC parity bug
+- INCLUDES → [[repo-docs-retirement-audit-2026-06-20]] — Documentation cleanup work item
+- INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
+- INCLUDES → [[surface-syntax-backlog]] — Deferred syntax backlog
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

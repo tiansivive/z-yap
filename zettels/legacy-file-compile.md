@@ -34,8 +34,8 @@ Boundary: `lowerToMir` deprecation cannot complete while direct lowering/codegen
 
 **Outgoing**
 - DEFERS_TO → [[gram-canonical-ir.adr]] — Resolution shape is the canonical pipeline
-- APPLIES_TO → [[compile-orchestration]] — File compile path migrated; direct lowering residue remains
-- BLOCKS → [[gram-canonical-ir.adr]] — Direct lowerToMir tests still block removing the legacy API
+- APPLIES_TO → [[compile-orchestration]] — The yap <file> entry runs the legacy path
+- BLOCKS → [[gram-canonical-ir.adr]] — Full canonical adoption blocked on the file-path migration
 
 **Incoming**
 - [[compile-orchestration]] ← DELEGATES_TO — Current file-compile delegation

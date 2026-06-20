@@ -42,8 +42,8 @@ tags:
 - [[vc-normalization]] ← FOLLOWS — After translation
 - [[milestone-1-ir-boundary]] ← PRODUCES — Translation tools
 - [[verification-backend.thread]] ← INCLUDES
-- [[m1-implementation]] ← IMPLEMENTS — IVL builder and translation tools realize the boundary
-- [[m1-implementation]] ← PRESERVES — Kept the solver boundary stable during transition
+- [[m1-implementation]] ← IMPLEMENTS — z3.adapter.ts realizes the boundary
+- [[m1-implementation]] ← PRESERVES — Keeps Z3 working during transition
 - [[block-scoped-let-vc-parity-bug]] ← AFFECTS — Generated IVL shape appears suspicious
 
 <!-- connections:end -->

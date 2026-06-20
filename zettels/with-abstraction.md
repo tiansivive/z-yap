@@ -53,5 +53,6 @@ Related: [[dependent-pattern-matching]], [[case-tree-elaboration]], [[match]], [
 **Incoming**
 - [[case-tree-elaboration]] ← CONTRASTS_WITH — Compiler-directed vs user-directed
 - [[pattern-matching.thread]] ← INCLUDES
+- [[dependent-match-implication-constraints]] ← USES — Prior art for propagating match equalities into branch contexts
 
 <!-- connections:end -->

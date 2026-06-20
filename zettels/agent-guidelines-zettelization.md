@@ -32,5 +32,6 @@ This work should refine [[convention-zettel-promotion]] by extracting agent/code
 - [[solver-v2-monadic-port.session]] ← PRODUCED — Meta follow-up from session guidelines
 - [[thread-queue-system.thread]] ← INCLUDES — Meta-thread item 1
 - [[global-pending-queue]] ← INCLUDES — Cross-cutting queue item
+- [[z-yap-agent-skill]] ← ADDRESSES — Convert z-yap interaction rules into reusable skill form
 
 <!-- connections:end -->

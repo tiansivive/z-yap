@@ -39,5 +39,6 @@ Often discussed alongside **dedicated internal row constructors**; overlapping b
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES
+- [[operator-and-application-syntax]] ← INFORMS — Call syntax pressure overlaps explicit application spines
 
 <!-- connections:end -->

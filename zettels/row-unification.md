@@ -45,5 +45,6 @@ Detail: **`row-unification-mechanism.md`**.
 - [[constraint-solving]] ← USES — Row variables unified alongside type variables
 - [[row-types.thread]] ← INCLUDES
 - [[maplist-schema-unification]] ← APPLIES_TO — Row comparison step fails
+- [[leijen-scoped-labels]] ← INFORMS — Scoped labels and row unification prior art
 
 <!-- connections:end -->

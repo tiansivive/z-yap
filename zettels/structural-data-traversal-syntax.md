@@ -23,4 +23,10 @@ The open design question is how much traversal sugar should be type-directed. Nu
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[row-types.thread]] — Traversal sugar targets row-backed structural data
+
+**Incoming**
+- [[surface-syntax-backlog]] ← INCLUDES — Indexing, deep access/update, traversal sugar
+
 <!-- connections:end -->

@@ -56,5 +56,6 @@ This is not a new theory solver. It is a polarity and structure layer that prese
 - [[vc-validity-before-sat.adr]] ← DEFINES — Decision defines the verifier-facing layer
 - [[liquid-vc-fragment]] ← CONSTRAINS — Guarded binders are consumed as environment structure
 - [[verification-backend.thread]] ← INCLUDES — Thread item 31
+- [[generating-verification-conditions]] ← INFORMS — Verification obligations before solver discharge
 
 <!-- connections:end -->

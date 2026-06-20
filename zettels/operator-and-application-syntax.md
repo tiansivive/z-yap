@@ -22,4 +22,10 @@ Variadic arguments would need an arity discipline before elaboration can treat t
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[spineful-applications]] — Call syntax pressure overlaps explicit application spines
+
+**Incoming**
+- [[surface-syntax-backlog]] ← INCLUDES — Infix/custom/variadic/named application syntax
+
 <!-- connections:end -->

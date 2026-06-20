@@ -22,4 +22,10 @@ Reference for integrating shift/reset-style control operators with dependent typ
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[delimited-continuations.thread]] — Dependent typing pressure for shift/reset
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

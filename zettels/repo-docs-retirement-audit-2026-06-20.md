@@ -23,4 +23,27 @@ The TODO and resource migration blockers are represented in the graph by [[surfa
 
 ## Connections
 
+**Outgoing**
+- DOCUMENTS → [[documentation-debt]] — Audit of stale repository prose
+- ADDRESSES → [[documentation-debt]] — Retire superseded internal docs and refresh public docs
+- INFORMS → [[verification-backend.thread]] — Internal verification docs are superseded by IVL/CDCL(T) zettels
+- INFORMS → [[gram-evolution.thread]] — Internal MIR/GRAM prose is superseded by canonical GRAM/MIR zettels
+- INFORMS → [[parser-migration.thread]] — Parser docs retire into parser migration records
+- INFORMS → [[elaboration-v2.thread]] — Elaboration docs retire into active pipeline records
+- INFORMS → [[testing.thread]] — README/tour updates should stay aligned with integration tests
+- PRODUCED → [[surface-syntax-backlog]] — Migrated TODO syntax backlog atoms before deleting old docs
+- PRODUCED → [[dependent-match-implication-constraints]] — Migrated dependent-match TODO atom
+- PRODUCED → [[elaboration-zoo]] — Migrated resources bibliography item
+- PRODUCED → [[language-garden]] — Migrated resources bibliography item
+- PRODUCED → [[generating-verification-conditions]] — Migrated resources bibliography item
+- PRODUCED → [[dependent-contract-types]] — Migrated resources bibliography item
+- PRODUCED → [[implicit-calculus]] — Migrated resources bibliography item
+- PRODUCED → [[leijen-scoped-labels]] — Migrated resources bibliography item
+- PRODUCED → [[cong-asai-delimited-dependent]] — Migrated resources bibliography item
+- PRODUCED → [[thiemann-anton-coroutines]] — Migrated resources bibliography item
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES — Documentation cleanup work item
+- [[z-yap-agent-skill]] ← USES — Documentation cleanup surfaced the need for a dedicated ZK skill
+
 <!-- connections:end -->

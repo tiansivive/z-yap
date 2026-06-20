@@ -18,4 +18,10 @@ Reference for typed coroutine control flow. For Yap, coroutines are adjacent to 
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[delimited-continuations.thread]] — Coroutine typing adjacent to resumable control
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

@@ -22,4 +22,10 @@ Reference collection of small language implementations and experiments. For Yap,
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[yap]] — Comparative small-language implementation reference
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

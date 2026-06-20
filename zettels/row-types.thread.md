@@ -105,5 +105,7 @@ mechanism.
 - [[verification-backend.thread]] ← SHARED_WITH — milestone-4-rows / row-theory
 - [[pattern-matching.thread]] ← SHARED_WITH — exhaustiveness-checking depends on row/variant structure
 - [[pipeline-stabilization.thread]] ← SHARED_WITH — Row/schema unification bug
+- [[structural-data-traversal-syntax]] ← INFORMS — Traversal sugar targets row-backed structural data
+- [[lacks-exclusion-type-operator]] ← INFORMS — Lacks constraints belong with row reasoning
 
 <!-- connections:end -->

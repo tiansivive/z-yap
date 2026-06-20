@@ -23,4 +23,16 @@ Hub: [[where-clauses]], [[operator-and-application-syntax]], [[structural-data-t
 
 ## Connections
 
+**Outgoing**
+- INCLUDES → [[where-clauses]] — Existing local-definition sugar item
+- INCLUDES → [[operator-and-application-syntax]] — Infix/custom/variadic/named application syntax
+- INCLUDES → [[structural-data-traversal-syntax]] — Indexing, deep access/update, traversal sugar
+- INCLUDES → [[implicit-hole-syntax]] — Surface handle for implicit metavariable resolution
+- INCLUDES → [[lacks-exclusion-type-operator]] — Row/effect exclusion design item
+- INFORMS → [[parser-migration.thread]] — Surface forms feed parser migration planning
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated TODO syntax backlog atoms before deleting old docs
+- [[global-pending-queue]] ← INCLUDES — Deferred syntax backlog
+
 <!-- connections:end -->

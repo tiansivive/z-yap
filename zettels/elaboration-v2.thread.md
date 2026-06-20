@@ -86,5 +86,8 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[explorer-audit.thread]] ← SHARED_WITH — Monad/zonker fixes
 - [[testing-audit-2026-06-20]] ← INFORMS — Elaboration assertion cleanup is first priority
+- [[repo-docs-retirement-audit-2026-06-20]] ← INFORMS — Elaboration docs retire into active pipeline records
+- [[dependent-match-implication-constraints]] ← INFORMS — Implication constraints affect unification/elaboration
+- [[elaboration-zoo]] ← INFORMS — Implementation references for dependent elaboration
 
 <!-- connections:end -->

@@ -22,4 +22,10 @@ Reference for treating implicit values as a principled language mechanism rather
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[implicit-resolution]] — Prior art for principled implicit values
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

@@ -23,4 +23,10 @@ The feature overlaps named implicit application and implicit lookup by type, so 
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[implicit-resolution]] — Surface marker for existing implicit resolution behavior
+
+**Incoming**
+- [[surface-syntax-backlog]] ← INCLUDES — Surface handle for implicit metavariable resolution
+
 <!-- connections:end -->

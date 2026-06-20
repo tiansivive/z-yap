@@ -40,5 +40,7 @@ processor sync, and CST export cleanup.
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[testing-audit-2026-06-20]] ← INFORMS — Parser gaps feed tree-sitter migration expectations
+- [[repo-docs-retirement-audit-2026-06-20]] ← INFORMS — Parser docs retire into parser migration records
+- [[surface-syntax-backlog]] ← INFORMS — Surface forms feed parser migration planning
 
 <!-- connections:end -->

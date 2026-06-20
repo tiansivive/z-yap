@@ -81,7 +81,6 @@ tracks the full vertical of delimited control in Yap.
 - INCLUDES → [[nondeterminism]]
 - INCLUDES → [[nondeterminism-multishot]]
 - INCLUDES → [[multishot-serialization]]
-- INCLUDES → [[multishot-mir-state-machine-example]]
 - INCLUDES → [[shift-reset-mir-lowering]]
 - INCLUDES → [[selective-cps]]
 - INCLUDES → [[direct-style-lowering.adr]]
@@ -97,6 +96,7 @@ tracks the full vertical of delimited control in Yap.
 - INCLUDES → [[gram-canonical-ir.adr]] — D-006 amends/reframes D-004 in this thread
 - INCLUDES → [[shift-reset-bridge-lowering]] — Current shift/reset lowering site
 - INCLUDES → [[multishot-bridge-serialization]] — Current multishot serialisation site
+- INCLUDES → [[multishot-mir-state-machine-example]] — Pedagogical pseudo-MIR walkthrough of multishot lowering
 - INCLUDES → [[singleshot-static-specialization]] — Planned optimisation in the thread
 
 **Incoming**
@@ -104,5 +104,7 @@ tracks the full vertical of delimited control in Yap.
 - [[gram-evolution.thread]] ← SHARED_WITH — gram-shift-reset-pass
 - [[verification-backend.thread]] ← SHARED_WITH — shift-reset-verification, shift-reset-verification-stub
 - [[testing-audit-2026-06-20]] ← INFORMS — Shift/reset vertical-slice test gaps
+- [[cong-asai-delimited-dependent]] ← INFORMS — Dependent typing pressure for shift/reset
+- [[thiemann-anton-coroutines]] ← INFORMS — Coroutine typing adjacent to resumable control
 
 <!-- connections:end -->

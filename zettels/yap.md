@@ -60,5 +60,6 @@ Dependently typed research language: **structural** data (rows for records, tupl
 - [[lsp]] ← REPORTS — Language server protocol
 - [[yap-explore]] ← REPORTS — Web dashboard for pipeline stages
 - [[integration-testing]] ← USES — REPL pipeline end-to-end
+- [[language-garden]] ← INFORMS — Comparative small-language implementation reference
 
 <!-- connections:end -->

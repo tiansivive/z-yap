@@ -22,4 +22,10 @@ Reference for row-polymorphic records and variants with scoped labels. Yap's row
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[row-unification]] — Scoped labels and row unification prior art
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

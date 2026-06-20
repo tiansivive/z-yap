@@ -21,4 +21,10 @@ Reference point for contract-style runtime or verification boundaries in systems
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[refinement-types]] — Contract-style dependent obligations
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

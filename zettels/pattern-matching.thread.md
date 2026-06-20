@@ -73,5 +73,6 @@ checking is the next frontier alongside the implemented lowering passes.
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[gram-evolution.thread]] ← SHARED_WITH — gram-pattern-pass, gram-pattern-translation
 - [[explorer-audit.thread]] ← SHARED_WITH — Struct dispatch, row binders
+- [[dependent-match-implication-constraints]] ← INFORMS — Branch-local assumptions for dependent matches
 
 <!-- connections:end -->

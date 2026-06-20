@@ -22,4 +22,11 @@ Reference for structuring verification-condition generation as a compiler phase.
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[vc-ir]] — VC generation structure reference
+- INFORMS → [[vc-validity-discharge]] — Verification obligations before solver discharge
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated resources bibliography item
+
 <!-- connections:end -->

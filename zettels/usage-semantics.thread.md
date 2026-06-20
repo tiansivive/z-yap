@@ -59,5 +59,6 @@ modal phase.
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[gram-evolution.thread]] ← SHARED_WITH — CRUD depends on multiplicity
 - [[type-erasure]] ← INCLUDED_IN — QTT drives principled erasure
+- [[lacks-exclusion-type-operator]] ← INFORMS — Effect exclusion is a usage/effect-row design pressure
 
 <!-- connections:end -->

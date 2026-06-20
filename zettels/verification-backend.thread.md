@@ -201,5 +201,6 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - [[delimited-continuations.thread]] ← SHARED_WITH — shift-reset-verification
 - [[syn-app-ex-modification]] ← INCLUDES — Thread item
 - [[testing-audit-2026-06-20]] ← INFORMS — Integration verdict assertions and unknown cases
+- [[repo-docs-retirement-audit-2026-06-20]] ← INFORMS — Internal verification docs are superseded by IVL/CDCL(T) zettels
 
 <!-- connections:end -->

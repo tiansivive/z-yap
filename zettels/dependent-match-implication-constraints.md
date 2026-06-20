@@ -23,4 +23,12 @@ An implication constraint would carry assumptions into a branch-specific unifica
 
 ## Connections
 
+**Outgoing**
+- INFORMS → [[pattern-matching.thread]] — Branch-local assumptions for dependent matches
+- INFORMS → [[elaboration-v2.thread]] — Implication constraints affect unification/elaboration
+- USES → [[with-abstraction]] — Prior art for propagating match equalities into branch contexts
+
+**Incoming**
+- [[repo-docs-retirement-audit-2026-06-20]] ← PRODUCED — Migrated dependent-match TODO atom
+
 <!-- connections:end -->

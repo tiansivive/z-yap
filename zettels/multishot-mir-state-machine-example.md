@@ -95,6 +95,8 @@ The bridge implementation now builds this shape from GRAM `Reset`/`Resume` topol
 - CLARIFIES → [[multishot-bridge-serialization]] — Worked pseudo-MIR for the bridge-resident serialization shape
 - CLARIFIES → [[shift-reset-bridge-lowering]] — Concrete block-and-jump state-machine example
 - MIRRORS → [[multishot-serialization]] — Same legacy state-machine shape, preserved as explanatory reference
-- INCLUDED_IN → [[delimited-continuations.thread]] — Pedagogical reference for the shift/reset lowering vertical
+
+**Incoming**
+- [[delimited-continuations.thread]] ← INCLUDES — Pedagogical pseudo-MIR walkthrough of multishot lowering
 
 <!-- connections:end -->
