@@ -18,9 +18,13 @@ refs:
 
 # Integration testing
 
-Yap has one integration test: `examples-readme.repl.test.ts`. It defines tutorial snippets covering primitives, functions, records, variants, pattern matching, blocks, polymorphism, implicits, row polymorphism, dependent types, recursion, and refinements, then runs them through the REPL pipeline. The test is currently **skipped** (`test.skip`), so zero end-to-end coverage exists in CI.
+Yap has source-level integration suites under `src/__tests__/integration` that run language-tour fragments through the parser, elaboration, verification, GRAM, MIR, and codegen-facing pipeline helpers. These snapshots are valuable regression artifacts, but each declaration-level test should also assert the semantic claim it protects: expected type, normalized value, verification verdict, or explicitly classified expected error.
 
-Unskipping this test is a near-term goal. Beyond the REPL, integration testing could expand in two directions:
+The REPL tutorial runner (`examples-readme.repl.test.ts`) remains skipped and serves a different role: user-workflow coverage for interactive loading and reported types. It should not be the sole definition of integration testing.
+
+Integration testing expands in three directions:
+
+**Semantic assertions.** Source-level integration tests should state their expected type/validity/error outcome directly before snapshotting full pipeline output. This separates core parser/elaboration/verification claims from downstream GRAM, bridge, or backend lag.
 
 **Codegen round-trips.** The JS, C, and Erlang codegen emit tests snapshot the generated code but do not execute it. A round-trip test would elaborate a Yap program, lower it, emit target code, execute it (Node for JS, compile+run for C, `escript` for Erlang), and compare the output against expected values. This closes the gap between "emits valid-looking code" and "emits code that runs correctly."
 

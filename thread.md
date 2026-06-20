@@ -1630,3 +1630,36 @@ SPAWN [[vc-validity-discharge.session]] — session record
 [[vc-validity-discharge]] --[:AVOIDS]--> [[mbqi]]  -- Nested Liquid binders do not require full MBQI on the ordinary path
 [[quantifier-instantiation-boundary]] --[:CLARIFIES]--> [[incremental-abstraction-extension]]  -- Fresh-atom extension is general quantified-SMT completeness work
 [[verification-backend.thread]] --[:INCLUDES]--> [[vc-validity-before-sat.adr]]  -- Thread item 31 decision record
+
+---
+
+## Session: Testing audit z-yap integration — @2026-06-20 [testing, audit, snapshots, elaboration, integration, gram, verification]
+
+Integrated the testing audit report into z-yap. The HTML report lives at `resources/audits/testing-01/index.html` and is represented in the graph by an audit zettel plus two methodology notes: direct semantic assertions paired with regression snapshots, and explicit triage for snapshot-embedded errors.
+
+The main testing records now reflect the audit's stance: snapshots are still useful for regression, but correctness should be asserted directly; skipped tests are not the only coverage gap; and parser, elaboration, verification, GRAM, bridge, and backend errors should be classified by role before being treated as golden output.
+
+### Spawned
+
+SPAWN [[testing-audit-2026-06-20]] — testing audit findings and resource index
+SPAWN [[semantic-assertions-with-regression-snapshots]] — methodology note for direct assertions plus regression snapshots
+SPAWN [[snapshot-error-triage]] — classification note for snapshot-embedded errors
+
+### Updates
+
+- [[testing-strategy]] — added audit/methodology hub links and reframed snapshots as regression artifacts paired with semantic assertions.
+- [[snapshot-testing]] — added semantic-pairing and error-triage guidance.
+- [[integration-testing]] — updated from "one skipped integration test" to active source-level integration plus skipped REPL workflow coverage.
+- [[test-coverage-gaps]] — replaced stale skipped-suite inventory with skipped, snapshot-primary, snapshot-error, parser-migration, and active-pipeline gaps.
+- [[negative-testing]] — added the audit's first baseline of high-value negative tests.
+- [[testing.thread]] — added the audit and derived methodology records.
+- `connections.md` — added the testing audit edge cluster.
+- `REGISTRY.md` — registered the `audit` tag.
+
+### Edges
+
+[[testing.thread]] --[:INCLUDES]--> [[testing-audit-2026-06-20]]  -- Audit resource and findings index
+[[testing-strategy]] --[:INCLUDES]--> [[semantic-assertions-with-regression-snapshots]]  -- Direct assertions plus regression snapshots
+[[testing-strategy]] --[:INCLUDES]--> [[snapshot-error-triage]]  -- Embedded snapshot error classification
+[[semantic-assertions-with-regression-snapshots]] --[:CLARIFIES]--> [[snapshot-testing]]  -- Snapshots are regression artifacts paired with direct claims
+[[snapshot-error-triage]] --[:INFORMS]--> [[test-coverage-gaps]]  -- Snapshot-embedded errors are coverage gaps until classified

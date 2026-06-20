@@ -14,7 +14,7 @@ tags:
 
 # Testing
 
-Thread: [[testing-strategy]], [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[v1-test-cleanup]], [[test-coverage-gaps]]
+Thread: [[testing-strategy]], [[testing-audit-2026-06-20]], [[semantic-assertions-with-regression-snapshots]], [[snapshot-error-triage]], [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[v1-test-cleanup]], [[test-coverage-gaps]]
 
 Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+ files across every pipeline stage. CI enforces lint, formatting, dead-code detection, type checking, and test coverage on every PR.
 
@@ -27,6 +27,8 @@ Yap's testing infrastructure rests on snapshot-driven Vitest suites covering 67+
 - **Integration testing** ([[integration-testing]]) — the REPL integration test exists but is skipped; codegen round-trips and multi-module programs are unexplored.
 - **Negative testing** ([[negative-testing]]) — systematic coverage of error paths: type errors, parse failures, unsatisfiable refinements, non-termination.
 - **Solver stress testing** ([[solver-testing]]) — adversarial formulas, performance benchmarking, differential testing.
+- **Semantic assertions over regression snapshots** ([[semantic-assertions-with-regression-snapshots]]) — snapshots remain useful, but tests need direct semantic claims.
+- **Snapshot error triage** ([[snapshot-error-triage]]) — snapshot-embedded errors need explicit roles before they can be treated as regression artifacts.
 
 <!-- connections:start -->
 

@@ -28,6 +28,8 @@ Yap's test suite is predominantly positive — it checks that correct programs e
 
 **Scope errors.** References to unbound variables, duplicate `let` bindings, `using` declarations for values not in scope — each has a specific error path in elaboration that benefits from test coverage.
 
+**First baseline.** The audit identifies a compact first pass: wrong annotation, missing/extra record field, heterogeneous list, bad variant payload, invalid dependent field reference, resume without shift, nested reset delimiter behavior, contravariance reverse case, refinement-polymorphism failure, higher-order refinement failure, false-branch flow sensitivity, nonlinear refinement boundary, and verification `unknown` propagation.
+
 Related: [[testing-strategy]], [[match]], [[refinement-types]], [[termination-checking]], [[exhaustiveness-checking]], [[cdcl-t-solver]]
 
 <!-- connections:start -->

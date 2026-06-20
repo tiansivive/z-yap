@@ -99,6 +99,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | Tag | Description |
 |-----|-------------|
 | `compiler` | Compiler architecture, pipeline, passes |
+| `gram` | Graph rewriting abstract machine and graph-based compiler pipeline |
 | `rewriting` | Term/graph rewriting, DPO, algebraic graph transformation |
 | `backend` | Target-specific concerns (JS, C, Erlang, HVM, GPU) |
 | `performance` | Optimization, inlining, specialization, erasure |
@@ -165,11 +166,13 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `testing` | Test infrastructure, patterns, snapshot testing |
 | `tooling` | REPL, explorer, LSP, developer experience |
 | `automation` | CI/CD, GitHub Actions, automated checks, pre-commit hooks |
+| `integration` | End-to-end or multi-stage behavior across pipeline boundaries |
 | `cli` | Command-line interface, REPL |
 | `migration` | V1 → V2 transitions, parser migration, monad migration |
 | `explorer` | Pipeline explorer web dashboard (`pnpm yap explore`) |
 | `generator` | Generator functions (`function*`/`yield`) as control flow mechanism |
 | `snapshot-testing` | Snapshot-based test approach (toMatchSnapshot, inline snapshots) |
+| `regression` | Behavior preserved to catch unintended changes over time |
 | `cleanup` | Removal of dead code, stale tests, outdated patterns |
 | `visualization` | Visual rendering of data structures, graphs, trees, timelines |
 | `interactivity` | User interaction: click, hover, select, navigate |
@@ -190,9 +193,11 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `gateway` | Entry point to an external resource |
 | `code` | Source code or code-level implementation concerns |
 | `reference` | Reference material, external artifacts |
+| `audit` | Review of an existing system, code area, or knowledge base for drift, gaps, or quality |
 | `milestone` | Project milestones, deliverables |
 | `ai-session` | A recorded AI pair-programming session |
 | `drift` | Specification/implementation drift |
+| `semantics` | Meaning of language constructs or compiler behavior, distinct from surface representation |
 | `frozen` | Intentionally not updated through normal flow; references a locked snapshot of state |
 | `convention` | Durable project or zettelkasten convention worth citing independently |
 

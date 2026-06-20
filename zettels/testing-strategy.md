@@ -25,21 +25,21 @@ refs:
 
 # Testing strategy
 
-Hub: [[snapshot-testing]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[test-coverage-gaps]], [[v1-test-cleanup]]
+Hub: [[snapshot-testing]], [[semantic-assertions-with-regression-snapshots]], [[snapshot-error-triage]], [[testing-audit-2026-06-20]], [[fuzz-testing]], [[property-based-testing]], [[ci-pipeline]], [[integration-testing]], [[negative-testing]], [[solver-testing]], [[test-coverage-gaps]], [[v1-test-cleanup]]
 
-Yap's test suite spans every pipeline stage: parsing, elaboration, normalization, unification, lowering, GRAM rewriting, verification, and codegen. Vitest runs 67+ test files with parallel workers, coverage via `@vitest/coverage-v8`, and Codecov integration.
+Yap's test suite spans every pipeline stage: parsing, elaboration, normalization, unification, GRAM rewriting, verification, and codegen. Vitest runs the suite with parallel workers, coverage via `@vitest/coverage-v8`, and Codecov integration.
 
-The dominant pattern is **snapshot testing** — parse or elaborate a source string, assert structural properties on the AST/type, then snapshot the pretty-printed output. A custom serializer (`src/__tests__/setup.ts`) strips non-deterministic keys (`ffi`, `imports`, `location`, `trace`, `id`), and `console-fail-test` catches accidental logging.
+Snapshots remain useful regression artifacts, but the active testing direction is to pair them with direct semantic assertions. A test should state the behavior it protects through displayed type text, normalized value, verification verdict, graph shape, runtime result, or a classified expected error; the snapshot then catches broader compiler-output drift.
 
 **Coverage by stage:**
-- **Parser**: 12 files — Nearley parse → assert single result → snapshot CST
-- **Elaboration inference**: 18+ files — `elaborateFrom(src)` → structural assert → snapshot displays
+- **Parser**: Nearley tests document current syntax expectations; gaps feed the tree-sitter migration test plan
+- **Elaboration inference**: `elaborateFrom(src)` → semantic assertions on displays/constraints/shape → regression snapshots
 - **Elaboration modules**: 4+ files — full `let`/export/import through solver
 - **Normalization**: 4 files — NbE evaluation, generalization, force, arity
 - **Unification**: 1 file — unification v2
-- **Lowering + GRAM**: 15 files — MIR lowering, DPO matching, saturation, closures, patterns
+- **GRAM**: graph substrate, DPO matching, saturation, closures, patterns, PAP, shift/reset enrichment, bridge tests
 - **Verification solver**: 8 files — CDCL, CNF, EUF, arithmetic, quantifiers, traces
-- **Codegen**: 3 files — JS, C, Erlang emit snapshots
+- **Codegen**: backend emit tests and active-pipeline parity gaps
 
 **Gaps under exploration:** fuzz testing ([[fuzz-testing]]), property-based generators ([[property-based-testing]]), systematic negative testing ([[negative-testing]]), codegen round-trip verification ([[integration-testing]]), and deeper solver stress testing ([[solver-testing]]). These will come online progressively as the core stabilizes.
 

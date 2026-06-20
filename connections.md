@@ -2861,3 +2861,24 @@
 [[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[translation-boundary-vc]]  -- Generated IVL shape appears suspicious  @2026-06-15
 [[block-scoped-let-vc-parity-bug]] --[:AFFECTS]--> [[arithmetic-theory]]  -- Divergence involves arithmetic equalities  @2026-06-15
 [[agent-guidelines-zettelization]] --[:EXTENDS]--> [[convention-zettel-promotion]]  -- Agent/code rules are a concrete convention extraction case  @2026-06-15
+
+## Testing audit 2026-06-20  @2026-06-20
+
+[[testing.thread]] --[:INCLUDES]--> [[testing-audit-2026-06-20]]  -- Audit resource and findings index  @2026-06-20
+[[testing.thread]] --[:INCLUDES]--> [[semantic-assertions-with-regression-snapshots]]  -- Testing methodology from audit  @2026-06-20
+[[testing.thread]] --[:INCLUDES]--> [[snapshot-error-triage]]  -- Snapshot error classification from audit  @2026-06-20
+[[testing-strategy]] --[:INCLUDES]--> [[testing-audit-2026-06-20]]  -- Audit findings index  @2026-06-20
+[[testing-strategy]] --[:INCLUDES]--> [[semantic-assertions-with-regression-snapshots]]  -- Direct assertions plus regression snapshots  @2026-06-20
+[[testing-strategy]] --[:INCLUDES]--> [[snapshot-error-triage]]  -- Embedded snapshot error classification  @2026-06-20
+[[testing-audit-2026-06-20]] --[:DOCUMENTS]--> [[testing-strategy]]  -- Split HTML report records active-suite audit findings  @2026-06-20
+[[testing-audit-2026-06-20]] --[:INFORMS]--> [[elaboration-v2.thread]]  -- Elaboration assertion cleanup is first priority  @2026-06-20
+[[testing-audit-2026-06-20]] --[:INFORMS]--> [[parser-migration.thread]]  -- Parser gaps feed tree-sitter migration expectations  @2026-06-20
+[[testing-audit-2026-06-20]] --[:INFORMS]--> [[gram-evolution.thread]]  -- Active bridge parity and LoGRAM-era gaps  @2026-06-20
+[[testing-audit-2026-06-20]] --[:INFORMS]--> [[verification-backend.thread]]  -- Integration verdict assertions and unknown cases  @2026-06-20
+[[testing-audit-2026-06-20]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Shift/reset vertical-slice test gaps  @2026-06-20
+[[semantic-assertions-with-regression-snapshots]] --[:CLARIFIES]--> [[snapshot-testing]]  -- Snapshots are regression artifacts paired with direct claims  @2026-06-20
+[[semantic-assertions-with-regression-snapshots]] --[:INFORMS]--> [[integration-testing]]  -- Declaration-level type/validity/error expectations  @2026-06-20
+[[semantic-assertions-with-regression-snapshots]] --[:INFORMS]--> [[negative-testing]]  -- Expected failures need explicit assertions  @2026-06-20
+[[snapshot-error-triage]] --[:CLARIFIES]--> [[snapshot-testing]]  -- Embedded errors need explicit roles  @2026-06-20
+[[snapshot-error-triage]] --[:INFORMS]--> [[test-coverage-gaps]]  -- Snapshot-embedded errors are coverage gaps until classified  @2026-06-20
+[[snapshot-error-triage]] --[:INFORMS]--> [[integration-testing]]  -- Downstream lag must be separated from core language claims  @2026-06-20

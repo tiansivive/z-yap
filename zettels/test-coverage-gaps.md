@@ -15,17 +15,22 @@ tags:
 
 # Test coverage gaps
 
-Five test suites remain skipped. Each has a distinct blocker.
+The testing audit separates skipped tests from semantic coverage gaps. Skips are only one signal; snapshot-only tests and snapshots that bless known errors also create gaps.
 
-**1. `inference/__tests__/shift-reset.test.ts`** — entire `describe.skip`. The v2 inference modules (`shift.ts`, `reset.ts`) are implemented and Done per V2-MIGRATION.md, but the test syntax (`reset 10 with \k v -> ...`) may not align with the current Nearley parser. GRAM-level shift/reset tests (`src/GRAM/__tests__/shift-reset.test.ts`) pass and cover the lowering side comprehensively.
+**Skipped tests.**
 
-**2. `inference/__tests__/modal.test.ts`** — `it.skip("<*> 1")`. Correctly skipped: inference.v2 `modal.ts` does not exist (22/23 inference modules done, modal is the missing one). checking.v2 `modal.ts` also missing. Unblocked only when modal inference is implemented.
+- `inference/__tests__/modal.test.ts` — modal inference/checking coverage remains blocked on modal inference work.
+- `__tests__/pi-types.test.ts` — dependent argument case depends on dependent match/checking coverage.
+- `parser/__tests__/grammar.test.ts` — boolean structural parse case belongs in the tree-sitter migration baseline rather than a large Nearley expansion.
+- `__tests__/integration/examples-readme.repl.test.ts` — REPL tutorial runner remains a user-workflow/infrastructure test.
 
-**3. `__tests__/pi-types.test.ts`** — `it.skip("handles dependent arg")`. Blocked by two things: (a) `Bool` literal not parsed by Nearley grammar (see item 4), (b) checking.v2 `match.ts` not implemented (dependent match in Pi domains requires it). The other 2 tests in this file (non-dependent) pass.
+**Snapshot-primary gaps.** Elaboration match, let-polymorphism, variants, tuples, holes, dictionaries, modal coverage, and some shift/reset module tests need direct semantic assertions before their snapshots can be read as correctness contracts.
 
-**4. `parser/__tests__/grammar.test.ts`** — `it.skip("should parse booleans: true")`. The Nearley grammar may lack a `true`/`false` → Bool literal production. The v2 literal module handles Bool in elaboration, and tree-sitter likely parses it. This is a v1-parser-only gap.
+**Snapshot-error gaps.** Integration snapshots contain expected failures, known implementation bugs, downstream GRAM/bridge lag, backend lag, and unexpected runtime exceptions. Each embedded error needs an explicit role before the snapshot can function as a regression artifact.
 
-**5. `__tests__/integration/examples-readme.repl.test.ts`** — `test.skip`. 180s timeout integration test running all tutorial snippets through the REPL. Not a feature gap — an infrastructure/stability concern. Depends on the full v1 pipeline being stable end-to-end.
+**Parser migration gaps.** Nearley parser gaps are useful inventory for tree-sitter: modules/import/export, FFI declarations, `using`, dict types, list and wildcard patterns, `:field` self-reference syntax, and fuller shift/reset syntax/error cases.
+
+**Active pipeline gaps.** GRAM graph tests are strong, but active bridge/runtime parity needs focused tests for shift/reset with captured environments, multiple resumptions with captured values, rich struct/variant/list pattern dispatch, user FFI, and blocks.
 
 <!-- connections:start -->
 

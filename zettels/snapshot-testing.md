@@ -29,6 +29,10 @@ tags:
 
 **Displays**: prefer **`EB.Display.Term`**, **`NF.display`**, constraint pretty-printers — avoid brittle exact string equality on full dumps.
 
+**Semantic pairing**: snapshots should preserve broad regression history, while direct assertions state the protected behavior. In elaboration tests this usually means checking displayed type, displayed term, constraint text, or a small structural discriminant before snapshotting. In integration tests this usually means checking expected type, normalized value, verification verdict, or expected-error classification before snapshotting the broader pipeline output.
+
+**Error triage**: snapshot-embedded errors need a role. Expected semantic failures are test contracts; known implementation bugs need known-limitation tracking; downstream GRAM/bridge lag should be separated from parser and elaboration claims; backend-specific lag belongs in backend-targeted tests.
+
 <!-- connections:start -->
 
 ## Connections
