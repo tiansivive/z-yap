@@ -25,4 +25,16 @@ After merging `x ≡ y`, congruence closure propagates to merge `f(x) ≡ f(y)`,
 Formula `(x = y) ∧ (f(x) ≠ f(y))` returned SAT when it should be UNSAT. After merging `x ≡ y`, [[congruence-closure]] failed to propagate the merge of `f(x) ≡ f(y)` (same head `f`, arguments now co-classed), so the asserted disequality passed without a conflict. The trace also showed a duplicate `{x}` class (5 classes for 4 nodes), pointing at parent-set tracking in `merge()` alongside the propagation failure.
 
 <!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- AFFECTS → [[congruence-closure]] — Defect was in merge propagation to function applications
+- AFFECTS → [[euf-theory]] — EUF decision returned spurious SAT
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES — Resolved solver parity bug
+- [[congruence-closure]] ← FIXES — Merge propagates to congruent applications; disequality conflict detected
+- [[m2-implementation]] ← FIXES — EUF milestone delivers working congruence propagation
+
 <!-- connections:end -->

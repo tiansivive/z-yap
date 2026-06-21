@@ -34,5 +34,6 @@ Supporting notes: [`congruence-closure.md`](congruence-closure.md), [`e-matching
 - [[solver-trace]] ← REPORTS — Renders equivalence classes after merges
 - [[nelson-oppen]] ← DOCUMENTS — Theory combination behind EUF+LIA cooperation
 - [[mbqi]] ← USES — Ground-term enumeration by sort from the arena
+- [[euf-congruence-propagation-bug]] ← AFFECTS — EUF decision returned spurious SAT
 
 <!-- connections:end -->

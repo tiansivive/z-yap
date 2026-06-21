@@ -48,7 +48,7 @@ This is not a new theory solver. It is a polarity and structure layer that prese
 - CONSUMES → [[vc-ir]] — Generated IVL formulas are validity obligations
 - DELEGATES_TO → [[cdcl-t-solver]] — Leaf counterexample queries use raw SAT solving
 - RESOLVES → [[solver-v2-universal-refinement-false-sat]] — Resolves the Yap verification-path interpretation
-- CONTRASTS_WITH → [[block-scoped-let-vc-parity-bug]] — Block-local let issue remains VC-generation first
+- RESOLVES → [[block-scoped-let-vc-parity-bug]] — Block-local let obligation discharges as valid
 - AVOIDS → [[mbqi]] — Nested Liquid binders do not require full MBQI on the ordinary path
 
 **Incoming**

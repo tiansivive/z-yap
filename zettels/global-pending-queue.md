@@ -80,6 +80,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[repo-docs-retirement-audit-2026-06-20]] — Documentation cleanup work item
 - INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
 - INCLUDES → [[surface-syntax-backlog]] — Deferred syntax backlog
+- INCLUDES → [[euf-congruence-propagation-bug]] — Resolved solver parity bug
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

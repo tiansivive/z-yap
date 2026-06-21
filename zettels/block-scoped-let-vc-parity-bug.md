@@ -65,6 +65,6 @@ There are likely two separable follow-ups:
 - [[solver-v2-monadic-port.implementation]] ← DEFERRED_TO — Former-oracle divergence and VC-generation review item
 - [[verification-backend.thread]] ← INCLUDES — Thread item 29
 - [[global-pending-queue]] ← INCLUDES — Pending v2/VC parity bug
-- [[vc-validity-discharge]] ← CONTRASTS_WITH — Block-local let issue remains VC-generation first
+- [[vc-validity-discharge]] ← RESOLVES — Block-local let obligation discharges as valid
 
 <!-- connections:end -->

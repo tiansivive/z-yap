@@ -120,6 +120,7 @@ Extracted as standalone ADR zettels for reuse and independent traversal:
 - USES → [[ge-de-moura-quantifiers]] — E-matching directly implemented
 - USES → [[nelson-oppen]] — Theory combination via shared equalities
 - IMPLEMENTS → [[z3-replacement.adr]] — M2 delivered EUF + quantifiers + LIA
+- FIXES → [[euf-congruence-propagation-bug]] — EUF milestone delivers working congruence propagation
 
 **Incoming**
 - [[session-m2-completion]] ← PRODUCED — Session delivered M2
