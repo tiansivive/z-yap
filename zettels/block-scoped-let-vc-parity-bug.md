@@ -1,6 +1,7 @@
 ---
 tags:
   - bug
+  - resolved
   - verification
   - solver
   - sat
@@ -11,13 +12,18 @@ tags:
 ---
 # Block-scoped let VC parity bug
 
-**Status:** Open  
+**Status:** Resolved. The block-local let obligation discharges as valid; the suspicious self-referential VC no longer appears.  
 **Discovered:** 2026-06-15  
-**Test:** `src/__tests__/integration/refinement-types.test.ts` — `block scoped inner let VCs match the current Z3 oracle`
+**Resolved:** 2026-06-21  
+**Test:** `src/__tests__/integration/refinement-types.test.ts` — `block-local let obligations verify through validity discharge`
 
-## Description
+## Resolution
 
-The v2 solver differs from Z3 on the VC generated for:
+The temporary Z3-oracle `test.fails` was retired. The same program now asserts `valid` via `Verdict.expect(result, "compute", "valid")`. The contradictory `(= doubled (* doubled 2))` shape is gone; an unrefined `Num -> Num` block-local computation produces a dischargeable obligation. The [[vc-validity-discharge]] path resolves the block-local-let case that was previously contrasted as "VC-generation first".
+
+## Original defect (historical)
+
+The v2 solver differed from Z3 on the VC generated for:
 
 ```yap
 let compute: Num -> Num = \x -> {

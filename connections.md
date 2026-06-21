@@ -2849,7 +2849,7 @@
 [[vc-validity-discharge]] --[:CONSUMES]--> [[vc-ir]]  -- Generated IVL formulas are validity obligations  @2026-06-16
 [[vc-validity-discharge]] --[:DELEGATES_TO]--> [[cdcl-t-solver]]  -- Leaf counterexample queries use raw SAT solving  @2026-06-16
 [[vc-validity-discharge]] --[:RESOLVES]--> [[solver-v2-universal-refinement-false-sat]]  -- Resolves the Yap verification-path interpretation  @2026-06-16
-[[vc-validity-discharge]] --[:CONTRASTS_WITH]--> [[block-scoped-let-vc-parity-bug]]  -- Block-local let issue remains VC-generation first  @2026-06-16
+[[vc-validity-discharge]] --[:RESOLVES]--> [[block-scoped-let-vc-parity-bug]]  -- Block-local let obligation discharges as valid  @2026-06-21
 [[vc-validity-discharge]] --[:AVOIDS]--> [[mbqi]]  -- Nested Liquid binders do not require full MBQI on the ordinary path  @2026-06-16
 
 [[quantifier-instantiation-boundary]] --[:CLARIFIES]--> [[mbqi]]  -- Bounded MBQI is general SMT fallback, not the Liquid VC proof path  @2026-06-16
@@ -2943,3 +2943,11 @@
 [[leijen-scoped-labels]] --[:INFORMS]--> [[row-unification]]  -- Scoped labels and row unification prior art  @2026-06-20
 [[cong-asai-delimited-dependent]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Dependent typing pressure for shift/reset  @2026-06-20
 [[thiemann-anton-coroutines]] --[:INFORMS]--> [[delimited-continuations.thread]]  -- Coroutine typing adjacent to resumable control  @2026-06-20
+
+## Solver parity bugs resolved  @2026-06-21
+
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[congruence-closure]]  -- Defect was in merge propagation to function applications  @2026-06-03
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[euf-theory]]  -- EUF decision returned spurious SAT  @2026-06-03
+[[global-pending-queue]] --[:INCLUDES]--> [[euf-congruence-propagation-bug]]  -- Resolved solver parity bug  @2026-06-03
+[[congruence-closure]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- Merge propagates to congruent applications; disequality conflict detected  @2026-06-21
+[[m2-implementation]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- EUF milestone delivers working congruence propagation  @2026-06-21

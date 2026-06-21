@@ -1747,3 +1747,37 @@ SPAWN [[multishot-mir-state-machine-example]] — annotated pseudo-MIR walkthrou
 [[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[multishot-bridge-serialization]]  -- Worked pseudo-MIR for the bridge-resident serialization shape
 [[multishot-mir-state-machine-example]] --[:CLARIFIES]--> [[shift-reset-bridge-lowering]]  -- Concrete block-and-jump state-machine example
 [[delimited-continuations.thread]] --[:INCLUDES]--> [[multishot-mir-state-machine-example]]  -- Pedagogical pseudo-MIR walkthrough of multishot lowering
+
+---
+
+## Session: Solver parity bugs close-out — @2026-06-21 [verification, solver, euf, ivl, validity, bug, testing]
+
+Verified two open solver-parity bugs in the global queue against current code and closed both. The third candidate — the `lowerToMir` legacy-API residue — was checked and left open.
+
+**EUF congruence propagation** ([[euf-congruence-propagation-bug]]): the solver was restructured under `src/verification/solver/v2/`. Congruence closure now propagates merges to function applications and detects disequality conflicts. `cc.test.ts` asserts `find(f(x)) == find(f(y))` after merging `x ≡ y` and that `(x = y) ∧ (f(x) ≠ f(y))` yields a conflict clause; `trace.test.ts` "EUF congruence contradiction" exercises the end-to-end UNSAT. The duplicate-class arena symptom is gone. This bug had no edges in `connections.md` — wired it into the graph as part of closing.
+
+**Block-scoped let VC parity** ([[block-scoped-let-vc-parity-bug]]): the temporary Z3-oracle `test.fails` was replaced by "block-local let obligations verify through validity discharge", which asserts the unrefined `Num -> Num` block computation is `valid`. The contradictory `(= doubled (* doubled 2))` VC no longer appears; [[vc-validity-discharge]] discharges the obligation. The prior CONTRASTS_WITH edge ("remains VC-generation first") was replaced by a RESOLVES edge.
+
+**Legacy file-compile** ([[legacy-file-compile]]) — checked, not closed. The file-compile production path is migrated (neither `compile.ts` nor `Codegen/modules.ts` reference `lowerToMir`), but `lowerToMir` remains in `src/lowering/lower.ts` (carrying `@deprecated Use GRAM.Bridge.emit instead.`) and is depended on by ~6 test files. GRAM-side coverage achieves behavioral-category parity (FFI, closures, match, multishot, PAP all tested across `bridge`/`pipeline`/`shift-reset`/`pattern`/`saturate`/`closure` tests), but `bridge.test.ts` is not a strict superset of `lower.test.ts` at the MIR-interpret boundary — FFI materialization and several multishot/continuation edge cases are not yet re-verified through GRAM→MIR. The `incomplete` residue stands.
+
+### Resolved
+
+RESOLVED [[euf-congruence-propagation-bug]] — congruence propagation and disequality conflict detection working; verified by cc/trace tests
+RESOLVED [[block-scoped-let-vc-parity-bug]] — block-local let obligation discharges as valid via [[vc-validity-discharge]]
+
+### Updates
+
+- [[euf-congruence-propagation-bug]] — `resolved` tag, status/location/test refreshed to `v2/euf`, added Resolution section, original defect preserved as historical.
+- [[block-scoped-let-vc-parity-bug]] — `resolved` tag, status and test name refreshed, added Resolution section, original defect preserved as historical.
+- [[global-pending-queue]] — both bugs flipped to `[x]` with resolution notes.
+- [[verification-backend.thread]] — item 29 marked resolved.
+- `connections.md` — EUF bug wired into the graph (AFFECTS/FIXES/INCLUDES); block-scoped-let CONTRASTS_WITH → RESOLVES.
+
+### Edges
+
+[[congruence-closure]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- Merge propagates to congruent applications; disequality conflict detected
+[[m2-implementation]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- EUF milestone delivers working congruence propagation
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[congruence-closure]]  -- Defect was in merge propagation
+[[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[euf-theory]]  -- EUF decision returned spurious SAT
+[[global-pending-queue]] --[:INCLUDES]--> [[euf-congruence-propagation-bug]]  -- Resolved solver parity bug
+[[vc-validity-discharge]] --[:RESOLVES]--> [[block-scoped-let-vc-parity-bug]]  -- Block-local let obligation discharges as valid

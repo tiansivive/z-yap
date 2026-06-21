@@ -126,9 +126,9 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
     Verification-path issue resolved by [[vc-validity-discharge]]; the raw v2/Z3
     discrepancy remains scoped to general quantified-SMT completeness.
 
-29. **Block-scoped let VC parity bug** [[block-scoped-let-vc-parity-bug]] — open bug  
-    V2 reports SAT where Z3 rejects the current block-local-let VC; the generated IVL
-    shape also needs verification-pipeline review.
+29. **Block-scoped let VC parity bug** [[block-scoped-let-vc-parity-bug]] — resolved  
+    The block-local-let obligation discharges as valid through [[vc-validity-discharge]];
+    the suspicious self-referential VC is gone. Resolved 2026-06-21.
 
 30. **Solver v1 and Z3 removal** [[solver-v1-z3-removal]] — implemented  
     Removed the `z3-solver` dependency, `z3.adapter.ts`, root-level v1 solver modules,

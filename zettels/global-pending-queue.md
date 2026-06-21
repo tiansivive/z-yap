@@ -24,8 +24,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 ## Open items
 
 - [x] [[solver-v2-universal-refinement-false-sat]] — reframed by [[vc-validity-discharge]]; raw quantified SMT discrepancy remains scoped to general solver completeness
-- [ ] [[block-scoped-let-vc-parity-bug]] — former Z3 oracle divergence on block-local let VC; generated IVL shape is suspicious
-- [ ] [[euf-congruence-propagation-bug]] — EUF congruence closure fails to propagate merges to function applications; returns SAT for UNSAT formula
+- [x] [[block-scoped-let-vc-parity-bug]] — resolved 2026-06-21; block-local let obligation discharges as valid via [[vc-validity-discharge]]
+- [x] [[euf-congruence-propagation-bug]] — resolved 2026-06-21; congruence closure propagates merges to applications, disequality conflict detected
 - [ ] [[spineful-applications]] — cross-cutting IR refactor (App representation migration)
 - [ ] [[surface-syntax-backlog]] — deferred parser/elaboration sugar backlog migrated from old TODO notes
 - [ ] [[where-clauses]] — deferred surface syntax, no parser/elab support
