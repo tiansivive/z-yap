@@ -67,7 +67,7 @@
 
 [[yap]] --[:INCLUDES]--> [[nearley-parser]]  -- Parser component
 [[yap]] --[:INCLUDES]--> [[verification-pipeline]]  -- Verification component
-[[yap]] --[:INCLUDES]--> [[mir-lowering]]  -- Lowering component
+[[yap]] --[:INCLUDES]--> [[mir]]  -- Operational IR
 [[yap]] --[:INCLUDES]--> [[js-codegen]]  -- JS backend
 [[yap]] --[:INCLUDES]--> [[c-codegen]]  -- C backend
 [[yap]] --[:INCLUDES]--> [[erlang-codegen]]  -- Erlang backend
@@ -86,18 +86,18 @@
 [[verification-pipeline]] --[:TRANSLATES_TO]--> [[smt-translation]]  -- Types → Z3 assertions
 [[verification-pipeline]] --[:COMPOSES_WITH]--> [[v1-elaboration-pipeline]]  -- Post-hoc validation
 [[mir-lowering]] --[:CONSUMES]--> [[v1-elaboration-pipeline]]  -- EB.Term input
-[[mir-lowering]] --[:PRODUCES]--> [[js-codegen]]  -- MIR → JS
-[[mir-lowering]] --[:PRODUCES]--> [[c-codegen]]  -- MIR → C
-[[mir-lowering]] --[:PRODUCES]--> [[erlang-codegen]]  -- MIR → Erlang
+[[js-codegen]] --[:CONSUMES]--> [[mir]]  -- Emits JS from MIR
+[[c-codegen]] --[:CONSUMES]--> [[mir]]  -- Emits C from MIR
+[[erlang-codegen]] --[:CONSUMES]--> [[mir]]  -- Emits Erlang from MIR
 [[mir-lowering]] --[:TRANSLATES_TO]--> [[eb-term]]  -- EB.Term → SSA blocks
-[[mir-lowering]] --[:ERASES]--> [[pi-types]]  -- Types not preserved in MIR
+[[mir]] --[:ERASES]--> [[pi-types]]  -- Types not preserved in MIR
 [[mir-lowering]] --[:TRAVERSES]--> [[eb-term]]  -- Pattern-match walk
 [[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]  -- Stubs prevent integration
 [[verification-modal-phase]] --[:FOLLOWS]--> [[elaboration]]  -- Modal checking after full inference
 [[module-system]] --[:RELIES_ON]--> [[v1-elaboration-pipeline]]  -- Not yet wired to v2
 [[compile-orchestration]] --[:DELEGATES_TO]--> [[v1-elaboration-pipeline]]  -- Current delegation
 [[compile-orchestration]] --[:DELEGATES_TO]--> [[verification-pipeline]]  -- On-demand
-[[compile-orchestration]] --[:DELEGATES_TO]--> [[mir-lowering]]  -- Lowering step
+[[compile-orchestration]] --[:DELEGATES_TO]--> [[gram-to-mir-bridge]]  -- Lowering step (Pipeline.lowerTerm → bridge)
 [[pi-types]] --[:EXTENDS]--> [[dependent-types]]  -- Universal quantification with dependency
 [[pi-types]] --[:GENERALIZES]--> [[lambda]]  -- Arrow → is non-dependent Pi
 [[pi-types]] --[:FORMS]--> [[lambda]]  -- Π is formation rule for functions
@@ -208,7 +208,7 @@
 [[type-type]] --[:COMPOSES_WITH]--> [[dependent-types]]  -- Types in same universe
 [[strict-vs-lazy]] --[:CONTRASTS_WITH]--> [[cbv-evaluation]]  -- Lazy alternative
 [[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[smt-translation]]  -- CAS alternative
-[[gram]] --[:SUPERSEDES]--> [[mir-lowering]]  -- As IR approach
+[[gram]] --[:SUPERSEDES]--> [[mir]]  -- As the canonical IR
 [[gram]] --[:REWRITES]--> [[dpo-rewriting]]  -- DPO rules refine graph
 [[gram]] --[:PRESERVES]--> [[nbe]]  -- Semantic equivalence per pass
 [[dpo-rewriting]] --[:IMPLEMENTS]--> [[gram]]  -- Rewriting engine
@@ -452,7 +452,7 @@
 [[snapshot-testing]] --[:PRESERVES]--> [[test-utility]]  -- Determinism via resets
 [[repl]] --[:USES]--> [[parser-processors]]  -- Parses each input
 [[repl]] --[:USES]--> [[v1-elaboration-pipeline]]  -- Elaborates
-[[repl]] --[:USES]--> [[mir-lowering]]  -- Optional MIR mode
+[[repl]] --[:USES]--> [[mir]]  -- Optional MIR display mode
 [[repl]] --[:THREADS_THROUGH]--> [[elaboration-context]]  -- Persistent ctx
 [[pipeline-explorer]] --[:REPORTS]--> [[yap]]  -- Visualizes pipeline stages
 [[brainstorming-artifacts]] --[:INFORMS]--> [[yap]]  -- Roadmap decisions
@@ -717,7 +717,7 @@
 [[src-to-eb-transformation]] --[:DISPATCHES_ON]--> [[src-term]]  -- Src.Term type drives dispatch
 [[parser-processors]] --[:DISPATCHES_ON]--> [[src-term]]  -- Grammar rule postprocessors
 [[parser-processors]] --[:TRANSLATES_TO]--> [[src-term]]  -- Token arrays → AST nodes
-[[repl]] --[:DISPATCHES_ON]--> [[mir-lowering]]  -- Standard, --mir, --codegen modes
+[[repl]] --[:DISPATCHES_ON]--> [[mir]]  -- Standard, --mir, --codegen modes
 [[whnf-codification]] --[:ADDRESSES]--> [[whnf-vs-full-normalization]]  -- Formalize the WHNF boundary
 
 ### Orphan zettel connections
@@ -932,11 +932,11 @@
 ## GRAM Architecture Principles  @2026-05-18
 
 [[gram-additive-enrichment]] --[:CONSTRAINS]--> [[gram]]  -- All passes must follow
-[[gram-additive-enrichment]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- MIR erases/replaces; GRAM accumulates
+[[gram-additive-enrichment]] --[:CONTRASTS_WITH]--> [[mir]]  -- MIR erases/replaces; GRAM accumulates
 [[gram-additive-enrichment]] --[:ENABLES]--> [[compilation-by-selection]]  -- Multiple views enable selection
 [[gram-additive-enrichment]] --[:MIRRORS]--> [[mlir-influence]]  -- Multi-dialect coexistence pattern
 [[gram-dataflow-semantics]] --[:CONSTRAINS]--> [[gram]]  -- No forced sequencing in graph
-[[gram-dataflow-semantics]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Partial order vs total order (blocks)
+[[gram-dataflow-semantics]] --[:CONTRASTS_WITH]--> [[mir]]  -- Partial order vs total order (blocks)
 [[gram-dataflow-semantics]] --[:CONTRASTS_WITH]--> [[shift-reset-mir-lowering]]  -- Dependency edges vs jump sequences
 [[gram-dataflow-semantics]] --[:ENABLES]--> [[native-lambda-hvm]]  -- Parallel reduction compatible
 [[gram-dataflow-semantics]] --[:ENABLES]--> [[compilation-by-selection]]  -- Independence enables selectivity
@@ -945,7 +945,7 @@
 [[compilation-by-selection]] --[:ADDRESSES]--> [[closure-conversion]]  -- Backend-specific (C yes, JS no)
 [[compilation-by-selection]] --[:ADDRESSES]--> [[defunctionalization]]  -- Backend-specific (GPU yes, JS no)
 [[compilation-by-selection]] --[:ADDRESSES]--> [[native-lambda-hvm]]  -- Backend-specific (HVM skips all)
-[[compilation-by-selection]] --[:CONTRASTS_WITH]--> [[mir-lowering]]  -- Pass selection vs fixed representation
+[[compilation-by-selection]] --[:CONTRASTS_WITH]--> [[mir]]  -- Pass selection vs fixed representation
 
 ## GRAM Passes  @2026-05-18
 
@@ -978,13 +978,13 @@
 ## GRAM → MIR Bridge  @2026-05-18
 
 [[gram-to-mir-bridge]] --[:CONSUMES]--> [[gram]]  -- Reads enriched graph
-[[gram-to-mir-bridge]] --[:PRODUCES]--> [[mir-lowering]]  -- Emits MIR Module
+[[gram-to-mir-bridge]] --[:PRODUCES]--> [[mir]]  -- Emits MIR Module
 [[gram-to-mir-bridge]] --[:VALIDATES]--> [[gram-additive-enrichment]]  -- Tests if enrichment is sufficient
 [[gram-to-mir-bridge]] --[:RELIES_ON]--> [[gram-shift-reset-pass]]  -- Needs continuation structure
 [[gram-to-mir-bridge]] --[:RELIES_ON]--> [[gram-pattern-pass]]  -- Needs decision trees
 [[gram-to-mir-bridge]] --[:RELIES_ON]--> [[saturation]]  -- Needs external/primop
 [[gram-to-mir-bridge]] --[:RELIES_ON]--> [[closure-conversion]]  -- Needs env/fn nodes
-[[gram]] --[:GENERALIZES]--> [[mir-lowering]]  -- Richer representation subsumes sequential form
+[[gram]] --[:GENERALIZES]--> [[mir]]  -- Richer representation subsumes sequential form
 
 ## GRAM Interpreter (Speculative)  @2026-05-18
 
@@ -1226,10 +1226,10 @@
 [[gram-crud-enrichment]] --[:RELIES_ON]--> [[verification-modal-phase]]  -- Conservative defaults until enforcement works
 [[gram-crud-enrichment]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- Adds edges, never replaces
 [[gram-crud-enrichment]] --[:INSTANTIATES]--> [[compilation-by-selection]]  -- Backends choose whether to read modes
-[[gram-crud-enrichment]] --[:MIRRORS]--> [[mir-lowering]]  -- MIR §6.4 Read/Update is the same concept in CFG form
+[[gram-crud-enrichment]] --[:MIRRORS]--> [[mir]]  -- MIR §6.4 Read/Update is the same concept in CFG form
 [[gram-crud-enrichment]] --[:FOLLOWS]--> [[gram-to-mir-bridge]]  -- After bridge validates graph
 [[gram-crud-enrichment]] --[:INSTANTIATES]--> [[gram-dataflow-semantics]]  -- Mode flows with data, not control
-[[gram-crud-enrichment]] --[:LOWERS_TO]--> [[mir-lowering]]  -- Update{mode} in MIR
+[[gram-crud-enrichment]] --[:LOWERS_TO]--> [[mir]]  -- Update{mode} in MIR
 
 ### CRUD strategy choice — decision hub
 [[crud-strategy-choice]] --[:CONSTRAINS]--> [[gram-crud-enrichment]]  -- Strategy determines pass design
@@ -1296,7 +1296,7 @@
 [[lambda-lifting]] --[:APPLIES_TO]--> [[gram]]  -- GRAM enrichment pass
 [[lambda-lifting]] --[:ENABLES]--> [[compilation-by-selection]]  -- C/GPU need it, JS/Erlang skip it
 [[lambda-lifting]] --[:INSTANTIATES]--> [[gram-additive-enrichment]]  -- lifts_to edge, original closure remains
-[[lambda-lifting]] --[:MIRRORS]--> [[mir-lowering]]  -- MIR expects top-level functions
+[[lambda-lifting]] --[:MIRRORS]--> [[mir]]  -- MIR expects top-level functions
 
 ### Thread and roadmap edges
 [[gram-next-steps]] --[:INCLUDES]--> [[gram-crud-enrichment]]  -- Planned pass (phase 5)
@@ -2007,7 +2007,7 @@
 
 [[explorer-graph-viz]] --[:EXTENDS]--> [[pipeline-explorer]]  -- New explorer capability
 [[explorer-graph-viz]] --[:USES]--> [[gram]]  -- Renders GRAM property graph
-[[explorer-graph-viz]] --[:USES]--> [[mir-lowering]]  -- Renders MIR CFG
+[[explorer-graph-viz]] --[:USES]--> [[mir]]  -- Renders MIR CFG
 [[explorer-graph-viz]] --[:USES]--> [[dpo-rewriting]]  -- Animates DPO rule application
 [[explorer-graph-viz]] --[:COMPOSES_WITH]--> [[explorer-cross-highlighting]]  -- Graph selection synced with tabs
 [[explorer-graph-viz]] --[:ADDRESSES]--> [[gram-additive-enrichment]]  -- Visualizes enrichment layers
@@ -2955,3 +2955,9 @@
 ## Lowering test retirement  @2026-06-22
 
 [[test-coverage-gaps]] --[:BLOCKS]--> [[legacy-file-compile]]  -- GRAM-path run-to-value parity gaps gate lowerToMir retirement  @2026-06-22
+
+## MIR IR / direct-lowering split  @2026-06-22
+
+[[gram-to-mir-bridge]] --[:SUPERSEDES]--> [[mir-lowering]]  -- Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer  @2026-06-22
+[[gram-to-mir-bridge]] --[:DEPRECATES]--> [[mir-lowering]]  -- Lifecycle: direct lowering marked deprecated  @2026-06-22
+[[mir-lowering]] --[:PRODUCES]--> [[mir]]  -- Direct path emitted the MIR IR (now produced by the bridge)  @2026-06-22

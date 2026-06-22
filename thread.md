@@ -1805,3 +1805,31 @@ ENQUEUE Document how Yap structures testing (methodology note, scope carefully) 
 ### Edges
 
 [[test-coverage-gaps]] --[:BLOCKS]--> [[legacy-file-compile]]  -- GRAM-path run-to-value parity gaps gate lowerToMir retirement
+
+---
+
+## Session: MIR IR / direct-lowering split — @2026-06-22 [mir, ir, lowering, gram, bridge, codegen, deprecated, documentation, drift]
+
+Split the `mir-lowering` hub to fix current-state drift and record the lowering evolution. The hub conflated two concerns: MIR-the-IR (live, consumed by codegen, produced by the bridge) and the `lowerToMir` direct driver (deprecated, no production callers). Verified against code: `lowerToMir` has zero non-test callers; `GRAM.Bridge.emit` is the producer in `pipeline/lower.ts` (REPL + file-compile) and `explore/pipeline.ts` (explorer).
+
+New [[mir]] zettel holds the IR: block-SSA structure, type erasure, production via the bridge, consumption by JS/C/Erlang codegen. [[mir-lowering]] retitled "Direct MIR lowering (`lowerToMir`)", tagged `deprecated` + `legacy`, banner pointing at [[gram-to-mir-bridge]] and [[mir]]; its dispatch-module inventory preserved as historical reference. Edges triaged in `connections.md`: IR-level edges (codegen CONSUMES, bridge PRODUCES, GRAM representation contrasts, type erasure, REPL/explorer consumption) retargeted to [[mir]]; direct-lowering-act edges (EB.Term traversal, closure-conversion/pattern/defunctionalization translation, lowering-approach contrasts, the retrospective's rejection) stay on [[mir-lowering]]. Corrected the stale `compile-orchestration DELEGATES_TO mir-lowering` to the bridge.
+
+This follows the same lifecycle pattern as the earlier `shift-reset-mir-lowering` → `shift-reset-bridge-lowering` deprecation.
+
+### Spawned
+
+SPAWN [[mir]] — the live MIR IR / format zettel, split out of the former lowering hub
+
+### Updates
+
+- [[mir-lowering]] — retitled and deprecated; now the direct `lowerToMir` driver record, IR knowledge moved to [[mir]].
+- [[gram-to-mir-bridge]] — scope widened from "explorer" to explorer/REPL/file-compile; canonical-producer status and `lowerToMir` deprecation stated.
+- `connections.md` — retargeted IR-level edges to [[mir]]; added SUPERSEDES/DEPRECATES/PRODUCES lifecycle edges.
+
+### Edges
+
+[[gram-to-mir-bridge]] --[:SUPERSEDES]--> [[mir-lowering]]  -- Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer
+[[gram-to-mir-bridge]] --[:DEPRECATES]--> [[mir-lowering]]  -- Lifecycle: direct lowering marked deprecated
+[[mir-lowering]] --[:PRODUCES]--> [[mir]]  -- Direct path emitted the MIR IR (now produced by the bridge)
+[[gram-to-mir-bridge]] --[:PRODUCES]--> [[mir]]  -- Emits MIR Module (retargeted from mir-lowering)
+[[gram]] --[:SUPERSEDES]--> [[mir]]  -- As the canonical IR

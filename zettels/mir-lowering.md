@@ -1,7 +1,8 @@
 ---
 tags:
 - lowering
-- implemented
+- deprecated
+- legacy
 - mir
 - compiler
 - codegen
@@ -14,17 +15,15 @@ tags:
 - testing
 ---
 
-# MIR lowering (hub)
+# Direct MIR lowering (`lowerToMir`)
 
-**Entry:** `lowerToMir` in `src/lowering/lower.ts` returns `MIR.Module`; re-exported via `src/lowering/index.ts`. Driver layout and pass responsibilities are documented in the `lower.ts` header comment and submodules below.
+**Superseded by the GRAM → MIR bridge — see [[gram-to-mir-bridge]] and [[mir]].** Original content preserved below for reference.
 
-**Dispatch modules:** `leaf.ts`, `struct.ts`, `block.ts`, `functions/` (lambda closure conversion, app, materialize), `continuations/` (reset, shift, k-call), `matching/` (Maranget-style decision trees for `Match`). Driver: worklist + `monad.ts` RWSE (`lower.ts` header comment lists layout).
+`lowerToMir` (`src/lowering/lower.ts`, re-exported via `src/lowering/index.ts`) is the direct EB.Term → `MIR.Module` lowerer. It has no production callers — the canonical EB→MIR route is `GRAM.Bridge.emit`. It is retained only for direct-lowering and backend snapshot tests; retiring those tests removes it ([[legacy-file-compile]]).
 
-**Outputs:** Block-SSA MIR (`mir.ts`) with `Jump` / `Branch` / `Return`, `Alloc`/`Read`/`Update`, `Call` direct vs indirect. **Backends:** JS, C, Erlang emitters under `Codegen/v2/`; `src/cli/explore/pipeline.ts` runs `lowerToMir` then codegen.
+**Dispatch modules:** `leaf.ts`, `struct.ts`, `block.ts`, `functions/` (lambda closure conversion, app, materialize), `continuations/` (reset, shift, k-call), `matching/` (Maranget-style decision trees for `Match`). Driver: worklist + `monad.ts` RWSE (`lower.ts` header comment lists the layout).
 
-**Coexistence:** GRAM translate + passes run in parallel in the same CLI for inspection; MIR remains the path to executable codegen today.
-
-**Related zettels:** `gram.md`, `closure-conversion.md`, `pattern-matching-compilation.md`, `shift-reset` / kontinuation notes under `src/lowering/continuations/`.
+**Output:** the [[mir]] IR — block-SSA with `Jump` / `Branch` / `Return`, `Alloc` / `Read` / `Update`, and direct vs indirect `Call`.
 
 <!-- connections:start -->
 
