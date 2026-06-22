@@ -1758,7 +1758,7 @@ Verified two open solver-parity bugs in the global queue against current code an
 
 **Block-scoped let VC parity** ([[block-scoped-let-vc-parity-bug]]): the temporary Z3-oracle `test.fails` was replaced by "block-local let obligations verify through validity discharge", which asserts the unrefined `Num -> Num` block computation is `valid`. The contradictory `(= doubled (* doubled 2))` VC no longer appears; [[vc-validity-discharge]] discharges the obligation. The prior CONTRASTS_WITH edge ("remains VC-generation first") was replaced by a RESOLVES edge.
 
-**Legacy file-compile** ([[legacy-file-compile]]) — checked, not closed. The file-compile production path is migrated (neither `compile.ts` nor `Codegen/modules.ts` reference `lowerToMir`), but `lowerToMir` remains in `src/lowering/lower.ts` (carrying `@deprecated Use GRAM.Bridge.emit instead.`) and is depended on by ~6 test files. GRAM-side coverage achieves behavioral-category parity (FFI, closures, match, multishot, PAP all tested across `bridge`/`pipeline`/`shift-reset`/`pattern`/`saturate`/`closure` tests), but `bridge.test.ts` is not a strict superset of `lower.test.ts` at the MIR-interpret boundary — FFI materialization and several multishot/continuation edge cases are not yet re-verified through GRAM→MIR. The `incomplete` residue stands.
+**Legacy file-compile** ([[legacy-file-compile]]) — checked, not closed. The file-compile production path is migrated (neither `compile.ts` nor `Codegen/modules.ts` reference `lowerToMir`), but `lowerToMir` remains in `src/lowering/lower.ts` (carrying `@deprecated Use GRAM.Bridge.emit instead.`) and is depended on by six test files: `lower.test.ts` (MIR-shape snapshots), `interpret.test.ts` (MIR interpreter, run-to-value), `pretty.test.ts` (MIR pretty-printer), and the three `Codegen/v2/{js,c,erlang}/__tests__/emit.test.ts`. Each uses `lowerToMir` only to obtain a `MIR.Module`. The run-to-value cases for captured-frame, multishot-with-local-frame, resumption-value-plus-captured-var, and struct-binding match are exercised only on this direct path (`interpret.test.ts`), not through the GRAM bridge; [[test-coverage-gaps]] already tracks these as active bridge/runtime parity gaps. Retirement requires repointing those test producers to `GRAM.Bridge.emit` (see the retirement path on [[legacy-file-compile]]). The `incomplete` residue stands.
 
 ### Resolved
 
@@ -1781,3 +1781,27 @@ RESOLVED [[block-scoped-let-vc-parity-bug]] — block-local let obligation disch
 [[euf-congruence-propagation-bug]] --[:AFFECTS]--> [[euf-theory]]  -- EUF decision returned spurious SAT
 [[global-pending-queue]] --[:INCLUDES]--> [[euf-congruence-propagation-bug]]  -- Resolved solver parity bug
 [[vc-validity-discharge]] --[:RESOLVES]--> [[block-scoped-let-vc-parity-bug]]  -- Block-local let obligation discharges as valid
+
+---
+
+## Session: Lowering test retirement scoping — @2026-06-22 [testing, lowering, mir, gram, bridge, tech-debt, documentation]
+
+Traced the test surface around `lowerToMir` to make the [[legacy-file-compile]] residue actionable. Six test files depend on `lowerToMir` purely as a `MIR.Module` producer: `lower.test.ts` (MIR-shape snapshots), `interpret.test.ts` (MIR interpreter, run-to-value), `pretty.test.ts`, and the three `Codegen/v2/{js,c,erlang}/emit.test.ts`. Confirmed the integration layer: the `runScript` helper runs EB→GRAM→Bridge→MIR→codegen but snapshots MIR/codegen as strings; only the REPL test (`examples-readme.repl.test.ts`) actually interprets EB→GRAM→MIR→value, via `Pipeline.run`.
+
+Recorded the retirement path on [[legacy-file-compile]]: repoint the six test files' MIR producer to `GRAM.Bridge.emit`, consolidating run-to-value assertions into the interpreter tests (where the captured-frame / multishot-with-local-frame / struct-binding-match cases belong) and leaving `bridge.test.ts` asserting emitted-MIR shape. [[test-coverage-gaps]] already inventories those run-to-value parity gaps; added a BLOCKS edge.
+
+Considered and **rejected** a general "test-layer responsibility" zettel — the Core→codegen pipeline shape is lowering-specific, not a Yap-wide principle, and the unit-per-pass / integration-on-composition pattern is generic. Deferred a scoped "how Yap structures testing" methodology note to a queue item instead. Also corrected the imprecise "MIR-interpret boundary" wording in the 2026-06-21 close-out block above.
+
+### Enqueued
+
+ENQUEUE Document how Yap structures testing (methodology note, scope carefully) — added to [[global-pending-queue]]
+
+### Updates
+
+- [[legacy-file-compile]] — added a Retirement path section enumerating the six dependent test files and the producer-repoint steps; added `testing` tag.
+- [[test-coverage-gaps]] — connected to the retirement via a BLOCKS edge (its active bridge/runtime parity gaps gate `lowerToMir` removal).
+- `thread.md` — corrected the "MIR-interpret boundary" paragraph in the prior close-out block.
+
+### Edges
+
+[[test-coverage-gaps]] --[:BLOCKS]--> [[legacy-file-compile]]  -- GRAM-path run-to-value parity gaps gate lowerToMir retirement

@@ -18,6 +18,7 @@ tags:
     refactor,
     integration,
     bridge,
+    testing,
   ]
 ---
 # Legacy file-compile path
@@ -27,6 +28,17 @@ The file-level CLI now lowers each valid declaration through `Pipeline.lowerTerm
 The remaining legacy residue is the direct `lowerToMir` API retained for direct lowering and backend snapshot tests. Removing it cleanly requires reframing those tests around `GRAM.Bridge.emit` or keeping them as explicit legacy regression coverage.
 
 Boundary: `lowerToMir` deprecation cannot complete while direct lowering/codegen tests still depend on it. The file-compile part of the work is implemented; the test-retirement part remains incomplete.
+
+## Retirement path
+
+Six test files import `lowerToMir`, each only to obtain a `MIR.Module`: `lowering/__tests__/lower.test.ts` (MIR-shape snapshots), `interpret.test.ts` (MIR interpreter, run-to-value), `pretty.test.ts` (MIR pretty-printer), and `Codegen/v2/{js,c,erlang}/__tests__/emit.test.ts` (backend emit). Repointing that producer to `GRAM.Bridge.emit` clears the dependency:
+
+- MIR-shape snapshots re-baseline against bridge-emitted MIR.
+- The interpreter tests take bridge-emitted MIR. This is where the run-to-value coverage for captured-frame, multishot-with-local-frame, resumption-value-plus-captured-var, and struct-binding match belongs — cases currently exercised only via `lowerToMir`, tracked by [[test-coverage-gaps]].
+- `bridge.test.ts` value assertions (`interpret(bridge(term))`) consolidate into the interpreter tests, leaving the bridge suite asserting emitted-MIR shape.
+- Backend emit tests source their `MIR.Module` from the bridge.
+
+With no test referencing `lowerToMir`, `src/lowering/lower.ts` retires.
 
 <!-- connections:start -->
 

@@ -2951,3 +2951,7 @@
 [[global-pending-queue]] --[:INCLUDES]--> [[euf-congruence-propagation-bug]]  -- Resolved solver parity bug  @2026-06-03
 [[congruence-closure]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- Merge propagates to congruent applications; disequality conflict detected  @2026-06-21
 [[m2-implementation]] --[:FIXES]--> [[euf-congruence-propagation-bug]]  -- EUF milestone delivers working congruence propagation  @2026-06-21
+
+## Lowering test retirement  @2026-06-22
+
+[[test-coverage-gaps]] --[:BLOCKS]--> [[legacy-file-compile]]  -- GRAM-path run-to-value parity gaps gate lowerToMir retirement  @2026-06-22

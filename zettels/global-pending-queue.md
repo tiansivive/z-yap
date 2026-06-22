@@ -57,6 +57,10 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] [[legacy-file-compile]] — file compile migrated to pipeline lowering; direct `lowerToMir` tests still block removing the legacy API
 
+## Testing follow-ups (2026-06-22)
+
+- [ ] Document how Yap structures testing — unit tests per pass/transformation, integration tests when composing them. Methodology note; scope carefully (the Core→codegen pipeline shape is lowering-specific, not a general principle).
+
 <!-- connections:start -->
 
 ## Connections
