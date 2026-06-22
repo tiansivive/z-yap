@@ -35,7 +35,7 @@ tags:
 ## Connections
 
 **Outgoing**
-- SUPERSEDES → [[mir-lowering]] — As IR approach
+- SUPERSEDES → [[mir]] — As the canonical IR
 - REWRITES → [[dpo-rewriting]] — DPO rules refine graph
 - PRESERVES → [[nbe]] — Semantic equivalence per pass
 - TRANSLATES_TO → [[js-codegen]] — Target-specific passes
@@ -46,7 +46,7 @@ tags:
 - INCLUDES → [[gram-shift-reset-pass]] — Pipeline pass
 - INCLUDES → [[gram-pattern-translation]] — Translation phase
 - INCLUDES → [[gram-pattern-pass]] — Pipeline pass
-- GENERALIZES → [[mir-lowering]] — Richer representation subsumes sequential form
+- GENERALIZES → [[mir]] — Richer representation subsumes sequential form
 - IMPLEMENTS → [[gram-canonical-ir.adr]] — src/GRAM materialises the canonical pipeline
 - INCLUDES → [[shift-reset-bridge-lowering]] — Bridge-resident continuation lowering
 - INCLUDES → [[multishot-bridge-serialization]] — Bridge-resident multishot serialisation

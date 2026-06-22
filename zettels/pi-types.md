@@ -42,7 +42,7 @@ At lowering, Pi types are erased. The runtime sees Lambda (closures), not Pi. Ty
 - COMPOSES_WITH → [[refinement-types]] — Refined domains/codomains
 
 **Incoming**
-- [[mir-lowering]] ← ERASES — Types not preserved in MIR
+- [[mir]] ← ERASES — Types not preserved in MIR
 - [[refinement-types]] ← SUBSUMES — Refined T subtype of T
 - [[refinement-types]] ← COERCES_TO — Forget rule strips predicate
 - [[modalities]] ← APPLIES_TO — Quantity on domain

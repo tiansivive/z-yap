@@ -42,7 +42,7 @@ Dependently typed research language: **structural** data (rows for records, tupl
 - INCLUDES → [[elaboration]] — Core pipeline stage
 - INCLUDES → [[nearley-parser]] — Parser component
 - INCLUDES → [[verification-pipeline]] — Verification component
-- INCLUDES → [[mir-lowering]] — Lowering component
+- INCLUDES → [[mir]] — Operational IR
 - INCLUDES → [[js-codegen]] — JS backend
 - INCLUDES → [[c-codegen]] — C backend
 - INCLUDES → [[erlang-codegen]] — Erlang backend

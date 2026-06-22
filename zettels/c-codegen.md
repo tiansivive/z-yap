@@ -28,11 +28,11 @@ File-mode `src/compile.ts` does **not** use this path; it emits JS via `src/Code
 ## Connections
 
 **Outgoing**
+- CONSUMES → [[mir]] — Emits C from MIR
 - TRANSLATES_TO → [[ffi]] — C source output
 
 **Incoming**
 - [[yap]] ← INCLUDES — C backend
-- [[mir-lowering]] ← PRODUCES — MIR → C
 - [[gram]] ← TRANSLATES_TO — Target-specific passes
 - [[integration-testing]] ← CONCERNS
 

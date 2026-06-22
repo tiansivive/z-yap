@@ -31,7 +31,7 @@ The sequencing choice belongs to the backend, not the IR. This is the key differ
 
 **Outgoing**
 - CONSTRAINS → [[gram]] — No forced sequencing in graph
-- CONTRASTS_WITH → [[mir-lowering]] — Partial order vs total order (blocks)
+- CONTRASTS_WITH → [[mir]] — Partial order vs total order (blocks)
 - CONTRASTS_WITH → [[shift-reset-mir-lowering]] — Dependency edges vs jump sequences
 - ENABLES → [[native-lambda-hvm]] — Parallel reduction compatible
 - ENABLES → [[compilation-by-selection]] — Independence enables selectivity

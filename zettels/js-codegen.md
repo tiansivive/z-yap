@@ -27,11 +27,11 @@ tags:
 ## Connections
 
 **Outgoing**
+- CONSUMES → [[mir]] — Emits JS from MIR
 - TRANSLATES_TO → [[ffi]] — JavaScript source output
 
 **Incoming**
 - [[yap]] ← INCLUDES — JS backend
-- [[mir-lowering]] ← PRODUCES — MIR → JS
 - [[ffi]] ← TRANSLATES_TO — Curried JS functions
 - [[gram]] ← TRANSLATES_TO — Target-specific passes
 - [[type-erasure]] ← ENABLES — Cleaner codegen

@@ -50,7 +50,7 @@ GRAM enrichment that promotes closures to top-level functions with extra capture
 - APPLIES_TO → [[gram]] — GRAM enrichment pass
 - ENABLES → [[compilation-by-selection]] — C/GPU need it, JS/Erlang skip it
 - INSTANTIATES → [[gram-additive-enrichment]] — lifts_to edge, original closure remains
-- MIRRORS → [[mir-lowering]] — MIR expects top-level functions
+- MIRRORS → [[mir]] — MIR expects top-level functions
 
 **Incoming**
 - [[gram-next-steps]] ← INCLUDES — Planned pass (phase 4)

@@ -34,7 +34,7 @@ Most speculative of the explorer ideas — requires significant client-side work
 **Outgoing**
 - EXTENDS → [[pipeline-explorer]] — New explorer capability
 - USES → [[gram]] — Renders GRAM property graph
-- USES → [[mir-lowering]] — Renders MIR CFG
+- USES → [[mir]] — Renders MIR CFG
 - USES → [[dpo-rewriting]] — Animates DPO rule application
 - COMPOSES_WITH → [[explorer-cross-highlighting]] — Graph selection synced with tabs
 - ADDRESSES → [[gram-additive-enrichment]] — Visualizes enrichment layers

@@ -36,7 +36,7 @@ Architecture: GRAM enriches the graph maximally — all semantic and operational
 - ADDRESSES → [[closure-conversion]] — Backend-specific (C yes, JS no)
 - ADDRESSES → [[defunctionalization]] — Backend-specific (GPU yes, JS no)
 - ADDRESSES → [[native-lambda-hvm]] — Backend-specific (HVM skips all)
-- CONTRASTS_WITH → [[mir-lowering]] — Pass selection vs fixed representation
+- CONTRASTS_WITH → [[mir]] — Pass selection vs fixed representation
 
 **Incoming**
 - [[gram-graph-ir.adr]] ← MOTIVATES — Property follows from graph substrate

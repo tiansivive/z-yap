@@ -30,11 +30,11 @@ File compile (`src/compile.ts`) stays on legacy JS codegen only; MIR → Erlang 
 ## Connections
 
 **Outgoing**
+- CONSUMES → [[mir]] — Emits Erlang from MIR
 - TRANSLATES_TO → [[ffi]] — Erlang source output
 
 **Incoming**
 - [[yap]] ← INCLUDES — Erlang backend
-- [[mir-lowering]] ← PRODUCES — MIR → Erlang
 - [[gram]] ← TRANSLATES_TO — Target-specific passes
 - [[integration-testing]] ← CONCERNS
 

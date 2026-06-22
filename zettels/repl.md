@@ -40,10 +40,10 @@ tags:
 **Outgoing**
 - USES → [[parser-processors]] — Parses each input
 - USES → [[v1-elaboration-pipeline]] — Elaborates
-- USES → [[mir-lowering]] — Optional MIR mode
+- USES → [[mir]] — Optional MIR display mode
 - THREADS_THROUGH → [[elaboration-context]] — Persistent ctx
 - USES → [[js-codegen]] — Code generation
-- DISPATCHES_ON → [[mir-lowering]] — Standard, --mir, --codegen modes
+- DISPATCHES_ON → [[mir]] — Standard, --mir, --codegen modes
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES

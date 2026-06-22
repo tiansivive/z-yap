@@ -35,15 +35,18 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 
 **Outgoing**
 - CONSUMES → [[gram]] — Reads enriched graph
-- PRODUCES → [[mir-lowering]] — Emits MIR Module
+- PRODUCES → [[mir]] — Emits MIR Module
 - VALIDATES → [[gram-additive-enrichment]] — Tests if enrichment is sufficient
 - RELIES_ON → [[gram-shift-reset-pass]] — Needs continuation structure
 - RELIES_ON → [[gram-pattern-pass]] — Needs decision trees
 - RELIES_ON → [[saturation]] — Needs external/primop
 - RELIES_ON → [[closure-conversion]] — Needs env/fn nodes
 - FOLLOWS → [[gram-next-steps]] — Step 1: regression + CFG extraction
+- SUPERSEDES → [[mir-lowering]] — Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer
+- DEPRECATES → [[mir-lowering]] — Lifecycle: direct lowering marked deprecated
 
 **Incoming**
+- [[compile-orchestration]] ← DELEGATES_TO — Lowering step (Pipeline.lowerTerm → bridge)
 - [[defunctionalization]] ← FOLLOWS — Step 2: after bridge validates graph
 - [[gram-next-steps]] ← INCLUDES — Planned translation
 - [[gram-evolution.thread]] ← INCLUDES

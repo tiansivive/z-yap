@@ -24,4 +24,29 @@ MIR is Yap's sequential operational intermediate representation — the block-st
 **Consumption.** The JS, C, and Erlang backends under `src/Codegen/v2/` emit target code from MIR; the explorer renders its CFG.
 
 <!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ERASES → [[pi-types]] — Types not preserved in MIR
+
+**Incoming**
+- [[yap]] ← INCLUDES — Operational IR
+- [[js-codegen]] ← CONSUMES — Emits JS from MIR
+- [[c-codegen]] ← CONSUMES — Emits C from MIR
+- [[erlang-codegen]] ← CONSUMES — Emits Erlang from MIR
+- [[gram]] ← SUPERSEDES — As the canonical IR
+- [[repl]] ← USES — Optional MIR display mode
+- [[repl]] ← DISPATCHES_ON — Standard, --mir, --codegen modes
+- [[gram-additive-enrichment]] ← CONTRASTS_WITH — MIR erases/replaces; GRAM accumulates
+- [[gram-dataflow-semantics]] ← CONTRASTS_WITH — Partial order vs total order (blocks)
+- [[compilation-by-selection]] ← CONTRASTS_WITH — Pass selection vs fixed representation
+- [[gram-to-mir-bridge]] ← PRODUCES — Emits MIR Module
+- [[gram]] ← GENERALIZES — Richer representation subsumes sequential form
+- [[gram-crud-enrichment]] ← MIRRORS — MIR §6.4 Read/Update is the same concept in CFG form
+- [[gram-crud-enrichment]] ← LOWERS_TO — Update{mode} in MIR
+- [[lambda-lifting]] ← MIRRORS — MIR expects top-level functions
+- [[explorer-graph-viz]] ← USES — Renders MIR CFG
+- [[mir-lowering]] ← PRODUCES — Direct path emitted the MIR IR (now produced by the bridge)
+
 <!-- connections:end -->

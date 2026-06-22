@@ -26,7 +26,7 @@ Consequence: the graph grows monotonically across passes. This enables compilati
 
 **Outgoing**
 - CONSTRAINS → [[gram]] — All passes must follow
-- CONTRASTS_WITH → [[mir-lowering]] — MIR erases/replaces; GRAM accumulates
+- CONTRASTS_WITH → [[mir]] — MIR erases/replaces; GRAM accumulates
 - ENABLES → [[compilation-by-selection]] — Multiple views enable selection
 - MIRRORS → [[mlir-influence]] — Multi-dialect coexistence pattern
 

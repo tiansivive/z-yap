@@ -37,7 +37,7 @@ Let-bound top-level declarations run Liquid verification during `EB.Mod.elaborat
 **Outgoing**
 - DELEGATES_TO → [[v1-elaboration-pipeline]] — Current delegation
 - DELEGATES_TO → [[verification-pipeline]] — On-demand
-- DELEGATES_TO → [[mir-lowering]] — Lowering step
+- DELEGATES_TO → [[gram-to-mir-bridge]] — Lowering step (Pipeline.lowerTerm → bridge)
 - DELEGATES_TO → [[legacy-file-compile]] — Current file-compile delegation
 
 **Incoming**

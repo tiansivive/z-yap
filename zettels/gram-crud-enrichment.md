@@ -47,10 +47,10 @@ When elaboration leaves multiplicity unknown or Many, the pass defaults to `"sha
 - RELIES_ON → [[verification-modal-phase]] — Conservative defaults until enforcement works
 - INSTANTIATES → [[gram-additive-enrichment]] — Adds edges, never replaces
 - INSTANTIATES → [[compilation-by-selection]] — Backends choose whether to read modes
-- MIRRORS → [[mir-lowering]] — MIR §6.4 Read/Update is the same concept in CFG form
+- MIRRORS → [[mir]] — MIR §6.4 Read/Update is the same concept in CFG form
 - FOLLOWS → [[gram-to-mir-bridge]] — After bridge validates graph
 - INSTANTIATES → [[gram-dataflow-semantics]] — Mode flows with data, not control
-- LOWERS_TO → [[mir-lowering]] — Update{mode} in MIR
+- LOWERS_TO → [[mir]] — Update{mode} in MIR
 
 **Incoming**
 - [[crud-strategy-choice]] ← CONSTRAINS — Strategy determines pass design
