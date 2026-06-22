@@ -52,5 +52,6 @@ With no test referencing `lowerToMir`, `src/lowering/lower.ts` retires.
 **Incoming**
 - [[compile-orchestration]] ← DELEGATES_TO — Current file-compile delegation
 - [[global-pending-queue]] ← INCLUDES — Tech debt tracked in the global queue
+- [[test-coverage-gaps]] ← BLOCKS — GRAM-path run-to-value parity gaps gate lowerToMir retirement
 
 <!-- connections:end -->

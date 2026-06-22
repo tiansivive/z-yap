@@ -45,6 +45,7 @@ The testing audit separates skipped tests from semantic coverage gaps. Skips are
 - BLOCKS → [[pi-types]] — Dependent arg test blocked by Bool parsing + checking.v2 match
 - DETAILS → [[testing-strategy]] — Inventory of skipped suites
 - DISCOVERED_BY → [[v1-test-cleanup]] — Audit that created the gaps inventory
+- BLOCKS → [[legacy-file-compile]] — GRAM-path run-to-value parity gaps gate lowerToMir retirement
 
 **Incoming**
 - [[testing-strategy]] ← INCLUDES — Gap tracking
