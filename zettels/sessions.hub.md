@@ -23,6 +23,7 @@ records what was discussed, decided, and built, with connections to affected zet
 ## Connections
 
 **Outgoing**
+- INCLUDES → [[release-and-explorer-deployment.session]] — Session record
 - INCLUDES → [[programmable-gram-passes-design.session]] — Session record
 - INCLUDES → [[programmable-gram-passes-mvp-plan.session]] — Session record
 - INCLUDES → [[solver-v2-monadic-port.session]] — Session record

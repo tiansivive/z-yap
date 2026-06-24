@@ -45,6 +45,8 @@ Related: [[testing-strategy]], [[snapshot-testing]]
 - SUPPORTS → [[testing-strategy]]
 
 **Incoming**
+- [[tag-driven-alpha-release-flow]] ← USES — GitHub Actions rebuilds and checks tagged trees
+- [[explorer-deployment-channels]] ← USES — Mainline channel follows GitHub Actions automation
 - [[testing-strategy]] ← INCLUDES
 
 <!-- connections:end -->

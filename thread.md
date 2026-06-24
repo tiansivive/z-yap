@@ -1833,3 +1833,32 @@ SPAWN [[mir]] — the live MIR IR / format zettel, split out of the former lower
 [[mir-lowering]] --[:PRODUCES]--> [[mir]]  -- Direct path emitted the MIR IR (now produced by the bridge)
 [[gram-to-mir-bridge]] --[:PRODUCES]--> [[mir]]  -- Emits MIR Module (retargeted from mir-lowering)
 [[gram]] --[:SUPERSEDES]--> [[mir]]  -- As the canonical IR
+
+---
+
+## Session: Release artifacts and hosted Explorer — @2026-06-24 [release, distribution, deployment, fly-io, github-actions, explorer, automation, infrastructure]
+
+Established Yap's first release/distribution path beyond "clone and run pnpm". Version tags now drive alpha releases, GitHub Actions rebuilds tagged trees into CLI tarballs, packaged commands carry their runtime assets, and Fly.io hosts the Explorer on separate release and mainline channels.
+
+### Spawned
+
+SPAWN [[tag-driven-alpha-release-flow]] — release tags, alpha versioning, and GitHub Release artifact flow
+SPAWN [[package-artifact-distribution]] — installable CLI package boundary and runtime asset inclusion
+SPAWN [[explorer-deployment-channels]] — Fly.io `try-yap` / `try-yap-next` channel split
+SPAWN [[release-and-explorer-deployment.session]] — session record for the release/deploy work
+
+### Updates
+
+- [[yap]] — connected to release, package distribution, and Explorer deployment records.
+- [[yap-explore]] — connected to package assets and hosted deployment channels.
+- [[compile-orchestration]] — connected to package artifact distribution as the installed CLI boundary.
+- [[ci-pipeline]] — connected to GitHub Actions release and deployment automation.
+- `REGISTRY.md` — registered release/deployment/distribution tags and the `DEPLOYS` edge label.
+
+### Edges
+
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[tag-driven-alpha-release-flow]]  -- Release automation knowledge from alpha release setup
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[package-artifact-distribution]]  -- Packaged CLI artifact boundary
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[explorer-deployment-channels]]  -- Fly.io stable/next Explorer channels
+[[tag-driven-alpha-release-flow]] --[:PRODUCES]--> [[package-artifact-distribution]]  -- Tags produce installable release tarballs
+[[explorer-deployment-channels]] --[:DEPLOYS]--> [[yap-explore]]  -- Fly.io serves release and mainline Explorer channels

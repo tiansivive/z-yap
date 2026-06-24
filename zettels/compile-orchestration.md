@@ -42,6 +42,7 @@ Let-bound top-level declarations run Liquid verification during `EB.Mod.elaborat
 
 **Incoming**
 - [[yap]] ← INCLUDES — Orchestration
+- [[package-artifact-distribution]] ← SUPPORTS — Installed CLI preserves command entry points
 - [[legacy-file-compile]] ← APPLIES_TO — The yap <file> entry runs the legacy path
 - [[aot-compilation]] ← COMPOSES_WITH — Pipeline that performs AOT
 

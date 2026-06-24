@@ -187,6 +187,12 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `measurement` | Empirical observation of system behaviour; data collection |
 | `agent` | AI agent behavior, configuration, prompts, and workflows |
 | `skills` | Reusable agent skills or procedural capabilities |
+| `release` | Versioned publication flow, release tags, release notes, and release boundaries |
+| `distribution` | How runnable Yap artifacts reach users outside a source checkout |
+| `deployment` | Hosted service rollout and runtime environment management |
+| `artifact` | Built output intended to be downloaded, installed, or deployed |
+| `github-actions` | GitHub Actions workflows and CI/CD automation |
+| `fly-io` | Fly.io hosted deployment target and operational constraints |
 
 ## Meta tags
 
@@ -375,6 +381,7 @@ New labels follow the same rule as tags: coin them when the relationship is mean
 | `CLARIFIES` | Source explains, disambiguates, or makes target's intended interpretation precise |
 | `AVOIDS` | Source design makes the target mechanism unnecessary for the scoped path |
 | `AFFECTS` | Source issue or decision affects the target component or concern |
+| `DEPLOYS` | Source deployment mechanism deploys the target service, tool, or artifact |
 
 ## Ref prefixes
 

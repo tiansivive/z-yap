@@ -48,6 +48,9 @@ Dependently typed research language: **structural** data (rows for records, tupl
 - INCLUDES → [[erlang-codegen]] — Erlang backend
 - INCLUDES → [[module-system]] — Module component
 - INCLUDES → [[compile-orchestration]] — Orchestration
+- INCLUDES → [[tag-driven-alpha-release-flow]] — Project release boundary
+- INCLUDES → [[package-artifact-distribution]] — Runnable package distribution
+- INCLUDES → [[explorer-deployment-channels]] — Hosted Explorer entry points
 - INCLUDES → [[glossary]] — Project-level reference
 
 **Incoming**

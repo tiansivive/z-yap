@@ -33,6 +33,7 @@ File-mode `src/compile.ts` does **not** use this path; it emits JS via `src/Code
 
 **Incoming**
 - [[yap]] ← INCLUDES — C backend
+- [[package-artifact-distribution]] ← SUPPORTS — C runtime header travels with the package
 - [[gram]] ← TRANSLATES_TO — Target-specific passes
 - [[integration-testing]] ← CONCERNS
 

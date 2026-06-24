@@ -209,6 +209,27 @@
 [[strict-vs-lazy]] --[:CONTRASTS_WITH]--> [[cbv-evaluation]]  -- Lazy alternative
 [[cas-instead-of-smt]] --[:CONTRASTS_WITH]--> [[smt-translation]]  -- CAS alternative
 [[gram]] --[:SUPERSEDES]--> [[mir]]  -- As the canonical IR
+
+## Release and Explorer deployment  @2026-06-24
+
+[[sessions.hub]] --[:INCLUDES]--> [[release-and-explorer-deployment.session]]  -- Session record  @2026-06-24
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[tag-driven-alpha-release-flow]]  -- Release automation knowledge from alpha release setup  @2026-06-24
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[package-artifact-distribution]]  -- Packaged CLI artifact boundary  @2026-06-24
+[[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[explorer-deployment-channels]]  -- Fly.io stable/next Explorer channels  @2026-06-24
+
+[[yap]] --[:INCLUDES]--> [[tag-driven-alpha-release-flow]]  -- Project release boundary  @2026-06-24
+[[yap]] --[:INCLUDES]--> [[package-artifact-distribution]]  -- Runnable package distribution  @2026-06-24
+[[yap]] --[:INCLUDES]--> [[explorer-deployment-channels]]  -- Hosted Explorer entry points  @2026-06-24
+
+[[tag-driven-alpha-release-flow]] --[:USES]--> [[ci-pipeline]]  -- GitHub Actions rebuilds and checks tagged trees  @2026-06-24
+[[tag-driven-alpha-release-flow]] --[:PRODUCES]--> [[package-artifact-distribution]]  -- Tags produce installable release tarballs  @2026-06-24
+[[package-artifact-distribution]] --[:SUPPORTS]--> [[compile-orchestration]]  -- Installed CLI preserves command entry points  @2026-06-24
+[[package-artifact-distribution]] --[:SUPPORTS]--> [[yap-explore]]  -- Explorer assets travel with the package  @2026-06-24
+[[package-artifact-distribution]] --[:SUPPORTS]--> [[c-codegen]]  -- C runtime header travels with the package  @2026-06-24
+
+[[explorer-deployment-channels]] --[:DEPLOYS]--> [[yap-explore]]  -- Fly.io serves release and mainline Explorer channels  @2026-06-24
+[[explorer-deployment-channels]] --[:USES]--> [[tag-driven-alpha-release-flow]]  -- Stable channel follows version tags  @2026-06-24
+[[explorer-deployment-channels]] --[:USES]--> [[ci-pipeline]]  -- Mainline channel follows GitHub Actions automation  @2026-06-24
 [[gram]] --[:REWRITES]--> [[dpo-rewriting]]  -- DPO rules refine graph
 [[gram]] --[:PRESERVES]--> [[nbe]]  -- Semantic equivalence per pass
 [[dpo-rewriting]] --[:IMPLEMENTS]--> [[gram]]  -- Rewriting engine

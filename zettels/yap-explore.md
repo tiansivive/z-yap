@@ -34,4 +34,8 @@ Explorer capabilities are whatever the static UI and `/run` payload implement to
 - USES → [[pretty-printing]] — Term rendering
 - MIRRORS → [[pipeline-explorer]] — Same tool, alternate zettel
 
+**Incoming**
+- [[package-artifact-distribution]] ← SUPPORTS — Explorer assets travel with the package
+- [[explorer-deployment-channels]] ← DEPLOYS — Fly.io serves release and mainline Explorer channels
+
 <!-- connections:end -->
