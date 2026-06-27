@@ -55,5 +55,7 @@ The original `match`, `case`, and `pat:*` nodes are fully preserved. Both the se
 - [[pattern-matching.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
 - [[reuse-analysis-strategy]] ← RELIES_ON — Reuse sites occur at match boundaries
+- [[two-tier-pattern-compilation]] ← USES — constructor tier uses existing GRAM decision tree
+- [[tagged-dispatch]] ← INFORMS — prior art for pattern-match compilation to dispatch
 
 <!-- connections:end -->

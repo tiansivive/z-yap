@@ -32,3 +32,18 @@ as a live IR concept (choices become [[pull-tab]] targets at evaluation time), w
 GRAM → MIR bridge targets a deterministic MIR — non-determinism has been handled upstream
 by the [[shift-reset]] machinery before the bridge runs. The two approaches reflect
 different assumptions about where non-determinism is resolved in the pipeline.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[gram-to-mir-bridge]] — same two-IR split architectural pattern
+- CONTRASTS_WITH → [[gram-to-mir-bridge]] — ICurry retains explicit choice nodes; GRAM→MIR resolves nondet upstream
+- REFERENCES → [[sprite]] — described in Sprite
+
+**Incoming**
+- [[sprite]] ← INTRODUCES — two-IR split IR design
+- [[gram-evolution.thread]] ← INCLUDES
+
+<!-- connections:end -->

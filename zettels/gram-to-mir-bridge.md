@@ -62,5 +62,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - [[bridge-label-closure-gap]] ← APPLIES_TO — Scope resolution under match
 - [[bridge-forward-label-refs]] ← APPLIES_TO — Struct field emission ordering
 - [[gram-type-uniformity]] ← APPLIES_TO — Bridge needs consistent type format for type-driven lowering
+- [[icurry]] ← INFORMS — same two-IR split architectural pattern
+- [[icurry]] ← CONTRASTS_WITH — ICurry retains explicit choice nodes; GRAM→MIR resolves nondet upstream
 
 <!-- connections:end -->

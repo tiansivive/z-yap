@@ -46,8 +46,16 @@ disrupting ordinary constructor matching lives in [[two-tier-pattern-compilation
 **Outgoing**
 - EXTENDS → [[match]] — Curry-style patterns, view patterns
 - REQUIRES → [[elaboration]] — Elaboration redesign needed
+- CONTRASTS_WITH → [[view-patterns]] — inverse-direction inversion vs forward function application; different semantics and compilation paths
+- MOTIVATES → [[narrowing-vs-residuation]] — function-in-pattern position requires a choice of inversion semantics
+- COMPOSES_WITH → [[two-tier-pattern-compilation]] — requires a separate compilation tier from constructor patterns
+- REFERENCES → [[sprite]] — canonical functional-pattern example and compilation approach
+- REQUIRES → [[choose-fail-effect]] — narrowing reading requires a non-determinism substrate
 
 **Incoming**
 - [[pattern-matching.thread]] ← INCLUDES
+- [[choose-fail-effect]] ← ENABLES — narrowing reading uses choose/fail as substrate
+- [[narrowing-vs-residuation]] ← ADDRESSES — design space for the inversion semantics
+- [[two-tier-pattern-compilation]] ← ADDRESSES — compilation architecture for the feature
 
 <!-- connections:end -->

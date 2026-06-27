@@ -48,5 +48,6 @@ MIR shift/reset lowering produces entry/s_init/r/s_i/reset_exit blocks with expl
 - [[delimited-continuations.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
 - [[bubble-semantics]] ← COMPOSES_WITH — GRAM already has bubble concept; aligns vocabulary
+- [[two-tier-pattern-compilation]] ← USES — existing lowering path for the functional-pattern tier
 
 <!-- connections:end -->

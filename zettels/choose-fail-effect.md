@@ -33,3 +33,28 @@ per solution (see [[functional-patterns]], [[two-tier-pattern-compilation]]).
 
 A sound surface design requires the shift/reset typing discipline to be settled before this
 effect can be typed — see [[missing-spec-shift-reset]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[shift-reset]] — continuation substrate for the effect
+- GROUNDED_IN → [[filinski-representation-theorem]] — derivability theorem
+- COMPOSES_WITH → [[nondet-handler]] — handler interprets and gives semantics to the effect
+- ENABLES → [[functional-patterns]] — narrowing reading uses choose/fail as substrate
+- CONTRASTS_WITH → [[nondeterminism-multishot]] — effect-based handler approach vs built-in replay
+- REQUIRES → [[missing-spec-shift-reset]] — shift/reset typing must be settled before this can be typed
+
+**Incoming**
+- [[functional-patterns]] ← REQUIRES — narrowing reading requires a non-determinism substrate
+- [[filinski-representation-theorem]] ← ENABLES — grounds choose/fail as derivable over shift/reset
+- [[nondet-handler]] ← USES — interprets these two effects
+- [[call-time-choice]] ← APPLIES_TO — property of non-determinism in a strict language
+- [[narrowing-vs-residuation]] ← REQUIRES — narrowing reading requires a non-determinism substrate
+- [[two-tier-pattern-compilation]] ← USES — narrowing reading for functional-pattern positions
+- [[sprite]] ← INSPIRES — Fair Scheme motivates the handler abstraction
+- [[pull-tab]] ← CONTRASTS_WITH — lazy graph propagation vs strict effect-based nondet
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -44,5 +44,6 @@ Related: [[match]], [[pattern-matching-compilation]], [[pattern-synonyms]], [[ac
 **Incoming**
 - [[active-patterns]] ← EXTENDS — View patterns with failure protocol
 - [[pattern-matching.thread]] ← INCLUDES
+- [[functional-patterns]] ← CONTRASTS_WITH — inverse-direction inversion vs forward function application; different semantics and compilation paths
 
 <!-- connections:end -->

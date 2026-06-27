@@ -35,3 +35,18 @@ that [[choice-fingerprints]] address does not arise.
 This has a direct consequence for [[choose-fail-effect]] in a strict setting: an
 implementation does not need fingerprint tracking. The non-determinism substrate is simpler
 in this regard than in a lazy graph-rewriting system like [[sprite]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[choice-fingerprints]] — strictness avoids the fingerprinting problem entirely
+- CONTRASTS_WITH → [[pull-tab]] — pull-tab is needed in the lazy setting; call-time-choice removes the root cause
+- APPLIES_TO → [[choose-fail-effect]] — property of non-determinism in a strict language
+
+**Incoming**
+- [[choice-fingerprints]] ← CONTRASTS_WITH — lazy setting needs fingerprints; strict setting doesn't
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

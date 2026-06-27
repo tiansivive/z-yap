@@ -62,5 +62,6 @@ Hub for metavariable equality on **`NF.Value`** (**`src/elaboration/unification/
 - [[case-tree-elaboration]] ← USES — Index unification during splitting
 - [[open-closed-variants]] ← USES — Row solving determines open/closed
 - [[property-based-testing]] ← TARGETS
+- [[narrowing-vs-residuation]] ← USES — residuation reading is a unification problem
 
 <!-- connections:end -->

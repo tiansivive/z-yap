@@ -98,6 +98,11 @@ tracks the full vertical of delimited control in Yap.
 - INCLUDES → [[multishot-bridge-serialization]] — Current multishot serialisation site
 - INCLUDES → [[multishot-mir-state-machine-example]] — Pedagogical pseudo-MIR walkthrough of multishot lowering
 - INCLUDES → [[singleshot-static-specialization]] — Planned optimisation in the thread
+- INCLUDES → [[filinski-representation-theorem]]
+- INCLUDES → [[choose-fail-effect]]
+- INCLUDES → [[nondet-handler]]
+- INCLUDES → [[fair-nondet-scheduling]]
+- INCLUDES → [[call-time-choice]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

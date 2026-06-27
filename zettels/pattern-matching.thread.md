@@ -68,6 +68,10 @@ checking is the next frontier alongside the implemented lowering passes.
 - INCLUDES → [[active-patterns]]
 - RELIES_ON → [[open-closed-variants]] — Concept: variant openness
 - INCLUDES → [[design-open-closed-variant-semantics]] — Design work item
+- INCLUDES → [[narrowing-vs-residuation]]
+- INCLUDES → [[two-tier-pattern-compilation]]
+- INCLUDES → [[pull-tab]]
+- INCLUDES → [[tagged-dispatch]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

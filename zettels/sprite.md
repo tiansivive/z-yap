@@ -39,3 +39,26 @@ are profound: functional-logic programs require non-determinism and narrowing th
 functional graph machines do not encounter. Most of Sprite's machinery addresses lazy graph
 rewriting and non-determinism in that setting. Techniques relating to [[call-time-choice]],
 clone consistency, and [[pull-tab]] propagation interact differently in a strict language.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INTRODUCES → [[icurry]] — two-IR split IR design
+- INTRODUCES → [[pull-tab]] — core lazy-nondet evaluation mechanism
+- INTRODUCES → [[tagged-dispatch]] — pattern-match compilation technique
+- INTRODUCES → [[choice-fingerprints]] — clone-consistency enforcement
+- INTRODUCES → [[fair-nondet-scheduling]] — Fair Scheme work queue
+- INSPIRES → [[choose-fail-effect]] — Fair Scheme motivates the handler abstraction
+- REFERENCES → [[maranget-paper]] — definitional trees vs Maranget decision trees
+
+**Incoming**
+- [[functional-patterns]] ← REFERENCES — canonical functional-pattern example and compilation approach
+- [[fair-nondet-scheduling]] ← GROUNDED_IN — Fair Scheme from Antoy & Jost
+- [[pull-tab]] ← REFERENCES — described and used in Sprite
+- [[tagged-dispatch]] ← REFERENCES — described and benchmarked in Sprite
+- [[choice-fingerprints]] ← REFERENCES — described in Sprite
+- [[icurry]] ← REFERENCES — described in Sprite
+
+<!-- connections:end -->

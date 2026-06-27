@@ -52,5 +52,6 @@ Site move: this serialisation strategy was originally implemented in `src/loweri
 - [[singleshot-static-specialization]] ← APPLIES_TO — Specialises the conservative multishot shape when usage allows
 - [[delimited-continuations.thread]] ← INCLUDES — Current multishot serialisation site
 - [[gram]] ← INCLUDES — Bridge-resident multishot serialisation
+- [[fair-nondet-scheduling]] ← REQUIRES — continuations must be storable and re-enqueueable
 
 <!-- connections:end -->

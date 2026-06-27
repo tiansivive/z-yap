@@ -33,3 +33,19 @@ continuation must be serializable as a schedulable unit. In Yap's terms, this be
 
 This scheduling strategy is one instance of [[nondet-handler]], corresponding to the Fair
 Scheme described in [[sprite]].
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- IMPLEMENTS → [[nondet-handler]] — one instance of the handler pattern
+- REQUIRES → [[multishot-bridge-serialization]] — continuations must be storable and re-enqueueable
+- GROUNDED_IN → [[sprite]] — Fair Scheme from Antoy & Jost
+
+**Incoming**
+- [[nondet-handler]] ← INCLUDES — fair rotation is one handler strategy
+- [[sprite]] ← INTRODUCES — Fair Scheme work queue
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -70,5 +70,7 @@ Detail zettels: `answer-type-polymorphism.md`, `continuation-binders.md`, `nonde
 - [[continuation-closure]] ← IMPLEMENTS — Captured delimited continuation
 - [[cbv-evaluation]] ← RELIES_ON — Continuations require strict order
 - [[trampoline-evaluator]] ← ENABLES — Delimiter frames on work stack
+- [[filinski-representation-theorem]] ← GROUNDED_IN — multi-shot shift/reset is the substrate
+- [[choose-fail-effect]] ← USES — continuation substrate for the effect
 
 <!-- connections:end -->

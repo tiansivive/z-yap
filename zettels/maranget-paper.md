@@ -37,5 +37,7 @@ Clause matrices, DAG sharing, and “necessity”-motivated heuristics to keep d
 - [[pettersson-paper]] ← EXTENDS — DAG sharing over trees (deferred)
 - [[pattern-algorithm-choice]] ← USES — Chosen algorithm
 - [[pattern-matching.thread]] ← INCLUDES
+- [[two-tier-pattern-compilation]] ← USES — decision tree algorithm for the constructor tier
+- [[sprite]] ← REFERENCES — definitional trees vs Maranget decision trees
 
 <!-- connections:end -->

@@ -33,3 +33,18 @@ This is the user-controllable non-determinism framing: the surface design questi
 handlers to provide and where their scope boundaries sit, not which search order is built
 in. The `user-control` tag reflects that handler selection is an explicit user decision, not
 an implicit language default.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[choose-fail-effect]] — interprets these two effects
+- INCLUDES → [[fair-nondet-scheduling]] — fair rotation is one handler strategy
+
+**Incoming**
+- [[choose-fail-effect]] ← COMPOSES_WITH — handler interprets and gives semantics to the effect
+- [[fair-nondet-scheduling]] ← IMPLEMENTS — one instance of the handler pattern
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->

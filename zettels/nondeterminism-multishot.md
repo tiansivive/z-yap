@@ -48,5 +48,6 @@ Purpose: multishot programs type `k` applications under mutually exclusive argum
 **Incoming**
 - [[delimited-continuations.thread]] ← INCLUDES
 - [[continuation-closure]] ← ENABLES — Multishot via reapplication
+- [[choose-fail-effect]] ← CONTRASTS_WITH — effect-based handler approach vs built-in replay
 
 <!-- connections:end -->

@@ -39,3 +39,19 @@ function dispatch shape applies to any graph-reduction or tree-walking backend.
 
 [[gram-pattern-pass]] performs the analogous role at the GRAM level; tagged dispatch is the
 concrete machine-code realization relevant to [[c-codegen]] and other native backends.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- INFORMS → [[gram-pattern-pass]] — prior art for pattern-match compilation to dispatch
+- INFORMS → [[c-codegen]] — concrete technique for native codegen
+- REFERENCES → [[sprite]] — described and benchmarked in Sprite
+
+**Incoming**
+- [[sprite]] ← INTRODUCES — pattern-match compilation technique
+- [[pattern-matching.thread]] ← INCLUDES
+- [[gram-evolution.thread]] ← INCLUDES
+
+<!-- connections:end -->

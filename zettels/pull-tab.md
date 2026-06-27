@@ -37,3 +37,20 @@ choice in a needed position would have already been resolved at the call site (s
 [[call-time-choice]]). Pull-tabbing is therefore a technique specific to lazy evaluation
 order. The [[choose-fail-effect]] / handler design achieves analogous scheduling flexibility
 in a strict setting without requiring graph rewriting.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- MOTIVATES → [[choice-fingerprints]] — creates cloned choice nodes that need consistency tracking
+- CONTRASTS_WITH → [[choose-fail-effect]] — lazy graph propagation vs strict effect-based nondet
+- REFERENCES → [[sprite]] — described and used in Sprite
+
+**Incoming**
+- [[call-time-choice]] ← CONTRASTS_WITH — pull-tab is needed in the lazy setting; call-time-choice removes the root cause
+- [[sprite]] ← INTRODUCES — core lazy-nondet evaluation mechanism
+- [[choice-fingerprints]] ← ADDRESSES — consistency problem created by pull-tab choice cloning
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

@@ -33,3 +33,19 @@ let-bound language, [[call-time-choice]] forces a shared binding to one value be
 body executes — no clone is ever created, so no consistency tracking is needed. Fingerprint
 overhead is an artifact of lazy non-determinism, not an inherent cost of non-deterministic
 computation.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[pull-tab]] — consistency problem created by pull-tab choice cloning
+- REFERENCES → [[sprite]] — described in Sprite
+- CONTRASTS_WITH → [[call-time-choice]] — lazy setting needs fingerprints; strict setting doesn't
+
+**Incoming**
+- [[call-time-choice]] ← ADDRESSES — strictness avoids the fingerprinting problem entirely
+- [[sprite]] ← INTRODUCES — clone-consistency enforcement
+- [[pull-tab]] ← MOTIVATES — creates cloned choice nodes that need consistency tracking
+
+<!-- connections:end -->

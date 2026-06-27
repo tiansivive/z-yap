@@ -41,3 +41,18 @@ refinements and totality proofs become harder to discharge.
 Whether to support narrowing, residuation, or both as a surface feature, and what modality
 or annotation marks the boundary, is an open design question that affects the scope of the
 verified fragment.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ADDRESSES → [[functional-patterns]] — design space for the inversion semantics
+- REQUIRES → [[choose-fail-effect]] — narrowing reading requires a non-determinism substrate
+- USES → [[unification]] — residuation reading is a unification problem
+
+**Incoming**
+- [[functional-patterns]] ← MOTIVATES — function-in-pattern position requires a choice of inversion semantics
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

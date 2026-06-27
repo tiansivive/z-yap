@@ -126,6 +126,8 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - INCLUDES → [[gram-rule-scoping.design]] — Design issue tracked in the thread
 - INCLUDES → [[gram-payload-constraint-emission.design]] — Design issue tracked in the thread
 - INCLUDES → [[gram-modality-vs-pragma.design]] — Design issue tracked in the thread
+- INCLUDES → [[tagged-dispatch]]
+- INCLUDES → [[icurry]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

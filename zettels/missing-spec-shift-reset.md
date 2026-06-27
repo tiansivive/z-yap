@@ -47,5 +47,6 @@ One approach for onboarding would be a single typed-rule write-up (answer types,
 **Incoming**
 - [[delimited-continuations.thread]] ← INCLUDES
 - [[bubble-semantics]] ← ADDRESSES — Makes nondeterministic semantics explicit in AST
+- [[choose-fail-effect]] ← REQUIRES — shift/reset typing must be settled before this can be typed
 
 <!-- connections:end -->

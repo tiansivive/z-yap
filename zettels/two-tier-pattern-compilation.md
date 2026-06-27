@@ -37,3 +37,20 @@ constructor rows with functional-pattern rows, routed to their respective compil
 For the narrowing tier, [[gram-shift-reset-pass]] is the existing lowering path that
 functional-pattern clauses share with user-facing continuation computations — the
 desugaring target is the same continuation substrate.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- USES → [[gram-pattern-pass]] — constructor tier uses existing GRAM decision tree
+- USES → [[maranget-paper]] — decision tree algorithm for the constructor tier
+- USES → [[choose-fail-effect]] — narrowing reading for functional-pattern positions
+- USES → [[gram-shift-reset-pass]] — existing lowering path for the functional-pattern tier
+- ADDRESSES → [[functional-patterns]] — compilation architecture for the feature
+
+**Incoming**
+- [[functional-patterns]] ← COMPOSES_WITH — requires a separate compilation tier from constructor patterns
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

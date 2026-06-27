@@ -26,3 +26,17 @@ library constructs over the continuation substrate.
 This is the theoretical anchor for [[choose-fail-effect]]: the design proposition that
 non-determinism can be exposed as a user-facing algebraic effect over a [[shift-reset]]
 substrate, rather than as a built-in evaluation strategy.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- ENABLES → [[choose-fail-effect]] — grounds choose/fail as derivable over shift/reset
+- GROUNDED_IN → [[shift-reset]] — multi-shot shift/reset is the substrate
+
+**Incoming**
+- [[choose-fail-effect]] ← GROUNDED_IN — derivability theorem
+- [[delimited-continuations.thread]] ← INCLUDES
+
+<!-- connections:end -->
