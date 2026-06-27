@@ -1862,3 +1862,42 @@ SPAWN [[release-and-explorer-deployment.session]] — session record for the rel
 [[release-and-explorer-deployment.session]] --[:PRODUCED]--> [[explorer-deployment-channels]]  -- Fly.io stable/next Explorer channels
 [[tag-driven-alpha-release-flow]] --[:PRODUCES]--> [[package-artifact-distribution]]  -- Tags produce installable release tarballs
 [[explorer-deployment-channels]] --[:DEPLOYS]--> [[yap-explore]]  -- Fly.io serves release and mainline Explorer channels
+
+---
+
+## Session: SPJ + Sprite survey; functional patterns and nondet substrate — @2026-06-26 [pattern, continuation, language, compiler, codegen, effect, elaboration, concept, exploration]
+
+Surveyed two sources against the ZK. SPJ (1987), *The Implementation of Functional Programming Languages* — scanned book, full TOC rendered; 14 techniques mapped to ZK; open gaps identified: lambda-lifting (planned, unstarted), SCC dependency analysis for mutual recursion, tail-call optimization (no zettel). Sprite (Antoy & Jost, 2016, arXiv:1608.04016) — read in full; a native Curry compiler via LLVM and the Fair Scheme.
+
+Discussion surfaced that [[functional-patterns]] conflated Curry-style functional patterns with Haskell view patterns — different semantics, different compilation paths. The zettel was rewritten to cover the actual concept: function symbols in pattern positions, run backwards to generate constructor preimages. The design space was split into [[narrowing-vs-residuation]] (full narrowing vs unification-based single-result). The compilation architecture was split into [[two-tier-pattern-compilation]] (constructor tier via Maranget decision trees; functional-pattern tier via a non-determinism substrate).
+
+The proposition that shift/reset is the substrate for non-determinism in Yap — grounded in [[filinski-representation-theorem]] — was recorded as [[choose-fail-effect]] (expose `choose`/`fail` as an algebraic effect) and [[nondet-handler]] (handler selects the search strategy). [[fair-nondet-scheduling]] captures the work-queue + fair-rotation handler, the mechanism behind Sprite's operational completeness. [[call-time-choice]] records the strict-language property that eliminates the [[choice-fingerprints]] / [[pull-tab]] clone-consistency machinery that lazy graph rewriting requires. The Sprite paper itself is recorded as a reference zettel [[sprite]], with [[icurry]] and [[tagged-dispatch]] extracted as standalone technique zettels.
+
+### Spawned
+
+SPAWN [[filinski-representation-theorem]] — multi-shot shift/reset + reflection encodes any monad; theoretical anchor for choose/fail
+SPAWN [[choose-fail-effect]] — expose nondeterminism as choose/fail algebraic effect; handler selects strategy
+SPAWN [[nondet-handler]] — handler over choose/fail is the search strategy; different handlers give DFS/collect-all/fair
+SPAWN [[fair-nondet-scheduling]] — work queue + fair rotation; operational completeness guarantee
+SPAWN [[call-time-choice]] — strict let-binding forces choice at binding time; eliminates clone-consistency problem
+SPAWN [[narrowing-vs-residuation]] — two readings of functional-pattern inversion: narrowing vs residuation
+SPAWN [[two-tier-pattern-compilation]] — constructor tier (decision trees) + functional-pattern tier (nondet substrate)
+SPAWN [[sprite]] — reference zettel for Antoy & Jost 2016
+SPAWN [[pull-tab]] — lift a choice out of a needed position, sharing the unevaluated remainder
+SPAWN [[tagged-dispatch]] — compile-time integer tags + static jump table + indirect branch
+SPAWN [[choice-fingerprints]] — cloned choice consistency via identifier annotation
+SPAWN [[icurry]] — two-IR split: declarative case-IR → imperative statement-IR with explicit choices
+
+### Updates
+
+- [[functional-patterns]] — full rewrite: removed impl-map content and view-pattern conflation; now covers the actual concept with [[narrowing-vs-residuation]] and [[two-tier-pattern-compilation]] as satellite zettels.
+
+### Edges
+
+[[functional-patterns]] --[:CONTRASTS_WITH]--> [[view-patterns]]  -- inverse vs forward; different semantics
+[[functional-patterns]] --[:MOTIVATES]--> [[narrowing-vs-residuation]]  -- inversion requires a choice of semantics
+[[filinski-representation-theorem]] --[:ENABLES]--> [[choose-fail-effect]]  -- grounds choose/fail as derivable
+[[choose-fail-effect]] --[:CONTRASTS_WITH]--> [[nondeterminism-multishot]]  -- effect-based handler vs built-in replay
+[[call-time-choice]] --[:ADDRESSES]--> [[choice-fingerprints]]  -- strictness removes the root cause
+[[pull-tab]] --[:MOTIVATES]--> [[choice-fingerprints]]  -- pull-tab creates the clones that need tracking
+[[icurry]] --[:CONTRASTS_WITH]--> [[gram-to-mir-bridge]]  -- explicit choice nodes vs nondet resolved upstream

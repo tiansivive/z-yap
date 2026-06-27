@@ -1,28 +1,43 @@
 ---
 tags:
-  [
-    speculative,
-    elaboration,
-    inference,
-    syntax,
-    pattern,
-    dependent,
-    modality,
-    effect,
-    problem,
-    ast,
-    migration,
-    language,
-    verification,
-    principle,
-  ]
+  - speculative
+  - exploration
+  - language
+  - pattern
+  - syntax
+  - concept
+  - elaboration
+  - continuation
+  - type-system
+  - needs-design
+  - effect
+  - verification
 ---
 
 # Functional patterns
 
-**Functional patterns** (elimination/view-style computation before binding in a match clause, à la Haskell view patterns) would mix arbitrary expression scheduling with pattern exhaustiveness and coverage. Today **`match`** elaborates static pattern shapes under `EB.Match.infer` (`src/elaboration/elaborate.ts`); patterns are parsed `Src.Pattern` trees (`src/parser/terms.ts`, `processors.ts`), not user-defined arbitrary eliminates applied inside the clause head.
+A functional pattern places a defined function symbol in a pattern position. Rather than
+matching a constructor shape against the scrutinee, the function runs *backwards*:
+it generates the constructor-term arguments that would produce the scrutinee, binding
+clause-head variables to each solution. The canonical example, from Curry:
 
-Elaboration today routes static `Src.Pattern` trees through `EB.Match.infer`; general expression evaluation inside pattern heads would be a new path intersecting **metavariable solving**, **effect/modality** semantics, and exhaustiveness decidability—design choices still open.
+    with x = _ ++ [x] ++ _
+    get key (with (key, value)) = value
+
+`with` defines all lists containing `x`. Used as a pattern, `get` matches any list
+containing `(key, value)` and returns `value`. Patterns become composable and
+encapsulatable on equal footing with expressions — a pattern can be built from smaller
+pattern functions and hidden behind a module boundary.
+
+This is distinct from [[view-patterns]], which apply a function *forward* to the scrutinee
+and match the result deterministically. Functional patterns invert a function over its
+output; view patterns apply a function over the input. Different semantics, different
+type-theoretic requirements, different compilation paths.
+
+The two readings of inversion — full narrowing (multiple results, non-deterministic
+substrate required) and residuation (single result via unification) — are worked out in
+[[narrowing-vs-residuation]]. The compilation architecture that hosts both without
+disrupting ordinary constructor matching lives in [[two-tier-pattern-compilation]].
 
 <!-- connections:start -->
 

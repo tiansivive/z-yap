@@ -2982,3 +2982,92 @@
 [[gram-to-mir-bridge]] --[:SUPERSEDES]--> [[mir-lowering]]  -- Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer  @2026-06-22
 [[gram-to-mir-bridge]] --[:DEPRECATES]--> [[mir-lowering]]  -- Lifecycle: direct lowering marked deprecated  @2026-06-22
 [[mir-lowering]] --[:PRODUCES]--> [[mir]]  -- Direct path emitted the MIR IR (now produced by the bridge)  @2026-06-22
+
+## SPJ + Sprite survey; functional patterns and nondet substrate  @2026-06-26
+
+# functional-patterns (rewrite + new connections)
+[[functional-patterns]] --[:CONTRASTS_WITH]--> [[view-patterns]]  -- inverse-direction inversion vs forward function application; different semantics and compilation paths  @2026-06-26
+[[functional-patterns]] --[:MOTIVATES]--> [[narrowing-vs-residuation]]  -- function-in-pattern position requires a choice of inversion semantics  @2026-06-26
+[[functional-patterns]] --[:COMPOSES_WITH]--> [[two-tier-pattern-compilation]]  -- requires a separate compilation tier from constructor patterns  @2026-06-26
+[[functional-patterns]] --[:REFERENCES]--> [[sprite]]  -- canonical functional-pattern example and compilation approach  @2026-06-26
+[[functional-patterns]] --[:REQUIRES]--> [[choose-fail-effect]]  -- narrowing reading requires a non-determinism substrate  @2026-06-26
+
+# filinski-representation-theorem
+[[filinski-representation-theorem]] --[:ENABLES]--> [[choose-fail-effect]]  -- grounds choose/fail as derivable over shift/reset  @2026-06-26
+[[filinski-representation-theorem]] --[:GROUNDED_IN]--> [[shift-reset]]  -- multi-shot shift/reset is the substrate  @2026-06-26
+
+# choose-fail-effect
+[[choose-fail-effect]] --[:USES]--> [[shift-reset]]  -- continuation substrate for the effect  @2026-06-26
+[[choose-fail-effect]] --[:GROUNDED_IN]--> [[filinski-representation-theorem]]  -- derivability theorem  @2026-06-26
+[[choose-fail-effect]] --[:COMPOSES_WITH]--> [[nondet-handler]]  -- handler interprets and gives semantics to the effect  @2026-06-26
+[[choose-fail-effect]] --[:ENABLES]--> [[functional-patterns]]  -- narrowing reading uses choose/fail as substrate  @2026-06-26
+[[choose-fail-effect]] --[:CONTRASTS_WITH]--> [[nondeterminism-multishot]]  -- effect-based handler approach vs built-in replay  @2026-06-26
+[[choose-fail-effect]] --[:REQUIRES]--> [[missing-spec-shift-reset]]  -- shift/reset typing must be settled before this can be typed  @2026-06-26
+
+# nondet-handler
+[[nondet-handler]] --[:USES]--> [[choose-fail-effect]]  -- interprets these two effects  @2026-06-26
+[[nondet-handler]] --[:INCLUDES]--> [[fair-nondet-scheduling]]  -- fair rotation is one handler strategy  @2026-06-26
+
+# fair-nondet-scheduling
+[[fair-nondet-scheduling]] --[:IMPLEMENTS]--> [[nondet-handler]]  -- one instance of the handler pattern  @2026-06-26
+[[fair-nondet-scheduling]] --[:REQUIRES]--> [[multishot-bridge-serialization]]  -- continuations must be storable and re-enqueueable  @2026-06-26
+[[fair-nondet-scheduling]] --[:GROUNDED_IN]--> [[sprite]]  -- Fair Scheme from Antoy & Jost  @2026-06-26
+
+# call-time-choice
+[[call-time-choice]] --[:ADDRESSES]--> [[choice-fingerprints]]  -- strictness avoids the fingerprinting problem entirely  @2026-06-26
+[[call-time-choice]] --[:CONTRASTS_WITH]--> [[pull-tab]]  -- pull-tab is needed in the lazy setting; call-time-choice removes the root cause  @2026-06-26
+[[call-time-choice]] --[:APPLIES_TO]--> [[choose-fail-effect]]  -- property of non-determinism in a strict language  @2026-06-26
+
+# narrowing-vs-residuation
+[[narrowing-vs-residuation]] --[:ADDRESSES]--> [[functional-patterns]]  -- design space for the inversion semantics  @2026-06-26
+[[narrowing-vs-residuation]] --[:REQUIRES]--> [[choose-fail-effect]]  -- narrowing reading requires a non-determinism substrate  @2026-06-26
+[[narrowing-vs-residuation]] --[:USES]--> [[unification]]  -- residuation reading is a unification problem  @2026-06-26
+
+# two-tier-pattern-compilation
+[[two-tier-pattern-compilation]] --[:USES]--> [[gram-pattern-pass]]  -- constructor tier uses existing GRAM decision tree  @2026-06-26
+[[two-tier-pattern-compilation]] --[:USES]--> [[maranget-paper]]  -- decision tree algorithm for the constructor tier  @2026-06-26
+[[two-tier-pattern-compilation]] --[:USES]--> [[choose-fail-effect]]  -- narrowing reading for functional-pattern positions  @2026-06-26
+[[two-tier-pattern-compilation]] --[:USES]--> [[gram-shift-reset-pass]]  -- existing lowering path for the functional-pattern tier  @2026-06-26
+[[two-tier-pattern-compilation]] --[:ADDRESSES]--> [[functional-patterns]]  -- compilation architecture for the feature  @2026-06-26
+
+# sprite
+[[sprite]] --[:INTRODUCES]--> [[icurry]]  -- two-IR split IR design  @2026-06-26
+[[sprite]] --[:INTRODUCES]--> [[pull-tab]]  -- core lazy-nondet evaluation mechanism  @2026-06-26
+[[sprite]] --[:INTRODUCES]--> [[tagged-dispatch]]  -- pattern-match compilation technique  @2026-06-26
+[[sprite]] --[:INTRODUCES]--> [[choice-fingerprints]]  -- clone-consistency enforcement  @2026-06-26
+[[sprite]] --[:INTRODUCES]--> [[fair-nondet-scheduling]]  -- Fair Scheme work queue  @2026-06-26
+[[sprite]] --[:INSPIRES]--> [[choose-fail-effect]]  -- Fair Scheme motivates the handler abstraction  @2026-06-26
+[[sprite]] --[:REFERENCES]--> [[maranget-paper]]  -- definitional trees vs Maranget decision trees  @2026-06-26
+
+# pull-tab
+[[pull-tab]] --[:MOTIVATES]--> [[choice-fingerprints]]  -- creates cloned choice nodes that need consistency tracking  @2026-06-26
+[[pull-tab]] --[:CONTRASTS_WITH]--> [[choose-fail-effect]]  -- lazy graph propagation vs strict effect-based nondet  @2026-06-26
+[[pull-tab]] --[:REFERENCES]--> [[sprite]]  -- described and used in Sprite  @2026-06-26
+
+# tagged-dispatch
+[[tagged-dispatch]] --[:INFORMS]--> [[gram-pattern-pass]]  -- prior art for pattern-match compilation to dispatch  @2026-06-26
+[[tagged-dispatch]] --[:INFORMS]--> [[c-codegen]]  -- concrete technique for native codegen  @2026-06-26
+[[tagged-dispatch]] --[:REFERENCES]--> [[sprite]]  -- described and benchmarked in Sprite  @2026-06-26
+
+# choice-fingerprints
+[[choice-fingerprints]] --[:ADDRESSES]--> [[pull-tab]]  -- consistency problem created by pull-tab choice cloning  @2026-06-26
+[[choice-fingerprints]] --[:REFERENCES]--> [[sprite]]  -- described in Sprite  @2026-06-26
+[[choice-fingerprints]] --[:CONTRASTS_WITH]--> [[call-time-choice]]  -- lazy setting needs fingerprints; strict setting doesn't  @2026-06-26
+
+# icurry
+[[icurry]] --[:INFORMS]--> [[gram-to-mir-bridge]]  -- same two-IR split architectural pattern  @2026-06-26
+[[icurry]] --[:CONTRASTS_WITH]--> [[gram-to-mir-bridge]]  -- ICurry retains explicit choice nodes; GRAM→MIR resolves nondet upstream  @2026-06-26
+[[icurry]] --[:REFERENCES]--> [[sprite]]  -- described in Sprite  @2026-06-26
+
+# thread memberships
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[filinski-representation-theorem]]  @2026-06-26
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[choose-fail-effect]]  @2026-06-26
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[nondet-handler]]  @2026-06-26
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[fair-nondet-scheduling]]  @2026-06-26
+[[delimited-continuations.thread]] --[:INCLUDES]--> [[call-time-choice]]  @2026-06-26
+[[pattern-matching.thread]] --[:INCLUDES]--> [[narrowing-vs-residuation]]  @2026-06-26
+[[pattern-matching.thread]] --[:INCLUDES]--> [[two-tier-pattern-compilation]]  @2026-06-26
+[[pattern-matching.thread]] --[:INCLUDES]--> [[pull-tab]]  @2026-06-26
+[[pattern-matching.thread]] --[:INCLUDES]--> [[tagged-dispatch]]  @2026-06-26
+[[gram-evolution.thread]] --[:INCLUDES]--> [[tagged-dispatch]]  @2026-06-26
+[[gram-evolution.thread]] --[:INCLUDES]--> [[icurry]]  @2026-06-26
