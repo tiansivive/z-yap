@@ -28,7 +28,7 @@ tags:
 
 **Tests:** Full coverage across all passes: `src/GRAM/__tests__/` (translate, pipeline, pattern, shift-reset, saturate, eta, closure, dpo, graph).
 
-**Related zettels:** `gram-additive-enrichment` (principle), `gram-dataflow-semantics` (principle), `compilation-by-selection` (architecture), `gram-shift-reset-pass`, `gram-pattern-translation`, `gram-pattern-pass`, `gram-to-mir-bridge` (speculative), `dpo-rewriting`, `logram`, `closure-conversion`.
+**Related zettels:** `gram-additive-enrichment` (principle), `gram-dataflow-semantics` (principle), `compilation-by-selection` (architecture), `gram-shift-reset-pass`, `gram-pattern-translation`, `gram-pattern-pass`, `gram-to-mir-bridge` (implemented; canonical MIR producer per D-006), `dpo-rewriting`, `logram`, `closure-conversion`.
 
 <!-- connections:start -->
 

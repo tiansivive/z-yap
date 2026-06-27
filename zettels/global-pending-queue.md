@@ -47,7 +47,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[agent-guidelines-zettelization]] — distill agent/code guidelines into convention zettels and reusable skills
 - [ ] [[z-yap-agent-skill]] — create a Cursor skill for z-yap interaction protocol, derived from an existing local skill template
 - [ ] [[transcripts-private-submodule]] — migrate `sessions/` to a private GitHub submodule
-- [ ] Fill in `pulse.md` editorial prose per active thread
+- [x] Fill in `pulse.md` editorial prose per active thread — done 2026-06-27; all twelve thread sections written, Explorer split into Audit + Evolution
 - [ ] Fill in `yap-baseline.md` sections and replace `<org>` placeholder with the real GitHub org
 - [ ] Decide D-005 epistemic status (currently has none)
 - [ ] Add `INCLUDES` edge from `[[verification-backend.thread]]` to `[[first-order-restriction.adr]]`

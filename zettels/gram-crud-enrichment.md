@@ -60,7 +60,7 @@ When elaboration leaves multiplicity unknown or Many, the pass defaults to `"sha
 - [[perceus-reuse-analysis]] ← INSPIRES — FBIP concept adapted for graph IR
 - [[counting-immutable-beans]] ← INSPIRES — Graph-level reuse edges
 - [[clean-uniqueness-types]] ← INSPIRES — Uniqueness → safe mutation precedent
-- [[gram-next-steps]] ← INCLUDES — Planned pass (phase 5)
+- [[gram-next-steps]] ← INCLUDES — Planned pass (roadmap item 4)
 - [[gram-evolution.thread]] ← INCLUDES
 - [[verification-modal-phase]] ← BLOCKS — Conservative defaults until modal enforcement lands
 - [[koka-influence]] ← INSPIRES — FBIP concept origin

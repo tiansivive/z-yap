@@ -85,7 +85,7 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
     Open issues: [[gram-string-escaping.bug]], [[gram-rule-scoping.design]], [[gram-payload-constraint-emission.design]], [[gram-modality-vs-pragma.design]].
     _Shared with: modality-system extension surface_
 
-20. **PAP pass** [[gram-pap-pass]] — planned
+20. **PAP pass** [[gram-pap-pass]] — implemented
     Transform unsaturated `EXTERNAL` nodes into explicit partial application structure.
     Runs after `saturate`. Keeps the bridge mechanical — GRAM adds semantics, bridge translates.
     Resolves [[bridge-unsaturated-external]].

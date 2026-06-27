@@ -35,15 +35,15 @@ tags:
 **Outgoing**
 - SUPERSEDES → [[v1-elaboration-pipeline]] — Fresh implementation
 - MIRRORS → [[v1-elaboration-pipeline]] — Same theory, new code
+- OBSOLETES → [[tmp-pipeline-stub]] — The live pipeline replaced the planned tmp.ts stubs; the stubs never materialised
 - FOLLOWS → [[v1-elaboration-pipeline]] — Sequential development
 - MIRRORS → [[v1-elaboration-pipeline]] — Same theory, fresh implementation
 
 **Incoming**
 - [[tree-sitter-parser]] ← PRODUCES — CST.SyntaxNode
-- [[tmp-pipeline-stub]] ← BLOCKS — Stubs prevent integration
 - [[elaboration-monad]] ← ENABLES — V2 pipeline
 - [[lsp]] ← USES — Incremental analysis
 - [[elaboration-v2.thread]] ← INCLUDES
-- [[test-coverage-gaps]] ← DETECTS — Missing modal inference (22/23), missing checking.v2 match
+- [[test-coverage-gaps]] ← DETECTS — Missing modal inference coverage; match checking needs direct semantic assertions
 
 <!-- connections:end -->

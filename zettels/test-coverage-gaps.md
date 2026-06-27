@@ -37,12 +37,12 @@ The testing audit separates skipped tests from semantic coverage gaps. Skips are
 ## Connections
 
 **Outgoing**
-- DETECTS → [[v2-elaboration-pipeline]] — Missing modal inference (22/23), missing checking.v2 match
+- DETECTS → [[v2-elaboration-pipeline]] — Missing modal inference coverage; match checking needs direct semantic assertions
 - DETECTS → [[nearley-parser]] — Bool literal grammar gap
 - DEFERS → [[shift-reset]] — Elaboration-level tests skipped; GRAM tests pass
 - DEFERS → [[repl]] — Integration test skipped (infrastructure)
-- BLOCKS → [[modalities]] — Modal test blocked until inference.v2 modal.ts exists
-- BLOCKS → [[pi-types]] — Dependent arg test blocked by Bool parsing + checking.v2 match
+- BLOCKS → [[modalities]] — Modal test blocked on modal inference coverage (modal.ts present; inference/assertions incomplete)
+- BLOCKS → [[pi-types]] — Dependent arg test blocked by Bool parsing + dependent match/checking coverage
 - DETAILS → [[testing-strategy]] — Inventory of skipped suites
 - DISCOVERED_BY → [[v1-test-cleanup]] — Audit that created the gaps inventory
 - BLOCKS → [[legacy-file-compile]] — GRAM-path run-to-value parity gaps gate lowerToMir retirement

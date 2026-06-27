@@ -3,7 +3,6 @@ tags:
   [
     verification,
     milestone,
-    planned,
     deprecated,
     reference,
     sat,

@@ -51,8 +51,10 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
     Row theory in verification. Currently throws.
     _Shared with: row-types thread_
 
-11. **M5: Explanations** [[milestone-5-explanations]] — planned
-    UNSAT cores, model fragments, counterexample pretty-printing.
+11. **M5: Explanations** [[milestone-5-explanations]] — deprecated (Z3-era plan)
+    UNSAT cores, model fragments, counterexample pretty-printing. Z3-era roadmap
+    slice superseded by the IVL/CDCL(T) stack; the goal remains desirable but is
+    not currently tracked as a live milestone (no replacement zettel yet).
 
 12. **Solver architecture** [[solver]], [[solver-dispatch]], [[solver-module-layout]] — implemented baseline
     `src/verification/solver/v2` owns the active one-shot CDCL(T) backend. REPL, explorer,

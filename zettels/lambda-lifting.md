@@ -53,7 +53,7 @@ GRAM enrichment that promotes closures to top-level functions with extra capture
 - MIRRORS → [[mir]] — MIR expects top-level functions
 
 **Incoming**
-- [[gram-next-steps]] ← INCLUDES — Planned pass (phase 4)
+- [[gram-next-steps]] ← INCLUDES — Planned pass (roadmap item 3)
 - [[gram-evolution.thread]] ← INCLUDES
 
 <!-- connections:end -->

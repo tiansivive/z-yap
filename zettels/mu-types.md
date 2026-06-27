@@ -11,7 +11,6 @@ tags:
 - ast
 - substitution
 - evaluation
-- incomplete
 ---
 # Mu types
 

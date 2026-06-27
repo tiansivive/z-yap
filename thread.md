@@ -1901,3 +1901,47 @@ SPAWN [[icurry]] — two-IR split: declarative case-IR → imperative statement-
 [[call-time-choice]] --[:ADDRESSES]--> [[choice-fingerprints]]  -- strictness removes the root cause
 [[pull-tab]] --[:MOTIVATES]--> [[choice-fingerprints]]  -- pull-tab creates the clones that need tracking
 [[icurry]] --[:CONTRASTS_WITH]--> [[gram-to-mir-bridge]]  -- explicit choice nodes vs nondet resolved upstream
+
+---
+
+## Session: Pulse editorial fill + Explorer thread split — @2026-06-27 [documentation, hub, reference, explorer]
+
+Filled [[pulse]] — replaced all twelve `> **TODO**` placeholders with curated per-thread narrative paragraphs distilled from each thread's hub, members, and neighborhood (one investigation agent per thread, grounded against code where cheap). Split the former combined "Explorer Audit / Explorer Evolution" heading into two sections matching `status.js`: [[explorer-audit.thread]] (archived; full paragraph — snippet sweep, the fixes it produced, the implicit-generalization decision it forced, and the two findings handed to [[pipeline-stabilization.thread]]) and [[explorer-evolution.thread]] (short stub; 0/0, roadmap-only — provenance / cross-highlighting / diff / timing / graph-viz designed but untracked). Pulse header and the auto-managed connections block left intact.
+
+Investigation surfaced ZK staleness to triage separately (discussed this session, not yet fixed): [[bubble-semantics]] status vs the landed Phase 1; [[mu-types]] redundant `implemented`+`incomplete` dual tag; [[milestone-5-explanations]] contradictory `planned`+`deprecated`; [[gram]] hub still framing [[gram-to-mir-bridge]] as speculative against D-006; [[gram-next-steps]] listing the built bridge as planned step 1 and lambda-lifting twice; [[gram-pap-pass]] `implemented` vs the GRAM thread sequence saying "planned"; stale edge notes on [[test-coverage-gaps]] and a vacuous `BLOCKS` from [[tmp-pipeline-stub]]. Quality-theory status-in-prose sweep and the repo-doc/code drift on usage-vector handling deferred to a later QC pass.
+
+### Resolved
+
+RESOLVED Fill in `pulse.md` editorial prose per active thread — closed in [[global-pending-queue]]
+
+### Updates
+
+- [[pulse]] — all thread sections written; Explorer split into Audit + Evolution.
+- [[global-pending-queue]] — closed the pulse-fill item.
+
+No new edges.
+
+---
+
+## Session: ZK staleness batch — status retags + edge repair — @2026-06-27 [documentation, drift, audit, cleanup, hub]
+
+Cleared the staleness surfaced during the pulse fill. Status retags: [[bubble-semantics]] `planned`/`needs-design` → `in-progress` (Phase 1 landed, Phase 2 verification pending), with the DC thread-hub item 12 updated to match; [[mu-types]] dropped redundant `incomplete` (kept `implemented` — the mechanism works/tests pass; the occurs-check-recovery gap stays tracked on [[equirecursive-types]]); [[milestone-5-explanations]] dropped the contradictory `planned`, leaving it `deprecated` with the Z3-era body frozen (no replacement zettel — the explanations goal is desirable but not currently tracked live), and the verification thread-hub item 11 reworded to deprecated/superseded; [[gram-pap-pass]] thread-hub item 20 `planned` → `implemented` (matches the zettel). Prose-vs-decision: [[gram]] hub stopped framing [[gram-to-mir-bridge]] as "(speculative)" — now "(implemented; canonical MIR producer per D-006)"; [[gram-next-steps]] marked the bridge as done (step 1, in `src/GRAM/bridge/` not `src/lowering/`) and de-duplicated the doubled lambda-lifting entry.
+
+Edge repair in `connections.md` (re-embedded): replaced the vacuous `[[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]` (the tmp.ts stubs never materialised) with `[[v2-elaboration-pipeline]] --[:OBSOLETES]--> [[tmp-pipeline-stub]]`, and tagged tmp-pipeline-stub `legacy` (dropped `incomplete`) as a historical migration record. Corrected stale `inference.v2`/`checking.v2`/`modal.ts`-does-not-exist notes on three [[test-coverage-gaps]] edges to describe the real coverage gaps. Updated gram-next-steps roadmap edge notes for the renumbered items.
+
+Deferred to a later QC pass: status-in-prose cleanup (scoped to content zettels — milestones, [[row-theory]] — not thread hubs, which legitimately carry per-item status) and the repo-doc/code drift on usage-vector handling (`.github/copilot-instructions.md` "v2 drops usages" vs code threading `Q.Usages`).
+
+### Edges
+
+[[v2-elaboration-pipeline]] --[:OBSOLETES]--> [[tmp-pipeline-stub]]  -- Live pipeline replaced the planned tmp.ts stubs
+
+### Removed edges
+
+[[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]  -- Vacuous: the stub never existed
+
+### Updates
+
+- [[bubble-semantics]], [[mu-types]], [[milestone-5-explanations]], [[gram-pap-pass]] (via hub), [[tmp-pipeline-stub]] — status retags.
+- [[gram]], [[gram-next-steps]] — bridge de-speculated / marked done; lambda-lifting de-duplicated.
+- [[delimited-continuations.thread]], [[verification-backend.thread]], [[gram-evolution.thread]] — hub sequence lines reconciled to the retags.
+- [[test-coverage-gaps]] — three edge notes corrected to current file layout.

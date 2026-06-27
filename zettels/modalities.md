@@ -66,7 +66,7 @@ Modal type theory applied to Yap's type system. Modalities constrain how values 
 - [[counting-immutable-beans]] ← CONTRASTS_WITH — Runtime uniqueness vs compile-time QTT
 - [[clean-uniqueness-types]] ← INSPIRES — Uniqueness typing as prior art for QTT
 - [[clean-uniqueness-types]] ← CONTRASTS_WITH — Whole-object binary vs per-binding graded
-- [[test-coverage-gaps]] ← BLOCKS — Modal test blocked until inference.v2 modal.ts exists
+- [[test-coverage-gaps]] ← BLOCKS — Modal test blocked on modal inference coverage (modal.ts present; inference/assertions incomplete)
 - [[selfification]] ← COMPOSES_WITH — Conjoins self-equality into existing liquid predicate
 - [[annotations]] ← COMPOSES_WITH — stripModalities preserves user modalities
 - [[strict-vs-lazy]] ← COMPOSES_WITH — Modality system could encode eval strategy

@@ -71,7 +71,7 @@ At lowering, Pi types are erased. The runtime sees Lambda (closures), not Pi. Ty
 - [[smt-translation]] ← ERASES — Functions → uninterpreted in SMT
 - [[lambda]] ← DISPATCHES_ON — Explicit λ vs implicit λ{} icit matching
 - [[lambda-synthesis-fix]] ← DEPENDS_ON — Pi type return closure construction
-- [[test-coverage-gaps]] ← BLOCKS — Dependent arg test blocked by Bool parsing + checking.v2 match
+- [[test-coverage-gaps]] ← BLOCKS — Dependent arg test blocked by Bool parsing + dependent match/checking coverage
 - [[unified-binder]] ← APPLIES_TO — Pi uses Abs with binding.type Pi
 - [[standard-closure]] ← ENABLES — Pi codomains are standard closures
 - [[annotations]] ← RELIES_ON — Annotation often provides expected Pi type

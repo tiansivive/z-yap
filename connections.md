@@ -92,7 +92,7 @@
 [[mir-lowering]] --[:TRANSLATES_TO]--> [[eb-term]]  -- EB.Term → SSA blocks
 [[mir]] --[:ERASES]--> [[pi-types]]  -- Types not preserved in MIR
 [[mir-lowering]] --[:TRAVERSES]--> [[eb-term]]  -- Pattern-match walk
-[[tmp-pipeline-stub]] --[:BLOCKS]--> [[v2-elaboration-pipeline]]  -- Stubs prevent integration
+[[v2-elaboration-pipeline]] --[:OBSOLETES]--> [[tmp-pipeline-stub]]  -- The live pipeline replaced the planned tmp.ts stubs; the stubs never materialised
 [[verification-modal-phase]] --[:FOLLOWS]--> [[elaboration]]  -- Modal checking after full inference
 [[module-system]] --[:RELIES_ON]--> [[v1-elaboration-pipeline]]  -- Not yet wired to v2
 [[compile-orchestration]] --[:DELEGATES_TO]--> [[v1-elaboration-pipeline]]  -- Current delegation
@@ -1019,10 +1019,10 @@
 ## GRAM Next Steps  @2026-05-18
 
 [[gram-next-steps]] --[:APPLIES_TO]--> [[gram]]  -- Near-term roadmap
-[[gram-to-mir-bridge]] --[:FOLLOWS]--> [[gram-next-steps]]  -- Step 1: regression + CFG extraction
+[[gram-to-mir-bridge]] --[:FOLLOWS]--> [[gram-next-steps]]  -- Step 1 (done): now the canonical MIR producer per D-006
 [[defunctionalization]] --[:FOLLOWS]--> [[gram-to-mir-bridge]]  -- Step 2: after bridge validates graph
 [[gram-next-steps]] --[:INCLUDES]--> [[defunctionalization]]  -- Planned pass
-[[gram-next-steps]] --[:INCLUDES]--> [[gram-to-mir-bridge]]  -- Planned translation
+[[gram-next-steps]] --[:INCLUDES]--> [[gram-to-mir-bridge]]  -- Step 1, implemented (canonical MIR producer per D-006)
 
 ## Pattern Algorithm Design  @2026-05-18
 
@@ -1320,8 +1320,8 @@
 [[lambda-lifting]] --[:MIRRORS]--> [[mir]]  -- MIR expects top-level functions
 
 ### Thread and roadmap edges
-[[gram-next-steps]] --[:INCLUDES]--> [[gram-crud-enrichment]]  -- Planned pass (phase 5)
-[[gram-next-steps]] --[:INCLUDES]--> [[lambda-lifting]]  -- Planned pass (phase 4)
+[[gram-next-steps]] --[:INCLUDES]--> [[gram-crud-enrichment]]  -- Planned pass (roadmap item 4)
+[[gram-next-steps]] --[:INCLUDES]--> [[lambda-lifting]]  -- Planned pass (roadmap item 3)
 [[gram-evolution.thread]] --[:INCLUDES]--> [[gram-crud-enrichment]]
 [[gram-evolution.thread]] --[:RELIES_ON]--> [[crud-strategy-choice]]  -- Phased decision informing CRUD enrichment
 [[gram-evolution.thread]] --[:INCLUDES]--> [[lambda-lifting]]
@@ -1925,12 +1925,12 @@
 
 ## Test coverage gaps
 
-[[test-coverage-gaps]] --[:DETECTS]--> [[v2-elaboration-pipeline]]  -- Missing modal inference (22/23), missing checking.v2 match
+[[test-coverage-gaps]] --[:DETECTS]--> [[v2-elaboration-pipeline]]  -- Missing modal inference coverage; match checking needs direct semantic assertions
 [[test-coverage-gaps]] --[:DETECTS]--> [[nearley-parser]]  -- Bool literal grammar gap
 [[test-coverage-gaps]] --[:DEFERS]--> [[shift-reset]]  -- Elaboration-level tests skipped; GRAM tests pass
 [[test-coverage-gaps]] --[:DEFERS]--> [[repl]]  -- Integration test skipped (infrastructure)
-[[test-coverage-gaps]] --[:BLOCKS]--> [[modalities]]  -- Modal test blocked until inference.v2 modal.ts exists
-[[test-coverage-gaps]] --[:BLOCKS]--> [[pi-types]]  -- Dependent arg test blocked by Bool parsing + checking.v2 match
+[[test-coverage-gaps]] --[:BLOCKS]--> [[modalities]]  -- Modal test blocked on modal inference coverage (modal.ts present; inference/assertions incomplete)
+[[test-coverage-gaps]] --[:BLOCKS]--> [[pi-types]]  -- Dependent arg test blocked by Bool parsing + dependent match/checking coverage
 [[test-coverage-gaps]] --[:DETAILS]--> [[testing-strategy]]  -- Inventory of skipped suites
 [[test-coverage-gaps]] --[:DISCOVERED_BY]--> [[v1-test-cleanup]]  -- Audit that created the gaps inventory
 [[testing-strategy]] --[:INCLUDES]--> [[test-coverage-gaps]]  -- Gap tracking

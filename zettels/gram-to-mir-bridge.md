@@ -41,14 +41,14 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - RELIES_ON → [[gram-pattern-pass]] — Needs decision trees
 - RELIES_ON → [[saturation]] — Needs external/primop
 - RELIES_ON → [[closure-conversion]] — Needs env/fn nodes
-- FOLLOWS → [[gram-next-steps]] — Step 1: regression + CFG extraction
+- FOLLOWS → [[gram-next-steps]] — Step 1 (done): now the canonical MIR producer per D-006
 - SUPERSEDES → [[mir-lowering]] — Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer
 - DEPRECATES → [[mir-lowering]] — Lifecycle: direct lowering marked deprecated
 
 **Incoming**
 - [[compile-orchestration]] ← DELEGATES_TO — Lowering step (Pipeline.lowerTerm → bridge)
 - [[defunctionalization]] ← FOLLOWS — Step 2: after bridge validates graph
-- [[gram-next-steps]] ← INCLUDES — Planned translation
+- [[gram-next-steps]] ← INCLUDES — Step 1, implemented (canonical MIR producer per D-006)
 - [[gram-evolution.thread]] ← INCLUDES
 - [[gram-crud-enrichment]] ← FOLLOWS — After bridge validates graph
 - [[bridge-type-erasure]] ← FIXES — PI/SIGMA/VAR_META dispatch

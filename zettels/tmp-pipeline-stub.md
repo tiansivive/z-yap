@@ -9,7 +9,7 @@ tags:
     inference,
     compiler,
     project,
-    incomplete,
+    legacy,
     tooling,
     ast,
     mir,
@@ -25,7 +25,7 @@ Some migration notes name `inference.v2/tmp.ts` and `checking.v2/tmp.ts` as plac
 
 ## Connections
 
-**Outgoing**
-- BLOCKS → [[v2-elaboration-pipeline]] — Stubs prevent integration
+**Incoming**
+- [[v2-elaboration-pipeline]] ← OBSOLETES — The live pipeline replaced the planned tmp.ts stubs; the stubs never materialised
 
 <!-- connections:end -->
