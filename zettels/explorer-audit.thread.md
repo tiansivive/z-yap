@@ -52,9 +52,8 @@ pattern-matching (struct dispatch), explorer-evolution (snippet syntax)_
 8. **Module zonker propagation** [[module-zonker-fix]] — implemented
    Told zonker from `letdec` dropped by `module.ts` `listen()` destructuring.
 
-9. **Bridge closure capture** [[bridge-closure-capture]] — needs-design
-   Curried closures return bare `FuncRef` without bundling captures.
-   _Tracked on [[pipeline-stabilization.thread]] #12._
+9. ~~**Bridge closure capture** [[bridge-closure-capture]] — **implemented**~~
+   Curried returns emit the shared bundle ABI (`{ __fn, __env }`) at return sites.
 
 10. **Bridge struct dispatch** [[bridge-struct-dispatch]] — needs-design
     Struct match emits empty-string branch test; multi-alt struct patterns need field projection.

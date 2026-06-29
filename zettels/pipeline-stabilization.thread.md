@@ -61,8 +61,8 @@ invisible when each pass was tested in isolation._
 11. **Bridge struct dispatch** [[bridge-struct-dispatch]] — backlog
     Already tracked. List/struct pattern dispatch in the bridge.
 
-12. **Bridge closure capture** [[bridge-closure-capture]] — backlog
-    Already tracked. Curried returns with outer captures.
+12. ~~**Bridge closure capture** [[bridge-closure-capture]] — bug, **implemented**~~
+    Curried returns bundle inner lifted functions with captured environments per the shared `{ __fn, __env }` ABI.
 
 13. ~~**Bridge unsaturated external** [[bridge-unsaturated-external]] — bug, **implemented**~~
     `external()` in `bridge/primops.ts` emits `Call(direct)` for all externals without
@@ -84,7 +84,7 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[bridge-free-var-unknown]] — Bridge var:free → unknown
 - INCLUDES → [[bridge-label-closure-gap]] — Label self-ref under match scope
 - INCLUDES → [[bridge-struct-dispatch]] — Backlog: struct pattern dispatch
-- INCLUDES → [[bridge-closure-capture]] — Backlog: curried closure capture
+- INCLUDES → [[bridge-closure-capture]] — Curried closure capture (implemented)
 - INCLUDES → [[type-erasure]] — Backlog: type-only let erasure
 - INCLUDES → [[bridge-unsaturated-external]] — Bug: unsaturated externals need closure wrappers
 - SHARED_WITH → [[gram-evolution.thread]] — Bridge bugs overlap

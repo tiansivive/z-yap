@@ -1,7 +1,7 @@
 ---
 tags:
-  - needs-design
-  - incomplete
+  - implemented
+  - bugfix
   - lowering
   - graph
   - mir
@@ -9,16 +9,22 @@ tags:
   - compiler
   - closure
   - ir
+  - bridge
   - pattern
+refs:
+  - thread:pipeline-stabilization
+  - code:tiansivive/yap#8
 ---
 
 # Bridge closure capture
 
-`\f -> \x -> f (f x)` — the inner closure's MIR emits a bare `FuncRef` for the returned lambda without bundling the captured `f` into a closure environment. The outer function returns a `FuncRef` to an inner function that references `f`, but the bridge doesn't thread the capture through.
+When a curried function returns an inner lambda that references a parameter from an outer scope, the returned value is a **closure** — not a bare function pointer. The GRAM closure pass records each lambda's free-variable set as `:ENV` / `:CAPTURE` metadata on `:CLOSURE` nodes; the bridge translates that metadata into the runtime bundle convention shared with legacy lowering.
 
-The GRAM closure pass (`src/GRAM/passes/closure.ts`) identifies free variables, but the bridge's calling convention for curried returns doesn't translate capture sets into runtime closure structs. A curried function that returns a closure needs the bridge to emit `MkClosure(func, {f})` rather than `FuncRef(func)`.
+**Bundle ABI:** lifted functions take `[env, formal]` parameters; first-class function **values** are records `{ __fn, __env }`. Application reads `__fn` and `__env` off the callee bundle, then performs an indirect call with `[env, arg]`. Curried returns bundle the inner lifted function together with the captured environment at the return site.
 
-The bridge now throws explicitly when nested closures reference outer captures (`src/GRAM/bridge/closures.ts`), surfacing the gap in test snapshots rather than silently emitting incorrect MIR.
+**Distinction from PAP:** [[gram-pap-pass]] handles unsaturated **externals** (FFI partial application), a separate track from lexical closure capture on user `:CLOSURE` nodes.
+
+**Relation to closure conversion:** [[closure-conversion]] documents the same bundle ABI on the legacy `lowerToMir` path. The bridge emits captures via the shared bundle primitive rather than extra formals plus a bare `FuncRef`. Lambda lifting ([[lambda-lifting]]) is an orthogonal enrichment and not required for bundle correctness.
 
 <!-- connections:start -->
 
@@ -27,10 +33,12 @@ The bridge now throws explicitly when nested closures reference outer captures (
 **Outgoing**
 - ADDRESSES → [[gram-to-mir-bridge]] — Curried return calling convention
 - ADDRESSES → [[closures]] — Capture threading for nested closures
+- RELIES_ON → [[closure-conversion]] — Shared bundle ABI convention
 
 **Incoming**
 - [[explorer-audit.thread]] ← INCLUDES — Thread member
 - [[bridge-unsaturated-external]] ← MIRRORS — Sibling bridge closure gap
-- [[pipeline-stabilization.thread]] ← INCLUDES — Backlog: curried closure capture
+- [[pipeline-stabilization.thread]] ← INCLUDES — Curried closure capture
+- [[gram-to-mir-bridge]] ← RESOLVES — Bridge emits bundle ABI for curried returns
 
 <!-- connections:end -->

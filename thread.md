@@ -1945,3 +1945,45 @@ Deferred to a later QC pass: status-in-prose cleanup (scoped to content zettels 
 - [[gram]], [[gram-next-steps]] — bridge de-speculated / marked done; lambda-lifting de-duplicated.
 - [[delimited-continuations.thread]], [[verification-backend.thread]], [[gram-evolution.thread]] — hub sequence lines reconciled to the retags.
 - [[test-coverage-gaps]] — three edge notes corrected to current file layout.
+
+---
+
+## Session: Closure capture investigation + ABI queue item — @2026-06-28 [lowering, mir, closure, bridge, compiler, codegen, queue]
+
+Investigated [[pipeline-stabilization.thread]] closure-capture gaps against the canonical GRAM → bridge pipeline. Confirmed [[gram-pap-pass]] applies only to unsaturated `EXTERNAL` nodes (FFI partial application), not user `:CLOSURE` / `:LAMBDA` nodes — PAP and lexical closure capture are separate tracks. The GRAM `closure` pass already records per-lambda `:ENV` and `:CAPTURE`; the gap is bridge emission (currently extra formals + bare `FuncRef`, not the `{ __fn, __env }` bundle convention used by legacy `lowerToMir` and `pap.ts`). Fix for curried returns under the bundle ABI is bridge-side, not a new GRAM pass. Lambda lifting ([[lambda-lifting]]) is a separate planned enrichment and not required for the bundle fix.
+
+Deferred cross-cutting design: per-backend ABI choice and package/module reconciliation when targets or dependencies diverge on calling convention.
+
+### Enqueued
+
+ENQUEUE [[compilation-abi-selection]] — discuss bundle vs lifting vs native conventions per target, and package boundary coherence
+
+### Spawned
+
+SPAWN [[compilation-abi-selection]] — design-space zettel for ABI selection and package reconciliation
+
+### Edges
+
+[[compilation-abi-selection]] --[:ADDRESSES]--> [[compilation-by-selection]]  -- Backend-specific convention choice
+[[compilation-abi-selection]] --[:ADDRESSES]--> [[package-artifact-distribution]]  -- Package boundary must carry ABI assumptions
+[[global-pending-queue]] --[:INCLUDES]--> [[compilation-abi-selection]]  -- Deferred design discussion
+
+---
+
+## Session: Bridge closure capture resolved — @2026-06-28 [lowering, mir, closure, bridge, compiler, documentation]
+
+Yap PR [#8](https://github.com/tiansivive/yap/pull/8) merged the bridge bundle ABI fix for curried returns: lifted functions take `[env, formal]`, first-class function values are `{ __fn, __env }`, and application reads the bundle before indirect call. GRAM's closure pass already records `:ENV` / `:CAPTURE`; the gap was bridge emission (extra formals + bare `FuncRef`), now aligned with [[closure-conversion]] and the legacy lowering path. Retagged [[bridge-closure-capture]] `implemented`; struck through on [[pipeline-stabilization.thread]] #12 and [[explorer-audit.thread]] #9; removed from [[gram-to-mir-bridge]] known gaps; updated [[pulse]] Explorer Audit, GRAM Evolution, and Pipeline Stabilization narratives.
+
+### Resolved
+
+RESOLVED [[bridge-closure-capture]] — yap#8 lands shared bundle ABI in GRAM→MIR bridge emission
+
+### Updates
+
+- [[bridge-closure-capture]] — durable bundle-ABI design prose; `implemented` retag; `code:tiansivive/yap#8` ref.
+- [[pipeline-stabilization.thread]], [[explorer-audit.thread]], [[gram-to-mir-bridge]], [[pulse]] — closure capture closed across threads and editorial snapshot.
+
+### Edges
+
+[[bridge-closure-capture]] --[:RELIES_ON]--> [[closure-conversion]]  -- Shared bundle ABI convention
+[[gram-to-mir-bridge]] --[:RESOLVES]--> [[bridge-closure-capture]]  -- Bridge emits bundle ABI for curried returns

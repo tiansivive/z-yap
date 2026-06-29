@@ -27,7 +27,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 
 **Status:** Implemented. The bridge (`src/GRAM/bridge/emit.ts`) is the canonical MIR source across the explorer, REPL, and file-compile pipelines. The direct `lowerToMir` path ([[mir-lowering]]) is deprecated and has no production callers.
 
-**Known gaps:** Closure capture for curried returns ([[bridge-closure-capture]]), struct match dispatch ([[bridge-struct-dispatch]]).
+**Known gaps:** Struct match dispatch ([[bridge-struct-dispatch]]).
 
 <!-- connections:start -->
 
@@ -53,7 +53,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - [[gram-crud-enrichment]] ← FOLLOWS — After bridge validates graph
 - [[bridge-type-erasure]] ← FIXES — PI/SIGMA/VAR_META dispatch
 - [[bridge-label-resolution]] ← FIXES — VAR_LABEL dispatch
-- [[bridge-closure-capture]] ← ADDRESSES — Curried return calling convention
+- [[bridge-closure-capture]] ← RESOLVES — Curried return bundle ABI
 - [[bridge-struct-dispatch]] ← ADDRESSES — Struct pattern compilation
 - [[bridge-unsaturated-external]] ← ADDRESSES — Bridge lacks partial application handling
 - [[gram-pap-pass]] ← PRESERVES — Keeps bridge mechanical: GRAM adds semantics, bridge translates

@@ -2079,6 +2079,8 @@
 
 [[bridge-closure-capture]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Curried return calling convention
 [[bridge-closure-capture]] --[:ADDRESSES]--> [[closures]]  -- Capture threading for nested closures
+[[bridge-closure-capture]] --[:RELIES_ON]--> [[closure-conversion]]  -- Shared bundle ABI convention  @2026-06-28
+[[gram-to-mir-bridge]] --[:RESOLVES]--> [[bridge-closure-capture]]  -- Bridge emits bundle ABI for curried returns  @2026-06-28
 
 [[bridge-struct-dispatch]] --[:ADDRESSES]--> [[gram-to-mir-bridge]]  -- Struct pattern compilation
 [[bridge-struct-dispatch]] --[:ADDRESSES]--> [[pattern-matching]]  -- Struct vs variant dispatch paths
@@ -2285,7 +2287,7 @@
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-free-var-unknown]]  -- Bridge var:free → unknown
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-label-closure-gap]]  -- Label self-ref under match scope
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-struct-dispatch]]  -- Backlog: struct pattern dispatch
-[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Backlog: curried closure capture
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-closure-capture]]  -- Curried closure capture (implemented)
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[type-erasure]]  -- Backlog: type-only let erasure
 [[pipeline-stabilization.thread]] --[:INCLUDES]--> [[bridge-unsaturated-external]]  -- Bug: unsaturated externals need closure wrappers  @2026-06-03
 
@@ -3071,3 +3073,10 @@
 [[pattern-matching.thread]] --[:INCLUDES]--> [[tagged-dispatch]]  @2026-06-26
 [[gram-evolution.thread]] --[:INCLUDES]--> [[tagged-dispatch]]  @2026-06-26
 [[gram-evolution.thread]] --[:INCLUDES]--> [[icurry]]  @2026-06-26
+
+# compilation-abi-selection
+[[compilation-abi-selection]] --[:ADDRESSES]--> [[compilation-by-selection]]  -- Backend-specific convention choice  @2026-06-28
+[[compilation-abi-selection]] --[:ADDRESSES]--> [[package-artifact-distribution]]  -- Package boundary must carry ABI assumptions  @2026-06-28
+[[compilation-abi-selection]] --[:CONTRASTS_WITH]--> [[mir]]  -- Single MIR contract vs per-target conventions  @2026-06-28
+[[compilation-abi-selection]] --[:RELIES_ON]--> [[closures]]  -- Closure representation is the primary ABI fork  @2026-06-28
+[[global-pending-queue]] --[:INCLUDES]--> [[compilation-abi-selection]]  -- Deferred design discussion  @2026-06-28

@@ -61,6 +61,10 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] Document how Yap structures testing — unit tests per pass/transformation, integration tests when composing them. Methodology note; scope carefully (the Core→codegen pipeline shape is lowering-specific, not a general principle).
 
+## Compilation ABI (2026-06-28)
+
+- [ ] [[compilation-abi-selection]] — discuss per-backend/target closure calling conventions (bundle vs lifting vs native), and how package/module boundaries reconcile when projects or dependencies pick different ABIs
+
 <!-- connections:start -->
 
 ## Connections
@@ -85,6 +89,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
 - INCLUDES → [[surface-syntax-backlog]] — Deferred syntax backlog
 - INCLUDES → [[euf-congruence-propagation-bug]] — Resolved solver parity bug
+- INCLUDES → [[compilation-abi-selection]] — Per-target ABI choice and package reconciliation
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
