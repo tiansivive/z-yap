@@ -47,5 +47,6 @@ Architecture: GRAM enriches the graph maximally — all semantic and operational
 - [[gram-evolution.thread]] ← RELIES_ON — Backend selection architecture
 - [[gram-crud-enrichment]] ← INSTANTIATES — Backends choose whether to read modes
 - [[lambda-lifting]] ← ENABLES — C/GPU need it, JS/Erlang skip it
+- [[compilation-abi-selection]] ← ADDRESSES — Backend-specific convention choice
 
 <!-- connections:end -->

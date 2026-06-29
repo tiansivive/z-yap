@@ -56,5 +56,6 @@ Application dispatches on closure kind: standard closures extend the context and
 - [[closure-conversion]] ← CONSUMES — Lifts closures to MIR functions
 - [[nbe]] ← INCLUDES — Deferred substitution
 - [[glued-evaluation]] ← APPLIES_TO — Closures gain a lazy value cell beside body/context
+- [[compilation-abi-selection]] ← RELIES_ON — Closure representation is the primary ABI fork
 
 <!-- connections:end -->

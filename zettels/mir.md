@@ -48,5 +48,6 @@ MIR is Yap's sequential operational intermediate representation — the block-st
 - [[lambda-lifting]] ← MIRRORS — MIR expects top-level functions
 - [[explorer-graph-viz]] ← USES — Renders MIR CFG
 - [[mir-lowering]] ← PRODUCES — Direct path emitted the MIR IR (now produced by the bridge)
+- [[compilation-abi-selection]] ← CONTRASTS_WITH — Single MIR contract vs per-target conventions
 
 <!-- connections:end -->

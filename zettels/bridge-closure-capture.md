@@ -37,8 +37,8 @@ When a curried function returns an inner lambda that references a parameter from
 
 **Incoming**
 - [[explorer-audit.thread]] ← INCLUDES — Thread member
-- [[bridge-unsaturated-external]] ← MIRRORS — Sibling bridge closure gap
-- [[pipeline-stabilization.thread]] ← INCLUDES — Curried closure capture
 - [[gram-to-mir-bridge]] ← RESOLVES — Bridge emits bundle ABI for curried returns
+- [[bridge-unsaturated-external]] ← MIRRORS — Sibling bridge closure gap
+- [[pipeline-stabilization.thread]] ← INCLUDES — Curried closure capture (implemented)
 
 <!-- connections:end -->

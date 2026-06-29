@@ -42,6 +42,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - RELIES_ON → [[saturation]] — Needs external/primop
 - RELIES_ON → [[closure-conversion]] — Needs env/fn nodes
 - FOLLOWS → [[gram-next-steps]] — Step 1 (done): now the canonical MIR producer per D-006
+- RESOLVES → [[bridge-closure-capture]] — Bridge emits bundle ABI for curried returns
 - SUPERSEDES → [[mir-lowering]] — Bridge replaced the direct lowerToMir route as the canonical EB→MIR producer
 - DEPRECATES → [[mir-lowering]] — Lifecycle: direct lowering marked deprecated
 
@@ -53,7 +54,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - [[gram-crud-enrichment]] ← FOLLOWS — After bridge validates graph
 - [[bridge-type-erasure]] ← FIXES — PI/SIGMA/VAR_META dispatch
 - [[bridge-label-resolution]] ← FIXES — VAR_LABEL dispatch
-- [[bridge-closure-capture]] ← RESOLVES — Curried return bundle ABI
+- [[bridge-closure-capture]] ← ADDRESSES — Curried return calling convention
 - [[bridge-struct-dispatch]] ← ADDRESSES — Struct pattern compilation
 - [[bridge-unsaturated-external]] ← ADDRESSES — Bridge lacks partial application handling
 - [[gram-pap-pass]] ← PRESERVES — Keeps bridge mechanical: GRAM adds semantics, bridge translates

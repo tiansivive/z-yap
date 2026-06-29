@@ -48,6 +48,7 @@ Downstream backends consume MIR closure triples (`Codegen/v2/` paths used from `
 - [[dpo-vs-imperative-passes]] ← APPLIES_TO — Capture is aggregate
 - [[lambda-lifting]] ← COMPOSES_WITH — Builds on identified captures
 - [[lambda-lifting]] ← FOLLOWS — Strictly further in pipeline
+- [[bridge-closure-capture]] ← RELIES_ON — Shared bundle ABI convention
 - [[gram-pap-pass]] ← COMPOSES_WITH — May emit closure structure or compose with closure pass
 
 <!-- connections:end -->

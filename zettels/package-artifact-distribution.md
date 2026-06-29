@@ -44,5 +44,6 @@ The package artifact is therefore the distribution contract for command-line use
 - [[release-and-explorer-deployment.session]] ← PRODUCED — Packaged CLI artifact boundary
 - [[yap]] ← INCLUDES — Runnable package distribution
 - [[tag-driven-alpha-release-flow]] ← PRODUCES — Tags produce installable release tarballs
+- [[compilation-abi-selection]] ← ADDRESSES — Package boundary must carry ABI assumptions
 
 <!-- connections:end -->

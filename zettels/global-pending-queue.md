@@ -89,7 +89,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[z-yap-agent-skill]] — Planned Cursor skill for z-yap interaction protocol
 - INCLUDES → [[surface-syntax-backlog]] — Deferred syntax backlog
 - INCLUDES → [[euf-congruence-propagation-bug]] — Resolved solver parity bug
-- INCLUDES → [[compilation-abi-selection]] — Per-target ABI choice and package reconciliation
+- INCLUDES → [[compilation-abi-selection]] — Deferred design discussion
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
