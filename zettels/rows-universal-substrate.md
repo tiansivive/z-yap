@@ -39,5 +39,6 @@ Related: [[data-declarations]], [[customizable-data-types]], [[indexing-strategi
 - [[row-types.thread]] ← INCLUDES
 - [[data-declarations]] ← RELIES_ON — Desugars into row machinery
 - [[customizable-data-types]] ← RELIES_ON — Records as base abstraction
+- [[gram-struct-node]] ← CONTRASTS_WITH — Flat value node vs row cons-list
 
 <!-- connections:end -->

@@ -15,6 +15,11 @@ Mu types, equirecursive equivalence, mutual recursion in struct rows, and surfac
 loop sugar. The core gap: occurs-check currently throws instead of producing mu
 types.
 
+Codata records and a `ν` binder are elevated in priority: lowering rejects eager
+constructor-guarded label cycles ([[label-cycle-guardedness]]), so the first stream
+a user writes hits that boundary. The rejection is a stopgap for the value-level
+coinduction that [[nu-types]] would give a principled core representation.
+
 ## Sequence
 
 1. **Mu types** [[mu-types]] — incomplete
@@ -69,6 +74,8 @@ types.
 - DOCUMENTS → [[sigma-vs-codata-label-refs]] — Knowledge: sigma/codata duality
 - INCLUDES → [[design-bisimulation-equality]] — Design work item
 - INCLUDES → [[design-sigma-codata-label-refs]] — Design work item
+- INCLUDES → [[recursive-struct-binding]]
+- INCLUDES → [[label-cycle-guardedness]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

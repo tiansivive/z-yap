@@ -57,5 +57,6 @@ Related: [[termination-checking]], [[nu-types]], [[coinductivity]], [[sized-type
 - [[sized-types]] ← ADDRESSES — Size annotations ensure productivity
 - [[syntactic-guardedness]] ← ADDRESSES — Syntactic criterion for productivity
 - [[recursion.thread]] ← INCLUDES
+- [[label-cycle-guardedness]] ← APPLIES_TO — Down payment on productivity for nu records
 
 <!-- connections:end -->

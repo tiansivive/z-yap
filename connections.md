@@ -3080,3 +3080,56 @@
 [[compilation-abi-selection]] --[:CONTRASTS_WITH]--> [[mir]]  -- Single MIR contract vs per-target conventions  @2026-06-28
 [[compilation-abi-selection]] --[:RELIES_ON]--> [[closures]]  -- Closure representation is the primary ABI fork  @2026-06-28
 [[global-pending-queue]] --[:INCLUDES]--> [[compilation-abi-selection]]  -- Deferred design discussion  @2026-06-28
+
+## Label resolution as GRAM pass; recursive struct binding  @2026-06-29
+
+# gram-label-resolution-pass
+[[gram-label-resolution-pass]] --[:SUPERSEDES]--> [[bridge-label-resolution]]  -- Edge resolution replaces the order-dependent name map  @2026-06-29
+[[gram-label-resolution-pass]] --[:ADDRESSES]--> [[bridge-label-closure-gap]]  -- Resolves self-refs nested under match scope  @2026-06-29
+[[gram-label-resolution-pass]] --[:ADDRESSES]--> [[bridge-forward-label-refs]]  -- Removes forward/backward asymmetry  @2026-06-29
+[[gram-label-resolution-pass]] --[:MIRRORS]--> [[label-lookup]]  -- Graph counterpart of ctx.sigma name resolution  @2026-06-29
+[[gram-label-resolution-pass]] --[:RELIES_ON]--> [[gram-to-mir-bridge]]  -- Keeps bridge label emission mechanical  @2026-06-29
+[[gram-label-resolution-pass]] --[:USES]--> [[mutual-recursion]]  -- Sigma row scope stack for nested rows  @2026-06-29
+
+# recursive-struct-binding
+[[recursive-struct-binding]] --[:MIRRORS]--> [[knot-tying]]  -- Lowering-level placeholder-and-mutate  @2026-06-29
+[[recursive-struct-binding]] --[:ADDRESSES]--> [[mutual-recursion]]  -- Struct label group is value-level letrec  @2026-06-29
+[[recursive-struct-binding]] --[:AVOIDS]--> [[bridge-forward-label-refs]]  -- Define-before-use removes dependency ordering  @2026-06-29
+[[recursive-struct-binding]] --[:RELIES_ON]--> [[label-cycle-guardedness]]  -- Only admitted cycles are tied  @2026-06-29
+[[recursive-struct-binding]] --[:DETAILS]--> [[sigma-vs-codata-label-refs]]  -- Eager fixed-point side of the duality  @2026-06-29
+
+# label-cycle-guardedness
+[[label-cycle-guardedness]] --[:SPECIALIZES]--> [[syntactic-guardedness]]  -- Guardedness as a lowering-time admissibility check  @2026-06-29
+[[label-cycle-guardedness]] --[:APPLIES_TO]--> [[productivity-checking]]  -- Down payment on productivity for nu records  @2026-06-29
+[[label-cycle-guardedness]] --[:MOTIVATES]--> [[nu-types]]  -- Erroring on eager codata forces value-level coinduction  @2026-06-29
+[[label-cycle-guardedness]] --[:DETECTS]--> [[bridge-label-closure-gap]]  -- Distinguishes recursive function from ill-founded cycle  @2026-06-29
+
+# thread memberships
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[gram-label-resolution-pass]]  @2026-06-29
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[recursive-struct-binding]]  @2026-06-29
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-label-resolution-pass]]  @2026-06-29
+[[recursion.thread]] --[:INCLUDES]--> [[recursive-struct-binding]]  @2026-06-29
+[[recursion.thread]] --[:INCLUDES]--> [[label-cycle-guardedness]]  @2026-06-29
+
+## GRAM struct node (value-level record representation)  @2026-06-30
+
+# gram-struct-node
+[[gram-struct-node]] --[:CONTRASTS_WITH]--> [[rows-universal-substrate]]  -- Flat value node vs row cons-list  @2026-06-30
+[[gram-struct-node]] --[:MIRRORS]--> [[gram-pattern-translation]]  -- Value-side twin of pat:struct :field edges  @2026-06-30
+[[gram-struct-node]] --[:ADDRESSES]--> [[bridge-forward-label-refs]]  -- Flat node removes the resolution ordering asymmetry  @2026-06-30
+[[gram-struct-node]] --[:ADDRESSES]--> [[bridge-label-closure-gap]]  -- One record node to capture and project from  @2026-06-30
+[[gram-struct-node]] --[:RELIES_ON]--> [[gram-to-mir-bridge]]  -- Bridge emits Alloc Record from it  @2026-06-30
+[[gram-label-resolution-pass]] --[:USES]--> [[gram-struct-node]]  -- Frame is the struct node's field edges  @2026-06-30
+[[recursive-struct-binding]] --[:RELIES_ON]--> [[gram-struct-node]]  -- The knot object is the struct node's Alloc  @2026-06-30
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[gram-struct-node]]  @2026-06-30
+[[gram-evolution.thread]] --[:INCLUDES]--> [[gram-struct-node]]  @2026-06-30
+
+# pr-explorer-preview-deploys
+[[pr-explorer-preview-deploys]] --[:EXTENDS]--> [[explorer-deployment-channels]]  -- Ephemeral per-PR channel beside release/mainline  @2026-06-30
+[[pr-explorer-preview-deploys]] --[:DEPLOYS]--> [[yap-explore]]  -- Per-PR Fly app serves the Explorer  @2026-06-30
+[[pr-explorer-preview-deploys]] --[:USES]--> [[ci-pipeline]]  -- GitHub Actions label-gated workflow  @2026-06-30
+
+# agent-instruction-consolidation.session
+[[sessions.hub]] --[:INCLUDES]--> [[agent-instruction-consolidation.session]]  -- Session record  @2026-06-30
+[[agent-instruction-consolidation.session]] --[:PRODUCED]--> [[pr-explorer-preview-deploys]]  -- Per-PR preview capability  @2026-06-30
+[[agent-instruction-consolidation.session]] --[:INFORMS]--> [[agent-guidelines-zettelization]]  -- Consolidated operational agent rules into a canonical entry  @2026-06-30

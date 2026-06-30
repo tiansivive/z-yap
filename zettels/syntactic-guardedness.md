@@ -54,5 +54,6 @@ Related: [[sized-types]], [[termination-checking]], [[productivity-checking]], [
 - [[productivity-checking]] ← RELIES_ON — Alternative approach to productivity
 - [[sized-types]] ← CONTRASTS_WITH — More expressive but more complex
 - [[recursion.thread]] ← INCLUDES
+- [[label-cycle-guardedness]] ← SPECIALIZES — Guardedness as a lowering-time admissibility check
 
 <!-- connections:end -->

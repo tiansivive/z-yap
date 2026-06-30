@@ -65,6 +65,10 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] [[compilation-abi-selection]] — discuss per-backend/target closure calling conventions (bundle vs lifting vs native), and how package/module boundaries reconcile when projects or dependencies pick different ABIs
 
+## Session follow-ups (2026-06-30)
+
+- [ ] Usage-semantics framing correction — elaboration threads `Q.Usages` (`check`/`infer` return `[EB.Term, Q.Usages]`) but the threading is deprecated and unconsumed; reconcile [[modality-system]] / [[verification-modal-phase]] / [[pulse]] wording (the "vector absent / modal wrappers stripped" framing is wrong; "enforcement doesn't exist" stands).
+
 <!-- connections:start -->
 
 ## Connections

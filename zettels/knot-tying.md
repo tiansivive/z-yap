@@ -44,5 +44,6 @@ The pattern relies on mutable cells in the environment — a controlled use of m
 - [[nbe]] ← INCLUDES — Recursive evaluation pattern
 - [[variable-evaluation-dispatch]] ← RELIES_ON — Free variables use placeholder pattern
 - [[length-recursive-debruijn]] ← RELIES_ON — Recursive binder pattern
+- [[recursive-struct-binding]] ← MIRRORS — Lowering-level placeholder-and-mutate
 
 <!-- connections:end -->

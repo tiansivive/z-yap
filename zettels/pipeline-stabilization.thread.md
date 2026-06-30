@@ -49,10 +49,12 @@ invisible when each pass was tested in isolation._
 
 9. **Bridge: label resolution in closures** [[bridge-label-closure-gap]] — bug, planned
    `:field` self-refs inside match bodies within struct fields produce undefined MIR vars.
-   Edge case of [[bridge-label-resolution]].
-   - 9a. **Forward label references** [[bridge-forward-label-refs]] — bug, planned, needs-design
-     Left-to-right field emission means forward `:label` refs resolve to unbound names.
-     Requires dependency ordering pass (topological sort by label refs).
+   Edge case of [[bridge-label-resolution]]. Design converged: resolve labels to graph
+   edges in a [[gram-label-resolution-pass]] (subsumes the bridge name-map), gate cycles
+   via [[label-cycle-guardedness]], tie recursive bindings via [[recursive-struct-binding]].
+   - 9a. **Forward label references** [[bridge-forward-label-refs]] — bug, planned
+     Same root cause as #9; edge-based resolution removes the forward/backward asymmetry,
+     define-before-use for eager data avoids dependency ordering.
 
 10. **Type-only let erasure** [[type-erasure]] — backlog
     Top-level type defs produce `return v0` undefined. Partial erasure doesn't cover
@@ -90,6 +92,9 @@ invisible when each pass was tested in isolation._
 - SHARED_WITH → [[gram-evolution.thread]] — Bridge bugs overlap
 - SHARED_WITH → [[recursion.thread]] — Recursive binding bugs overlap
 - SHARED_WITH → [[row-types.thread]] — Row/schema unification bug
+- INCLUDES → [[gram-label-resolution-pass]]
+- INCLUDES → [[recursive-struct-binding]]
+- INCLUDES → [[gram-struct-node]]
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY

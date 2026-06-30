@@ -44,5 +44,6 @@ Case nodes link to their pattern root via `:pattern`.
 - [[pattern-matching.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
 - [[programmable-gram-passes]] ← RELIES_ON — Modal node emitted by EB→GRAM translation
+- [[gram-struct-node]] ← MIRRORS — Value-side twin of pat:struct :field edges
 
 <!-- connections:end -->

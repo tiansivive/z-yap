@@ -34,5 +34,7 @@ Multi-module cyclic groups, Haskell-style patching, or nominal “seams” would
 **Incoming**
 - [[recursion.thread]] ← INCLUDES
 - [[sigma-vs-codata-label-refs]] ← COMPOSES_WITH — Flat-row sigma parallels mutual letrec
+- [[gram-label-resolution-pass]] ← USES — Sigma row scope stack for nested rows
+- [[recursive-struct-binding]] ← ADDRESSES — Struct label group is value-level letrec
 
 <!-- connections:end -->

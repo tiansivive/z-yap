@@ -30,5 +30,8 @@ Observed in the `fact` test case: `fact` is a struct with a `:compute` field con
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES — Label self-ref under match scope
 - [[bridge-forward-label-refs]] ← DISCOVERED_BY — Surfaced during #9 investigation
+- [[gram-label-resolution-pass]] ← ADDRESSES — Resolves self-refs nested under match scope
+- [[label-cycle-guardedness]] ← DETECTS — Distinguishes recursive function from ill-founded cycle
+- [[gram-struct-node]] ← ADDRESSES — One record node to capture and project from
 
 <!-- connections:end -->

@@ -30,5 +30,6 @@ tags:
 **Incoming**
 - [[explorer-audit.thread]] ← INCLUDES — Thread member
 - [[bridge-label-closure-gap]] ← EXTENDS — Edge case of prior fix
+- [[gram-label-resolution-pass]] ← SUPERSEDES — Edge resolution replaces the order-dependent name map
 
 <!-- connections:end -->

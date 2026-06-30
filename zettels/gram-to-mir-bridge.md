@@ -65,5 +65,7 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - [[gram-type-uniformity]] ← APPLIES_TO — Bridge needs consistent type format for type-driven lowering
 - [[icurry]] ← INFORMS — same two-IR split architectural pattern
 - [[icurry]] ← CONTRASTS_WITH — ICurry retains explicit choice nodes; GRAM→MIR resolves nondet upstream
+- [[gram-label-resolution-pass]] ← RELIES_ON — Keeps bridge label emission mechanical
+- [[gram-struct-node]] ← RELIES_ON — Bridge emits Alloc Record from it
 
 <!-- connections:end -->

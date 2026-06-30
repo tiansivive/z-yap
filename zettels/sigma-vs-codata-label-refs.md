@@ -45,5 +45,6 @@ The key design tension: a single `:label` syntax is simpler for users but confla
 - [[sigma-codata-syntax-proposal]] ← RELIES_ON — Theoretical basis
 - [[recursion.thread]] ← DOCUMENTS — Knowledge: sigma/codata duality
 - [[design-sigma-codata-label-refs]] ← ADDRESSES — Design task for the concept
+- [[recursive-struct-binding]] ← DETAILS — Eager fixed-point side of the duality
 
 <!-- connections:end -->

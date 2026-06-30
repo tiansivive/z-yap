@@ -128,6 +128,8 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - INCLUDES → [[gram-modality-vs-pragma.design]] — Design issue tracked in the thread
 - INCLUDES → [[tagged-dispatch]]
 - INCLUDES → [[icurry]]
+- INCLUDES → [[gram-label-resolution-pass]]
+- INCLUDES → [[gram-struct-node]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

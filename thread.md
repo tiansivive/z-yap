@@ -1987,3 +1987,45 @@ RESOLVED [[bridge-closure-capture]] — yap#8 lands shared bundle ABI in GRAM→
 
 [[bridge-closure-capture]] --[:RELIES_ON]--> [[closure-conversion]]  -- Shared bundle ABI convention
 [[gram-to-mir-bridge]] --[:RESOLVES]--> [[bridge-closure-capture]]  -- Bridge emits bundle ABI for curried returns
+
+---
+
+## Session: Bridge label resolution design; closure capture refresh — @2026-06-29 [lowering, graph, gram, recursion, row-types, bridge, codata, mir]
+
+Refreshed the pipeline-stabilization picture after the closure-capture work landed (PR #8, `{__fn, __env}` bundle ABI on both construction and call sides; [[bridge-closure-capture]] now implemented). Designed the remaining label track. The bridge's name-keyed label map, populated in field order, is the sole source of the forward/backward resolution asymmetry; resolving `:label` references to `:refers_to` graph edges in a dedicated GRAM pass ([[gram-label-resolution-pass]]) — mirroring bound-variable resolution and the `ctx.sigma` lookup ([[label-lookup]]) — removes it and keeps the bridge mechanical. A struct with inter-field references is a value-level `letrec` ([[recursive-struct-binding]]): strict knot-tying via in-place record construction (the lowering-level [[knot-tying]]) handles deferred reads under a lambda in any order; define-before-use for eager data references removes the need for dependency ordering, trading away the topological-sort / SCC treatment (GHC dependency analysis; Waddell-Sarkar-Dybvig *Fixing Letrec*; OCaml guarded recursive values). [[label-cycle-guardedness]] is the admissibility gate: lambda-guarded cycle = recursive function (admit); constructor-guarded eager cycle = codata (reject pending nu); unguarded = ill-founded (reject). Bumped codata/`ν` priority on [[recursion.thread]] — the first user-written stream hits the guardedness rejection.
+
+### Spawned
+
+SPAWN [[gram-label-resolution-pass]] — resolve `:label` to `:refers_to` edges via a row-scoped GRAM pass; subsumes the bridge name-map
+SPAWN [[recursive-struct-binding]] — struct label group as value-level letrec; knot-tying + define-before-use, no dependency analysis
+SPAWN [[label-cycle-guardedness]] — admissibility gate for recursive label cycles (lambda-guarded admit; eager codata / unguarded reject)
+
+### Updates
+
+- [[bridge-forward-label-refs]] — reframed from topological-sort pass to edge-based resolution + define-before-use.
+- [[pipeline-stabilization.thread]] — items 9/9a annotated with the converged design.
+- [[recursion.thread]] — codata/nu priority bump recorded.
+
+### Edges
+
+[[gram-label-resolution-pass]] --[:SUPERSEDES]--> [[bridge-label-resolution]]  -- Edge resolution replaces the order-dependent name map
+[[recursive-struct-binding]] --[:MIRRORS]--> [[knot-tying]]  -- Lowering-level placeholder-and-mutate
+[[label-cycle-guardedness]] --[:SPECIALIZES]--> [[syntactic-guardedness]]  -- Guardedness as a lowering-time admissibility check
+[[label-cycle-guardedness]] --[:MOTIVATES]--> [[nu-types]]  -- Erroring on eager codata forces value-level coinduction
+
+---
+
+## Session: PR explorer previews, governance refresh, agent-instruction consolidation — @2026-06-30 [infrastructure, deployment, fly-io, github-actions, documentation, agent, skills, convention, automation, elaboration]
+
+Three strands of repository-hygiene work plus one knowledge correction. (1) Added label-gated per-PR Explorer previews on Fly.io: a `deploy:explorer` label spins up an isolated `try-yap-pr-<n>` app (reusing `fly.try-yap-next.toml` + `Dockerfile`), redeploys on push, posts the preview URL as a sticky PR comment, and destroys the app on close/merge or label removal — a third, ephemeral channel beside the `try-yap`/`try-yap-next` channels. (2) Refreshed `.github` governance: renamed stale `lama`→`yap` throughout, rewrote CONTRIBUTING to a personal/discuss-first posture, moved SECURITY to GitHub private vulnerability reporting (no email), pointed the CoC contact at the maintainer handle, and cut the PR template to `## Summary` + `## How to test`. (3) Consolidated agent instructions: `AGENTS.md` is now the canonical, load-independent entry — it states that design knowledge lives in z-yap, defines a session contract (start `/load` · during: consult-rules-by-task + design posture + proactive cross-cutting/cross-disciplinary ideation + enqueue future work · close-out: record in z-yap), and carries a task→rule routing table. `.github/copilot-instructions.md` reduced to a pointer; `.cursor/rules/*` made the single detailed source with `alwaysApply` preserved; added `communication.mdc` (prose density/variation/forward-progress) mirrored to global `~/.claude/CLAUDE.md`.
+
+The knowledge correction: elaboration **does** thread `Q.Usages` (`check`/`infer` return `[EB.Term, Q.Usages]`), but that threading is deprecated — the upcoming usage-semantics system enforces multiplicities in the verification pass and will not consume the elaboration-threaded vectors. The prior framing (modal wrappers stripped / usages absent in inference) is inaccurate about the vector's presence; the enforcement-doesn't-exist claim stands.
+
+### Enqueued
+
+ENQUEUE usage-semantics framing correction — reconcile [[modality-system]] / [[verification-modal-phase]] / [[pulse]] wording to "usage vectors are threaded through elaboration but deprecated and unconsumed", not absent.
+
+### Notes
+
+- This advances [[agent-guidelines-zettelization]] (operational agent rules consolidated into a canonical entry + routing) without yet extracting the convention zettels it scopes — that work and [[convention-zettel-promotion]] remain open.
+- Proposed but not created pending confirmation: a `pr-explorer-preview-deploys` zettel extending [[explorer-deployment-channels]], and a session zettel for the agent-instruction restructure.

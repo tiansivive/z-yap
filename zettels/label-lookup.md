@@ -37,5 +37,6 @@ On miss it throws `new Error(\`Label not found: …\`)` — not `Err.MissingLabe
 - [[row-types.thread]] ← INCLUDES
 - [[sigma-vs-codata-label-refs]] ← APPLIES_TO — Both route through ctx.sigma
 - [[sigma-codata-syntax-proposal]] ← APPLIES_TO — Parser and lookup changes
+- [[gram-label-resolution-pass]] ← MIRRORS — Graph counterpart of ctx.sigma name resolution
 
 <!-- connections:end -->

@@ -14,13 +14,9 @@ tags:
 
 # Bridge forward label references
 
-Struct field emission in the GRAM→MIR bridge (`src/GRAM/bridge/emit.ts`) binds labels left-to-right after walking each field's value subgraph. Backward label references — `:width` in `area` when `width` precedes `area` — resolve correctly because the label is already bound when the referencing field is walked. Forward references — `:b` in `a` when `b` follows `a` — resolve to an unbound name because `b` has not been walked yet.
+A label reference may point at a field that follows it: `{ a: :b + 1, b: 10 }` references `:b` from `a`. Resolving labels in field order binds backward references (`:width` in a later `area`) but leaves a forward reference pointing at a name that has no binding yet. The asymmetry is an artifact of order-dependent resolution, not of the reference itself.
 
-Example: `{ a: :b + 1, b: 10 }`. Field `a` references `:b`, but `b`'s MIR name is only bound after `b`'s value is walked, which happens after `a`.
-
-Pre-binding all labels to MIR slots before walking any values produces use-before-def under eager evaluation semantics: the slot variable appears in instructions before the instruction that assigns it. Correct handling requires emitting fields in dependency order — topologically sorting by label references before walking values — so that every referenced label's value is already computed when it is used.
-
-The backward-reference path (`{ width: 10, height: 20, area: :width * :height }`) is unaffected and works correctly with the current left-to-right single-pass emission.
+Resolving labels as graph edges before lowering removes the asymmetry: every reference resolves against a complete graph regardless of field order (see [[gram-label-resolution-pass]]). What remains is an evaluation-order question, not a resolution one — a forward reference to an *eagerly-evaluated* sibling would read an uninitialised slot. Requiring define-before-use for eager data references rejects that case, while deferred references (under a lambda) and backward references stay sound (see [[recursive-struct-binding]]). Topological ordering of fields by dependency is the alternative that would admit forward eager references, traded away for a mechanical lowering.
 
 <!-- connections:start -->
 
@@ -32,5 +28,8 @@ The backward-reference path (`{ width: 10, height: 20, area: :width * :height }`
 
 **Incoming**
 - [[bridge-label-resolution]] ← LACKS — Current left-to-right pass handles backward refs only
+- [[gram-label-resolution-pass]] ← ADDRESSES — Removes forward/backward asymmetry
+- [[recursive-struct-binding]] ← AVOIDS — Define-before-use removes dependency ordering
+- [[gram-struct-node]] ← ADDRESSES — Flat node removes the resolution ordering asymmetry
 
 <!-- connections:end -->

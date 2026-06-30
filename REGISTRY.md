@@ -193,6 +193,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `artifact` | Built output intended to be downloaded, installed, or deployed |
 | `github-actions` | GitHub Actions workflows and CI/CD automation |
 | `fly-io` | Fly.io hosted deployment target and operational constraints |
+| `preview-environment` | Ephemeral per-change deployment (e.g. per-PR app) for review, torn down on close |
 
 ## Meta tags
 

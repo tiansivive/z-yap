@@ -53,5 +53,6 @@ Related: [[mu-types]], [[equirecursive-types]], [[coinductivity]], [[bisimulatio
 - [[recursion.thread]] ← INCLUDES — Nu types are part of recursion thread
 - [[sigma-vs-codata-label-refs]] ← MOTIVATES — Codata refs motivate nu adoption
 - [[codata-vs-coinductive-types]] ← DETAILS — Where nu sits between codata and coinductivity
+- [[label-cycle-guardedness]] ← MOTIVATES — Erroring on eager codata forces value-level coinduction
 
 <!-- connections:end -->
