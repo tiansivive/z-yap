@@ -7,10 +7,10 @@ todos:
     status: completed
   - id: step-1-record-node
     content: "Step 1 — STRUCT node, behavior-preserving. Add STRUCT tag + :tail label + Initial vocab; translate intercepts StructApp → STRUCT with :field{label} edges (+ :tail to ROW_VAR when row is open); bridge STRUCT→struct handler builds the same Alloc Record; deprecate isStructApp/structFromApp/struct/collectFields. MIR output unchanged."
-    status: in_progress
+    status: completed
   - id: step-2-label-resolution
-    content: "Step 2 — label resolution pass + edge-following label. New pass before closure: scope stack over STRUCT :field edges and Abs{Sigma} binders, emit :refers_to → field value and :scope → enclosing binders per var:label; rewrite Leaves.label to follow :refers_to and walk. Forward refs compile correctly."
-    status: pending
+    content: "Step 2 — label resolution pass + edge-following label. New pass before closure: scope stack over STRUCT :field edges and Abs{Sigma} binders, emit :refers_to → field value per var:label (:scope deferred to step 4); bridge labelRef follows :refers_to and walks. Forward refs compile correctly."
+    status: completed
   - id: step-3-cycle-guardedness
     content: "Step 3 — cycle/guardedness pass (backpatch flag). Detect cycles in per-STRUCT :refers_to graph; classify: lambda-guarded → flag recursive/backpatch; eager constructor-guarded (codata) → reject; unguarded → reject. Stamp flag."
     status: pending
@@ -82,6 +82,12 @@ Verified against the bridge walk (`emit.ts`): value handlers memoize via `C.bind
 - **Cycle walk**: the bridge walk infinite-loops on an unflagged cycle — step 3 must land before step 4 enables anything cyclic, and step 4's bridge path must short-circuit cyclic labels to `Read` rather than walking the sibling.
 - **Capture level filter**: labels bypass the de Bruijn `level` filter in `capturesOf` (they are not binders) — the extension gathers them through `:scope` membership, not level comparison.
 - **Breaking changes**: none to surface syntax. Internal GRAM vocabulary gains `STRUCT`/`:tail`; the cons-list remains for type-level rows.
+
+## Plan drift
+
+- **Step 2 emits only `:refers_to`, not `:scope`.** Emitting `:scope` on labels now would feed the unmodified `capturesOf` (closure.ts), whose de Bruijn level filter would wrongly treat label targets as captures — exactly what step 4's label-aware capture handles. `:scope` moves to step 4 alongside the `capturesOf` change.
+- **Step 2 verified on real programs (and hand-built terms).** Value-level labels are NOT inlined: GRAM receives the raw elaborated term, which retains `var:label` (confirmed — `let r = { width: 10, area: :width }` elaborates to `Struct [ width: 10, area: :width ]` and lowers correctly through the resolve-labels pass to `alloc { width: v0, area: v0 }`). Forward refs work too (`{ y: :x, x: 1 }`). Two `bridge.test.ts` semantic tests also build the label directly (forward `{a: :b+1, b:10}` → `{a:11,b:10}`; backward → `{b:10,a:11}`).
+- **Pre-existing upstream bugs (out of scope, discovered during step 2).** (1) *Checking path*: an **annotated** struct with a `:label` ref — `let r: {…} = { …, area: :width }` — throws `Unbound label: width` in `check.ts:140-153` (`[struct, Sigma]`), where the inference/evaluate of the struct doesn't set up the label context the standalone inference path provides. The integration `records > self-referencing fields` snapshot captures this error. (2) *Verification path*: a label inside arithmetic that reaches IVL translation throws `Unsupported variable in formula translation: Label` (`verification/V2/synth.ts`). Both predate this work and are unrelated to GRAM.
 
 ## Effects on nu / codata / productivity (ZK update — close-out)
 
