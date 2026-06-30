@@ -48,5 +48,6 @@ Related: [[testing-strategy]], [[snapshot-testing]]
 - [[tag-driven-alpha-release-flow]] ← USES — GitHub Actions rebuilds and checks tagged trees
 - [[explorer-deployment-channels]] ← USES — Mainline channel follows GitHub Actions automation
 - [[testing-strategy]] ← INCLUDES
+- [[pr-explorer-preview-deploys]] ← USES — GitHub Actions label-gated workflow
 
 <!-- connections:end -->

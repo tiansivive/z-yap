@@ -43,5 +43,6 @@ The deploy workflow needs a Fly deploy token in GitHub Actions and a region that
 **Incoming**
 - [[release-and-explorer-deployment.session]] ← PRODUCED — Fly.io stable/next Explorer channels
 - [[yap]] ← INCLUDES — Hosted Explorer entry points
+- [[pr-explorer-preview-deploys]] ← EXTENDS — Ephemeral per-PR channel beside release/mainline
 
 <!-- connections:end -->

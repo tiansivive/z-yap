@@ -25,3 +25,17 @@ This is a third deployment channel beside the two standing ones: release (`try-y
 App-per-PR rather than one shared preview app is forced by Fly's routing model: a distinct public URL requires a distinct app, since machines within one app sit behind a single hostname and load-balance. Isolation is the payoff — concurrent labeled PRs preview independently, and one PR's broken build cannot take down another's preview. Idle cost stays near zero because previews inherit auto-stop with zero minimum running machines; the only standing obligation is teardown, a single job on PR close.
 
 Previews are confined to same-repository branches: the deploy credential is withheld from fork pull requests, which is the safe default for a public repository — untrusted code never runs with the deploy token.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[explorer-deployment-channels]] — Ephemeral per-PR channel beside release/mainline
+- DEPLOYS → [[yap-explore]] — Per-PR Fly app serves the Explorer
+- USES → [[ci-pipeline]] — GitHub Actions label-gated workflow
+
+**Incoming**
+- [[agent-instruction-consolidation.session]] ← PRODUCED — Per-PR preview capability
+
+<!-- connections:end -->

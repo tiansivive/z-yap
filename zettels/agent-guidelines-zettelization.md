@@ -33,5 +33,6 @@ This work should refine [[convention-zettel-promotion]] by extracting agent/code
 - [[thread-queue-system.thread]] ← INCLUDES — Meta-thread item 1
 - [[global-pending-queue]] ← INCLUDES — Cross-cutting queue item
 - [[z-yap-agent-skill]] ← ADDRESSES — Convert z-yap interaction rules into reusable skill form
+- [[agent-instruction-consolidation.session]] ← INFORMS — Consolidated operational agent rules into a canonical entry
 
 <!-- connections:end -->
