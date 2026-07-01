@@ -10,9 +10,11 @@ tags:
   - representation
   - compiler
   - dependent
-  - in-progress
+  - implemented
 refs:
   - thread:pipeline-stabilization
+  - branch:gram-record-labels
+  - code:tiansivive/yap#9
 ---
 
 # GRAM struct node

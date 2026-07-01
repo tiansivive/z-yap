@@ -2029,3 +2029,27 @@ ENQUEUE usage-semantics framing correction — reconcile [[modality-system]] / [
 
 - This advances [[agent-guidelines-zettelization]] (operational agent rules consolidated into a canonical entry + routing) without yet extracting the convention zettels it scopes — that work and [[convention-zettel-promotion]] remain open.
 - Proposed but not created pending confirmation: a `pr-explorer-preview-deploys` zettel extending [[explorer-deployment-channels]], and a session zettel for the agent-instruction restructure.
+
+---
+
+## Session: GRAM struct node, label resolution, and the record-capture knot — merged @2026-06-30 [lowering, graph, gram, recursion, row-types, bridge, codata, mir]
+
+Implemented and merged (PR #9, branch gram-record-labels) the vertical designed over the preceding sessions. Record values now lower through a flat [[gram-struct-node]] (`struct` node with `:field` edges) instead of the type-level row cons-list, emitted by `translate` for the `Struct`-atom form only. The [[gram-label-resolution-pass]] resolves each `:label` to a `:refers_to` edge via a frame/lambda scope stack and emits `:scope` to the lambdas a reference escapes; the closure pass then captures the owning record for those crossings, and a `knot` pass marks record-capturing fields `backpatch` so the bridge allocates the record, binds it, and fbip-fills once the capturing closures are built — keeping the bridge a mechanical translator ([[recursive-struct-binding]]). Eager-only cycles are rejected and lambda-guarded ones admitted by the `label-cycles` pass ([[label-cycle-guardedness]]). Verified at MIR + runtime: forward/backward label refs, a label captured into a closure reading off the record, and self/mutual recursion tying via the shared record. An independent style audit drove follow-ups: ts-pattern dispatch, immutable traversal (dropped dead visited sets, functional cycle check), removed casts, and a shared `structOf` helper.
+
+Deferred (registered in the plan): the eager-reference-to-a-backpatched-field knot invariant; where coinduction lives (typing `ν` vs a GRAM productivity check); replacing the resolve-labels traversal with LoGRAM; and the source-level recursion blocker (occurs-check / mu types in elaboration). All unreachable-from-source today since recursive struct types error in elaboration first.
+
+### Resolved
+
+RESOLVED [[bridge-forward-label-refs]] — edge-based resolution + demand-driven bridge walk
+RESOLVED [[bridge-label-closure-gap]] — capture-the-record + knot; labels resolve through closures
+
+### Updates
+
+- [[gram-struct-node]], [[gram-label-resolution-pass]], [[recursive-struct-binding]], [[label-cycle-guardedness]] → `implemented`, with `branch:gram-record-labels` / `code:tiansivive/yap#9` refs; bodies reconciled to the shipped mechanism (demand-driven walk, knot, no define-before-use).
+- [[pipeline-stabilization.thread]] — items 9 / 9a marked implemented.
+
+### Edges
+
+[[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-forward-label-refs]]
+[[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-label-closure-gap]]
+[[recursive-struct-binding]] --[:FIXES]--> [[bridge-label-closure-gap]]

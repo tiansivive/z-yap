@@ -47,14 +47,13 @@ invisible when each pass was tested in isolation._
 8. ~~**Bridge: free var → unknown** [[bridge-free-var-unknown]] — bug, **implemented**~~
    `Leaves.free` followed non-existent `:refers_to` edge instead of reading `payload.name`.
 
-9. **Bridge: label resolution in closures** [[bridge-label-closure-gap]] — bug, planned
-   `:field` self-refs inside match bodies within struct fields produce undefined MIR vars.
-   Edge case of [[bridge-label-resolution]]. Design converged: resolve labels to graph
-   edges in a [[gram-label-resolution-pass]] (subsumes the bridge name-map), gate cycles
-   via [[label-cycle-guardedness]], tie recursive bindings via [[recursive-struct-binding]].
-   - 9a. **Forward label references** [[bridge-forward-label-refs]] — bug, planned
-     Same root cause as #9; edge-based resolution removes the forward/backward asymmetry,
-     define-before-use for eager data avoids dependency ordering.
+9. ~~**Bridge: label resolution in closures** [[bridge-label-closure-gap]] — bug, **implemented**~~
+   Resolved (PR #9): labels resolve to `:refers_to` edges via [[gram-label-resolution-pass]]; a
+   record-capturing closure reads its field off the captured [[gram-struct-node]] record, tied by the
+   [[recursive-struct-binding]] knot, with cycles classified by [[label-cycle-guardedness]]. Source-level
+   recursion stays blocked upstream by the occurs-check / mu-type gap.
+   - 9a. ~~**Forward label references** [[bridge-forward-label-refs]] — bug, **implemented**~~
+     Edge-based resolution plus the demand-driven bridge walk remove the forward/backward asymmetry.
 
 10. **Type-only let erasure** [[type-erasure]] — backlog
     Top-level type defs produce `return v0` undefined. Partial erasure doesn't cover

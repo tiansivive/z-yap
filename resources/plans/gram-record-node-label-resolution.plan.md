@@ -13,19 +13,19 @@ todos:
     status: completed
   - id: step-3-cycle-guardedness
     content: "Step 3 — cycle/guardedness pass (backpatch flag). Detect cycles in per-STRUCT :refers_to graph; classify: lambda-guarded → flag recursive/backpatch; eager constructor-guarded (codata) → reject; unguarded → reject. Stamp flag."
-    status: pending
+    status: completed
   - id: step-4-capture-backpatch
-    content: "Step 4 — label-aware capture + backpatch lowering. Extend capture to gather label crossings (capture STRUCT node, carry recursive flag); bridge honors flag: allocate placeholder, cyclic label refs lower to Read(label, recordVar), fbip-fill. fact/:compute (#9) compiles and runs."
-    status: pending
+    content: "Step 4 — capture-the-record + knot, applied uniformly (no recursive/non-recursive split). resolve-labels emits :scope to the lambdas a label crosses; capturesOf captures the owning struct for those crossings; the knot pass marks record-capturing :field edges `backpatch`; the bridge mechanically allocs the record without them, binds it, fbip-fills once the capturing closures are built, and lowers a label to Read(name, owningRecord) when the record is in scope. Step 3 rejects only eager cycles. Verified at MIR + runtime: ({x:10, f:\\n->:x}).f 0 == 10; self-recursive {f:\\n->:f} ties via the record."
+    status: completed
   - id: verification
     content: "pnpm test (GRAM translate, bridge MIR, language-tour snapshots), pnpm lint; pnpm yap on forward-ref, recursive-record, and mutual-recursion .yap fixtures."
-    status: pending
+    status: completed
   - id: paper-trail-close-out
     content: >-
       thread.md session block, session zettel, connections.md, zettel status/tags,
       scripts/adrs.js if an ADR is warranted, queue [x]; then zettelkasten reconciliation
       (discrepancies + confirm new zettels). Includes the nu/codata/productivity ZK update.
-    status: pending
+    status: completed
 isProject: false
 ---
 
@@ -57,6 +57,11 @@ isProject: false
 
 - Removing the deprecated bridge type-row utils (`isStructApp`/`structFromApp`/`struct`/`collectFields`) — they remain reached by type-level rows that shouldn't be emitted as values; cleanup tracked separately.
 - Open-tail (row-variable) semantics beyond carrying the `:tail` edge — the slot exists for future runtime polymorphism / reflection; no behavior built on it now.
+- **Checking-path label bug** (upstream, surfaced during step 2): an annotated struct with a `:label` ref — `let r: {…} = { …, area: :width }` — throws `Unbound label: width` from the `[struct, Sigma]` case in `check.ts:140-153`; the unannotated form elaborates and lowers correctly, so the label context standalone inference sets up is missing on the annotated infer-then-check path. Blocks the tour's `records > self-referencing fields` end to end. Out of this plan's GRAM scope.
+- **Verification label bug** (upstream, surfaced during step 2): a `:label` inside arithmetic reaching IVL translation throws `Unsupported variable in formula translation: Label` (`verification/V2/synth.ts`).
+- **Replace the resolve-labels traversal with a declarative formulation.** Label scope resolution is a hand-rolled recursive descent over the graph carrying a frame/lambda stack. Investigate whether LoGRAM (Datalog over the triple store) can express "nearest enclosing frame binding the name, and the lambdas crossed to reach it" as a query, removing the manual traversal — the same way LoGRAM would replace the imperative `capture` walk.
+- **Eager reference to a record-capturing field — knot invariant (defer to codata/nu-records).** `label-cycles` admits `{ a: :b, b: \n -> :a }` (eager `a→b` plus guarded `b→a` is not an eager-*only* cycle). Emitting plain field `a` first, `labelRef` for `:b` finds the owner struct unallocated (`ownerVar === undefined`) and falls through to `walk(target)`, building `b`'s record-capturing closure before the record exists — the capture then resolves to a bogus `cap0` (out-of-scope MIR var), the exact failure the knot prevents. Unreachable from source today (recursive struct types error in elaboration), so no live miscompile. The knot's correctness rests on the invariant *a record-capturing closure is walked only after its record is allocated*; enforcing it (reject eager refs to backpatched fields, or route them through the knotted phase) belongs with the codata/nu-records work that admits recursive shapes properly. (Copilot review, PR #9.)
+- **Where coinduction lives — typing vs GRAM lowering (future decision).** Step 3 rejects every eager label cycle. That lump contains two cases nu would later split: unguarded ill-founded references (`{ foo: :bar, bar: :foo }` — never productive, stays rejected) and constructor-guarded productive streams (`{ ones: { head: 1, tail: :ones } }` — productive under laziness, would be admitted). Admitting the productive case requires a productivity/guardedness check, and there's a real fork in *where* it lives: (a) add coinductive (`ν`) types to the type system so productivity is a typing property and GRAM receives only well-formed coinductive values; or (b) keep it as a productivity check at GRAM lowering time (extend the label-cycles pass: constructor-guarded cycle ⇒ admit-if-productive, lower to a lazy/thunked form). Both work; the tradeoff is type-system surface and guarantees vs. keeping the type layer simpler and deferring the check to lowering. Not decided — registered to revisit when codata/streams are taken on. See [[nu-types]], [[productivity-checking]], [[codata-vs-coinductive-types]], [[label-cycle-guardedness]].
 
 ## Acceptance criteria
 
@@ -85,9 +90,7 @@ Verified against the bridge walk (`emit.ts`): value handlers memoize via `C.bind
 
 ## Plan drift
 
-- **Step 2 emits only `:refers_to`, not `:scope`.** Emitting `:scope` on labels now would feed the unmodified `capturesOf` (closure.ts), whose de Bruijn level filter would wrongly treat label targets as captures — exactly what step 4's label-aware capture handles. `:scope` moves to step 4 alongside the `capturesOf` change.
-- **Step 2 verified on real programs (and hand-built terms).** Value-level labels are NOT inlined: GRAM receives the raw elaborated term, which retains `var:label` (confirmed — `let r = { width: 10, area: :width }` elaborates to `Struct [ width: 10, area: :width ]` and lowers correctly through the resolve-labels pass to `alloc { width: v0, area: v0 }`). Forward refs work too (`{ y: :x, x: 1 }`). Two `bridge.test.ts` semantic tests also build the label directly (forward `{a: :b+1, b:10}` → `{a:11,b:10}`; backward → `{b:10,a:11}`).
-- **Pre-existing upstream bugs (out of scope, discovered during step 2).** (1) *Checking path*: an **annotated** struct with a `:label` ref — `let r: {…} = { …, area: :width }` — throws `Unbound label: width` in `check.ts:140-153` (`[struct, Sigma]`), where the inference/evaluate of the struct doesn't set up the label context the standalone inference path provides. The integration `records > self-referencing fields` snapshot captures this error. (2) *Verification path*: a label inside arithmetic that reaches IVL translation throws `Unsupported variable in formula translation: Label` (`verification/V2/synth.ts`). Both predate this work and are unrelated to GRAM.
+- **Step 2 emits `:refers_to` only; `:scope` moves to step 4.** The plan specified step 2 emit `:scope` too, but `:scope` on labels would feed the unmodified `capturesOf` (closure.ts), whose de Bruijn level filter would treat label targets as captures — which step 4's label-aware capture exists to handle. So `:scope` lands with the `capturesOf` change in step 4.
 
 ## Effects on nu / codata / productivity (ZK update — close-out)
 

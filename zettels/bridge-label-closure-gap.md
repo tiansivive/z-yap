@@ -1,7 +1,8 @@
 ---
 tags:
   - bug
-  - planned
+  - bugfix
+  - implemented
   - lowering
   - graph
   - mir
@@ -33,5 +34,7 @@ Observed in the `fact` test case: `fact` is a struct with a `:compute` field con
 - [[gram-label-resolution-pass]] ← ADDRESSES — Resolves self-refs nested under match scope
 - [[label-cycle-guardedness]] ← DETECTS — Distinguishes recursive function from ill-founded cycle
 - [[gram-struct-node]] ← ADDRESSES — One record node to capture and project from
+- [[gram-label-resolution-pass]] ← FIXES — Labels resolve through closures via :refers_to
+- [[recursive-struct-binding]] ← FIXES — Record-capture knot ties labels captured into closures
 
 <!-- connections:end -->

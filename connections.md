@@ -3133,3 +3133,8 @@
 [[sessions.hub]] --[:INCLUDES]--> [[agent-instruction-consolidation.session]]  -- Session record  @2026-06-30
 [[agent-instruction-consolidation.session]] --[:PRODUCED]--> [[pr-explorer-preview-deploys]]  -- Per-PR preview capability  @2026-06-30
 [[agent-instruction-consolidation.session]] --[:INFORMS]--> [[agent-guidelines-zettelization]]  -- Consolidated operational agent rules into a canonical entry  @2026-06-30
+
+## GRAM struct node + label resolution + knot — merged (PR #9)  @2026-06-30
+[[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-forward-label-refs]]  -- Edge resolution removes the forward/backward asymmetry  @2026-06-30
+[[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-label-closure-gap]]  -- Labels resolve through closures via :refers_to  @2026-06-30
+[[recursive-struct-binding]] --[:FIXES]--> [[bridge-label-closure-gap]]  -- Record-capture knot ties labels captured into closures  @2026-06-30

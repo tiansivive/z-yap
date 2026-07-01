@@ -12,10 +12,11 @@ tags:
   - mutation
   - ir
   - reference
-  - planned
-  - needs-design
+  - implemented
 refs:
   - thread:pipeline-stabilization
+  - branch:gram-record-labels
+  - code:tiansivive/yap#9
   - title: "Fixing Letrec: A Faithful Yet Efficient Implementation of Scheme's Recursive Binding Construct"
     authors: Waddell, Sarkar, Dybvig
     year: 2005
@@ -34,7 +35,7 @@ The discriminating property is *when a reference is read*, not whether a cycle e
 
 Knot-tying handles the deferred case: allocate the record, build field values that close over it, then write each value into place via in-place record construction. The mutation is internal to construction — no alias observes the record before it is complete — so immutable value semantics are preserved. This is the lowering-level counterpart of the placeholder-and-mutate pattern used in recursive NbE evaluation.
 
-The eager case is the only one that would need dependency ordering, and only when a reference points forward to a not-yet-constructed sibling. Requiring define-before-use for eager data references (a reference may only name an earlier field) removes the need for dependency analysis entirely: backward eager references and all deferred references are sound, and a forward eager reference is rejected rather than reading an uninitialised slot. The richer alternative — topological ordering by inter-field dependency, with strongly-connected components falling back to thunks — is the general letrec treatment (GHC dependency analysis; the binding classification in *Fixing Letrec*), traded away here for a mechanical lowering and a clear rejection.
+The eager case has no closure to defer the read, so an eager cycle has no construction order and is rejected ([[label-cycle-guardedness]]). Acyclic eager references need no ordering rule: the bridge walk is demand-driven, so a forward reference emits its referent the first time it is read, putting the referent in place before its use — no dependency-ordering pass and no define-before-use restriction. The richer alternative — topological ordering by inter-field dependency, with strongly-connected components falling back to thunks — is the general letrec treatment (GHC dependency analysis; the binding classification in *Fixing Letrec*), unnecessary here because the demand-driven walk orders acyclic references and the knot ties the guarded cycles.
 
 OCaml's call-by-value `let rec` makes the same trade: it admits guarded recursive values via in-place initialisation and rejects unguarded ones statically.
 
@@ -49,6 +50,7 @@ OCaml's call-by-value `let rec` makes the same trade: it admits guarded recursiv
 - RELIES_ON → [[label-cycle-guardedness]] — Only admitted cycles are tied
 - DETAILS → [[sigma-vs-codata-label-refs]] — Eager fixed-point side of the duality
 - RELIES_ON → [[gram-struct-node]] — The knot object is the struct node's Alloc
+- FIXES → [[bridge-label-closure-gap]] — Record-capture knot ties labels captured into closures
 
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES

@@ -1,8 +1,8 @@
 ---
 tags:
   - bug
-  - planned
-  - needs-design
+  - bugfix
+  - implemented
   - lowering
   - graph
   - mir
@@ -31,5 +31,6 @@ Resolving labels as graph edges before lowering removes the asymmetry: every ref
 - [[gram-label-resolution-pass]] ← ADDRESSES — Removes forward/backward asymmetry
 - [[recursive-struct-binding]] ← AVOIDS — Define-before-use removes dependency ordering
 - [[gram-struct-node]] ← ADDRESSES — Flat node removes the resolution ordering asymmetry
+- [[gram-label-resolution-pass]] ← FIXES — Edge resolution removes the forward/backward asymmetry
 
 <!-- connections:end -->
