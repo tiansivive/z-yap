@@ -45,5 +45,6 @@ The scope stack is the value-level counterpart of the sigma label environment: n
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
+- [[gram-struct-labels-knot.session]] ← PRODUCED
 
 <!-- connections:end -->

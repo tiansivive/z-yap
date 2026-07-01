@@ -55,5 +55,6 @@ OCaml's call-by-value `let rec` makes the same trade: it admits guarded recursiv
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES
 - [[recursion.thread]] ← INCLUDES
+- [[gram-struct-labels-knot.session]] ← PRODUCED
 
 <!-- connections:end -->

@@ -29,6 +29,7 @@ records what was discussed, decided, and built, with connections to affected zet
 - INCLUDES → [[solver-v2-monadic-port.session]] — Session record
 - INCLUDES → [[vc-validity-discharge.session]] — Session record
 - INCLUDES → [[agent-instruction-consolidation.session]] — Session record
+- INCLUDES → [[gram-struct-labels-knot.session]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Session/transcript infrastructure

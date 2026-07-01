@@ -3138,3 +3138,10 @@
 [[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-forward-label-refs]]  -- Edge resolution removes the forward/backward asymmetry  @2026-06-30
 [[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-label-closure-gap]]  -- Labels resolve through closures via :refers_to  @2026-06-30
 [[recursive-struct-binding]] --[:FIXES]--> [[bridge-label-closure-gap]]  -- Record-capture knot ties labels captured into closures  @2026-06-30
+
+# gram-struct-labels-knot.session
+[[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[gram-struct-node]]  @2026-07-01
+[[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[gram-label-resolution-pass]]  @2026-07-01
+[[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[recursive-struct-binding]]  @2026-07-01
+[[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[label-cycle-guardedness]]  @2026-07-01
+[[sessions.hub]] --[:INCLUDES]--> [[gram-struct-labels-knot.session]]  @2026-07-01

@@ -43,5 +43,6 @@ The node is value-level only. Record types (schemas) and the other row-based fam
 - [[recursive-struct-binding]] ← RELIES_ON — The knot object is the struct node's Alloc
 - [[pipeline-stabilization.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
+- [[gram-struct-labels-knot.session]] ← PRODUCED
 
 <!-- connections:end -->
