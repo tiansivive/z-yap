@@ -3145,3 +3145,38 @@
 [[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[recursive-struct-binding]]  @2026-07-01
 [[gram-struct-labels-knot.session]] --[:PRODUCED]--> [[label-cycle-guardedness]]  @2026-07-01
 [[sessions.hub]] --[:INCLUDES]--> [[gram-struct-labels-knot.session]]  @2026-07-01
+
+## Variant discriminant representation and dispatch follow-ups  @2026-07-02
+
+[[variant-discriminant-representation.adr]] --[:DEFINES]--> [[variant-types]]  -- Runtime value representation for row variants  @2026-07-02
+[[variant-discriminant-representation.adr]] --[:DEFINES]--> [[tagged-values]]  -- Tagged introduction writes the fixed discriminant shape  @2026-07-02
+[[variant-discriminant-representation.adr]] --[:CLARIFIES]--> [[bridge-struct-dispatch]]  -- Variant switches read the same discriminant while struct switches project  @2026-07-02
+[[variant-discriminant-representation.adr]] --[:RELIES_ON]--> [[rows-universal-substrate]]  -- Runtime value remains row/struct backed  @2026-07-02
+[[variant-discriminant-representation.adr]] --[:CONSTRAINS]--> [[gram-pattern-pass]]  -- Variant branch selection targets __tag and arm matching targets payload  @2026-07-02
+[[typed-dispatch-equality]] --[:FOLLOWS]--> [[variant-discriminant-representation.adr]]  -- D-010 keeps symbolic tag dispatch while equality design waits  @2026-07-02
+[[typed-dispatch-equality]] --[:ADDRESSES]--> [[gram-pattern-pass]]  -- Decision trees need typed comparison for non-tag discriminants  @2026-07-02
+[[typed-dispatch-equality]] --[:RELIES_ON]--> [[implicit-resolution]]  -- Equality evidence is elaboration-time dictionary resolution  @2026-07-02
+[[typed-dispatch-equality]] --[:CONSTRAINS]--> [[tagged-dispatch]]  -- Efficient backend dispatch follows typed equality, not stringification  @2026-07-02
+[[string-dispatch-float-record-bug]] --[:MOTIVATES]--> [[typed-dispatch-equality]]  -- Mis-stringified values show why dispatch equality must be typed  @2026-07-02
+[[string-dispatch-float-record-bug]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- The defect is in literal/general branch comparison paths  @2026-07-02
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[variant-discriminant-representation.adr]]  @2026-07-02
+[[pattern-matching.thread]] --[:INCLUDES]--> [[variant-discriminant-representation.adr]]  @2026-07-02
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[string-dispatch-float-record-bug]]  @2026-07-02
+[[pattern-matching.thread]] --[:INCLUDES]--> [[typed-dispatch-equality]]  @2026-07-02
+[[gram-evolution.thread]] --[:INCLUDES]--> [[typed-dispatch-equality]]  @2026-07-02
+[[global-pending-queue]] --[:INCLUDES]--> [[typed-dispatch-equality]]  -- Deferred dispatch-equality design  @2026-07-02
+[[global-pending-queue]] --[:INCLUDES]--> [[string-dispatch-float-record-bug]]  -- Deferred literal/general dispatch bug  @2026-07-02
+[[evaluation-monad-rework]] --[:MODIFIES]--> [[cbv-evaluation]]  -- Rework target is the imperative work-stack evaluator  @2026-07-03
+[[evaluation-monad-rework]] --[:USES]--> [[generator-monad]]  -- Evaluation monad instantiates the generator-monad pattern  @2026-07-03
+[[evaluation-monad-rework]] --[:MIRRORS]--> [[solver-v2-monadic-port.implementation]]  -- Precedent: imperative core ported to the generator monad  @2026-07-03
+[[shift-reset]] --[:CONSTRAINS]--> [[evaluation-monad-rework]]  -- Capture slices the work stack; the monad must expose it as state  @2026-07-03
+[[nbe]] --[:INCLUDES]--> [[evaluation-monad-rework]]  -- Planned evaluator rework  @2026-07-03
+[[global-pending-queue]] --[:INCLUDES]--> [[evaluation-monad-rework]]  -- Deferred evaluator monad rework  @2026-07-03
+[[lint-governance]] --[:CONSTRAINS]--> [[ci-pipeline]]  -- Gate severities, suppression baseline, knip entry policy  @2026-07-03
+[[lint-governance]] --[:REFERENCES]--> [[generator-monad]]  -- Do drivers are sanctioned imperative cores with scoped carve-outs  @2026-07-03
+[[lint-governance]] --[:MOTIVATES]--> [[evaluation-monad-rework]]  -- Evaluator carve-out is temporary; the rework retires it  @2026-07-03
+[[lint-governance]] --[:AFFECTS]--> [[legacy-file-compile]]  -- src/lowering lint-ignored; live MIR surface migration queued  @2026-07-03
+[[lint-governance.session]] --[:PRODUCED]--> [[lint-governance]]  -- Gate-design principle authored in session  @2026-07-03
+[[lint-governance.session]] --[:PRODUCED]--> [[evaluation-monad-rework]]  -- Rework surfaced by the carve-out discussion  @2026-07-03
+[[lint-governance.session]] --[:PRODUCED]--> [[generator-monad]]  -- Yield-protocol typing discipline recorded  @2026-07-03
+[[sessions.hub]] --[:INCLUDES]--> [[lint-governance.session]]  -- Recorded pair-programming session  @2026-07-03

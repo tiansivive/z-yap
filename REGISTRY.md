@@ -41,10 +41,13 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 |-----|-------------|
 | `type-system` | Type system concept, mechanism, or property |
 | `row-types` | Row polymorphism, row variables, row unification |
+| `variant` | Sum/variant types, tagged arms, and variant value representation |
 | `dependent` | Dependent types, Pi types, value-level type indices |
 | `modality` | QTT multiplicities, linearity, resource tracking |
 | `multiplicity` | QTT multiplicities (0, 1, ω) |
 | `polymorphism` | Parametric and row polymorphism |
+| `typeclasses` | Dictionary-passed ad hoc polymorphism and class-style operations |
+| `equality` | Equality semantics, equality evidence, and value comparison |
 | `singleton` | Singleton types: values that classify themselves as types |
 | `structural` | Structural typing properties (shape-based identity) |
 | `codata` | Data defined by observations rather than constructors |
@@ -112,6 +115,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `primitive` | Primitive operations, built-in signatures |
 | `memory` | Memory management, allocation, GC, heap concerns |
 | `allocation` | Heap allocation, stack allocation, placement strategy |
+| `dispatch` | Runtime or compiled branch selection over discriminants |
 | `mutation` | In-place update, destructive modification, mutability |
 | `ownership` | Value ownership, exclusive access, borrowing |
 | `uniqueness` | Uniqueness typing, single-reference guarantee |

@@ -1,7 +1,6 @@
 ---
 tags:
-  - needs-design
-  - incomplete
+  - implemented
   - lowering
   - graph
   - mir
@@ -9,17 +8,19 @@ tags:
   - compiler
   - pattern
   - row-types
+refs:
+  - adr:D-010
 ---
 
 # Bridge struct dispatch
 
-`match { x: 1 } | { x: a } -> a` — the bridge emits `String(v1) === ""` for the struct `SWITCH` node, treating it as a variant-style scalar dispatch (tag comparison). Struct patterns require field projection and sub-pattern dispatch, not string equality.
+`match { x: 1 } | { x: a } -> a` lowers through the GRAM bridge by following the `switch{kind:"struct"}` node's `:inspect` edge and emitting the branch subtree directly. The GRAM pattern pass already encodes struct-pattern work as projection plus sub-pattern dispatch; the bridge's responsibility is to honor that tree instead of treating the switch as tag/literal scalar comparison.
 
-Multi-alt struct patterns (e.g. `| { x: 0 } -> "zero" | { x: a } -> a`) require real dispatch: project the field, test sub-patterns, branch. Single-alt struct patterns can skip dispatch and go straight to destructuring, but the bridge must distinguish these cases.
+Multi-alt struct patterns (e.g. `| { x: 0 } -> "zero" | { x: a } -> a`) now project the field and recurse into literal/binder sub-patterns through the existing decision-tree shape. Single-alt struct patterns similarly project and bind without a scalar tag comparison.
 
-`decisions.ts` handles variant `SWITCH` correctly (match on injected tag) but doesn't have a struct-specific path. Struct match needs: per-field projection and comparison/binding, ordering of field tests (Maranget-style or left-to-right), and single-alt short-circuit (project fields, bind, skip branching).
+`src/GRAM/bridge/decisions.ts` now resolves the discriminant from `Labels.INSPECT`; for `kind === "struct"` it emits the lone `Labels.BRANCH` subtree with the inspected value. Variant dispatch uses the same inspect resolution but reads `__tag`, matching the runtime representation described in [[variant-types]] and [[tagged-values]].
 
-The bridge now throws explicitly on `kind === "struct"` in `emitSwitch` (`src/GRAM/bridge/decisions.ts`), surfacing the gap in test snapshots rather than silently emitting incorrect MIR.
+Acceptance is covered by bridge tests for surface variants, struct field binders, literal fields, and nested struct projection; full integration snapshots exercise the `{ __tag, payload }` representation through GRAM, MIR, codegen, and verification.
 
 <!-- connections:start -->
 

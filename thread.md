@@ -2053,3 +2053,85 @@ RESOLVED [[bridge-label-closure-gap]] — capture-the-record + knot; labels reso
 [[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-forward-label-refs]]
 [[gram-label-resolution-pass]] --[:FIXES]--> [[bridge-label-closure-gap]]
 [[recursive-struct-binding]] --[:FIXES]--> [[bridge-label-closure-gap]]
+
+---
+
+## Session: Variant discriminant representation and struct dispatch bridge — implemented @2026-07-01 [pattern, lowering, gram, mir, codegen, verification, row-types]
+
+Implemented `z-yap/resources/plans/variant-dispatch-rework.plan.md` on branch `variant-dispatch-struct-bridge`. Variant values now elaborate to the runtime struct `{ __tag: Atom(tag), payload: value }` while retaining `Variant(row)` as their type; NbE pattern `meet`, pattern evaluation, the GRAM pattern pass, deprecated MIR lowering, and verification now read that representation consistently. The GRAM bridge no longer throws for `switch{kind:"struct"}`: `emitSwitch` resolves the switch's own `:inspect` edge, routes tag switches through `__tag`, and routes struct switches into the projected branch subtree so field binders, literal fields, and nested struct fields execute end-to-end.
+
+Validation: `pnpm test` passes (92 files, 838 tests, 45 skipped) and `pnpm typecheck` passes. Targeted refinement tests confirmed the ordered-list negative case is again `invalid` after verification was taught the `__tag`/`payload` format. Changed-file ESLint still reports the repository's existing lint debt in touched legacy tests and modules; the newly introduced restricted `E.isLeft` inspection was removed.
+
+### Resolved
+
+RESOLVED [[bridge-struct-dispatch]] — struct switches lower through inspect/projection branches instead of tag-style string comparison
+
+### Updates
+
+- [[variant-types]] — value-arm representation recorded as `{ __tag, payload }`, with verification alignment.
+- [[tagged-values]] — tagged inference now documented as runtime discriminant construction.
+- [[pipeline-stabilization.thread]] — bridge struct dispatch marked implemented; type erasure remains the stabilization frontier.
+- [[pulse]] — Pipeline Stabilization paragraph now names type erasure as next step.
+
+### Deferred
+
+- The plan's optional tracking item remains pending: new design zettel / value-representation ADR / string-comparison defect zettel require a separate confirmation before creation.
+
+---
+
+## Session: Variant dispatch tracking close-out — @2026-07-02 [pattern, gram, row-types, lowering, verification, adr, zettelkasten]
+
+Closed the remaining z-yap tracking item for `variant-dispatch-rework.plan.md`. D-010 records the settled `{ __tag, payload }` runtime discriminant representation for tagged variant values. The deferred typed/polymorphic dispatch-equality question remains valid after the bridge fix: GRAM decision trees identify discriminants, but semantic equality for non-tag dispatch belongs in elaboration where type information and equality evidence are available. The float/record stringification issue is now a separate deferred bug, scoped to literal/general dispatch rather than variant tags.
+
+### Spawned
+
+SPAWN [[variant-discriminant-representation.adr]] — accepted ADR for the fixed tagged-value runtime discriminant
+SPAWN [[typed-dispatch-equality]] — deferred design note for elaboration-resolved dispatch equality and discrimination
+SPAWN [[string-dispatch-float-record-bug]] — deferred bug for literal/general dispatch through lossy stringification
+
+### Enqueued
+
+ENQUEUE [[typed-dispatch-equality]] — dispatch equality design belongs after the representation fix
+ENQUEUE [[string-dispatch-float-record-bug]] — literal/general dispatch bug remains orthogonal to variant tags
+
+### Updates
+
+- `z-yap/resources/plans/variant-dispatch-rework.plan.md` — setup-tracking marked completed.
+- [[variant-types]], [[tagged-values]], [[bridge-struct-dispatch]] — linked to adr:D-010.
+- [[pipeline-stabilization.thread]], [[pattern-matching.thread]], [[pulse]], [[global-pending-queue]] — updated with the deferred follow-ups.
+
+### Edges
+
+[[variant-discriminant-representation.adr]] --[:DEFINES]--> [[variant-types]]  -- Runtime value representation for row variants
+[[variant-discriminant-representation.adr]] --[:DEFINES]--> [[tagged-values]]  -- Tagged introduction writes the fixed discriminant shape
+[[typed-dispatch-equality]] --[:ADDRESSES]--> [[gram-pattern-pass]]  -- Decision trees need typed comparison for non-tag discriminants
+[[string-dispatch-float-record-bug]] --[:MOTIVATES]--> [[typed-dispatch-equality]]  -- Mis-stringified values show why dispatch equality must be typed
+
+## Session: Lint governance overhaul — audit, ratchet, typed monad primitives @2026-07-03 [infrastructure, tooling, automation, convention, monad, testing, agent, cleanup]
+
+Audited the ESLint ruleset against its stated goal (better LLM output) and found the failure mode: ~1500 violations, CI lint red on main, merges over failing checks — a permanently red gate carries no information. Restructured in layers. (1) Rule/idiom reconciliation: dropped rules that fight the house style (`require-yield` vs uniform `function*` handlers, `no-namespace`, `no-plusplus` supply counters, `no-duplicate-type-constituents` vs open-vocabulary `Tag | Label` docs); scoped relaxations for tests (unsafe-\*, non-null, Either narrowing) and CLI/config boundaries; deleted dead code outright (`scripts/test.ts` importing removed z3-solver; the orphaned direct EB.Term→JS `Codegen/terms.ts`/`modules.ts`, corroborated by knip). (2) Unified the split tsconfig: fixed the 29 type errors in five stale test files (Clause namespace, Err/Conflict channel, statement `location`, `satisfies`-keeps-`never[]` in quantifier `State.empty`, one autofix-eaten load-bearing cast), deleted `tsc.tsconfig.json` — killing the phantom `Unsafe … of type error` class, which was TS's internal error type leaking from the divergent lint graph. (3) Typed the monad Do protocol: `Prim<A> = Generator<Eff<A>, A, A>` for single-effect leaves, `yield* pure(effect)` replacing bare yields, TNext=any retained on composites (delegation requires outer-assignable-to-inner), circular-inference pitfall documented — recorded in [[generator-monad]]. Sanctioned imperative cores (Do drivers, NbE evaluator pending [[evaluation-monad-rework]], supplies) carry scoped carve-outs. (4) The ratchet: ESLint 9.39 + `eslint-suppressions.json` baselining the remaining 371 (1476 → 371, 75% real reduction); knip entries made truthful (CLI, tests, Codegen barrels as declared API surface) with category severities warn-only pending cleanup. `pnpm lint` and `pnpm lint:knip` green for the first time. Instruction files synced: lint contract + `_`-prefix + sanctioned cores in coding-style.mdc, one-tsconfig in conventions.mdc (bare-tsc warning retired), test lint posture in testing.mdc, gate policy in DEVELOPMENT.md; knip exposed and fixed stale `infer.ts` dispatch references.
+
+### Spawned
+
+SPAWN [[lint-governance]] — gate-design principle: zero-baseline diff-scoped enforcement, channel separation, ratchet, sanctioned mutable cores
+SPAWN [[evaluation-monad-rework]] — NbE evaluator work-stack machine to be absorbed into an Evaluation generator monad; lint carve-out self-retires
+SPAWN [[lint-governance.session]] — session zettel + transcript (aea7463d)
+
+### Enqueued
+
+ENQUEUE [[legacy-file-compile]] — migrate live MIR surface (`mir.ts`, `interpret.ts`, `shared/primops`) out of lint-ignored `src/lowering`
+ENQUEUE [[evaluation-monad-rework]] — evaluator monad port
+ENQUEUE knip cleanup pass — delete verified orphans (incl. `elaboration/infer.ts`, `shared/cont.ts`, `logging.ts`+winston, immutagen), then flip knip `files`/`dependencies` back to error
+
+### Updates
+
+- [[generator-monad]] — yield-protocol typing discipline added; `MutState` skolems drift fixed.
+- [[ci-pipeline]] — lint/knip/typecheck gate semantics updated to the baseline world.
+- [[legacy-file-compile]] — lint-ignore note + live-file migration path.
+
+### Edges
+
+[[lint-governance]] --[:CONSTRAINS]--> [[ci-pipeline]]  -- Gate severities, suppression baseline, knip entry policy
+[[lint-governance]] --[:REFERENCES]--> [[generator-monad]]  -- Do drivers as sanctioned imperative cores
+[[lint-governance]] --[:MOTIVATES]--> [[evaluation-monad-rework]]  -- Evaluator carve-out is temporary
+[[lint-governance]] --[:AFFECTS]--> [[legacy-file-compile]]  -- src/lowering lint-ignored pending retirement

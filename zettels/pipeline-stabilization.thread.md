@@ -59,8 +59,8 @@ invisible when each pass was tested in isolation._
     Top-level type defs produce `return v0` undefined. Partial erasure doesn't cover
     root-level type definitions. Already tracked; connected here for completeness.
 
-11. **Bridge struct dispatch** [[bridge-struct-dispatch]] — backlog
-    Already tracked. List/struct pattern dispatch in the bridge.
+11. ~~**Bridge struct dispatch** [[bridge-struct-dispatch]] — backlog, **implemented**~~
+    Fixed by resolving each `SWITCH` through its `:inspect` edge and letting `kind:"struct"` emit the projected branch subtree. Variant dispatch was aligned to the same pass by using `{ __tag, payload }` values end-to-end.
 
 12. ~~**Bridge closure capture** [[bridge-closure-capture]] — bug, **implemented**~~
     Curried returns bundle inner lifted functions with captured environments per the shared `{ __fn, __env }` ABI.
@@ -69,6 +69,9 @@ invisible when each pass was tested in isolation._
     `external()` in `bridge/primops.ts` emits `Call(direct)` for all externals without
     checking `saturated` payload. Fixed: `[[gram-pap-pass]]` transforms unsaturated externals into
     `PAP` nodes before they reach the bridge; bridge emits closure wrapper chains.
+
+14. **String dispatch float/record defect** [[string-dispatch-float-record-bug]] — bug, deferred
+    Literal/general dispatch via stringification misrepresents floats and records. Variant tags are unaffected because they dispatch on atom symbols in `__tag`.
 
 <!-- connections:start -->
 
@@ -88,6 +91,7 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[bridge-closure-capture]] — Curried closure capture (implemented)
 - INCLUDES → [[type-erasure]] — Backlog: type-only let erasure
 - INCLUDES → [[bridge-unsaturated-external]] — Bug: unsaturated externals need closure wrappers
+- INCLUDES → [[string-dispatch-float-record-bug]] — Deferred literal/general dispatch bug
 - SHARED_WITH → [[gram-evolution.thread]] — Bridge bugs overlap
 - SHARED_WITH → [[recursion.thread]] — Recursive binding bugs overlap
 - SHARED_WITH → [[row-types.thread]] — Row/schema unification bug

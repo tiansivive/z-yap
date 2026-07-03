@@ -24,11 +24,11 @@ refs:
 Yap's CI runs on every push to `main` and every pull request via GitHub Actions (`.github/workflows/ci.yml`). Six parallel jobs gate every change:
 
 1. **Build** — `pnpm build` then smoke-test `node ./lib/index.js`
-2. **Lint** — `pnpm lint` (ESLint, zero warnings)
-3. **Lint Knip** — `pnpm lint:knip` (dead export / unused dependency detection)
+2. **Lint** — `pnpm lint` (ESLint, zero warnings; pre-existing debt baselined in `eslint-suppressions.json`, new violations fail — see [[lint-governance]])
+3. **Lint Knip** — `pnpm lint:knip` (dead file / export / dependency detection; warnings-only pending the orphaned-file cleanup, then `files`/`dependencies` return to errors)
 4. **Prettier** — `pnpm format --list-different` (formatting check)
 5. **Test** — `pnpm run test --coverage` → Vitest with `@vitest/coverage-v8`, results uploaded to Codecov
-6. **Type Check** — `pnpm tsc` (strict mode, no emit)
+6. **Type Check** — `pnpm tsc` (strict mode, no emit; single `tsconfig.json` covering src and tests)
 
 Coverage reports in HTML and LCOV formats. The Vitest config (`vitest.config.mts`) runs tests in parallel with up to 10 workers, resolves path aliases via `vite-tsconfig-paths`, and loads two setup files: `console-fail-test/setup` (fails tests that log to console) and `src/__tests__/setup.ts` (custom snapshot serializer).
 

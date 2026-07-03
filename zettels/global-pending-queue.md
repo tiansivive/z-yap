@@ -69,6 +69,17 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] Usage-semantics framing correction — elaboration threads `Q.Usages` (`check`/`infer` return `[EB.Term, Q.Usages]`) but the threading is deprecated and unconsumed; reconcile [[modality-system]] / [[verification-modal-phase]] / [[pulse]] wording (the "vector absent / modal wrappers stripped" framing is wrong; "enforcement doesn't exist" stands).
 
+## Variant dispatch follow-ups (2026-07-02)
+
+- [ ] [[typed-dispatch-equality]] — elaborate dispatch equality through typed equality evidence rather than GRAM/backend stringification
+- [ ] [[string-dispatch-float-record-bug]] — fix literal/general dispatch cases where stringification misrepresents floats or records
+
+## Lint governance follow-ups (2026-07-03)
+
+- [ ] [[legacy-file-compile]] — migrate the live MIR surface out of the lint-ignored `src/lowering` (`mir.ts`, `interpret.ts`, `shared/primops` are canonical-pipeline imports); the deprecated remainder then deletes with `lowerToMir` retirement
+- [ ] [[evaluation-monad-rework]] — port the NbE evaluator's imperative work-stack machine to an Evaluation generator monad owning the stack as state; lint carve-out header retires with it
+- [ ] Knip cleanup pass — verify and delete the ~10 orphaned files (`elaboration/infer.ts`, `shared/cont.ts`, `shared/logging.ts` + `winston`, `lowering/index.ts`, …) and the dead `immutagen` dep, then flip knip `files`/`dependencies` rules from warn back to error to regain the gate (policy: [[lint-governance]])
+
 <!-- connections:start -->
 
 ## Connections

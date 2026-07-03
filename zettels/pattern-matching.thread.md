@@ -46,6 +46,9 @@ checking is the next frontier alongside the implemented lowering passes.
    View/active patterns. Would intersect metavar solving, modalities,
    exhaustiveness decidability.
 
+9. **Typed dispatch equality** [[typed-dispatch-equality]] — deferred
+   Dispatch comparison should eventually be elaboration-resolved equality evidence, not backend stringification.
+
 <!-- connections:start -->
 
 ## Connections

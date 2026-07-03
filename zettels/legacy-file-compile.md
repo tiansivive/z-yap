@@ -40,6 +40,8 @@ Six test files import `lowerToMir`, each only to obtain a `MIR.Module`: `lowerin
 
 With no test referencing `lowerToMir`, `src/lowering/lower.ts` retires.
 
+`src/lowering` is ESLint-ignored as deprecated, but three of its files are live imports of the canonical pipeline and therefore sit unlinted: `mir.ts` (the MIR definition, imported throughout `GRAM/bridge`), `interpret.ts` (the MIR interpreter, via `src/pipeline`), and `shared/primops`. Migrating those out (e.g. under `src/pipeline` or a dedicated `src/MIR`) restores their lint coverage and leaves the remainder of the directory deletable once the test repointing above lands.
+
 <!-- connections:start -->
 
 ## Connections

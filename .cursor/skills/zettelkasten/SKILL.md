@@ -110,15 +110,16 @@ This is the ZK-interaction protocol — apply it across a working session, not t
 **At session end**, if the session did design or implementation work:
 
 1. Append a session block to `thread.md` (see **Paper trail** above) with edge lines and SPAWN/ENQUEUE/RESOLVED actions.
+2. Check `[[pulse]]`: if the session materially moved a thread's status, current frontier, or next step, update that thread's pulse paragraph so the curated current-state view stays accurate.
 
 **If the session produced significant design discussion**, also create a session zettel:
 
-2. File: `z-yap/zettels/<topic>.session.md`.
-3. Tag with `ai-session` + relevant domain tags.
-4. Add `session:<UUID>` to `refs` in frontmatter.
-5. Body: one-paragraph summary of what was discussed, decided, and produced.
-6. Connections: `PRODUCED`, `INFORMED_BY`, `RESOLVED` edges to affected zettels; an `INCLUDES` edge from `[[sessions.hub]]`.
-7. Copy the transcript JSONL to `z-yap/sessions/<UUID>.jsonl`.
+3. File: `z-yap/zettels/<topic>.session.md`.
+4. Tag with `ai-session` + relevant domain tags.
+5. Add `session:<UUID>` to `refs` in frontmatter.
+6. Body: one-paragraph summary of what was discussed, decided, and produced.
+7. Connections: `PRODUCED`, `INFORMED_BY`, `RESOLVED` edges to affected zettels; an `INCLUDES` edge from `[[sessions.hub]]`.
+8. Copy the transcript JSONL to `z-yap/sessions/<UUID>.jsonl`.
 
 ## Connections
 
