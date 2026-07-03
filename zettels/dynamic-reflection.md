@@ -35,5 +35,6 @@ Yap today centers on static elaboration (`src/elaboration/`), MIR lowering (`src
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES
+- [[gram-struct-node]] ← ENABLES — Open :tail slot carries a row variable for runtime polymorphism
 
 <!-- connections:end -->

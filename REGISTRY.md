@@ -231,6 +231,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `rejected` | Considered and explicitly ruled out |
 | `deferred` | Considered worthwhile but postponed |
 | `incomplete` | Implemented with known gaps |
+| `decision-pending` | A fork is identified but the choice is not yet made |
 
 ### Issue status
 
@@ -238,6 +239,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 |-----|-------------|
 | `bug` | A known defect in current behavior |
 | `bugfix` | A concrete correctness fix for a discovered defect |
+| `upstream` | A defect or concern whose locus is upstream of the layer that surfaced it |
 | `improvement` | A non-critical enhancement to existing functionality |
 | `tech-debt` | Suboptimal implementation, missing cleanup, known shortcut worth revisiting |
 | `backlog` | Feature, capability, or enhancement not yet built |

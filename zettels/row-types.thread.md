@@ -99,6 +99,7 @@ mechanism.
 - INCLUDES → [[sigma-codata-syntax-proposal]] — Syntax proposal
 - INCLUDES → [[design-open-closed-variant-semantics]] — Design work item
 - INCLUDES → [[design-row-theory-verification]] — Design work item
+- INCLUDES → [[checking-path-label-unbound]] — Sigma-checking path drops sibling-label context
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

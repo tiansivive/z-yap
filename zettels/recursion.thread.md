@@ -76,6 +76,8 @@ coinduction that [[nu-types]] would give a principled core representation.
 - INCLUDES → [[design-sigma-codata-label-refs]] — Design work item
 - INCLUDES → [[recursive-struct-binding]]
 - INCLUDES → [[label-cycle-guardedness]]
+- INCLUDES → [[knot-eager-capture-invariant]] — Correctness of recursive-record tying rests on it
+- INCLUDES → [[coinduction-typing-vs-lowering]] — Open fork on productivity placement
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

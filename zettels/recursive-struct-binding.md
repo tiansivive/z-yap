@@ -51,6 +51,7 @@ OCaml's call-by-value `let rec` makes the same trade: it admits guarded recursiv
 - DETAILS → [[sigma-vs-codata-label-refs]] — Eager fixed-point side of the duality
 - RELIES_ON → [[gram-struct-node]] — The knot object is the struct node's Alloc
 - FIXES → [[bridge-label-closure-gap]] — Record-capture knot ties labels captured into closures
+- RELIES_ON → [[knot-eager-capture-invariant]] — The knot is correct only if capture follows allocation
 
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES

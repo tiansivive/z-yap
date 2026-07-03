@@ -58,5 +58,6 @@ Related: [[termination-checking]], [[nu-types]], [[coinductivity]], [[sized-type
 - [[syntactic-guardedness]] ← ADDRESSES — Syntactic criterion for productivity
 - [[recursion.thread]] ← INCLUDES
 - [[label-cycle-guardedness]] ← APPLIES_TO — Down payment on productivity for nu records
+- [[coinduction-typing-vs-lowering]] ← MAY_RESOLVE_VIA — Option (b): productivity check at lowering
 
 <!-- connections:end -->

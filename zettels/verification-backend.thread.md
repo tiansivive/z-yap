@@ -197,6 +197,7 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - INCLUDES → [[vc-validity-discharge]] — Thread item 31
 - INCLUDES → [[quantifier-instantiation-boundary]] — General SMT vs Liquid fragment boundary
 - INCLUDES → [[vc-validity-before-sat.adr]] — Thread item 31 decision record
+- INCLUDES → [[ivl-label-translation]] — Missing Label case in formula synthesis
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

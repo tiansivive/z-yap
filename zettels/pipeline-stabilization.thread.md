@@ -99,6 +99,9 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[gram-struct-node]]
 - INCLUDES → [[variant-discriminant-representation.adr]]
 - INCLUDES → [[string-dispatch-float-record-bug]]
+- INCLUDES → [[checking-path-label-unbound]] — Blocks the tour's self-referencing-fields case end to end
+- INCLUDES → [[ivl-label-translation]] — Surfaced auditing the label pipeline
+- INCLUDES → [[knot-eager-capture-invariant]] — PR #9 review follow-up
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY

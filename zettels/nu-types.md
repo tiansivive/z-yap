@@ -54,5 +54,7 @@ Related: [[mu-types]], [[equirecursive-types]], [[coinductivity]], [[bisimulatio
 - [[sigma-vs-codata-label-refs]] ← MOTIVATES — Codata refs motivate nu adoption
 - [[codata-vs-coinductive-types]] ← DETAILS — Where nu sits between codata and coinductivity
 - [[label-cycle-guardedness]] ← MOTIVATES — Erroring on eager codata forces value-level coinduction
+- [[knot-eager-capture-invariant]] ← DEFERS_TO — Enforcement belongs with recursive-record admission
+- [[coinduction-typing-vs-lowering]] ← MAY_RESOLVE_VIA — Option (a): productivity as a typing property
 
 <!-- connections:end -->

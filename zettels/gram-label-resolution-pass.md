@@ -41,6 +41,9 @@ The scope stack is the value-level counterpart of the sigma label environment: n
 - USES → [[gram-struct-node]] — Frame is the struct node's field edges
 - FIXES → [[bridge-forward-label-refs]] — Edge resolution removes the forward/backward asymmetry
 - FIXES → [[bridge-label-closure-gap]] — Labels resolve through closures via :refers_to
+- REVEALS → [[checking-path-label-unbound]] — Annotated struct label scope loss surfaced during the label work
+- REVEALS → [[ivl-label-translation]] — Label in refinement arithmetic has no IVL formula image
+- MAY_RESOLVE_VIA → [[logram]] — Hand-rolled scope descent could be a Datalog query
 
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES

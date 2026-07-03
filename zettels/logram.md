@@ -38,5 +38,6 @@ tags:
 - [[constructor-context-strategy]] ← RELIES_ON — Benefits from indexed graph traversal
 - [[programmable-gram-passes]] ← DEFERS_TO — Whole-graph queries await richer substrate
 - [[gram-rule-as-yap-value]] ← DEFERS_TO — Capture-set analysis, ancestor walks need it
+- [[gram-label-resolution-pass]] ← MAY_RESOLVE_VIA — Hand-rolled scope descent could be a Datalog query
 
 <!-- connections:end -->

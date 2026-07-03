@@ -37,6 +37,7 @@ The node is value-level only. Record types (schemas) and the other row-based fam
 - ADDRESSES → [[bridge-forward-label-refs]] — Flat node removes the resolution ordering asymmetry
 - ADDRESSES → [[bridge-label-closure-gap]] — One record node to capture and project from
 - RELIES_ON → [[gram-to-mir-bridge]] — Bridge emits Alloc Record from it
+- ENABLES → [[dynamic-reflection]] — Open :tail slot carries a row variable for runtime polymorphism
 
 **Incoming**
 - [[gram-label-resolution-pass]] ← USES — Frame is the struct node's field edges

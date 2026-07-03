@@ -2135,3 +2135,36 @@ ENQUEUE knip cleanup pass — delete verified orphans (incl. `elaboration/infer.
 [[lint-governance]] --[:REFERENCES]--> [[generator-monad]]  -- Do drivers as sanctioned imperative cores
 [[lint-governance]] --[:MOTIVATES]--> [[evaluation-monad-rework]]  -- Evaluator carve-out is temporary
 [[lint-governance]] --[:AFFECTS]--> [[legacy-file-compile]]  -- src/lowering lint-ignored pending retirement
+
+## Session: Register GRAM record/label deferred work — @2026-07-03 [gram, recursion, verification, elaboration, zettelkasten, deferred]
+
+The GRAM record-value / label-resolution / knot vertical (PR #9) closed with its deferred work living only in the plan and thread prose. Transcribed the six deferred items into durable zettels and queue entries so they are reachable by graph traversal. Two are upstream defects surfaced while building the label path (a checking-path scope loss and a missing IVL formula case); one is the knot capture-order invariant flagged in the PR #9 review; one is the open fork on where coinduction/productivity lives. The remaining two — replacing the resolve-labels descent with a LoGRAM query, and the open-`:tail` / bridge-row-utils cleanup — attach to existing zettels rather than new ones.
+
+### Spawned
+
+SPAWN [[checking-path-label-unbound]] — upstream elaboration bug: annotated struct label ref unbound on the `[struct, Sigma]` check path
+SPAWN [[ivl-label-translation]] — upstream verification bug: no `Label` case in IVL formula synthesis
+SPAWN [[knot-eager-capture-invariant]] — knot correctness rests on capture-after-allocation; mixed eager+guarded cycles violate it
+SPAWN [[coinduction-typing-vs-lowering]] — decision-pending: productivity as a typing property vs a lowering-time check
+
+### Enqueued
+
+ENQUEUE [[checking-path-label-unbound]] — fix the annotated infer-then-check label context
+ENQUEUE [[ivl-label-translation]] — resolve labels before formula synthesis or add the `Label` case
+ENQUEUE [[knot-eager-capture-invariant]] — enforce capture-after-alloc with codata/ν-records
+ENQUEUE [[coinduction-typing-vs-lowering]] — decide productivity placement when streams are taken on
+ENQUEUE [[gram-label-resolution-pass]] — replace the hand-rolled scope descent with a LoGRAM query
+ENQUEUE [[gram-struct-node]] — remove deprecated bridge type-row value utils; build open-`:tail` semantics
+
+### Edges
+
+[[gram-label-resolution-pass]] --[:REVEALS]--> [[checking-path-label-unbound]]
+[[gram-label-resolution-pass]] --[:REVEALS]--> [[ivl-label-translation]]
+[[recursive-struct-binding]] --[:RELIES_ON]--> [[knot-eager-capture-invariant]]
+[[label-cycle-guardedness]] --[:REVEALS]--> [[knot-eager-capture-invariant]]
+[[knot-eager-capture-invariant]] --[:DEFERS_TO]--> [[nu-types]]
+[[label-cycle-guardedness]] --[:MOTIVATES]--> [[coinduction-typing-vs-lowering]]
+[[coinduction-typing-vs-lowering]] --[:MAY_RESOLVE_VIA]--> [[nu-types]]
+[[coinduction-typing-vs-lowering]] --[:MAY_RESOLVE_VIA]--> [[productivity-checking]]
+[[gram-label-resolution-pass]] --[:MAY_RESOLVE_VIA]--> [[logram]]
+[[gram-struct-node]] --[:ENABLES]--> [[dynamic-reflection]]

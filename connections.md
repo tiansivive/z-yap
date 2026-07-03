@@ -3180,3 +3180,23 @@
 [[lint-governance.session]] --[:PRODUCED]--> [[evaluation-monad-rework]]  -- Rework surfaced by the carve-out discussion  @2026-07-03
 [[lint-governance.session]] --[:PRODUCED]--> [[generator-monad]]  -- Yield-protocol typing discipline recorded  @2026-07-03
 [[sessions.hub]] --[:INCLUDES]--> [[lint-governance.session]]  -- Recorded pair-programming session  @2026-07-03
+[[gram-label-resolution-pass]] --[:REVEALS]--> [[checking-path-label-unbound]]  -- Annotated struct label scope loss surfaced during the label work  @2026-07-03
+[[gram-label-resolution-pass]] --[:REVEALS]--> [[ivl-label-translation]]  -- Label in refinement arithmetic has no IVL formula image  @2026-07-03
+[[row-types.thread]] --[:INCLUDES]--> [[checking-path-label-unbound]]  -- Sigma-checking path drops sibling-label context  @2026-07-03
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[checking-path-label-unbound]]  -- Blocks the tour's self-referencing-fields case end to end  @2026-07-03
+[[verification-backend.thread]] --[:INCLUDES]--> [[ivl-label-translation]]  -- Missing Label case in formula synthesis  @2026-07-03
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[ivl-label-translation]]  -- Surfaced auditing the label pipeline  @2026-07-03
+[[gram-evolution.thread]] --[:INCLUDES]--> [[knot-eager-capture-invariant]]  -- Capture-order gap in the knot lowering  @2026-07-03
+[[recursion.thread]] --[:INCLUDES]--> [[knot-eager-capture-invariant]]  -- Correctness of recursive-record tying rests on it  @2026-07-03
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[knot-eager-capture-invariant]]  -- PR #9 review follow-up  @2026-07-03
+[[recursive-struct-binding]] --[:RELIES_ON]--> [[knot-eager-capture-invariant]]  -- The knot is correct only if capture follows allocation  @2026-07-03
+[[label-cycle-guardedness]] --[:REVEALS]--> [[knot-eager-capture-invariant]]  -- Admitting mixed eager+guarded cycles exposes the gap  @2026-07-03
+[[knot-eager-capture-invariant]] --[:DEFERS_TO]--> [[nu-types]]  -- Enforcement belongs with recursive-record admission  @2026-07-03
+[[recursion.thread]] --[:INCLUDES]--> [[coinduction-typing-vs-lowering]]  -- Open fork on productivity placement  @2026-07-03
+[[gram-evolution.thread]] --[:INCLUDES]--> [[coinduction-typing-vs-lowering]]  -- Lowering-time option extends label-cycles  @2026-07-03
+[[label-cycle-guardedness]] --[:MOTIVATES]--> [[coinduction-typing-vs-lowering]]  -- The lumped eager-cycle rejection is what the decision splits  @2026-07-03
+[[coinduction-typing-vs-lowering]] --[:MAY_RESOLVE_VIA]--> [[nu-types]]  -- Option (a): productivity as a typing property  @2026-07-03
+[[coinduction-typing-vs-lowering]] --[:MAY_RESOLVE_VIA]--> [[productivity-checking]]  -- Option (b): productivity check at lowering  @2026-07-03
+[[coinduction-typing-vs-lowering]] --[:CONTRASTS_WITH]--> [[codata-vs-coinductive-types]]  -- The two shapes the decision must separate  @2026-07-03
+[[gram-label-resolution-pass]] --[:MAY_RESOLVE_VIA]--> [[logram]]  -- Hand-rolled scope descent could be a Datalog query  @2026-07-03
+[[gram-struct-node]] --[:ENABLES]--> [[dynamic-reflection]]  -- Open :tail slot carries a row variable for runtime polymorphism  @2026-07-03

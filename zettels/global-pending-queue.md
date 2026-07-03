@@ -80,6 +80,16 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[evaluation-monad-rework]] — port the NbE evaluator's imperative work-stack machine to an Evaluation generator monad owning the stack as state; lint carve-out header retires with it
 - [ ] Knip cleanup pass — verify and delete the ~10 orphaned files (`elaboration/infer.ts`, `shared/cont.ts`, `shared/logging.ts` + `winston`, `lowering/index.ts`, …) and the dead `immutagen` dep, then flip knip `files`/`dependencies` rules from warn back to error to regain the gate (policy: [[lint-governance]])
 
+## GRAM record/label deferred work (PR #9, 2026-07-03)
+
+- [ ] [[checking-path-label-unbound]] — upstream: annotated struct with a `:label` field throws `Unbound label` on the `[struct, Sigma]` check path; unannotated form resolves. Blocks the tour's self-referencing-fields case
+- [ ] [[ivl-label-translation]] — upstream: a `:label` in refinement arithmetic reaches IVL formula synthesis with no `Label` case (`verification/V2/synth.ts`)
+- [ ] [[knot-eager-capture-invariant]] — enforce capture-after-allocation: reject eager refs to backpatched fields (or route through the knotted phase); belongs with codata/ν-records
+- [ ] [[coinduction-typing-vs-lowering]] — decide where productivity lives: `ν` types in the type system vs a productivity check at GRAM lowering
+- [ ] [[gram-label-resolution-pass]] — replace the hand-rolled scope descent with a declarative LoGRAM/Datalog query (see [[logram]])
+- [ ] [[gram-struct-node]] — remove the deprecated bridge type-row value utils (`isStructApp`/`structFromApp`/`struct`/`collectFields`)
+- [ ] [[gram-struct-node]] — open `:tail` runtime-polymorphism / reflection semantics beyond carrying the edge (see [[dynamic-reflection]])
+
 <!-- connections:start -->
 
 ## Connections

@@ -131,6 +131,8 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - INCLUDES → [[gram-label-resolution-pass]]
 - INCLUDES → [[gram-struct-node]]
 - INCLUDES → [[typed-dispatch-equality]]
+- INCLUDES → [[knot-eager-capture-invariant]] — Capture-order gap in the knot lowering
+- INCLUDES → [[coinduction-typing-vs-lowering]] — Lowering-time option extends label-cycles
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

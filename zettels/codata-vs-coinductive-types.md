@@ -36,5 +36,6 @@ Whether Yap needs full coinductive types at the type level — `ν X. F(X)` as a
 **Incoming**
 - [[sigma-codata-syntax-proposal]] ← RELIES_ON — Codata vs full coinductivity informs scope
 - [[recursion.thread]] ← INCLUDES — Codata vs coinductive types
+- [[coinduction-typing-vs-lowering]] ← CONTRASTS_WITH — The two shapes the decision must separate
 
 <!-- connections:end -->

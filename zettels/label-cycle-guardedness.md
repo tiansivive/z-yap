@@ -36,6 +36,8 @@ Realised as the GRAM `label-cycles` pass over the field `:refers_to` graph: a cy
 - APPLIES_TO → [[productivity-checking]] — Down payment on productivity for nu records
 - MOTIVATES → [[nu-types]] — Erroring on eager codata forces value-level coinduction
 - DETECTS → [[bridge-label-closure-gap]] — Distinguishes recursive function from ill-founded cycle
+- REVEALS → [[knot-eager-capture-invariant]] — Admitting mixed eager+guarded cycles exposes the gap
+- MOTIVATES → [[coinduction-typing-vs-lowering]] — The lumped eager-cycle rejection is what the decision splits
 
 **Incoming**
 - [[recursive-struct-binding]] ← RELIES_ON — Only admitted cycles are tied
