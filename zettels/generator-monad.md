@@ -43,5 +43,8 @@ TypeScript gives a generator one resume type (TNext) for every `yield` in its bo
 - [[elaboration-monad]] ← PROPAGATES_VIA — Generator yield protocol
 - [[elaboration-monad]] ← WRAPS — ReaderWriterStateEither algebraic structure
 - [[elaboration-v2.thread]] ← INCLUDES
+- [[evaluation-monad-rework]] ← USES — Evaluation monad instantiates the generator-monad pattern
+- [[lint-governance]] ← REFERENCES — Do drivers are sanctioned imperative cores with scoped carve-outs
+- [[lint-governance.session]] ← PRODUCED — Yield-protocol typing discipline recorded
 
 <!-- connections:end -->

@@ -37,5 +37,6 @@ Disambiguation between record vs sum positions is whatever inference supplies vi
 - [[match]] ← DUAL_OF — Intro/elim pair for variants
 - [[match]] ← COMPOSES_WITH — Intro/elim pair for variants
 - [[row-types.thread]] ← INCLUDES
+- [[variant-discriminant-representation.adr]] ← DEFINES — Tagged introduction writes the fixed discriminant shape
 
 <!-- connections:end -->

@@ -57,5 +57,7 @@ The original `match`, `case`, and `pat:*` nodes are fully preserved. Both the se
 - [[reuse-analysis-strategy]] ← RELIES_ON — Reuse sites occur at match boundaries
 - [[two-tier-pattern-compilation]] ← USES — constructor tier uses existing GRAM decision tree
 - [[tagged-dispatch]] ← INFORMS — prior art for pattern-match compilation to dispatch
+- [[variant-discriminant-representation.adr]] ← CONSTRAINS — Variant branch selection targets __tag and arm matching targets payload
+- [[typed-dispatch-equality]] ← ADDRESSES — Decision trees need typed comparison for non-tag discriminants
 
 <!-- connections:end -->

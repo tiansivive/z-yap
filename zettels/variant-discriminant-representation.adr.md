@@ -46,3 +46,21 @@ Verification treats tagged terms as variant-introducing values, not ordinary rec
 The representation is deliberately a struct-shaped value rather than a separate core term constructor. That keeps records and variants on the same row-backed substrate while making the runtime discriminant explicit.
 
 This decision leaves efficient backend dispatch open. Integer tags and jump-table selection are backend and optimization concerns, tracked separately from the semantic value representation.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- DEFINES → [[variant-types]] — Runtime value representation for row variants
+- DEFINES → [[tagged-values]] — Tagged introduction writes the fixed discriminant shape
+- CLARIFIES → [[bridge-struct-dispatch]] — Variant switches read the same discriminant while struct switches project
+- RELIES_ON → [[rows-universal-substrate]] — Runtime value remains row/struct backed
+- CONSTRAINS → [[gram-pattern-pass]] — Variant branch selection targets __tag and arm matching targets payload
+
+**Incoming**
+- [[typed-dispatch-equality]] ← FOLLOWS — D-010 keeps symbolic tag dispatch while equality design waits
+- [[pipeline-stabilization.thread]] ← INCLUDES
+- [[pattern-matching.thread]] ← INCLUDES
+
+<!-- connections:end -->

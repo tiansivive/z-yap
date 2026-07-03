@@ -25,3 +25,18 @@ A gate only shapes behaviour — human or LLM — when it is zero-baseline and d
 **One project graph.** tsc, ESLint, vitest, and the IDE all read the single `tsconfig.json` (tests included). The old `tsc.tsconfig.json` test-exclusion split made the lint graph diverge from the typecheck gate, which minted TypeScript *error types* in stale test files and produced phantom `Unsafe … of type error` diagnostics. Keeping one clean graph makes that class structurally impossible.
 
 **The `_` contract.** Unused-binding enforcement splits on intent: `_`-prefixed bindings are declared-intentional documentation (descriptive params, destructured shapes); unprefixed unused bindings are errors — rot or bug symptoms. The convention codified existing practice (the monad drivers already wrote `(_ctx, _w, st)`), and TypeScript's own `noUnusedParameters` honours the same prefix.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONSTRAINS → [[ci-pipeline]] — Gate severities, suppression baseline, knip entry policy
+- REFERENCES → [[generator-monad]] — Do drivers are sanctioned imperative cores with scoped carve-outs
+- MOTIVATES → [[evaluation-monad-rework]] — Evaluator carve-out is temporary; the rework retires it
+- AFFECTS → [[legacy-file-compile]] — src/lowering lint-ignored; live MIR surface migration queued
+
+**Incoming**
+- [[lint-governance.session]] ← PRODUCED — Gate-design principle authored in session
+
+<!-- connections:end -->

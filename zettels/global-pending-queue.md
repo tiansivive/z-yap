@@ -105,6 +105,9 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[surface-syntax-backlog]] — Deferred syntax backlog
 - INCLUDES → [[euf-congruence-propagation-bug]] — Resolved solver parity bug
 - INCLUDES → [[compilation-abi-selection]] — Deferred design discussion
+- INCLUDES → [[typed-dispatch-equality]] — Deferred dispatch-equality design
+- INCLUDES → [[string-dispatch-float-record-bug]] — Deferred literal/general dispatch bug
+- INCLUDES → [[evaluation-monad-rework]] — Deferred evaluator monad rework
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

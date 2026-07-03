@@ -52,5 +52,6 @@ Adding or removing variant tags changes the `Row` spine; compatibility is via un
 - [[active-patterns]] ← USES — Partial patterns return option variant
 - [[open-closed-variants]] ← APPLIES_TO — Open vs closed row tails
 - [[exhaustiveness-checking]] ← USES — Tag sets determine coverage
+- [[variant-discriminant-representation.adr]] ← DEFINES — Runtime value representation for row variants
 
 <!-- connections:end -->

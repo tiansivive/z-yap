@@ -53,5 +53,6 @@ concrete machine-code realization relevant to [[c-codegen]] and other native bac
 - [[sprite]] ← INTRODUCES — pattern-match compilation technique
 - [[pattern-matching.thread]] ← INCLUDES
 - [[gram-evolution.thread]] ← INCLUDES
+- [[typed-dispatch-equality]] ← CONSTRAINS — Efficient backend dispatch follows typed equality, not stringification
 
 <!-- connections:end -->

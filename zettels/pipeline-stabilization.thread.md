@@ -91,13 +91,14 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[bridge-closure-capture]] — Curried closure capture (implemented)
 - INCLUDES → [[type-erasure]] — Backlog: type-only let erasure
 - INCLUDES → [[bridge-unsaturated-external]] — Bug: unsaturated externals need closure wrappers
-- INCLUDES → [[string-dispatch-float-record-bug]] — Deferred literal/general dispatch bug
 - SHARED_WITH → [[gram-evolution.thread]] — Bridge bugs overlap
 - SHARED_WITH → [[recursion.thread]] — Recursive binding bugs overlap
 - SHARED_WITH → [[row-types.thread]] — Row/schema unification bug
 - INCLUDES → [[gram-label-resolution-pass]]
 - INCLUDES → [[recursive-struct-binding]]
 - INCLUDES → [[gram-struct-node]]
+- INCLUDES → [[variant-discriminant-representation.adr]]
+- INCLUDES → [[string-dispatch-float-record-bug]]
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY

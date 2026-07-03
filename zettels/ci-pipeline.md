@@ -49,5 +49,6 @@ Related: [[testing-strategy]], [[snapshot-testing]]
 - [[explorer-deployment-channels]] ← USES — Mainline channel follows GitHub Actions automation
 - [[testing-strategy]] ← INCLUDES
 - [[pr-explorer-preview-deploys]] ← USES — GitHub Actions label-gated workflow
+- [[lint-governance]] ← CONSTRAINS — Gate severities, suppression baseline, knip entry policy
 
 <!-- connections:end -->

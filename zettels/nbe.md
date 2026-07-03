@@ -55,6 +55,7 @@ Children: cbv-evaluation, quoting, trampoline-evaluator, knot-tying, variable-ev
 - INCLUDES → [[nbe-performance-profile]] — Empirical grounding for any acceleration decision
 - INCLUDES → [[glued-evaluation]] — Dual-rep evaluation strategy
 - INCLUDES → [[compiled-nbe]] — Compile the evaluator itself
+- INCLUDES → [[evaluation-monad-rework]] — Planned evaluator rework
 
 **Incoming**
 - [[yap]] ← USES — Definitional equality via normalization

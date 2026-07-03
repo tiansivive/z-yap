@@ -40,5 +40,6 @@ Related: [[data-declarations]], [[customizable-data-types]], [[indexing-strategi
 - [[data-declarations]] ← RELIES_ON — Desugars into row machinery
 - [[customizable-data-types]] ← RELIES_ON — Records as base abstraction
 - [[gram-struct-node]] ← CONTRASTS_WITH — Flat value node vs row cons-list
+- [[variant-discriminant-representation.adr]] ← RELIES_ON — Runtime value remains row/struct backed
 
 <!-- connections:end -->

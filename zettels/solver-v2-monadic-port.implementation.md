@@ -97,5 +97,6 @@ Theory conclusions are not yet generated or consumed by CDCL; see [[theory-concl
 - [[solver-v2-effect-runtime.adr]] ← MOTIVATES — Runtime decision orients the implementation
 - [[verification-backend.thread]] ← INCLUDES — Thread item 25
 - [[validity-vs-satisfiability]] ← CLARIFIES — Solver.check remains raw satisfiability
+- [[evaluation-monad-rework]] ← MIRRORS — Precedent: imperative core ported to the generator monad
 
 <!-- connections:end -->

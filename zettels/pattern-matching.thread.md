@@ -75,6 +75,8 @@ checking is the next frontier alongside the implemented lowering passes.
 - INCLUDES → [[two-tier-pattern-compilation]]
 - INCLUDES → [[pull-tab]]
 - INCLUDES → [[tagged-dispatch]]
+- INCLUDES → [[variant-discriminant-representation.adr]]
+- INCLUDES → [[typed-dispatch-equality]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

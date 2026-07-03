@@ -52,5 +52,6 @@ This is the **compile-time** (NbE) evaluation strategy, not a statement about ru
 - [[quoting]] ← CONTRASTS_WITH — Quote is inverse of evaluate
 - [[strict-vs-lazy]] ← RELIES_ON — NbE is settled as CBV
 - [[eq-normalization-bug]] ← RELIES_ON — Primop compute runs under CBV evaluation
+- [[evaluation-monad-rework]] ← MODIFIES — Rework target is the imperative work-stack evaluator
 
 <!-- connections:end -->

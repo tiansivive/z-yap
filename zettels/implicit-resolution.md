@@ -62,5 +62,6 @@ Hub: [[implicit-resolution-solver.md]], [[implicit-environment.md]], [[implicits
 - [[implicits-as-coeffects-exploration]] ← EXTENDS — Coeffect model for implicit requirements
 - [[implicit-hole-syntax]] ← INFORMS — Surface marker for existing implicit resolution behavior
 - [[implicit-calculus]] ← INFORMS — Prior art for principled implicit values
+- [[typed-dispatch-equality]] ← RELIES_ON — Equality evidence is elaboration-time dictionary resolution
 
 <!-- connections:end -->

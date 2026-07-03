@@ -48,6 +48,7 @@ Detail zettels: `answer-type-polymorphism.md`, `continuation-binders.md`, `nonde
 - NORMALIZES_TO → [[closures]] — Continuation closure (captured frames)
 - TRANSLATES_TO → [[mir-lowering]] — State machines (planned)
 - ELIMINATES → [[continuation-binders]] — Resume applies k
+- CONSTRAINS → [[evaluation-monad-rework]] — Capture slices the work stack; the monad must expose it as state
 
 **Incoming**
 - [[shift-reset-mir-lowering]] ← IMPLEMENTS — Runtime story

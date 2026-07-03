@@ -26,3 +26,17 @@ This AI pair-programming session audited the ESLint ruleset against its stated g
 - [[generator-monad]] — extended with the yield-protocol typing discipline.
 - [[ci-pipeline]] — gate semantics updated to the baseline world.
 - [[legacy-file-compile]] — live-MIR-surface migration path recorded.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCED → [[lint-governance]] — Gate-design principle authored in session
+- PRODUCED → [[evaluation-monad-rework]] — Rework surfaced by the carve-out discussion
+- PRODUCED → [[generator-monad]] — Yield-protocol typing discipline recorded
+
+**Incoming**
+- [[sessions.hub]] ← INCLUDES — Recorded pair-programming session
+
+<!-- connections:end -->

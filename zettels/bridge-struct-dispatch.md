@@ -33,5 +33,6 @@ Acceptance is covered by bridge tests for surface variants, struct field binders
 **Incoming**
 - [[explorer-audit.thread]] ← INCLUDES — Thread member
 - [[pipeline-stabilization.thread]] ← INCLUDES — Backlog: struct pattern dispatch
+- [[variant-discriminant-representation.adr]] ← CLARIFIES — Variant switches read the same discriminant while struct switches project
 
 <!-- connections:end -->

@@ -130,6 +130,7 @@ _Shared with: usage-semantics (CRUD depends on multiplicity)_
 - INCLUDES → [[icurry]]
 - INCLUDES → [[gram-label-resolution-pass]]
 - INCLUDES → [[gram-struct-node]]
+- INCLUDES → [[typed-dispatch-equality]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
