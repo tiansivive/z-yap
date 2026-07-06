@@ -36,4 +36,7 @@ Instrumentation: outer **`unify`** wraps work in **`V2.track({ tag: "unify", typ
 - SPECIALIZES → [[unification-algorithm]] — Both unsolved
 - RESOLVES → [[meta-variables]] — Binds left to right
 
+**Incoming**
+- [[solver-meta-threading]] ← APPLIES_TO — Fresh metas from row-tail rewriting trigger the missing-kind crash
+
 <!-- connections:end -->

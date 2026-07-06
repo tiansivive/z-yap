@@ -2168,3 +2168,45 @@ ENQUEUE [[gram-struct-node]] — remove deprecated bridge type-row value utils; 
 [[coinduction-typing-vs-lowering]] --[:MAY_RESOLVE_VIA]--> [[productivity-checking]]
 [[gram-label-resolution-pass]] --[:MAY_RESOLVE_VIA]--> [[logram]]
 [[gram-struct-node]] --[:ENABLES]--> [[dynamic-reflection]]
+
+## Session: Elaboration meta-handling — nested-sigma solve, principal-type generalization, debugging discipline — @2026-07-06 [elaboration, normalization, generalization, unification, metavariable, row-types, debugging, codegen, agent, zettelkasten]
+
+Debugged two elaboration defects surfaced by an explorer re-scan, then turned the debugging process itself into a durable rule. (1) **Nested dependent structs** crashed constraint solving: row unification mints fresh metas mid-solve, but the solver's reader `ctx.metas` is a pre-solve snapshot, so a flex-flex kind lookup on a just-minted meta dereferenced a missing entry. Fixed by an interim patch in `rows.ts` that `listen`s the told metas and splices them into the reader (`V2.local`) for the recursive `unify` calls; it retires when metas move onto threaded State ([[monad-split]]). (2) **Unconstrained pattern binders** generalized to types that leaked metavariables and produced spurious `Any`. Two collection bugs: `collectMetasNF` discarded row-field metas that preceded a solved row tail, and `generalize` never collected the *kind* annotations of the metas it generalized. The fix accumulates field metas across solved tails and pulls kind annotations in transitively, ordering each kind-meta before the meta it kinds — yielding the principal type (`Π(a: Type) => Π(A: a) => …`, per Pierce) with no leak and no `Any`. The residual `Any` default at instantiation is surfaced as an open design question. A **retrospective** on an anchoring failure during the debug — a runtime-confirmed *mechanism* (an `instantiate` scope guard skipping metas) mistaken for the root cause and defended against repeated expert caution while the real defect was in collection — produced a new `.cursor/rules/debugging.mdc` (mechanism ≠ root cause; state the invariant first; treat expert hesitation as a falsification signal; distrust make-it-disappear defaults) and a sharpened hypothesis-vs-position carve-out in `communication.mdc`. Regression coverage landed as `dependent-structs.test.ts` and `pattern-polymorphism.test.ts`. The explorer re-scan additionally confirmed three still-open backend codegen bugs — orthogonal to correct MIR — that the archived Explorer Audit had not fixed.
+
+### Spawned
+
+SPAWN [[solver-meta-threading]] — interim reader/writer meta threading during solve; retires with [[monad-split]]
+SPAWN [[instantiate-any-default]] — open design question: default unconstrained metas to `Any` vs generalize (needs-design)
+SPAWN [[codegen-correctness-gaps]] — three confirmed backend codegen bugs from the explorer re-scan
+SPAWN [[variant-match-generalization.session]] — session zettel + transcript (45004fd5)
+
+### Resolved
+
+RESOLVED nested-sigma solve crash — interim meta-threading in row unification ([[solver-meta-threading]])
+RESOLVED variant-match meta leak / spurious `Any` — transitive kind collection in [[generalization]]
+
+### Enqueued
+
+ENQUEUE [[instantiate-any-default]] — design discussion on `Any`'s role before removing the default
+ENQUEUE [[codegen-correctness-gaps]] — deferred backend emitter/erasure fixes (MIR unaffected)
+ENQUEUE [[solver-meta-threading]] — remove the interim splice when [[monad-split]] lands
+
+### Updates
+
+- [[generalization]] — collection traverses solved row tails and generalizes kind annotations transitively (principal type).
+- `.cursor/rules/debugging.mdc` (new), `communication.mdc`, `session-start.mdc`, `AGENTS.md` — debugging/hypothesis discipline; advances [[agent-guidelines-zettelization]].
+- [[pulse]] — Elaboration V2 and Explorer Audit paragraphs updated.
+
+### Edges
+
+[[solver-meta-threading]] --[:APPLIES_TO]--> [[flex-flex-unification]]  -- Fresh metas from row-tail rewriting are the trigger
+[[solver-meta-threading]] --[:DEFERS_TO]--> [[monad-split]]  -- The real fix is threaded State, making new metas visible at any depth
+[[generalization]] --[:MOTIVATES]--> [[instantiate-any-default]]  -- Transitive kind gen removes one Any source; the residual default is the question
+[[instantiate-any-default]] --[:EXTENDS]--> [[implicit-generalization-semantics]]  -- Same generalize-not-default principle, now at the kind level
+[[codegen-correctness-gaps]] --[:REVEALS]--> [[type-erasure]]  -- Type-leak-to-runtime is the erasure gap's runtime face
+[[codegen-correctness-gaps]] --[:REFERENCES]--> [[string-dispatch-float-record-bug]]  -- Sibling lossy-lowering case
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[solver-meta-threading]]
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[instantiate-any-default]]
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[codegen-correctness-gaps]]
+[[variant-match-generalization.session]] --[:INFORMS]--> [[generalization]]  -- Transitive kind collection
+[[variant-match-generalization.session]] --[:INFORMS]--> [[agent-guidelines-zettelization]]  -- debugging.mdc + communication.mdc sharpening

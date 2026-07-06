@@ -23,7 +23,9 @@ Implementation: `src/elaboration/normalization/generalization.ts` `generalize`.
 
 Input: `NF.Value` type, `EB.Term` definition, `EB.Context`, `EB.Resolutions`, skolem map from `V2.MutState`.
 
-Collect unsolved metas via `collectMetasNF(ty, zonker)` and `collectMetasEB(tm, zonker)`, uniq by `val`, drop entries present in `resolutions` or `skolems`.
+Collect unsolved metas via `collectMetasNF(ty, zonker)` and `collectMetasEB(tm, zonker)`, uniq by `val`, drop entries present in `resolutions` or `skolems`. Collection follows the zonker through solved row tails, accumulating the field metas that precede a solved tail rather than discarding them.
+
+Kinds too: a collected meta’s annotation (its kind) may itself contain metas — an unconstrained binder whose kind is unknown. Generalization pulls these in transitively, ordering each kind-meta before the meta it kinds, so the result is the principal type `Π(k: Type) => Π(v: k) => …` rather than a leaked kind meta or an `Any` default ([[instantiate-any-default]]).
 
 Scoping: keep only metas with `m.lvl >= ctx.env.length` (created at or inside the binding’s elaboration depth). Metas with smaller `lvl` stay open for outer solves.
 
@@ -43,6 +45,7 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - USES → [[meta-variables]] — Generalizes unsolved metas into implicit Pis
 - IMPLEMENTS → [[hindley-milner]] — Yap's implementation of HM let-generalization
 - PRODUCES → [[implicits]] — Generalization wraps terms in implicit lambdas
+- MOTIVATES → [[instantiate-any-default]] — Transitive kind gen removes one Any source; the residual default is the open question
 
 **Incoming**
 - [[blocks]] ← USES — Let-polymorphism at boundaries
@@ -56,5 +59,6 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - [[implicit-resolution]] ← COMPOSES_WITH — Deferred resolution preserves generality
 - [[blocks]] ← RELIES_ON — Let-dec runs NF.generalize/instantiate
 - [[letpoly-implicit-escape]] ← APPLIES_TO — Meta escape at block boundary
+- [[variant-match-generalization.session]] ← INFORMS — Transitive kind collection
 
 <!-- connections:end -->

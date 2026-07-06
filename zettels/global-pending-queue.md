@@ -90,6 +90,12 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[gram-struct-node]] — remove the deprecated bridge type-row value utils (`isStructApp`/`structFromApp`/`struct`/`collectFields`)
 - [ ] [[gram-struct-node]] — open `:tail` runtime-polymorphism / reflection semantics beyond carrying the edge (see [[dynamic-reflection]])
 
+## Elaboration meta-handling follow-ups (2026-07-06)
+
+- [ ] [[instantiate-any-default]] — needs design discussion: does an unconstrained meta default to `Any` or generalize? `Any` has no unification semantics; decide its role before removing the default
+- [ ] [[solver-meta-threading]] — remove the interim `rows.ts` reader-splice once metas move onto threaded State ([[monad-split]])
+- [ ] [[codegen-correctness-gaps]] — deferred backend emitter/erasure bugs (match join-block scoping, positional `.0` access, type-leak-to-runtime); MIR is correct, so semantics are unaffected
+
 <!-- connections:start -->
 
 ## Connections
@@ -118,6 +124,9 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[typed-dispatch-equality]] — Deferred dispatch-equality design
 - INCLUDES → [[string-dispatch-float-record-bug]] — Deferred literal/general dispatch bug
 - INCLUDES → [[evaluation-monad-rework]] — Deferred evaluator monad rework
+- INCLUDES → [[instantiate-any-default]] — Deferred design discussion
+- INCLUDES → [[codegen-correctness-gaps]] — Deferred backend fixes
+- INCLUDES → [[solver-meta-threading]] — Remove interim splice at monad-split
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

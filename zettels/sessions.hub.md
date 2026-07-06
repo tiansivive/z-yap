@@ -31,6 +31,7 @@ records what was discussed, decided, and built, with connections to affected zet
 - INCLUDES → [[agent-instruction-consolidation.session]] — Session record
 - INCLUDES → [[gram-struct-labels-knot.session]]
 - INCLUDES → [[lint-governance.session]] — Recorded pair-programming session
+- INCLUDES → [[variant-match-generalization.session]] — Recorded pair-programming session
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Session/transcript infrastructure

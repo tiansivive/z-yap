@@ -81,6 +81,8 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 - RELIES_ON → [[empty-subst-guard]]
 - USES → [[implicit-resolution-solver]]
 - SHARED_WITH → [[recursion.thread]] — missing-spec-let-polymorphism (mu recovery at let boundaries)
+- INCLUDES → [[solver-meta-threading]] — Interim solver meta-visibility patch
+- INCLUDES → [[instantiate-any-default]] — Open generalization/defaulting design gap
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

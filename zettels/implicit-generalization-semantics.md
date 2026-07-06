@@ -38,5 +38,6 @@ Common cases like `\x -> \y -> x` still work — both implicits get annotation `
 - [[wraplambda-fix]] ← REVEALS — Bug only triggers with dependent annotations
 - [[letpoly-implicit-escape]] ← RELIES_ON — Implicit wrapping decision
 - [[fst-closure-annotation]] ← RELIES_ON — Implicit parameter ordering
+- [[instantiate-any-default]] ← EXTENDS — Same generalize-not-default principle, now at the kind level
 
 <!-- connections:end -->

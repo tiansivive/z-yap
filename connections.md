@@ -3200,3 +3200,22 @@
 [[coinduction-typing-vs-lowering]] --[:CONTRASTS_WITH]--> [[codata-vs-coinductive-types]]  -- The two shapes the decision must separate  @2026-07-03
 [[gram-label-resolution-pass]] --[:MAY_RESOLVE_VIA]--> [[logram]]  -- Hand-rolled scope descent could be a Datalog query  @2026-07-03
 [[gram-struct-node]] --[:ENABLES]--> [[dynamic-reflection]]  -- Open :tail slot carries a row variable for runtime polymorphism  @2026-07-03
+[[solver-meta-threading]] --[:APPLIES_TO]--> [[flex-flex-unification]]  -- Fresh metas from row-tail rewriting trigger the missing-kind crash  @2026-07-06
+[[solver-meta-threading]] --[:DEFERS_TO]--> [[monad-split]]  -- The real fix is threaded State, making new metas visible to every step at any depth  @2026-07-06
+[[generalization]] --[:MOTIVATES]--> [[instantiate-any-default]]  -- Transitive kind gen removes one Any source; the residual default is the open question  @2026-07-06
+[[instantiate-any-default]] --[:EXTENDS]--> [[implicit-generalization-semantics]]  -- Same generalize-not-default principle, now at the kind level  @2026-07-06
+[[codegen-correctness-gaps]] --[:REVEALS]--> [[type-erasure]]  -- Type-leak-to-runtime is the erasure gap's runtime face  @2026-07-06
+[[codegen-correctness-gaps]] --[:REFERENCES]--> [[string-dispatch-float-record-bug]]  -- Sibling lossy-lowering case  @2026-07-06
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[solver-meta-threading]]  -- Interim fix authored in session  @2026-07-06
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[instantiate-any-default]]  -- Design question surfaced in session  @2026-07-06
+[[variant-match-generalization.session]] --[:PRODUCED]--> [[codegen-correctness-gaps]]  -- Codegen bugs confirmed in the re-scan  @2026-07-06
+[[variant-match-generalization.session]] --[:INFORMS]--> [[generalization]]  -- Transitive kind collection  @2026-07-06
+[[variant-match-generalization.session]] --[:INFORMS]--> [[agent-guidelines-zettelization]]  -- debugging.mdc + communication.mdc sharpening  @2026-07-06
+[[sessions.hub]] --[:INCLUDES]--> [[variant-match-generalization.session]]  -- Recorded pair-programming session  @2026-07-06
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[solver-meta-threading]]  -- Interim solver meta-visibility patch  @2026-07-06
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[instantiate-any-default]]  -- Open generalization/defaulting design gap  @2026-07-06
+[[row-types.thread]] --[:INCLUDES]--> [[solver-meta-threading]]  -- Row unification mints the metas that trip the reader snapshot  @2026-07-06
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[codegen-correctness-gaps]]  -- Backend correctness backlog  @2026-07-06
+[[global-pending-queue]] --[:INCLUDES]--> [[instantiate-any-default]]  -- Deferred design discussion  @2026-07-06
+[[global-pending-queue]] --[:INCLUDES]--> [[codegen-correctness-gaps]]  -- Deferred backend fixes  @2026-07-06
+[[global-pending-queue]] --[:INCLUDES]--> [[solver-meta-threading]]  -- Remove interim splice at monad-split  @2026-07-06

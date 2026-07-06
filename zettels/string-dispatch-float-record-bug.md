@@ -32,5 +32,6 @@ This defect is orthogonal to the variant discriminant representation: variant ta
 **Incoming**
 - [[pipeline-stabilization.thread]] ← INCLUDES
 - [[global-pending-queue]] ← INCLUDES — Deferred literal/general dispatch bug
+- [[codegen-correctness-gaps]] ← REFERENCES — Sibling lossy-lowering case
 
 <!-- connections:end -->

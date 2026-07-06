@@ -40,5 +40,6 @@ A full erasure story—systematically stripping `∀`, proof terms, and refineme
 - [[global-pending-queue]] ← INCLUDES
 - [[bridge-type-erasure]] ← ADDRESSES — Interim erasure until QTT
 - [[pipeline-stabilization.thread]] ← INCLUDES — Backlog: type-only let erasure
+- [[codegen-correctness-gaps]] ← REVEALS — Type-leak-to-runtime is the erasure gap's runtime face
 
 <!-- connections:end -->

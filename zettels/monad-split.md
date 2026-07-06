@@ -31,5 +31,6 @@ One future direction: split reader, writer, and mutable state into narrower inte
 
 **Incoming**
 - [[elaboration-v2.thread]] ← INCLUDES
+- [[solver-meta-threading]] ← DEFERS_TO — The real fix is threaded State, making new metas visible to every step at any depth
 
 <!-- connections:end -->

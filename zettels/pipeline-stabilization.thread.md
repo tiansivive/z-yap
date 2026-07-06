@@ -102,6 +102,7 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[checking-path-label-unbound]] — Blocks the tour's self-referencing-fields case end to end
 - INCLUDES → [[ivl-label-translation]] — Surfaced auditing the label pipeline
 - INCLUDES → [[knot-eager-capture-invariant]] — PR #9 review follow-up
+- INCLUDES → [[codegen-correctness-gaps]] — Backend correctness backlog
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY
