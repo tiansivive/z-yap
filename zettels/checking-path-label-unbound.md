@@ -37,5 +37,6 @@ Resolved (PR #14) in two parts. The `[struct, Sigma]` re-check threads the infer
 - [[gram-label-resolution-pass]] ← REVEALS — Annotated struct label scope loss surfaced during the label work
 - [[row-types.thread]] ← INCLUDES — Sigma-checking path drops sibling-label context
 - [[pipeline-stabilization.thread]] ← INCLUDES — Blocks the tour's self-referencing-fields case end to end
+- [[label-refinement-verification.session]] ← RESOLVED — Elaboration self-referencing struct checking fixed
 
 <!-- connections:end -->

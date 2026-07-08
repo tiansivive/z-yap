@@ -50,5 +50,6 @@ Dependent typing leans on annotations and checking branches where synthesis alon
 - [[maplist-schema-unification]] ← FIXES — Match-check quoted return type at wrong de Bruijn level
 - [[singleton-types]] ← RELIES_ON — Emerges from bidir checking cases
 - [[sigma-checking-infer-constrain]] ← APPLIES_TO — Infer-then-constrain loses bidir info
+- [[redundant-match-arms]] ← CONSTRAINS — Scrutinee inference keeps every arm's fields; no reachability pruning of the type
 
 <!-- connections:end -->

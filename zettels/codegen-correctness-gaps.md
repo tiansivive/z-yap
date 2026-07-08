@@ -34,5 +34,7 @@ The related lossy case where dispatch stringification misrepresents floats and r
 - [[variant-match-generalization.session]] ← PRODUCED — Codegen bugs confirmed in the re-scan
 - [[pipeline-stabilization.thread]] ← INCLUDES — Backend correctness backlog
 - [[global-pending-queue]] ← INCLUDES — Deferred backend fixes
+- [[match-merge-block-params]] ← FIXES — Match join-block scoping was a MIR merge-threading defect, not a codegen gap
+- [[pipeline-bug-squashing.session]] ← INFORMS — Reclassified + resolved the match-join-scoping symptom
 
 <!-- connections:end -->

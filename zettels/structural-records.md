@@ -58,5 +58,6 @@ Related: [[codata]], [[data-declarations]], [[customizable-data-types]], [[dicti
 - [[pattern-synonyms]] ← COMPOSES_WITH — Named record patterns
 - [[customizable-data-types]] ← EXTENDS — Custom records with pluggable backends
 - [[codata-vs-coinductive-types]] ← APPLIES_TO — Records as codata via projections
+- [[redundant-match-arms]] ← RELIES_ON — Fixed rows / no width subtyping ⇒ extra record arms are redundancy, not shape dispatch
 
 <!-- connections:end -->

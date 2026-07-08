@@ -132,6 +132,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[instantiate-any-default]] — Deferred design discussion
 - INCLUDES → [[codegen-correctness-gaps]] — Deferred backend fixes
 - INCLUDES → [[solver-meta-threading]] — Remove interim splice at monad-split
+- INCLUDES → [[record-refinement-false-valid.bug]] — Deferred solver/discharge bug
+- INCLUDES → [[label-context-trichotomy]] — Deferred context-consolidation review
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

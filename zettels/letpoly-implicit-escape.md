@@ -40,5 +40,6 @@ Additionally, `innerID`'s inner closure annotation was self-referential (`Π(x: 
 - [[pipeline-stabilization.thread]] ← INCLUDES — Generalization leaks block-internal metas
 - [[module-zonker-fix]] ← FIXES — Zonker propagation stopped meta escape
 - [[fst-closure-annotation]] ← FIXES — Ann EB.Term fix resolved stale closure annotations
+- [[meta-collection-zonker]] ← EXTENDS — Same over-generalization family; distinct root in row-tail meta collection
 
 <!-- connections:end -->

@@ -50,5 +50,6 @@ Related: [[open-closed-variants]], [[dependent-pattern-matching]], [[data-declar
 - [[open-closed-variants]] ← INFORMS — Primary discriminant for coverage
 - [[fuzz-testing]] ← INFORMS
 - [[negative-testing]] ← INFORMS
+- [[redundant-match-arms]] ← EXTENDS — Redundancy half: an irrefutable arm shadows the rest; a diagnostic, not a typing concern
 
 <!-- connections:end -->

@@ -59,5 +59,6 @@ ctx.sigma is a flat map. Nested dependent records (a record whose field is itsel
 - [[sigma-checking-infer-constrain]] ← APPLIES_TO — Affects sigma checking
 - [[sigma-vs-codata-label-refs]] ← DETAILS — Sigma side of the duality
 - [[sigma-codata-syntax-proposal]] ← APPLIES_TO — Sigma sigil
+- [[verification-label-scope]] ← APPLIES_TO — Record boundaries opened during checking and subtyping
 
 <!-- connections:end -->

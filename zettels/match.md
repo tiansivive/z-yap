@@ -55,5 +55,6 @@ The design space beyond basic matching includes dependent narrowing (refining ty
 - [[negative-testing]] ← TARGETS
 - [[v1-test-cleanup]] ← ENRICHES — 8 pattern matching tests ported
 - [[maplist-schema-unification]] ← APPLIES_TO — Checked match branches with polymorphic return type
+- [[redundant-match-arms]] ← APPLIES_TO — Arms of a match expression
 
 <!-- connections:end -->

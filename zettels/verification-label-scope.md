@@ -21,4 +21,18 @@ The verification analogue of elaboration's row-walk binds every field of the row
 The key framing: the fix belongs at the boundary that *has* the row, not at the translation leaf. Refinement subtyping over two bare refined types has no row in hand — it is a pure consumer of a scope that must have been established upstream.
 
 <!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- RESOLVES → [[ivl-label-translation]] — Boundary collection closes the label-translation gap
+- MIRRORS → [[label-lookup]] — Verification analogue of elaboration's row-walk label context
+- APPLIES_TO → [[refinement-types]] — Refinements referencing sibling fields
+- APPLIES_TO → [[sigma-types]] — Record boundaries opened during checking and subtyping
+
+**Incoming**
+- [[label-refinement-verification.session]] ← PRODUCED — Sibling-label scope invariant
+- [[verification-backend.thread]] ← INCLUDES — Sibling-label scope mechanism
+- [[row-types.thread]] ← INCLUDES — Row-boundary label collection in verification
+
 <!-- connections:end -->

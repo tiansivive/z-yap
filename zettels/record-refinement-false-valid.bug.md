@@ -25,4 +25,17 @@ Two layers compound in the discharge. The CDCL(T) quantifier layer leaves `v = n
 This is independent of the label machinery: the label resolves and the formula is faithful. It reproduces without any label-handling change — the locus is the solver's quantifier instantiation and the validity-discharge conjunct handling.
 
 <!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[quantifier-instantiation-boundary]] — Instance of the MBQI residual gap on guarded refinement obligations
+- AFFECTS → [[vc-validity-discharge]] — A redundant true conjunct flips the verdict
+- APPLIES_TO → [[refinement-types]] — Refinement over a record field
+
+**Incoming**
+- [[label-refinement-verification.session]] ← PRODUCED — Pre-existing discharge bug surfaced
+- [[verification-backend.thread]] ← INCLUDES — Pre-existing false-valid discharge bug
+- [[global-pending-queue]] ← INCLUDES — Deferred solver/discharge bug
+
 <!-- connections:end -->

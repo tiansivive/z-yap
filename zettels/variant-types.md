@@ -53,5 +53,6 @@ Adding or removing variant tags changes the `Row` spine; compatibility is via un
 - [[open-closed-variants]] ← APPLIES_TO — Open vs closed row tails
 - [[exhaustiveness-checking]] ← USES — Tag sets determine coverage
 - [[variant-discriminant-representation.adr]] ← DEFINES — Runtime value representation for row variants
+- [[redundant-match-arms]] ← CONTRASTS_WITH — Variants dispatch on a runtime tag; record arms have no discriminant
 
 <!-- connections:end -->

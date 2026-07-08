@@ -101,6 +101,7 @@ mechanism.
 - INCLUDES → [[design-row-theory-verification]] — Design work item
 - INCLUDES → [[checking-path-label-unbound]] — Sigma-checking path drops sibling-label context
 - INCLUDES → [[solver-meta-threading]] — Row unification mints the metas that trip the reader snapshot
+- INCLUDES → [[verification-label-scope]] — Row-boundary label collection in verification
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

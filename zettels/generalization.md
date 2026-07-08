@@ -60,5 +60,6 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - [[blocks]] ← RELIES_ON — Let-dec runs NF.generalize/instantiate
 - [[letpoly-implicit-escape]] ← APPLIES_TO — Meta escape at block boundary
 - [[variant-match-generalization.session]] ← INFORMS — Transitive kind collection
+- [[meta-collection-zonker]] ← APPLIES_TO — The collector feeds generalization
 
 <!-- connections:end -->

@@ -37,5 +37,7 @@ Resolved (PR #14). The sibling-label scope is re-established at each record boun
 - [[gram-label-resolution-pass]] ← REVEALS — Label in refinement arithmetic has no IVL formula image
 - [[verification-backend.thread]] ← INCLUDES — Missing Label case in formula synthesis
 - [[pipeline-stabilization.thread]] ← INCLUDES — Surfaced auditing the label pipeline
+- [[label-refinement-verification.session]] ← RESOLVED — Verification label translation fixed
+- [[verification-label-scope]] ← RESOLVES — Boundary collection closes the label-translation gap
 
 <!-- connections:end -->

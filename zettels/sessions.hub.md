@@ -32,6 +32,8 @@ records what was discussed, decided, and built, with connections to affected zet
 - INCLUDES → [[gram-struct-labels-knot.session]]
 - INCLUDES → [[lint-governance.session]] — Recorded pair-programming session
 - INCLUDES → [[variant-match-generalization.session]] — Recorded pair-programming session
+- INCLUDES → [[pipeline-bug-squashing.session]] — Recorded pair-programming session
+- INCLUDES → [[label-refinement-verification.session]] — Recorded pair-programming session
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Session/transcript infrastructure

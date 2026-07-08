@@ -41,5 +41,6 @@ For ordinary refinement checking, the priority boundary is:
 **Incoming**
 - [[vc-validity-discharge.session]] ← PRODUCED — General SMT vs Liquid-fragment boundary
 - [[verification-backend.thread]] ← INCLUDES — General SMT vs Liquid fragment boundary
+- [[record-refinement-false-valid.bug]] ← EXTENDS — Instance of the MBQI residual gap on guarded refinement obligations
 
 <!-- connections:end -->

@@ -23,3 +23,18 @@ Generalization collects the free metavariables of a type and term in order to qu
 A collector that follows the zonker in some positions but not others re-surfaces an already-solved meta. When an inner `let` generalizes a row-polymorphic binding, its row meta is solved to a bound variable in the shared zonker; if the enclosing generalization reads that meta from a row tail without consulting the zonker, it treats it as free and quantifies it a second time. The symptom is a spurious binder in the outer scope — a unit-returning block whose only binding is an unused row-polymorphic `let` acquiring a `Π(r: Row) =>` over its type.
 
 Zonker-consistency across positions is the invariant: the NF and EB collectors, and every variable case within them, must resolve solved metas identically. Divergence anywhere leaks a generalized meta back into a later generalization.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[letpoly-implicit-escape]] — Same over-generalization family; distinct root in row-tail meta collection
+- APPLIES_TO → [[generalization]] — The collector feeds generalization
+
+**Incoming**
+- [[pipeline-stabilization.thread]] ← INCLUDES — Residual let-poly escape via row-tail collection
+- [[elaboration-v2.thread]] ← INCLUDES — Generalization collector zonker-consistency
+- [[pipeline-bug-squashing.session]] ← PRODUCED — Collector zonker fix
+
+<!-- connections:end -->

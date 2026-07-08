@@ -62,5 +62,7 @@ End-to-end refinement tests live under `src/verification/__tests__/check.test.ts
 - [[sigma-value-semantics]] ← COMPOSES_WITH — Field refs in refinement predicates
 - [[liquid-vc-fragment]] ← CLARIFIES — Refinements target a restricted Liquid VC discipline
 - [[dependent-contract-types]] ← INFORMS — Contract-style dependent obligations
+- [[verification-label-scope]] ← APPLIES_TO — Refinements referencing sibling fields
+- [[record-refinement-false-valid.bug]] ← APPLIES_TO — Refinement over a record field
 
 <!-- connections:end -->

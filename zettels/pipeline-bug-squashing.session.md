@@ -18,3 +18,18 @@ refs:
 # Session: Pipeline bug-squashing
 
 Re-swept the explorer's 19 built-in snippets for correctness — not just liveness — across elaboration → NF → GRAM → MIR, and fixed two defects it surfaced. The GRAM→MIR bridge lowered match merges through a shared case-block-local result variable and parameterless jumps into a paramless join, leaving the join's read out of scope; corrected to thread each arm result through a join block parameter ([[match-merge-block-params]]), which also resolved the codegen "match join-block scoping" symptom previously filed under [[codegen-correctness-gaps]]. Separately, `collectMetasEB` ignored the zonker for row-tail metas, so an already-generalized row meta from an unused inner `let` was re-quantified onto an enclosing unit block; corrected to resolve row-tail metas through the zonker ([[meta-collection-zonker]]), closing a residual of [[letpoly-implicit-escape]]. Also produced the [[redundant-match-arms]] design note (product-match redundancy is a diagnostic, not a merge or semantics bug), and handled the PR #12 review: the generalization transitive-annotation pass became `Annotations.closeOver` and narration comments were removed.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCED → [[match-merge-block-params]] — Bridge merge-params fix
+- PRODUCED → [[meta-collection-zonker]] — Collector zonker fix
+- PRODUCED → [[redundant-match-arms]] — Design note from the same sweep
+- INFORMS → [[codegen-correctness-gaps]] — Reclassified + resolved the match-join-scoping symptom
+
+**Incoming**
+- [[sessions.hub]] ← INCLUDES — Recorded pair-programming session
+
+<!-- connections:end -->

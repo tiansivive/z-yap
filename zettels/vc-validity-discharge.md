@@ -57,5 +57,6 @@ This is not a new theory solver. It is a polarity and structure layer that prese
 - [[liquid-vc-fragment]] ← CONSTRAINS — Guarded binders are consumed as environment structure
 - [[verification-backend.thread]] ← INCLUDES — Thread item 31
 - [[generating-verification-conditions]] ← INFORMS — Verification obligations before solver discharge
+- [[record-refinement-false-valid.bug]] ← AFFECTS — A redundant true conjunct flips the verdict
 
 <!-- connections:end -->

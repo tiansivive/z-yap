@@ -47,5 +47,6 @@ ctx.sigma is a flat map keyed by label. Nested dependent records (a record with 
 - [[sigma-quoting-field-ref]] ← RELIES_ON — Same binding strategy
 - [[sigma-architecture]] ← DETAILS — How ctx.sigma implements the abstraction
 - [[sigma-checking-infer-constrain]] ← APPLIES_TO — Sigma apply in check path
+- [[label-context-trichotomy]] ← CONCERNS — ctx.sigma resolution during NbE
 
 <!-- connections:end -->

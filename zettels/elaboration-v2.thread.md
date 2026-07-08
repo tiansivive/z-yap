@@ -83,6 +83,7 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 - SHARED_WITH → [[recursion.thread]] — missing-spec-let-polymorphism (mu recovery at let boundaries)
 - INCLUDES → [[solver-meta-threading]] — Interim solver meta-visibility patch
 - INCLUDES → [[instantiate-any-default]] — Open generalization/defaulting design gap
+- INCLUDES → [[meta-collection-zonker]] — Generalization collector zonker-consistency
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

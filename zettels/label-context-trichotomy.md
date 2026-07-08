@@ -22,4 +22,15 @@ A `:label` field reference carries its meaning through three separate maps on th
 The three overlap in purpose — all answer "what does this field reference resolve to" — but diverge in what they hold and when they are consulted, and the standalone `extendRecord` helper has no callers. Reasoning about *where* a label resolves means tracking which map is live at that phase, which is a recurring source of confusion (both the elaboration and verification label fixes had to reason across all three). Consolidating them, or making each map's distinct role explicit, would remove that friction. The split is worth a dedicated review rather than an incidental change.
 
 <!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- CONCERNS → [[label-lookup]] — ctx.labels resolution during elaboration
+- CONCERNS → [[sigma-bindings]] — ctx.sigma resolution during NbE
+
+**Incoming**
+- [[label-refinement-verification.session]] ← PRODUCED — Design concern noted
+- [[global-pending-queue]] ← INCLUDES — Deferred context-consolidation review
+
 <!-- connections:end -->

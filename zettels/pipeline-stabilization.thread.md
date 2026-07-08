@@ -114,6 +114,8 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[ivl-label-translation]] — Surfaced auditing the label pipeline
 - INCLUDES → [[knot-eager-capture-invariant]] — PR #9 review follow-up
 - INCLUDES → [[codegen-correctness-gaps]] — Backend correctness backlog
+- INCLUDES → [[match-merge-block-params]] — Match merge threaded via block parameters
+- INCLUDES → [[meta-collection-zonker]] — Residual let-poly escape via row-tail collection
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY

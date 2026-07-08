@@ -82,6 +82,7 @@ checking is the next frontier alongside the implemented lowering passes.
 - INCLUDES → [[tagged-dispatch]]
 - INCLUDES → [[variant-discriminant-representation.adr]]
 - INCLUDES → [[typed-dispatch-equality]]
+- INCLUDES → [[redundant-match-arms]] — Redundant-arm diagnostic gap
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

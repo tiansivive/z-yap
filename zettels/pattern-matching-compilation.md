@@ -53,5 +53,7 @@ Maranget-style clause matrix compilation -- decision tree construction from patt
 - [[pattern-synonyms]] ← DESUGARS_TO — Desugars to structural patterns
 - [[exhaustiveness-checking]] ← RELIES_ON — Coverage from decision tree
 - [[match]] ← LOWERS_TO — Maranget clause-matrix at MIR level
+- [[redundant-match-arms]] ← RELIES_ON — Redundancy is latent in the Maranget tree: an unreachable clause never becomes a leaf
+- [[match-merge-block-params]] ← RELIES_ON — Switch/case/join decision-tree lowering
 
 <!-- connections:end -->

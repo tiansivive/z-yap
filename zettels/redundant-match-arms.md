@@ -28,3 +28,21 @@ The scrutinee's type is the intersection of every arm's field requirements. In `
 That faithfulness buys stability across edits. Making an earlier arm refutable — turning a field binder into a literal — promotes a shadowed arm to live while the scrutinee type stays fixed, so a change in reachability carries no blast radius through callers. Inference tracks the written patterns; reachability stays a separate layer.
 
 Redundancy is a diagnostic concern. A report on a shadowed arm lets the author drop it — narrowing the scrutinee type — or keep it deliberately. The information is already latent in the compiled form: a Maranget decision tree never routes a leaf to an unreachable clause, which is why a shadowed arm falls away during lowering. Surfacing it reports a fact the compilation already establishes.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- EXTENDS → [[exhaustiveness-checking]] — Redundancy half: an irrefutable arm shadows the rest; a diagnostic, not a typing concern
+- RELIES_ON → [[pattern-matching-compilation]] — Redundancy is latent in the Maranget tree: an unreachable clause never becomes a leaf
+- RELIES_ON → [[structural-records]] — Fixed rows / no width subtyping ⇒ extra record arms are redundancy, not shape dispatch
+- CONSTRAINS → [[bidirectional-checking]] — Scrutinee inference keeps every arm's fields; no reachability pruning of the type
+- CONTRASTS_WITH → [[variant-types]] — Variants dispatch on a runtime tag; record arms have no discriminant
+- APPLIES_TO → [[match]] — Arms of a match expression
+
+**Incoming**
+- [[pattern-matching.thread]] ← INCLUDES — Redundant-arm diagnostic gap
+- [[pipeline-bug-squashing.session]] ← PRODUCED — Design note from the same sweep
+
+<!-- connections:end -->

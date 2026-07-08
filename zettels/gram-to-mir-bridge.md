@@ -68,5 +68,6 @@ The enriched GRAM graph (after all passes) contains enough information to mechan
 - [[gram-label-resolution-pass]] ← RELIES_ON — Keeps bridge label emission mechanical
 - [[gram-struct-node]] ← RELIES_ON — Bridge emits Alloc Record from it
 - [[string-dispatch-float-record-bug]] ← APPLIES_TO — The defect is in literal/general branch comparison paths
+- [[match-merge-block-params]] ← APPLIES_TO — Emitted by the bridge switch lowering
 
 <!-- connections:end -->
