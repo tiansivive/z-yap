@@ -3219,3 +3219,44 @@
 [[global-pending-queue]] --[:INCLUDES]--> [[instantiate-any-default]]  -- Deferred design discussion  @2026-07-06
 [[global-pending-queue]] --[:INCLUDES]--> [[codegen-correctness-gaps]]  -- Deferred backend fixes  @2026-07-06
 [[global-pending-queue]] --[:INCLUDES]--> [[solver-meta-threading]]  -- Remove interim splice at monad-split  @2026-07-06
+[[pattern-matching.thread]] --[:INCLUDES]--> [[redundant-match-arms]]  -- Redundant-arm diagnostic gap  @2026-07-07
+[[redundant-match-arms]] --[:EXTENDS]--> [[exhaustiveness-checking]]  -- Redundancy half: an irrefutable arm shadows the rest; a diagnostic, not a typing concern  @2026-07-07
+[[redundant-match-arms]] --[:RELIES_ON]--> [[pattern-matching-compilation]]  -- Redundancy is latent in the Maranget tree: an unreachable clause never becomes a leaf  @2026-07-07
+[[redundant-match-arms]] --[:RELIES_ON]--> [[structural-records]]  -- Fixed rows / no width subtyping ⇒ extra record arms are redundancy, not shape dispatch  @2026-07-07
+[[redundant-match-arms]] --[:CONSTRAINS]--> [[bidirectional-checking]]  -- Scrutinee inference keeps every arm's fields; no reachability pruning of the type  @2026-07-07
+[[redundant-match-arms]] --[:CONTRASTS_WITH]--> [[variant-types]]  -- Variants dispatch on a runtime tag; record arms have no discriminant  @2026-07-07
+[[redundant-match-arms]] --[:APPLIES_TO]--> [[match]]  -- Arms of a match expression  @2026-07-07
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[match-merge-block-params]]  -- Match merge threaded via block parameters  @2026-07-07
+[[match-merge-block-params]] --[:FIXES]--> [[codegen-correctness-gaps]]  -- Match join-block scoping was a MIR merge-threading defect, not a codegen gap  @2026-07-07
+[[match-merge-block-params]] --[:RELIES_ON]--> [[pattern-matching-compilation]]  -- Switch/case/join decision-tree lowering  @2026-07-07
+[[match-merge-block-params]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]  -- Emitted by the bridge switch lowering  @2026-07-07
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[meta-collection-zonker]]  -- Residual let-poly escape via row-tail collection  @2026-07-07
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[meta-collection-zonker]]  -- Generalization collector zonker-consistency  @2026-07-07
+[[meta-collection-zonker]] --[:EXTENDS]--> [[letpoly-implicit-escape]]  -- Same over-generalization family; distinct root in row-tail meta collection  @2026-07-07
+[[meta-collection-zonker]] --[:APPLIES_TO]--> [[generalization]]  -- The collector feeds generalization  @2026-07-07
+[[pipeline-bug-squashing.session]] --[:PRODUCED]--> [[match-merge-block-params]]  -- Bridge merge-params fix  @2026-07-07
+[[pipeline-bug-squashing.session]] --[:PRODUCED]--> [[meta-collection-zonker]]  -- Collector zonker fix  @2026-07-07
+[[pipeline-bug-squashing.session]] --[:PRODUCED]--> [[redundant-match-arms]]  -- Design note from the same sweep  @2026-07-07
+[[pipeline-bug-squashing.session]] --[:INFORMS]--> [[codegen-correctness-gaps]]  -- Reclassified + resolved the match-join-scoping symptom  @2026-07-07
+[[sessions.hub]] --[:INCLUDES]--> [[pipeline-bug-squashing.session]]  -- Recorded pair-programming session  @2026-07-07
+
+[[label-refinement-verification.session]] --[:RESOLVED]--> [[checking-path-label-unbound]]  -- Elaboration self-referencing struct checking fixed  @2026-07-08
+[[label-refinement-verification.session]] --[:RESOLVED]--> [[ivl-label-translation]]  -- Verification label translation fixed  @2026-07-08
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[verification-label-scope]]  -- Sibling-label scope invariant  @2026-07-08
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[record-refinement-false-valid.bug]]  -- Pre-existing discharge bug surfaced  @2026-07-08
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[label-context-trichotomy]]  -- Design concern noted  @2026-07-08
+[[sessions.hub]] --[:INCLUDES]--> [[label-refinement-verification.session]]  -- Recorded pair-programming session  @2026-07-08
+[[verification-label-scope]] --[:RESOLVES]--> [[ivl-label-translation]]  -- Boundary collection closes the label-translation gap  @2026-07-08
+[[verification-label-scope]] --[:MIRRORS]--> [[label-lookup]]  -- Verification analogue of elaboration's row-walk label context  @2026-07-08
+[[verification-label-scope]] --[:APPLIES_TO]--> [[refinement-types]]  -- Refinements referencing sibling fields  @2026-07-08
+[[verification-label-scope]] --[:APPLIES_TO]--> [[sigma-types]]  -- Record boundaries opened during checking and subtyping  @2026-07-08
+[[verification-backend.thread]] --[:INCLUDES]--> [[verification-label-scope]]  -- Sibling-label scope mechanism  @2026-07-08
+[[row-types.thread]] --[:INCLUDES]--> [[verification-label-scope]]  -- Row-boundary label collection in verification  @2026-07-08
+[[record-refinement-false-valid.bug]] --[:EXTENDS]--> [[quantifier-instantiation-boundary]]  -- Instance of the MBQI residual gap on guarded refinement obligations  @2026-07-08
+[[record-refinement-false-valid.bug]] --[:AFFECTS]--> [[vc-validity-discharge]]  -- A redundant true conjunct flips the verdict  @2026-07-08
+[[record-refinement-false-valid.bug]] --[:APPLIES_TO]--> [[refinement-types]]  -- Refinement over a record field  @2026-07-08
+[[verification-backend.thread]] --[:INCLUDES]--> [[record-refinement-false-valid.bug]]  -- Pre-existing false-valid discharge bug  @2026-07-08
+[[global-pending-queue]] --[:INCLUDES]--> [[record-refinement-false-valid.bug]]  -- Deferred solver/discharge bug  @2026-07-08
+[[label-context-trichotomy]] --[:CONCERNS]--> [[label-lookup]]  -- ctx.labels resolution during elaboration  @2026-07-08
+[[label-context-trichotomy]] --[:CONCERNS]--> [[sigma-bindings]]  -- ctx.sigma resolution during NbE  @2026-07-08
+[[global-pending-queue]] --[:INCLUDES]--> [[label-context-trichotomy]]  -- Deferred context-consolidation review  @2026-07-08

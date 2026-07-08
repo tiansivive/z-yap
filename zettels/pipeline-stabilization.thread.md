@@ -73,6 +73,17 @@ invisible when each pass was tested in isolation._
 14. **String dispatch float/record defect** [[string-dispatch-float-record-bug]] — bug, deferred
     Literal/general dispatch via stringification misrepresents floats and records. Variant tags are unaffected because they dispatch on atom symbols in `__tag`.
 
+15. ~~**Match merge block params** [[match-merge-block-params]] — bugfix, **implemented**~~
+    The bridge threaded each arm result through a shared case-block-local variable and a
+    parameterless jump into a paramless join, leaving it out of scope at the join. Fixed: the
+    jump carries the arm result as an argument and the join binds it as a block parameter. Also
+    resolves the codegen match join-block scoping symptom ([[codegen-correctness-gaps]]).
+
+16. ~~**block-proj over-generalization** [[meta-collection-zonker]] — bugfix, **implemented**~~
+    Residual of item 2: `collectMetasEB` skipped the zonker for row-tail metas, so an
+    already-generalized row meta from an unused inner `let` was re-quantified onto the enclosing
+    block. Fixed: the collector resolves row-tail metas through the zonker like every other position.
+
 <!-- connections:start -->
 
 ## Connections

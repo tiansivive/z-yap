@@ -82,8 +82,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 ## GRAM record/label deferred work (PR #9, 2026-07-03)
 
-- [ ] [[checking-path-label-unbound]] — upstream: annotated struct with a `:label` field throws `Unbound label` on the `[struct, Sigma]` check path; unannotated form resolves. Blocks the tour's self-referencing-fields case
-- [ ] [[ivl-label-translation]] — upstream: a `:label` in refinement arithmetic reaches IVL formula synthesis with no `Label` case (`verification/V2/synth.ts`)
+- [x] [[checking-path-label-unbound]] — resolved 2026-07-08 (PR #14): `[struct, Sigma]` re-check threads the inferred value row into `ctx.sigma`; `traverseRow` constrains the label meta to the declared type
+- [x] [[ivl-label-translation]] — resolved 2026-07-08 (PR #14): sibling-label scope at record boundaries ([[verification-label-scope]]) + `term()` label resolution
 - [ ] [[knot-eager-capture-invariant]] — enforce capture-after-allocation: reject eager refs to backpatched fields (or route through the knotted phase); belongs with codata/ν-records
 - [ ] [[coinduction-typing-vs-lowering]] — decide where productivity lives: `ν` types in the type system vs a productivity check at GRAM lowering
 - [ ] [[gram-label-resolution-pass]] — replace the hand-rolled scope descent with a declarative LoGRAM/Datalog query (see [[logram]])
@@ -95,6 +95,11 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[instantiate-any-default]] — needs design discussion: does an unconstrained meta default to `Any` or generalize? `Any` has no unification semantics; decide its role before removing the default
 - [ ] [[solver-meta-threading]] — remove the interim `rows.ts` reader-splice once metas move onto threaded State ([[monad-split]])
 - [ ] [[codegen-correctness-gaps]] — deferred backend emitter/erasure bugs (match join-block scoping, positional `.0` access, type-leak-to-runtime); MIR is correct, so semantics are unaffected
+
+## Label fixes follow-ups (2026-07-08)
+
+- [ ] [[record-refinement-false-valid.bug]] — symbolic record-field refinement (`n > n`) discharged as false-valid; MBQI leaves `v=n` residual and a redundant `∧ (= n n)` conjunct flips the verdict vs the scalar analogue
+- [ ] [[label-context-trichotomy]] — consolidate or clarify the `ctx.labels` / `ctx.sigma` / `ctx.record` split (dead `extendRecord` helper; overlapping resolution roles)
 
 <!-- connections:start -->
 

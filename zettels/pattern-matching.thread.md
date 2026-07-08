@@ -49,6 +49,11 @@ checking is the next frontier alongside the implemented lowering passes.
 9. **Typed dispatch equality** [[typed-dispatch-equality]] — deferred
    Dispatch comparison should eventually be elaboration-resolved equality evidence, not backend stringification.
 
+10. **Redundant match arms** [[redundant-match-arms]] — needs-design
+    An irrefutable earlier arm shadows every later arm. The scrutinee-type merge is faithful
+    inference, so the fix is a redundancy diagnostic, not a typing change — and redundancy is
+    already derivable from the Maranget tree.
+
 <!-- connections:start -->
 
 ## Connections

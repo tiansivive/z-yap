@@ -2210,3 +2210,94 @@ ENQUEUE [[solver-meta-threading]] — remove the interim splice when [[monad-spl
 [[variant-match-generalization.session]] --[:PRODUCED]--> [[codegen-correctness-gaps]]
 [[variant-match-generalization.session]] --[:INFORMS]--> [[generalization]]  -- Transitive kind collection
 [[variant-match-generalization.session]] --[:INFORMS]--> [[agent-guidelines-zettelization]]  -- debugging.mdc + communication.mdc sharpening
+
+## Session: Multi-arm struct match — redundancy, not a semantics or merge bug — @2026-07-07 [pattern, elaboration, inference, row-types, lowering, gram, mir, diagnostics, zettelkasten]
+
+A correctness re-scan of the explorer's built-in snippets (judging output, not just liveness, across parse → elaborate → NF → GRAM → MIR) found `nested-match` — `\x -> match x | { foo: {y}, bar: f } -> f y | { z: {w} } -> w` — lowers to only its first arm: no dispatch node, the second arm absent from MIR though both `case` nodes survive in GRAM. Worked through in discussion: this is **not** shape dispatch (records are products with fixed rows and no width subtyping, so nothing at runtime distinguishes the shapes — [[structural-records]]), and **not** a merge bug — the scrutinee-type intersection requiring `foo`, `bar`, and `z` is faithful inference, reflecting the fields the code is written to read; pruning `z` because its arm is dead would make signatures depend on a liveness analysis. The single defect is a **missing redundancy diagnostic**: an irrefutable earlier arm shadows every later arm, and that fact is already latent in the Maranget decision tree (an unreachable clause never becomes a leaf, which is why it drops during lowering — [[pattern-matching-compilation]]). Faithful, non-pruning inference also buys stability: making an earlier arm refutable promotes a shadowed arm to live without changing the scrutinee type, so a reachability edit carries no blast radius through callers. Recorded the reframe and the faithfulness/stability principle as a zettel under [[exhaustiveness-checking]]'s needs-design redundancy half. The sibling `block-proj` over-generalization finding from the same re-scan is held for a later session.
+
+### Spawned
+
+SPAWN [[redundant-match-arms]] — redundancy is a diagnostic layered on faithful inference; irrefutable arm shadows the rest; stability under refutability edits
+
+### Edges
+
+[[pattern-matching.thread]] --[:INCLUDES]--> [[redundant-match-arms]]
+[[redundant-match-arms]] --[:EXTENDS]--> [[exhaustiveness-checking]]  -- Redundancy half; diagnostic, not typing
+[[redundant-match-arms]] --[:RELIES_ON]--> [[pattern-matching-compilation]]  -- Unreachable clause never becomes a leaf
+[[redundant-match-arms]] --[:RELIES_ON]--> [[structural-records]]  -- Fixed rows / no width subtyping ⇒ redundancy not dispatch
+[[redundant-match-arms]] --[:CONSTRAINS]--> [[bidirectional-checking]]  -- No reachability pruning of the scrutinee type
+[[redundant-match-arms]] --[:CONTRASTS_WITH]--> [[variant-types]]  -- Variants dispatch on a runtime tag
+[[redundant-match-arms]] --[:APPLIES_TO]--> [[match]]
+
+## Session: Pipeline bug-squashing — MIR match-merge params + generalization zonker-consistency @2026-07-07 [pattern, lowering, mir, gram, bridge, elaboration, generalization, bugfix, debugging, zettelkasten]
+
+A correctness re-sweep of the explorer's 19 built-in snippets (judging output, not liveness, across elaborate → NF → GRAM → MIR) surfaced two defects, both fixed. (1) **MIR match merge:** the GRAM→MIR bridge threaded each arm's result through a shared case-block-local variable and a parameterless jump into a paramless join, so the join's read (`match1` at `join3`) was out of scope. Fixed in `bridge/decisions.ts` to use the IR's block-parameter/jump-argument mechanism — each case/default jumps `join(val)` and the join binds `resultVar` as its parameter. This also resolves the codegen "match join-block scoping" symptom: codegen already lowers block params to a hoisted function-scoped mutable, so the emitted merge is now in scope — reclassifying that symptom as a MIR-generation defect, not a codegen gap. (2) **block-proj over-generalization:** `collectMetasEB` collected a row-tail `Meta` without consulting the zonker, unlike its own `Var` case and the NF collector, so an already-generalized row meta from an unused inner `let` was re-collected and re-quantified, giving a unit-returning block the type `Π(r: Row) => Unit`. Fixed by resolving row-tail metas through the zonker; root-caused with runtime instrumentation, regression coverage in `polymorphism.test.ts`. Also this session: the `redundant-match-arms` design note (product-match redundancy is a diagnostic, not a semantics/merge bug), the PR #12 review response (`expandKinds` → `Annotations.closeOver`, narration comments removed), and a typescript-eslint 8.4→8.62 bump that surfaced pre-existing type-aware lint debt (suppressions baseline regenerated). Full suite green (845), typecheck + lint clean; 15 match-related snapshots updated for the merge-param threading.
+
+### Spawned
+
+SPAWN [[match-merge-block-params]] — merge threading via block parameters; also resolves the codegen match-join symptom
+SPAWN [[meta-collection-zonker]] — meta collection must honor the zonker in every position, row tails included
+SPAWN [[pipeline-bug-squashing.session]] — session zettel + transcript (3c204de9)
+
+### Resolved
+
+RESOLVED match join-block scoping — reclassified as a MIR merge-threading defect, fixed via [[match-merge-block-params]]
+RESOLVED block-proj over-generalization — [[meta-collection-zonker]]; residual of [[letpoly-implicit-escape]]
+
+### Updates
+
+- [[codegen-correctness-gaps]] — down to two genuine codegen gaps (positional access, type-leak); match-join-scoping reclassified + resolved.
+- [[pipeline-stabilization.thread]] — items 15 (match merge params) and 16 (block-proj) added, implemented.
+- [[pulse]] — Pipeline Stabilization and Elaboration V2 paragraphs updated.
+
+### Edges
+
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[match-merge-block-params]]
+[[match-merge-block-params]] --[:FIXES]--> [[codegen-correctness-gaps]]
+[[match-merge-block-params]] --[:RELIES_ON]--> [[pattern-matching-compilation]]
+[[match-merge-block-params]] --[:APPLIES_TO]--> [[gram-to-mir-bridge]]
+[[meta-collection-zonker]] --[:EXTENDS]--> [[letpoly-implicit-escape]]
+[[meta-collection-zonker]] --[:APPLIES_TO]--> [[generalization]]
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[meta-collection-zonker]]
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[meta-collection-zonker]]
+[[pipeline-bug-squashing.session]] --[:PRODUCED]--> [[match-merge-block-params]]
+[[pipeline-bug-squashing.session]] --[:PRODUCED]--> [[meta-collection-zonker]]
+[[sessions.hub]] --[:INCLUDES]--> [[pipeline-bug-squashing.session]]
+
+## Session: Label fixes — self-referencing struct checking + refinement label translation — @2026-07-08 [verification, elaboration, row-types, dependent, refinement, label, sigma, checking, bugfix, zettelkasten]
+
+Fixed two related `:label` defects and merged them as PR #14. **Elaboration:** a struct with a self-referencing computed field (`{ width, height, area: :width * :height }`) annotated with a record type failed to check — record-type annotations elaborate unconditionally to a `Σ`, and the `[struct, Sigma]` re-check evaluated field values in a context lacking the sibling bindings (throwing "Unbound label"), while `traverseRow`'s per-field `value ~~ meta` constraint pinned each label meta to a concrete field value that then collided with the sibling's typed use ("Cannot unify 20 with Num", exposed only once labels resolved). Threading the inferred value row into `ctx.sigma` for the re-check, plus constraining the label meta to the field's declared type rather than its value, resolved both (the constraint change was the user's; the sigma-threading mine). **Verification:** a `:label` in a refinement reached IVL translation unresolved and threw; the fix establishes the sibling-label scope at every record boundary (`withRowLabels`, the verification analogue of elaboration's row-walk label context — applied in subtype's `contains` and threaded left-to-right in `synthStructRow`) and resolves a surviving label to its concrete sibling value via `ctx.sigma` or a logical constant of the field's sort. Two reframings, not fixes: the `traverseRow` "three overrides" are the elaborator's uniform fresh-metas-per-judgment discipline reconciled by unification (deliberate — a single upfront pass would couple every dispatch case), and the correct locus for label collection is the record boundary that *has* the row, not the translation leaf (`[Modal,Modal]` subtyping is a pure consumer with no row in hand). A pre-existing solver/discharge bug surfaced and was confirmed on `main` via stash: a symbolic record-field refinement (`n > n`) discharges as false-valid, with MBQI leaving `v = n` residual and a redundant `∧ (= n n)` conjunct flipping the verdict versus the correctly-rejected scalar analogue. Design concern noted: the `ctx.labels` / `ctx.sigma` / `ctx.record` trichotomy.
+
+### Spawned
+
+SPAWN [[verification-label-scope]] — sibling-label scope re-established at record boundaries; verification analogue of `withLabelContext`
+SPAWN [[record-refinement-false-valid.bug]] — pre-existing false-valid discharge of symbolic record-field refinements
+SPAWN [[label-context-trichotomy]] — design concern: three overlapping label-resolution maps
+SPAWN [[label-refinement-verification.session]] — session zettel (transcript UUID pending)
+
+### Resolved
+
+RESOLVED [[checking-path-label-unbound]] — sigma-threaded `[struct, Sigma]` re-check + declared-type constraint in `traverseRow`
+RESOLVED [[ivl-label-translation]] — sibling-label scope at record boundaries + `term()` label resolution
+
+### Enqueued
+
+ENQUEUE [[record-refinement-false-valid.bug]] — solver/discharge bug; likely lives under [[quantifier-instantiation-boundary]]
+ENQUEUE [[label-context-trichotomy]] — consolidate/clarify labels/sigma/record
+
+### Updates
+
+- [[checking-path-label-unbound]], [[ivl-label-translation]] — marked resolved (bugfix), added PR #14 refs + resolution notes; corrected the stale `synth.ts` locus on the latter.
+- [[pulse]] — Verification Backend, Row Types, Pipeline Stabilization paragraphs updated.
+
+### Edges
+
+[[label-refinement-verification.session]] --[:RESOLVED]--> [[checking-path-label-unbound]]
+[[label-refinement-verification.session]] --[:RESOLVED]--> [[ivl-label-translation]]
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[verification-label-scope]]
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[record-refinement-false-valid.bug]]
+[[label-refinement-verification.session]] --[:PRODUCED]--> [[label-context-trichotomy]]
+[[verification-label-scope]] --[:RESOLVES]--> [[ivl-label-translation]]
+[[verification-label-scope]] --[:MIRRORS]--> [[label-lookup]]
+[[record-refinement-false-valid.bug]] --[:EXTENDS]--> [[quantifier-instantiation-boundary]]
+[[record-refinement-false-valid.bug]] --[:AFFECTS]--> [[vc-validity-discharge]]

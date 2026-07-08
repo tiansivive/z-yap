@@ -158,6 +158,7 @@ Record of every tag and connection label used in this ZK. This is **descriptive,
 | `ast` | Abstract syntax trees, term representations |
 | `display` | Pretty printing, rendering, human-readable output |
 | `error-handling` | Error types, causes, propagation |
+| `diagnostics` | Compiler-surfaced messages about the user's program: errors, warnings, exhaustiveness/redundancy/coverage reports |
 | `tracing` | Provenance, breadcrumbs, diagnostic context |
 | `monad` | Monadic abstractions, V2 Do notation |
 | `representation` | The choice of data structure or encoding for a domain value |
