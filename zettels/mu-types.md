@@ -28,6 +28,9 @@ See mu-type-unification for the specific equality-checking strategy. See equirec
 
 ## Connections
 
+**Outgoing**
+- USES → [[neutrals]] — Folded recursive values stay sealed until an explicit unfolding consumer inspects them
+
 **Incoming**
 - [[unification]] ← USES — Unfolds mu during structural comparison
 - [[equirecursive-types]] ← EXTENDS — Beyond simple unfolding

@@ -38,5 +38,6 @@ Enforcing the invariant — reject eager references to backpatched fields, or ro
 - [[pipeline-stabilization.thread]] ← INCLUDES — PR #9 review follow-up
 - [[recursive-struct-binding]] ← RELIES_ON — The knot is correct only if capture follows allocation
 - [[label-cycle-guardedness]] ← REVEALS — Admitting mixed eager+guarded cycles exposes the gap
+- [[nu-on-rows]] ← CONSTRAINS — Admitting constructor-guarded cycles requires enforcing allocate-before-capture
 
 <!-- connections:end -->

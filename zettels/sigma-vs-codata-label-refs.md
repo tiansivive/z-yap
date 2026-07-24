@@ -46,5 +46,7 @@ The key design tension: a single `:label` syntax is simpler for users but confla
 - [[recursion.thread]] ← DOCUMENTS — Knowledge: sigma/codata duality
 - [[design-sigma-codata-label-refs]] ← ADDRESSES — Design task for the concept
 - [[recursive-struct-binding]] ← DETAILS — Eager fixed-point side of the duality
+- [[nu-on-rows]] ← INFORMS — Dispatch becomes graph-property-driven, not sigil-driven
+- [[nu-on-rows-design.session]] ← INFORMS
 
 <!-- connections:end -->

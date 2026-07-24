@@ -3260,3 +3260,34 @@
 [[label-context-trichotomy]] --[:CONCERNS]--> [[label-lookup]]  -- ctx.labels resolution during elaboration  @2026-07-08
 [[label-context-trichotomy]] --[:CONCERNS]--> [[sigma-bindings]]  -- ctx.sigma resolution during NbE  @2026-07-08
 [[global-pending-queue]] --[:INCLUDES]--> [[label-context-trichotomy]]  -- Deferred context-consolidation review  @2026-07-08
+[[nested-refinement-outer-label-capture.bug]] --[:EXTENDS]--> [[ivl-label-translation]]  -- Direct labels translate after PR #14; a nested closure can retain an earlier blocked projection  @2026-07-23
+[[nested-refinement-outer-label-capture.bug]] --[:REVEALS]--> [[verification-label-scope]]  -- Boundary scope must reach dependencies captured before the boundary opens  @2026-07-23
+[[nested-refinement-outer-label-capture.bug]] --[:CONCERNS]--> [[label-context-trichotomy]]  -- Ambient sigma scope and captured closure environments diverge  @2026-07-23
+[[nested-refinement-outer-label-capture.bug]] --[:RELIES_ON]--> [[sigma-architecture]]  -- Nested Sigma dependencies are represented by closure capture  @2026-07-23
+[[nested-refinement-outer-label-capture.bug]] --[:APPLIES_TO]--> [[refinement-types]]  -- Liquid predicates over nested record fields  @2026-07-23
+[[verification-backend.thread]] --[:INCLUDES]--> [[nested-refinement-outer-label-capture.bug]]  -- Nested record refinement cannot produce a VC  @2026-07-23
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[nested-refinement-outer-label-capture.bug]]  -- Explorer-visible verification failure with a healthy compiler path  @2026-07-23
+[[global-pending-queue]] --[:INCLUDES]--> [[nested-refinement-outer-label-capture.bug]]  -- Deferred verification follow-up  @2026-07-23
+
+[[nu-on-rows]] --[:SPECIALIZES]--> [[nu-types]]  -- Binder concretely at kind Row, not record  @2026-07-23
+[[nu-on-rows]] --[:COMPOSES_WITH]--> [[rows-universal-substrate]]  -- Fixed point is per-row; covers Schema and Variant equally  @2026-07-23
+[[nu-on-rows]] --[:ADDRESSES]--> [[coinduction-typing-vs-lowering]]  -- Resolves the fork: guardedness is typing, regularity is lowering  @2026-07-23
+[[nu-on-rows]] --[:INFORMS]--> [[sigma-vs-codata-label-refs]]  -- Dispatch becomes graph-property-driven, not sigil-driven  @2026-07-23
+[[nu-on-rows]] --[:APPLIES_TO]--> [[label-cycle-guardedness]]  -- Typing counterpart of the lowering-time guardedness gate  @2026-07-23
+[[nu-on-rows]] --[:CONSTRAINS]--> [[knot-eager-capture-invariant]]  -- Admitting constructor-guarded cycles requires enforcing allocate-before-capture  @2026-07-23
+[[nu-on-rows]] --[:RELIES_ON]--> [[recursive-struct-binding]]  -- Knot handles guarded+regular; thunk handles guarded+non-regular  @2026-07-23
+[[nu-on-rows-design.session]] --[:PRODUCED]--> [[nu-on-rows]]  @2026-07-23
+[[nu-on-rows-design.session]] --[:INFORMS]--> [[coinduction-typing-vs-lowering]]  @2026-07-23
+[[nu-on-rows-design.session]] --[:INFORMS]--> [[sigma-vs-codata-label-refs]]  @2026-07-23
+[[sessions.hub]] --[:INCLUDES]--> [[nu-on-rows-design.session]]  @2026-07-23
+[[recursion.thread]] --[:INCLUDES]--> [[nu-on-rows]]  @2026-07-23
+[[nested-refinement-outer-label-capture.bug]] --[:MOTIVATES]--> [[neutrals]]  -- Explicit blocked eliminations distinguish resumable dependencies from symbolic unknowns and sealed row encodings  @2026-07-24
+[[neutrals]] --[:RESOLVES]--> [[neutral-semantics-dependent-regression.bug]]  -- Explicit categories preserve dependent computation at symbolic and recursive boundaries  @2026-07-24
+[[mu-types]] --[:USES]--> [[neutrals]]  -- Folded recursive values stay sealed until an explicit unfolding consumer inspects them  @2026-07-24
+[[neutral-semantics-dependent-regression.bug]] --[:REGRESSES]--> [[dependent-pattern-matching]]  -- Misclassified symbolic scrutinees select match branches prematurely  @2026-07-24
+[[pipeline-stabilization.thread]] --[:INCLUDES]--> [[neutral-semantics-dependent-regression.bug]]  -- Resolved regression in dependent computation  @2026-07-24
+[[global-pending-queue]] --[:INCLUDES]--> [[neutral-semantics-dependent-regression.bug]]  -- Resolved neutral-category audit  @2026-07-24
+[[neutral-category-completion.session]] --[:RESOLVED]--> [[neutral-semantics-dependent-regression.bug]]  @2026-07-24
+[[neutral-category-completion.session]] --[:CLARIFIES]--> [[neutrals]]  -- Constructor categories are semantic obligations, not a defaulting convenience  @2026-07-24
+[[neutral-category-completion.session]] --[:VALIDATES]--> [[semantic-assertions-with-regression-snapshots]]  -- Direct μ-category assertions and ordered-list verification retain semantic contracts  @2026-07-24
+[[sessions.hub]] --[:INCLUDES]--> [[neutral-category-completion.session]]  @2026-07-24

@@ -54,5 +54,6 @@ Hub: [[with-abstraction]], [[case-tree-elaboration]], [[match]], [[exhaustivenes
 - [[exhaustiveness-checking]] ← INFORMS — Refined types affect coverage
 - [[pattern-matching.thread]] ← INCLUDES
 - [[maplist-schema-unification]] ← APPLIES_TO — Scrutinee narrowing preserved by fix
+- [[neutral-semantics-dependent-regression.bug]] ← REGRESSES — Misclassified symbolic scrutinees select match branches prematurely
 
 <!-- connections:end -->

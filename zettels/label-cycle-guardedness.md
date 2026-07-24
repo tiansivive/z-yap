@@ -43,5 +43,6 @@ Realised as the GRAM `label-cycles` pass over the field `:refers_to` graph: a cy
 - [[recursive-struct-binding]] ← RELIES_ON — Only admitted cycles are tied
 - [[recursion.thread]] ← INCLUDES
 - [[gram-struct-labels-knot.session]] ← PRODUCED
+- [[nu-on-rows]] ← APPLIES_TO — Typing counterpart of the lowering-time guardedness gate
 
 <!-- connections:end -->

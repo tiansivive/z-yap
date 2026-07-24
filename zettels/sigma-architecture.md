@@ -39,5 +39,6 @@ The flat row representation means fields have no intrinsic ordering — `{ a: :b
 **Incoming**
 - [[sigma-quoting-field-ref]] ← GROUNDED_IN — Symbolic row mirrors Pi's Rigid(lvl) in the two-step architecture
 - [[sigma-quoting-match]] ← GROUNDED_IN — StuckMatch requires symbolic neutrals from the row abstraction
+- [[nested-refinement-outer-label-capture.bug]] ← RELIES_ON — Nested Sigma dependencies are represented by closure capture
 
 <!-- connections:end -->

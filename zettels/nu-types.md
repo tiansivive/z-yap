@@ -56,5 +56,6 @@ Related: [[mu-types]], [[equirecursive-types]], [[coinductivity]], [[bisimulatio
 - [[label-cycle-guardedness]] ← MOTIVATES — Erroring on eager codata forces value-level coinduction
 - [[knot-eager-capture-invariant]] ← DEFERS_TO — Enforcement belongs with recursive-record admission
 - [[coinduction-typing-vs-lowering]] ← MAY_RESOLVE_VIA — Option (a): productivity as a typing property
+- [[nu-on-rows]] ← SPECIALIZES — Binder concretely at kind Row, not record
 
 <!-- connections:end -->

@@ -200,6 +200,7 @@ Yap verification moved from **direct Z3 `Expr`** generation to **`IVL`** VC IR p
 - INCLUDES → [[ivl-label-translation]] — Missing Label case in formula synthesis
 - INCLUDES → [[verification-label-scope]] — Sibling-label scope mechanism
 - INCLUDES → [[record-refinement-false-valid.bug]] — Pre-existing false-valid discharge bug
+- INCLUDES → [[nested-refinement-outer-label-capture.bug]] — Nested record refinement cannot produce a VC
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

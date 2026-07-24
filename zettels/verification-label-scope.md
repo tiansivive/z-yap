@@ -20,6 +20,8 @@ The verification analogue of elaboration's row-walk binds every field of the row
 
 The key framing: the fix belongs at the boundary that *has* the row, not at the translation leaf. Refinement subtyping over two bare refined types has no row in hand — it is a pure consumer of a scope that must have been established upstream.
 
+Opening the boundary scope does not by itself recontextualize a dependency that was normalized against a symbolic enclosing record before a nested predicate closure was captured. That outer-field case requires the concrete boundary values to participate when the predicate is evaluated; see [[nested-refinement-outer-label-capture.bug]].
+
 <!-- connections:start -->
 
 ## Connections
@@ -34,5 +36,6 @@ The key framing: the fix belongs at the boundary that *has* the row, not at the 
 - [[label-refinement-verification.session]] ← PRODUCED — Sibling-label scope invariant
 - [[verification-backend.thread]] ← INCLUDES — Sibling-label scope mechanism
 - [[row-types.thread]] ← INCLUDES — Row-boundary label collection in verification
+- [[nested-refinement-outer-label-capture.bug]] ← REVEALS — Boundary scope must reach dependencies captured before the boundary opens
 
 <!-- connections:end -->

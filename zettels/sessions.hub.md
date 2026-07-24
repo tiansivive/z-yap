@@ -34,6 +34,8 @@ records what was discussed, decided, and built, with connections to affected zet
 - INCLUDES → [[variant-match-generalization.session]] — Recorded pair-programming session
 - INCLUDES → [[pipeline-bug-squashing.session]] — Recorded pair-programming session
 - INCLUDES → [[label-refinement-verification.session]] — Recorded pair-programming session
+- INCLUDES → [[nu-on-rows-design.session]]
+- INCLUDES → [[neutral-category-completion.session]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Session/transcript infrastructure

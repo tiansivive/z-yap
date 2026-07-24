@@ -116,6 +116,8 @@ invisible when each pass was tested in isolation._
 - INCLUDES → [[codegen-correctness-gaps]] — Backend correctness backlog
 - INCLUDES → [[match-merge-block-params]] — Match merge threaded via block parameters
 - INCLUDES → [[meta-collection-zonker]] — Residual let-poly escape via row-tail collection
+- INCLUDES → [[nested-refinement-outer-label-capture.bug]] — Explorer-visible verification failure with a healthy compiler path
+- INCLUDES → [[neutral-semantics-dependent-regression.bug]] — Resolved regression in dependent computation
 
 **Incoming**
 - [[length-recursive-debruijn]] ← DISCOVERED_BY

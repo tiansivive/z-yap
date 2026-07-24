@@ -57,5 +57,6 @@ OCaml's call-by-value `let rec` makes the same trade: it admits guarded recursiv
 - [[pipeline-stabilization.thread]] ← INCLUDES
 - [[recursion.thread]] ← INCLUDES
 - [[gram-struct-labels-knot.session]] ← PRODUCED
+- [[nu-on-rows]] ← RELIES_ON — Knot handles guarded+regular; thunk handles guarded+non-regular
 
 <!-- connections:end -->

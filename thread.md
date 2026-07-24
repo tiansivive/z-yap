@@ -2301,3 +2301,145 @@ ENQUEUE [[label-context-trichotomy]] — consolidate/clarify labels/sigma/record
 [[verification-label-scope]] --[:MIRRORS]--> [[label-lookup]]
 [[record-refinement-false-valid.bug]] --[:EXTENDS]--> [[quantifier-instantiation-boundary]]
 [[record-refinement-false-valid.bug]] --[:AFFECTS]--> [[vc-validity-discharge]]
+
+## Session: Nested dependent struct verification — @2026-07-23 [verification, refinement, label, dependent, row-types, normalization, closure, debugging, zettelkasten]
+
+The explorer's nested dependent-record snippet elaborates, normalizes, lowers, and code-generates correctly, but verification cannot produce a VC. The failure is neither the PR #14 label-translation gap nor a solver verdict: a liquid refinement in the inner record depends on an outer record field, and sigma formation captures the resulting symbolic projection as a neutral application of the evaluator's synthetic projection lambda. Verification later opens a concrete sibling scope containing the enclosing record, but applying the captured refinement closure reads the earlier neutral instead, so IVL function translation receives a lambda-headed application and throws “Not a function.” Single-level dependent records and nested records whose dependency stays within the inner row verify; a bare outward projection carries no generated equality predicate, while arithmetic over that projection triggers the failure. The boundary invariant is therefore sharpened: concrete record scope must reach dependencies that were captured before a nested refinement is evaluated.
+
+### Spawned
+
+SPAWN [[nested-refinement-outer-label-capture.bug]] — outer field dependency in a nested liquid predicate freezes as a blocked projection
+
+### Enqueued
+
+ENQUEUE [[nested-refinement-outer-label-capture.bug]] — preserve outer-record values when nested refinement closures are evaluated
+
+### Updates
+
+- [[ivl-label-translation]] — PR #14's resolved scope is distinguished from a captured-projection extension.
+- [[verification-label-scope]] — boundary scope requires closure recontextualization for this case.
+- [[pulse]] — Pipeline Stabilization now records the residual nested refinement failure.
+
+### Edges
+
+[[nested-refinement-outer-label-capture.bug]] --[:EXTENDS]--> [[ivl-label-translation]]  -- Direct label translation and captured projections are distinct failure stages
+[[nested-refinement-outer-label-capture.bug]] --[:REVEALS]--> [[verification-label-scope]]  -- A concrete boundary context must reach captured dependencies
+[[nested-refinement-outer-label-capture.bug]] --[:CONCERNS]--> [[label-context-trichotomy]]  -- Ambient scope and captured closures expose different label values
+
+### Design follow-up
+
+The existing synthetic-lambda encoding of blocked projections/matches is now the leading representation concern. Closure capture remains semantically necessary for a blocked match's motive and branch bodies; removing it would introduce dynamic rather than lexical scope. The candidate is an explicit neutral-elimination form that carries its blocking base/scrutinee, while Sigma application explicitly reifies and re-evaluates, or substitutes, the deferred row argument under the concrete record. Crucially, the current `Neutral` wrapper also seals canonical row encodings (`Neutral(App(Atom, Row))`), which `force` intentionally exposes at weak head for structural consumers. The right direction is therefore not “leave all neutrals wrapped,” but a structured weak-head view that resolves metas, exposes known row constructors, and treats a projection/case blocker as terminal—avoiding the synthetic-lambda re-entry in quote/unification. A separate `Blocked` scheduling status may identify what could unblock (meta or row parameter), but is not a second semantic category alongside neutrals. This is recorded as an unresolved design lead on [[nested-refinement-outer-label-capture.bug]], not an implementation plan.
+
+## Session: ν-on-rows design — @2026-07-23 [type-system, row-types, recursion, codata, elaboration, lowering, language]
+
+Design discussion establishing that the coinductive fixed point belongs on the row, not the record. `ν ρ. R` with ρ restricted to field-type position under `Schema ρ` / `Variant ρ` — the row analogue of positivity and the tractable equirecursive fragment. Key framing: guardedness and regularity are orthogonal discriminators on the label graph. Guardedness (does every cycle pass a lambda guard?) is a typing property that ν formalises — a well-typed inhabitant of `Schema(ν ρ. R)` is productive by construction. Regularity (does the infinite unfolding produce finitely many distinct subterms?) is a lowering-time choice: guarded+regular → knot (memory cycle, already implemented); guarded+non-regular → thunk cells. This dissolves the typing-vs-lowering fork — the two checks were never in competition. Elaboration dispatch for `:label` also reframes: acyclic references elaborate as sigma (telescope, deferred), cyclic+guarded elaborate under ν, unguarded are errors — graph-property-driven rather than sigil- or context-driven, partially dissolving the surface ambiguity without requiring a syntax split.
+
+### Spawned
+
+SPAWN [[nu-on-rows]] — ν fixed point at kind Row; occurrence restriction; guardedness/regularity split; resolution of both open forks
+SPAWN [[nu-on-rows-design.session]] — session zettel
+
+### Edges
+
+[[nu-on-rows]] --[:SPECIALIZES]--> [[nu-types]]  -- Binder concretely at kind Row, not record  @2026-07-23
+[[nu-on-rows]] --[:COMPOSES_WITH]--> [[rows-universal-substrate]]  -- Fixed point is per-row; covers Schema and Variant equally  @2026-07-23
+[[nu-on-rows]] --[:ADDRESSES]--> [[coinduction-typing-vs-lowering]]  -- Resolves the fork: guardedness is typing, regularity is lowering  @2026-07-23
+[[nu-on-rows]] --[:INFORMS]--> [[sigma-vs-codata-label-refs]]  -- Dispatch becomes graph-property-driven, not sigil-driven  @2026-07-23
+[[nu-on-rows]] --[:APPLIES_TO]--> [[label-cycle-guardedness]]  -- Typing counterpart of the lowering-time guardedness gate  @2026-07-23
+[[nu-on-rows]] --[:CONSTRAINS]--> [[knot-eager-capture-invariant]]  -- Admitting constructor-guarded cycles requires enforcing allocate-before-capture  @2026-07-23
+[[nu-on-rows]] --[:RELIES_ON]--> [[recursive-struct-binding]]  -- Knot handles guarded+regular; thunk handles guarded+non-regular  @2026-07-23
+[[nu-on-rows-design.session]] --[:PRODUCED]--> [[nu-on-rows]]  @2026-07-23
+[[nu-on-rows-design.session]] --[:INFORMS]--> [[coinduction-typing-vs-lowering]]  @2026-07-23
+[[nu-on-rows-design.session]] --[:INFORMS]--> [[sigma-vs-codata-label-refs]]  @2026-07-23
+[[sessions.hub]] --[:INCLUDES]--> [[nu-on-rows-design.session]]  @2026-07-23
+[[recursion.thread]] --[:INCLUDES]--> [[nu-on-rows]]  @2026-07-23
+
+## Session: Neutral categories and nested dependent-record verification — @2026-07-24 [normalization, nbe, verification, refinement, dependent, row-types, label, unification, debugging, zettelkasten]
+
+Yap's overloaded neutral wrapper is now a three-way semantic classification: `Symbolic` identifies unknown-headed values, `Sealed` protects canonical row encodings, and `Blocked` represents projection, injection, or match as an explicit residual elimination. This removes the synthetic lambda-app representation that had frozen a symbolic outer-label projection in a nested liquid predicate. Resuming the blocked projection in the verifier's concrete Sigma scope reduces it to the field value, so the dependent-struct explorer snippet produces an IVL obligation and discharges as valid. The PR #15 review then made the consumer boundary explicit: verification code uses `view` to require sealed structural values, and unification tests whether a blocked match remains blocked rather than comparing object references.
+
+### Resolved
+
+RESOLVED [[nested-refinement-outer-label-capture.bug]] — explicit blocked eliminations resume outer-record projections in concrete Sigma scope
+
+### Updates
+
+- [[neutrals]] — replaced the synthetic-lambda account with Symbolic / Sealed / Blocked roles and the `force` / `view` consumption boundary.
+- [[nested-refinement-outer-label-capture.bug]] — marked resolved and implemented; preserved lexical closures for blocked match branches.
+- [[pulse]] — Pipeline Stabilization and Verification Backend narratives reflect valid nested dependent-record verification.
+
+### Edges
+
+[[nested-refinement-outer-label-capture.bug]] --[:MOTIVATES]--> [[neutrals]]  -- Explicit residual eliminations resolve the captured-projection defect  @2026-07-24
+
+## Session: Resume-step distinction — @2026-07-24 [normalization, nbe, unification, semantics, debugging, zettelkasten]
+
+The final neutral category cannot reveal whether a blocked computation advanced: a match can select a branch and yield a different blocked projection. `resume` therefore has an `Option` result as its one-step contract. `None` means no reduction rule applies in the present context; `Some(next)` records a semantic transition even when `next` remains blocked. `force` recursively consumes those steps, while unification consumes the same result rather than comparing references or inferring history from `view`.
+
+### Updates
+
+- [[neutrals]] — distinguished one-step resume progress from the final semantic category of a value.
+
+## Session: Neutral consumer review follow-up — @2026-07-24 [normalization, nbe, unification, verification, review]
+
+Follow-up PR review clarified the consumer boundary without changing the neutral design: unification again treats a blocked match as resumable only when its one-step `resume` result is `Some`, otherwise allowing the normal matcher to continue. Verification takes one `view` of its expected type and pattern-matches the semantic payload only after the view is `Sealed`; this removes repeated wrapper-level alternatives while preserving the original branch precedence: in particular, sealed μ-unfolding remains before match checking, and non-sealed values retain the view-independent `Mu` and `Match` cases. The one removed lint suppression corresponds to a genuinely deleted unused Sigma-closure binding.
+
+### Updates
+
+- [[neutrals]] — consumer sites now use the `resume` and `view` boundaries directly and locally.
+
+## Session: Snapshot boundary audit — @2026-07-24 [testing, snapshot-testing, elaboration, integration, regression]
+
+The neutral-category change exposed 41 failing raw elaboration `structure` snapshots while their corresponding `displays` snapshots and direct checks remained stable. The duplicate snapshots are representation churn, not source-visible regression. `displays` preserves the elaborated term, inferred type, and rendered constraints; raw `structure` additionally exposes metas, typed terms, and evaluator-level values. Therefore raw snapshots should be retained only when a test intentionally protects one of those non-display invariants, ideally through a small explicit shape assertion. The nested dependent-struct integration test now states its fixed contract directly: no error, a non-empty IVL obligation, and a `valid` verification verdict, while retaining its broader pipeline snapshot for review.
+
+### Updates
+
+- [[semantic-assertions-with-regression-snapshots]] — distinguished redundant raw-structure snapshots from genuinely non-display implementation contracts.
+
+## Session: Neutral semantics regression localization — @2026-07-24 [normalization, dependent, pattern-matching, unification, debugging, regression]
+
+The five failing dependent tests are not failures on `main`: `v0.6.0-alpha.5`, PR #14's two commits, and merge `dd79f04` all pass the three affected files, agreeing with their green GitHub CI runs. The first commit on PR #15, `a9752e2`, reproduces all five failures and later PR commits preserve them. This establishes the change boundary but not the root cause, because the introducing commit jointly changes evaluator, quote, generalisation, metavariable, unification, and verifier code. The failure must be isolated before a repair is selected.
+
+### Enqueued
+
+ENQUEUE [[neutral-semantics-dependent-regression.bug]] — isolate the semantic transition behind the five dependent match/vector regressions
+
+### Edges
+
+[[neutral-semantics-dependent-regression.bug]] --[:CONCERNS]--> [[neutrals]]  -- Explicit neutral categories must retain prior dependent computation behaviour  @2026-07-24
+[[neutral-semantics-dependent-regression.bug]] --[:REGRESSES]--> [[dependent-pattern-matching]]  -- Existing dependent match cases fail from `a9752e2`  @2026-07-24
+
+## Session: Dependent-match regression mechanism — @2026-07-24 [normalization, nbe, dependent, pattern-matching, debugging, regression]
+
+The PR #15 failures all occur because `view` classifies stable symbolic unknowns as sealed. Its call to `force` strips `Neutral(Symbolic, Var Bound)` and `Neutral(Symbolic, Var Label)` to raw variables, and `view` then assigns the default `Sealed` status. The evaluator consequently runs ordinary pattern selection on a rigid Pi argument, a symbolic Sigma label, or a rigid vector index. A wildcard/binder arm may therefore commit prematurely, while literal-only alternatives can exhaust. This produces the Num/String mismatch, the false-negative invalid-alternative test, the shift/reset downstream failure, the unresolved `:fst` match, and the `L1` arithmetic error. The intended boundary is narrower than “never force”: flex solutions and genuine blocked transitions still need forcing; stable symbolic heads must retain their status.
+
+A direct trial of that boundary — retain all non-flex symbolics — restored the five target tests but caused new semantic failures in polymorphic FFI/array elaboration and ordered-list refinement verification. Thus `Symbolic` still contains at least two operational cases: terminal unknown scrutinees (rigid and labels) and symbolic applications whose structural head must become inspectable. The trial was reverted without snapshot updates.
+
+### Updates
+
+- [[neutral-semantics-dependent-regression.bug]] — recorded the validated `force` / `view` classification mechanism and the remaining symbolic-app design constraint.
+
+## Session: Neutral category completion — @2026-07-24 [normalization, nbe, semantics, dependent, recursion, verification, refinement, testing, regression, zettelkasten]
+
+The neutral-category audit is complete. `Symbolic` now remains the representation of stable unknown heads under inspection; `Sealed` identifies canonical row/foreign forms and recursive μ folds; `Blocked` remains the resumable residual-elimination class. The ordered-list regression localized the important distinction between value-level dependent-record checking, where a sibling label denotes its field value, and schema subtyping, where it denotes a field type. Sealing both direct μ folds and μ-bound recursive references keeps dependent tails in the value-level path while leaving recursive unfolding explicit. Every neutral construction now names its category, and the full suite validates the repaired boundary.
+
+### Spawned
+
+SPAWN [[neutral-category-completion.session]] — durable record of the completed neutral-category audit
+
+### Resolved
+
+RESOLVED [[neutral-semantics-dependent-regression.bug]] — symbolic inspection and recursive-fold classification preserve dependent computation
+
+### Updates
+
+- [[neutrals]] — recursive μ folds are sealed; category assignment is an explicit semantic obligation.
+- [[global-pending-queue]] — neutral-category regression item marked resolved.
+- [[pulse]] — Pipeline Stabilization frontier records the completed regression repair.
+
+### Edges
+
+[[neutrals]] --[:RESOLVES]--> [[neutral-semantics-dependent-regression.bug]]  -- Explicit categories preserve dependent computation  @2026-07-24
+[[mu-types]] --[:USES]--> [[neutrals]]  -- Folded recursion remains sealed until explicit unfolding  @2026-07-24
+[[neutral-category-completion.session]] --[:RESOLVED]--> [[neutral-semantics-dependent-regression.bug]]  @2026-07-24
+[[neutral-category-completion.session]] --[:CLARIFIES]--> [[neutrals]]  @2026-07-24

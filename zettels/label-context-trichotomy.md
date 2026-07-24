@@ -32,5 +32,6 @@ The three overlap in purpose — all answer "what does this field reference reso
 **Incoming**
 - [[label-refinement-verification.session]] ← PRODUCED — Design concern noted
 - [[global-pending-queue]] ← INCLUDES — Deferred context-consolidation review
+- [[nested-refinement-outer-label-capture.bug]] ← CONCERNS — Ambient sigma scope and captured closure environments diverge
 
 <!-- connections:end -->

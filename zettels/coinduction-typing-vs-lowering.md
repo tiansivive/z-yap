@@ -42,5 +42,7 @@ The current lowering-time gate collapses both cases: every eager label cycle is 
 - [[recursion.thread]] ← INCLUDES — Open fork on productivity placement
 - [[gram-evolution.thread]] ← INCLUDES — Lowering-time option extends label-cycles
 - [[label-cycle-guardedness]] ← MOTIVATES — The lumped eager-cycle rejection is what the decision splits
+- [[nu-on-rows]] ← ADDRESSES — Resolves the fork: guardedness is typing, regularity is lowering
+- [[nu-on-rows-design.session]] ← INFORMS
 
 <!-- connections:end -->

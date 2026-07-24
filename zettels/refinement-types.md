@@ -64,5 +64,6 @@ End-to-end refinement tests live under `src/verification/__tests__/check.test.ts
 - [[dependent-contract-types]] ← INFORMS — Contract-style dependent obligations
 - [[verification-label-scope]] ← APPLIES_TO — Refinements referencing sibling fields
 - [[record-refinement-false-valid.bug]] ← APPLIES_TO — Refinement over a record field
+- [[nested-refinement-outer-label-capture.bug]] ← APPLIES_TO — Liquid predicates over nested record fields
 
 <!-- connections:end -->

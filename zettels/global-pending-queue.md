@@ -101,6 +101,14 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - [ ] [[record-refinement-false-valid.bug]] — symbolic record-field refinement (`n > n`) discharged as false-valid; MBQI leaves `v=n` residual and a redundant `∧ (= n n)` conjunct flips the verdict vs the scalar analogue
 - [ ] [[label-context-trichotomy]] — consolidate or clarify the `ctx.labels` / `ctx.sigma` / `ctx.record` split (dead `extendRecord` helper; overlapping resolution roles)
 
+## Nested refinement verification follow-up (2026-07-23)
+
+- [x] [[nested-refinement-outer-label-capture.bug]] — resolved 2026-07-24: explicit blocked eliminations resume the outer projection in concrete Sigma scope
+
+## Neutral semantics regression follow-up (2026-07-24)
+
+- [x] [[neutral-semantics-dependent-regression.bug]] — resolved 2026-07-24: explicit categories preserve symbolic scrutinees and seal recursive μ folds
+
 <!-- connections:start -->
 
 ## Connections
@@ -134,6 +142,8 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[solver-meta-threading]] — Remove interim splice at monad-split
 - INCLUDES → [[record-refinement-false-valid.bug]] — Deferred solver/discharge bug
 - INCLUDES → [[label-context-trichotomy]] — Deferred context-consolidation review
+- INCLUDES → [[nested-refinement-outer-label-capture.bug]] — Deferred verification follow-up
+- INCLUDES → [[neutral-semantics-dependent-regression.bug]] — Resolved neutral-category audit
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

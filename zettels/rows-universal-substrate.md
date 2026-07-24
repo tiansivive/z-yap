@@ -41,5 +41,6 @@ Related: [[data-declarations]], [[customizable-data-types]], [[indexing-strategi
 - [[customizable-data-types]] ← RELIES_ON — Records as base abstraction
 - [[gram-struct-node]] ← CONTRASTS_WITH — Flat value node vs row cons-list
 - [[variant-discriminant-representation.adr]] ← RELIES_ON — Runtime value remains row/struct backed
+- [[nu-on-rows]] ← COMPOSES_WITH — Fixed point is per-row; covers Schema and Variant equally
 
 <!-- connections:end -->
