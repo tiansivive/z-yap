@@ -34,5 +34,6 @@ A raw `structure` snapshot is not a default second regression artifact. When `di
 - [[testing-strategy]] ← INCLUDES — Direct assertions plus regression snapshots
 - [[neutral-category-completion.session]] ← VALIDATES — Direct μ-category assertions and ordered-list verification retain semantic contracts
 - [[default-context-substitution-aliasing.bug]] ← MOTIVATES — A direct claim about what was quantified would have caught the leak
+- [[generalized-body-display-offset.bug]] ← MOTIVATES — Snapshot-only tests hide display bugs as "passing"
 
 <!-- connections:end -->

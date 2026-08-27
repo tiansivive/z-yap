@@ -67,5 +67,6 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - [[default-context-substitution-aliasing.bug]] ← AFFECTS — A borrowed solution makes generalization skip the meta and return its input
 - [[generalization-substitution-timing.bug]] ← APPLIES_TO — Where the substitution is recorded
 - [[row-solution-dereference]] ← APPLIES_TO — Per-use instantiation of a telescope binder depends on the reference being followed
+- [[generalized-body-display-offset.bug]] ← APPLIES_TO — Generalization-introduced binders shift the display name mapping
 
 <!-- connections:end -->

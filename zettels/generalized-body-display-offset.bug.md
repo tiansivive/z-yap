@@ -48,3 +48,17 @@ The level-to-name resolution in `EB.Display.Term` (or `NF.display`) uses the clo
 ## Provenance
 
 Pre-existing on `main`. Snapshots on main already record the incorrect names. Tests pass because the assertions are snapshot-only.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- APPLIES_TO → [[generalization]] — Generalization-introduced binders shift the display name mapping
+- APPLIES_TO → [[pretty-printing]] — Display renders type-incorrect names for outer let references
+- MOTIVATES → [[semantic-assertions-with-regression-snapshots]] — Snapshot-only tests hide display bugs as "passing"
+
+**Incoming**
+- [[global-pending-queue]] ← INCLUDES
+
+<!-- connections:end -->

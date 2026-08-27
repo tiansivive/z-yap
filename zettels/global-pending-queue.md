@@ -146,6 +146,7 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[nested-refinement-outer-label-capture.bug]] — Deferred verification follow-up
 - INCLUDES → [[neutral-semantics-dependent-regression.bug]] — Resolved neutral-category audit
 - INCLUDES → [[default-context-substitution-aliasing.bug]]
+- INCLUDES → [[generalized-body-display-offset.bug]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

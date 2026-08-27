@@ -44,5 +44,6 @@ Meta vars: `options.verbose` controls `?n` vs `(? n :: ann)`; bound names come f
 - [[quoting]] ← ENABLES — NF values → readable terms
 - [[yap-explore]] ← USES — Term rendering
 - [[solver-trace]] ← USES — prettier-printer for structured output
+- [[generalized-body-display-offset.bug]] ← APPLIES_TO — Display renders type-incorrect names for outer let references
 
 <!-- connections:end -->
