@@ -16,3 +16,17 @@ refs:
 # Session: Effects-migration regression closure
 
 Triaged and resolved the remaining 6 elaboration test failures on `refactor/v3-free-monad`. Three were genuine bugs (abstract quoting order, synchronous closeVal call, missing WHNF mode), three were snapshot updates from correct behavioral changes (bubble meta resolution, block-return generalization eta-expansion). Introduced a namespaced `evalMode` reader effect with `noInlineBindings` and `noReduceEliminations` flags, exposed as `NF.Mode` and `NF.whnf`, partially addressing the long-standing [[whnf-codification]] gap. The reader factory gained a namespace parameter to support multiple coexisting reader instances. A parallel sanity audit of all 220 elaboration snapshots discovered a pre-existing display bug ([[generalized-body-display-offset.bug]]) where de Bruijn-to-name resolution in generalized let bodies is off by the count of introduced implicit binders. Verified that the freer migration's shared registry correctly propagates single-candidate bubble meta solutions, and that multi-resume with incompatible dependent types correctly rejects.
+
+<!-- connections:start -->
+
+## Connections
+
+**Outgoing**
+- PRODUCED → [[generalized-body-display-offset.bug]] — Surfaced during snapshot audit
+- FIXES → [[elaboration-monad]] — Abstract quoting order and evalMode reader
+- ADDRESSES → [[whnf-codification]] — Partial: evalMode reader with noReduceEliminations
+
+**Incoming**
+- [[sessions.hub]] ← INCLUDES
+
+<!-- connections:end -->

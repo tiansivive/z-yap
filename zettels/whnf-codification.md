@@ -33,5 +33,6 @@ Evaluation tests (`src/elaboration/normalization/__tests__/evaluation.v2.test.ts
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES
+- [[effects-migration-regression-closure.session]] ← ADDRESSES — Partial: evalMode reader with noReduceEliminations
 
 <!-- connections:end -->

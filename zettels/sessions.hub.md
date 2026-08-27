@@ -37,6 +37,7 @@ records what was discussed, decided, and built, with connections to affected zet
 - INCLUDES → [[label-refinement-verification.session]] — Recorded pair-programming session
 - INCLUDES → [[nu-on-rows-design.session]]
 - INCLUDES → [[neutral-category-completion.session]]
+- INCLUDES → [[effects-migration-regression-closure.session]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INCLUDES — Session/transcript infrastructure

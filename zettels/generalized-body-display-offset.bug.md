@@ -60,5 +60,6 @@ Pre-existing on `main`. Snapshots on main already record the incorrect names. Te
 
 **Incoming**
 - [[global-pending-queue]] ← INCLUDES
+- [[effects-migration-regression-closure.session]] ← PRODUCED — Surfaced during snapshot audit
 
 <!-- connections:end -->
