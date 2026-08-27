@@ -3314,3 +3314,7 @@
 [[generalized-body-display-offset.bug]] --[:APPLIES_TO]--> [[pretty-printing]]  -- Display renders type-incorrect names for outer let references  @2026-08-27
 [[generalized-body-display-offset.bug]] --[:MOTIVATES]--> [[semantic-assertions-with-regression-snapshots]]  -- Snapshot-only tests hide display bugs as "passing"  @2026-08-27
 [[global-pending-queue]] --[:INCLUDES]--> [[generalized-body-display-offset.bug]]  @2026-08-27
+[[effects-migration-regression-closure.session]] --[:PRODUCED]--> [[generalized-body-display-offset.bug]]  -- Surfaced during snapshot audit  @2026-08-27
+[[effects-migration-regression-closure.session]] --[:FIXES]--> [[elaboration-monad]]  -- Abstract quoting order and evalMode reader  @2026-08-27
+[[effects-migration-regression-closure.session]] --[:ADDRESSES]--> [[whnf-codification]]  -- Partial: evalMode reader with noReduceEliminations  @2026-08-27
+[[sessions.hub]] --[:INCLUDES]--> [[effects-migration-regression-closure.session]]  @2026-08-27
