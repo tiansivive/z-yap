@@ -2860,3 +2860,19 @@ The generalization suite's eight failing expectations were cross-test pollution,
 
 RESOLVED [[generalization-substitution-timing.bug]] — let-generalization is not blocked; commit-after-wrap stands
 ENQUEUE [[default-context-substitution-aliasing.bug]] — shared substitution aliasing, and the false greens it produced
+
+## Session: Effects-migration regression closure — @2026-08-27 [elaboration, normalization, nbe, generalization, effect, evaluation, display, regression, bugfix, zettelkasten]
+
+Three remaining regressions from the freer effects migration resolved in one commit (a39f653). (1) `abstract` quoted its body before writing the meta→Bound substitution to the registry, causing implicit applications to target the wrong binding; fix: move the registry write before the body quote. (2) `Predicate.Kind` in `liquids.ts` called the now-effectful `NF.closeVal` synchronously — the unexecuted generator object `{}` was stored as the Pi's closure; fix: make `Kind` a generator and yield the closure properly. (3) `inferReturn`'s `NF.normalize` reduced projections and matches through known values; fix: introduce a namespaced `evalMode` reader with `noInlineBindings` and `noReduceEliminations` flags, expose `NF.whnf` as the public entry, and guard Proj/Match/Inj evaluation with ts-pattern clauses. The reader factory (`Eff.reader`) gained an optional namespace parameter to avoid action-tag collision between nested reader instances. A sanity audit of all 220 elaboration snapshots (via 5 parallel reviewers) surfaced a pre-existing display bug: variable names in generalized let bodies are off-by-N (tracked as [[generalized-body-display-offset.bug]]). Single-candidate bubble metas now resolve through the shared registry's nondeterminism replay, verified correct for both single- and multi-resume cases.
+
+### Updates
+
+- [[elaboration-monad]] — abstract body quoting order fixed; evalMode reader replaces the per-frame noInlineBindings parameter
+- [[generalization]] — abstract writes substitution before quoting the body term
+- [[whnf-codification]] — partially addressed: evalMode reader with noReduceEliminations flag; NF.whnf entry exposed
+
+### Edges
+
+[[generalized-body-display-offset.bug]] --[:DISCOVERED_BY]--> [[effects-migration-regression-triage.session]]  -- Surfaced during the snapshot audit  @2026-08-27
+
+SPAWN [[generalized-body-display-offset.bug]] — de Bruijn-to-name display off-by-N in generalized bodies; pre-existing on main
