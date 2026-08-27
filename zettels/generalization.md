@@ -31,6 +31,8 @@ Scoping: keep only metas with `m.lvl >= ctx.env.length` (created at or inside th
 
 Build `extendedCtx` by `EB.bind` for each meta with implicit origin `"inserted"` and map `zonker[meta.val]` to `NF.Var(Bound lvl)` so quoting sees binders.
 
+At a block return boundary, abstraction applies to the semantic return value as well as its type. Evaluating without delta-reducing local references preserves them as levels; after the new implicit binders are installed, quoting converts those levels into the indices appropriate beneath the synthetic lambdas. A stable-level zonker mapping is portable across consumer contexts because quote reindexes it; every elaboration boundary must nevertheless thread that mapping forward.
+
 Wrap the generalized type in implicit `NF.Pi`s outer-to-inner (`A.reverse(ms).reduce`), quoting bodies with trimmed env slices so closure levels align.
 
 Interaction: `Stmt.letdec` in `src/elaboration/inference/statements.ts` calls `NF.generalize` after `EB.solve`; `wrapLambda` / `EB.Icit.instantiate` in `src/elaboration/implicits.ts` align term shapes with generalized types.
@@ -46,6 +48,7 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - IMPLEMENTS → [[hindley-milner]] — Yap's implementation of HM let-generalization
 - PRODUCES → [[implicits]] — Generalization wraps terms in implicit lambdas
 - MOTIVATES → [[instantiate-any-default]] — Transitive kind gen removes one Any source; the residual default is the open question
+- USES → [[nbe]] — Semantic block-return abstraction preserves block-local binding indices
 
 **Incoming**
 - [[blocks]] ← USES — Let-polymorphism at boundaries
@@ -61,5 +64,8 @@ Hub: [[meta-variables.md]], [[implicits.md]].
 - [[letpoly-implicit-escape]] ← APPLIES_TO — Meta escape at block boundary
 - [[variant-match-generalization.session]] ← INFORMS — Transitive kind collection
 - [[meta-collection-zonker]] ← APPLIES_TO — The collector feeds generalization
+- [[default-context-substitution-aliasing.bug]] ← AFFECTS — A borrowed solution makes generalization skip the meta and return its input
+- [[generalization-substitution-timing.bug]] ← APPLIES_TO — Where the substitution is recorded
+- [[row-solution-dereference]] ← APPLIES_TO — Per-use instantiation of a telescope binder depends on the reference being followed
 
 <!-- connections:end -->

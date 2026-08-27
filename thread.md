@@ -2443,3 +2443,420 @@ RESOLVED [[neutral-semantics-dependent-regression.bug]] — symbolic inspection 
 [[mu-types]] --[:USES]--> [[neutrals]]  -- Folded recursion remains sealed until explicit unfolding  @2026-07-24
 [[neutral-category-completion.session]] --[:RESOLVED]--> [[neutral-semantics-dependent-regression.bug]]  @2026-07-24
 [[neutral-category-completion.session]] --[:CLARIFIES]--> [[neutrals]]  @2026-07-24
+
+## Session: Explorer output drawer and grouped inspection — @2026-07-25 [explorer, tooling, codegen, verification, normalization, mir, observability, zettelkasten]
+
+The Explorer now treats generated JavaScript execution as its primary result rather than as a code preview only. A Node VM context evaluates the emitted program and the output drawer presents the value with its inferred type and verification verdict; errors from any pipeline stage share that result surface. The remaining representations are inspection evidence organised by responsibility—typechecking, verification, IR, and code generation—instead of a flat list of peer tabs. Full-term NbE evaluation and MIR interpretation remain available as explicit diagnostics, so semantic cross-checking does not displace the emitted-JS execution contract.
+
+### Updates
+
+- [[pipeline-explorer]] — recorded the executable output contract, grouped inspector, and optional alternate-evaluator diagnostics.
+
+### Edges
+
+[[pipeline-explorer]] --[:USES]--> [[js-codegen]]  -- Generated JavaScript supplies the primary Explorer result  @2026-07-25
+[[pipeline-explorer]] --[:USES]--> [[mir]]  -- MIR interpretation remains an opt-in diagnostic  @2026-07-25
+
+## Session: Explorer error-phase attribution — @2026-07-25 [explorer, error-handling, codegen, debugging, tooling, zettelkasten]
+
+Explorer failures now name the pipeline boundary that produced them. This keeps source parsing, elaboration, normalization, verification, GRAM/MIR construction, target emission, and target execution distinct in the user-visible error stream. The variant-match example with positional-field JavaScript (`v .0`) therefore reports a Codegen / JavaScript execution `SyntaxError`, preserving the already-known emitter defect as evidence rather than relabelling it as a Yap syntax problem.
+
+### Updates
+
+- [[pipeline-explorer]] — errors are phase-attributed at each pipeline boundary.
+
+## Session: JavaScript positional-field emission — @2026-07-25 [codegen, mir, backend, debugging, regression, testing, zettelkasten]
+
+The JavaScript backend's positional-field failure was isolated to target printing, not MIR or lowering: MIR represents every record key as a string and its interpreter uses bracket-style lookup, while JS printing rendered every key with dot syntax. Numeric tuple labels therefore became invalid source (`obj.0`) even inside an otherwise uncalled closure. JavaScript property printing now preserves the MIR contract by emitting bracket access for non-identifier keys and quoted object keys where needed; positional reads and in-place updates both execute correctly. The residual codegen-correctness backlog is type information reaching runtime.
+
+### Resolved
+
+RESOLVED positional JavaScript field access — non-identifier MIR labels retain string-key semantics in emitted JavaScript
+
+### Updates
+
+- [[codegen-correctness-gaps]] — removed the resolved positional-field item; type erasure remains the backend gap.
+- [[global-pending-queue]] — narrowed the codegen-correctness queue item to type erasure.
+- [[pulse]] — records positional-field emission as resolved.
+
+## Session: Explainable bridge type erasure — @2026-07-25 [mir, graph, lowering, type-system, observability, debugging, zettelkasten]
+
+The GRAM→MIR bridge now applies its established empty-record erasure convention to μ type declarations as well as Pi, Sigma, and metavariable forms. MIR gains a nonsemantic structured debug payload on every node kind; interpreters and target emitters ignore it, while the pretty-printer exposes it. An erased Peano declaration therefore remains an empty operational witness but displays its `μ` origin and source binding, keeping type provenance visible without turning it into runtime data.
+
+### Resolved
+
+RESOLVED [[type-erasure]] type-only let bridge gap — μ declarations no longer produce unbound MIR references
+
+### Updates
+
+- [[bridge-type-erasure]] — μ joins the interim erased forms; provenance uses MIR debug metadata.
+- [[mir]] — MIR debug metadata is nonsemantic and display-visible.
+- [[pipeline-stabilization.thread]] — type-only let erasure marked implemented.
+
+## Session: Block-return implicit generalization — @2026-07-27 [elaboration, normalization, nbe, metavariable, generalization, inference, debugging, testing, zettelkasten]
+
+Block-local unresolved implicits are generalized at the return boundary as semantic values rather than by syntactically wrapping the source return against a generalized type. Evaluation without delta-reducing local lets preserves free references as de Bruijn levels; quoting beneath the inserted implicit binders reindexes them without capture. The resulting zonker is emitted through the elaboration writer, so an enclosing boundary observes the local abstraction rather than rediscovering an unresolved meta. The focused regression now preserves `f` in `return λ(A: Num) => f @A 1` and no longer regresses an already-polymorphic `return poly`. A residual eta-like application around a polymorphic block binding remains an uncommitted representation question.
+
+### Updates
+
+- [[generalization]] — block-return abstraction is semantic NbE conversion; stable level substitutions quote correctly in each consumer context.
+- [[letpoly-implicit-escape]] — its no-inner-meta-escape invariant now applies to block returns.
+
+### Edges
+
+[[generalization]] --[:USES]--> [[nbe]]  -- Evaluate and quote preserve block-local binding indices during abstraction  @2026-07-27
+
+## Session: Block-return zonker tracing correction — @2026-07-27 [elaboration, normalization, metavariable, generalization, debugging, zettelkasten]
+
+The block-return boundary emits its generalized zonker correctly, but the enclosing `letdec` subsequently observes that writer substitution and constructs its returned context without composing it. The outer block therefore receives an incomplete zonker despite the return-level `tell`. The semantic abstraction preserves local references during quote; complete scope preservation still requires the pending state-channel migration to make the metacontext evolve through every elaboration step.
+
+### Updates
+
+- [[generalization]] — stable-level substitutions are portable across contexts, but must remain threaded through each boundary.
+- [[solver-meta-threading]] — the block-return trace confirms the same reader/writer loss pattern outside row unification.
+
+## Session: Meta registry state migration boundary — @2026-07-29 [elaboration, metavariable, state, monad, unification, normalization, debugging, zettelkasten]
+
+Fresh metavariables and solver substitutions now update the elaboration state registry directly, so lambda and reset scopes no longer reconstruct meta knowledge through the Writer. The remaining block and let-generalization paths require an explicit state-aware boundary for NbE, quoting, and unification: each still consumes a context-shaped substitution and annotation map. That conversion is intentionally deferred rather than hidden behind a partial compatibility adapter; the state registry is the live source of meta lifecycle data, while the legacy consumers identify the next migration surface.
+
+### Updates
+
+- [[solver-meta-threading]] — direct state registration and solution updates replace the local Writer transfer at meta creation and solver completion; normalization and unification remain the next boundary.
+
+### Edges
+
+[[solver-meta-threading]] --[:INFORMS]--> [[monad-split]]  -- Meta lifecycle migration exposes the remaining reader-shaped NbE and unification boundary  @2026-07-29
+
+## Session: Evaluation registry call-site migration — @2026-07-29 [elaboration, normalization, nbe, metavariable, state, monad, unification, zettelkasten]
+
+Bidirectional inference, checking, implicit insertion, and unification now obtain the current meta registry from elaboration state immediately before normalization. This preserves the registry snapshot created by the preceding elaboration step rather than retaining a pre-elaboration view. Evaluation's work-stack and closure helpers, pure normalization passes, and non-monadic module or tooling entry points remain distinct migration boundaries because they cannot retrieve state locally.
+
+### Updates
+
+- [[solver-meta-threading]] — evaluation consumers at monadic bidirectional boundaries now read the meta registry from state.
+
+### Edges
+
+[[solver-meta-threading]] --[:INFORMS]--> [[evaluation-monad-rework]]  -- Evaluator work-stack propagation is the remaining state-access boundary  @2026-07-29
+
+## Session: Stack evaluator registry propagation — @2026-07-29 [elaboration, normalization, nbe, metavariable, state, evaluation, continuations, zettelkasten]
+
+The stack evaluator now carries the meta registry on each evaluation and delimiter frame, so recursive evaluation of blocks, rows, applications, matches, and captured continuations retains the same solved-meta view. Direct evaluator reads of a meta or row-tail solution use the registry entry rather than a context substitution. The non-stack normalization boundary remains separate: `force`, `view`, `resume`, and exported application or matching helpers still expose context-only APIs and require a coordinated signature migration across their consumers.
+
+### Updates
+
+- [[evaluation-monad-rework]] — stack-owned evaluation state now includes the meta registry required for recursive normalization.
+
+### Edges
+
+[[evaluation-monad-rework]] --[:INFORMS]--> [[solver-meta-threading]]  -- Frame-local registry propagation removes one context-carried solution path  @2026-07-29
+
+## Session: Explicit registry normalization boundary — @2026-07-29 [elaboration, normalization, nbe, metavariable, state, evaluation, verification, unification, zettelkasten]
+
+The runtime meta registry is now explicit at the stateful normalization boundaries: stack evaluation, application/reduction, forcing, viewing, resumption, unification, implicit solving, and verification's monadic checker/synthesizer/subtyper. Solver and subtype flex lookups read registry solutions rather than `ctx.zonker`. Pure quoting, legacy generalization/module APIs, and translation/refinement helper interfaces remain intentionally unconverted because they require coordinated signature propagation beyond this mechanical pass.
+
+### Updates
+
+- [[evaluation-monad-rework]] — registry is a runtime dependency of stack evaluation and its exported normalization operations.
+- [[solver-meta-threading]] — stateful solver, unification, and verification consumers use registry solutions directly.
+
+### Edges
+
+[[evaluation-monad-rework]] --[:INFORMS]--> [[solver-meta-threading]]  -- The remaining context-shaped normalization APIs identify the next explicit-registry migration boundary  @2026-07-29
+
+## Session: Registry-aware quoting — @2026-07-29 [elaboration, normalization, nbe, quotation, metavariable, state, zettelkasten]
+
+Quotation now accepts the live meta registry, resolves solved meta variables from registry entries, and carries that registry through recursive quoting and closure application. Stateful elaboration, stack evaluation, and verification quote callers now provide it explicitly. Legacy generalization/implicit-instantiation helpers, CLI/GRAM tooling, pure verification refinement helpers, and quote-focused tests remain at context- or fixture-shaped boundaries and are deliberately left for their own registry API pass.
+
+### Updates
+
+- [[evaluation-monad-rework]] — quote is now a registry-dependent normalization operation alongside evaluation and forcing.
+- [[solver-meta-threading]] — quoting no longer reads solved values from `ctx.zonker`.
+
+### Edges
+
+[[evaluation-monad-rework]] --[:INFORMS]--> [[solver-meta-threading]]  -- Quoting exposes the remaining legacy context-shaped registry boundary  @2026-07-29
+
+## Session: Verification registry threading — @2026-07-29 [verification, elaboration, normalization, nbe, metavariable, state, translation, refinements, zettelkasten]
+
+Verification's context-bearing translation and refinement helpers now take the registry explicitly: IVL sort/term/formula/quantifier translation, selfification, and type/row meet operations propagate it through their recursive calls. V2 synthesis, checking, and subtyping supply the state registry at their direct call sites, while the translation service factory remains registry-free and returns per-invocation registry-aware operations. The uncalled `applyClosure` helper has no context-bearing caller to thread from and remains an explicit migration flag.
+
+### Updates
+
+- [[solver-meta-threading]] — verification translation reads solved meta information from the state registry rather than `ctx.zonker`.
+- [[evaluation-monad-rework]] — normalization dependencies cross verification helper APIs explicitly rather than being captured by service construction.
+
+### Edges
+
+[[solver-meta-threading]] --[:INFORMS]--> [[evaluation-monad-rework]]  -- Verification demonstrates the context-plus-registry threading pattern for pure normalization helpers  @2026-07-29
+
+## Session: Generalization registry threading — @2026-07-29 [elaboration, normalization, generalization, metavariable, state, implicits, zettelkasten]
+
+Generalization and semantic abstraction now take the registry alongside their context, use it for meta collection, annotation lookup, solved-meta tests, evaluation, and quotation, and carry it through recursive NF instantiation. The implicit wrapping/term-instantiation helpers used by generalization now follow the same context-plus-registry shape. Stateful let-declaration generalization obtains the current registry after solving and passes it through. Legacy module and block-return paths still construct context-shaped zonkers/resolutions without a compatible registry state boundary, so they remain explicitly deferred.
+
+### Updates
+
+- [[solver-meta-threading]] — generalization's global meta knowledge now comes from state registry entries rather than `ctx.metas`/`ctx.zonker`.
+- [[generalization]] — the local `zonker` retained in closure contexts is now distinct from registry-backed global meta lifecycle data.
+
+### Edges
+
+[[generalization]] --[:INFORMS]--> [[solver-meta-threading]]  -- Closure-local bound substitutions remain a separate concern from the global solved-meta registry  @2026-07-29
+
+## Session: Let generalization registry commit — @2026-07-30 [elaboration, normalization, generalization, metavariable, state, inference, zettelkasten]
+
+The monadic let-declaration boundary now commits the registry returned by generalization directly to elaboration state. The returned registry is no longer composed into the context zonker; subsequent NF instantiation receives it explicitly while the lexical context remains the post-solver context. Block-return generalization and the non-monadic module driver remain separate migration boundaries because they still rely on their own unresolved context-shaped solver plumbing.
+
+### Updates
+
+- [[generalization]] — generalized meta bindings become state registry solutions at the let boundary rather than context-zonker entries.
+- [[solver-meta-threading]] — registry state is committed at the same abstraction boundary that discharges the local metas.
+
+### Edges
+
+[[generalization]] --[:INFORMS]--> [[solver-meta-threading]]  -- Generalization substitutions are committed as registry solutions, not threaded as context zonkers  @2026-07-30
+
+## Session: Block-return registry generalization — @2026-07-30 [elaboration, normalization, generalization, metavariable, state, blocks, zettelkasten]
+
+The block return boundary now obtains pending constraints from the Writer, lets the solver update state, reads the state registry, and evaluates/abstracts the return through that registry. The generalized registry is committed back to state directly; the former undefined `zonked` context and zonker Writer transfer are removed. This aligns return abstraction with let-declaration generalization while retaining the existing block control flow.
+
+### Updates
+
+- [[generalization]] — block-return abstraction now uses the context-plus-registry boundary.
+- [[solver-meta-threading]] — solved and generalized metas remain state-owned at block return.
+
+### Edges
+
+[[generalization]] --[:INFORMS]--> [[solver-meta-threading]]  -- Block return uses the same registry commit boundary as let generalization  @2026-07-30
+
+## Session: CLI elaboration registry state — @2026-07-30 [elaboration, normalization, verification, cli, repl, metavariable, state, zettelkasten]
+
+The monadic module expression and let-declaration entry points now accept an elaboration state and return its final state alongside successful elaboration results. REPL state retains that result across expression and let inputs, and the explorer uses it immediately for evaluation, quotation, and verification. The module loader remains a distinct boundary: its interface carries only a zonker and its `using`/`foreign` paths are still stateless, so carrying a registry through module imports requires an Interface-level design change rather than this mechanical propagation.
+
+### Updates
+
+- [[evaluation-monad-rework]] — CLI consumers recover the final `V2.Do` state rather than recreating registry state after elaboration.
+- [[solver-meta-threading]] — normalization and verification at interactive entry points read the elaboration-owned registry.
+
+### Edges
+
+[[evaluation-monad-rework]] --[:INFORMS]--> [[solver-meta-threading]]  -- The module Interface is the remaining ownership boundary for cross-module registry propagation  @2026-07-30
+
+## Session: Module driver state propagation — @2026-07-31 [elaboration, modules, normalization, metavariable, state, zettelkasten]
+
+The module elaboration driver now carries `V2.MutState` alongside its lexical context through each recursive statement transition. `using`, `foreign`, and `let` consume an incoming state, run their monadic elaboration with it, and return the resulting state for the tail of the module. The loader receives the final state explicitly but does not retain it in `Interface`; cross-module registry ownership and import-state composition therefore remain a separate refactor.
+
+### Updates
+
+- [[evaluation-monad-rework]] — module recursion follows the same state propagation contract as `V2.Do` consumers.
+- [[solver-meta-threading]] — module normalization reads the registry from the state produced by its own elaboration action.
+
+### Edges
+
+[[evaluation-monad-rework]] --[:INFORMS]--> [[solver-meta-threading]]  -- Explicit loader state handoff isolates the remaining module Interface decision  @2026-07-31
+
+## Session: Interface registry ownership — @2026-07-31 [modules, elaboration, metavariable, registry, state, zettelkasten]
+
+Module interfaces now retain their final meta registry directly, replacing the legacy zonker field. The module driver returns that interface as its sole result while using mutable state only for internal statement-by-statement propagation. Import registry composition is intentionally not inferred here: the loader records each imported interface's registry, but selecting/merging them into a new module's initial state remains a separate ownership decision.
+
+### Updates
+
+- [[solver-meta-threading]] — the module Interface is now the explicit container for exported meta-registry state.
+
+### Edges
+
+[[solver-meta-threading]] --[:INFORMS]--> [[evaluation-monad-rework]]  -- Interface ownership removes the temporary tuple return at the module boundary  @2026-07-31
+
+## Session: Let declaration registry solve — @2026-07-31 [elaboration, inference, generalization, unification, metavariable, state, zettelkasten]
+
+The let-declaration generalization path no longer reconstructs a context from Writer metas or composes solver results into `ctx.zonker`. Nondeterministic replay substitutions and cross-branch unification solutions are applied to the live registry; solve, generalization, instantiation, and implicit wrapping use that state-owned registry while retaining the lexical context unchanged.
+
+### Updates
+
+- [[generalization]] — let generalization consumes solver state directly rather than a zonked context.
+- [[solver-meta-threading]] — replay and branch-unification substitutions commit through registry application.
+
+### Edges
+
+[[generalization]] --[:INFORMS]--> [[solver-meta-threading]]  -- The let boundary now has one global meta-solution authority  @2026-07-31
+
+## Session: Registry migration audit — @2026-07-31 [elaboration, unification, modules, lowering, diagnostics, metavariable, registry, zettelkasten]
+
+An audit separates the remaining registry migration into three boundaries. Core monadic elaboration, evaluation, quoting, generalization, and V2 verification are registry-aware. Unification still has an in-flight substitution layer encoded through legacy context zonkers; diagnostics and pretty-printing still consume legacy `metas`/`zonker`; and GRAM/lowering plus module loading must establish registry ownership across compilation and imports. The Interface now stores a registry, but imported-interface registries are not yet composed into a consuming module's initial state.
+
+### Updates
+
+- [[solver-meta-threading]] — remaining substitution consumers are classified as transient unification state, observation-only display state, or cross-boundary ownership state.
+- [[evaluation-monad-rework]] — GRAM/lowering remains outside the monadic elaboration state boundary and needs an explicit registry input.
+
+### Edges
+
+[[solver-meta-threading]] --[:INFORMS]--> [[evaluation-monad-rework]]  -- Registry ownership must cross imports and lowering without restoring context zonkers  @2026-07-31
+
+## Session: Freer effect scratchpad cleanup — @2026-08-01 [effect, generator, tooling, typescript, zettelkasten]
+
+The local freer-effect scratchpad now distributes error extraction over each effect constituent before indexing handler returns, preserving the abort-error union for a heterogeneous effect tuple. Its interpreter uses a concrete runtime operation shape rather than an unchecked yielded-value assertion; the remaining dynamic-key and erased-handler-argument boundaries carry narrowly scoped lint rationales.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — tightened the generator input channel, removed unused scratch declarations, and retained only boundary-specific lint suppressions.
+
+## Session: Freer effect finalization — @2026-08-02 [effect, generator, typescript, writer, state, zettelkasten]
+
+Freer effects now own a typed zero-argument finalizer. Normal completion collects each finalizer result in input-tuple order alongside the program value, while abort bypasses finalization and remains responsible for carrying any intended failure payload itself. This preserves the independent semantics of Writer accumulation, Reader's unit output, and State's final state without discarding the computation result.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — `run` returns `[A, Outputs<Effects>]` on normal completion and passes both values through `RESUME` handlers.
+- `src/utils/effects/writer.ts` — Writer finalizes to its accumulated monoid value.
+
+## Session: Freer Reader and ST effects — @2026-08-02 [effect, generator, reader, state, mutation, zettelkasten]
+
+Reader and ST now share the freer runtime's effect-finalization contract. Reader closes over immutable environment and returns unit output; ST owns a deliberately mutable state cell exposed only through get, put, and modify, then returns that final state on normal completion. Error accumulation remains a distinct open semantic question rather than being conflated with aborting failure.
+
+### Updates
+
+- `src/utils/effects/reader.ts` — Reader provides `ask` over a captured environment.
+- `src/utils/effects/st.ts` — ST provides get, put, and modify over an encapsulated mutable cell.
+
+## Session: Freer Except and provenance-trace analysis — @2026-08-02 [effect, error-handling, diagnostics, tracing, elaboration, zettelkasten]
+
+Except now names the runtime's existing abort channel through a typed raise operation. Analysis of bidirectional elaboration distinguishes dynamically scoped provenance from accumulated diagnostics: provenance is a Reader-local stack captured at failure and attached to constraints, whereas a Writer or These carrier represents retained events or diagnostics. A scoped trace effect needs continuation-aware bracketing or an explicit Reader-local combinator; a simple event accumulator would lose the current elaborator's causal-context semantics.
+
+### Updates
+
+- `src/utils/effects/except.ts` — Except provides typed short-circuit raising through abort.
+
+## Session: Freer scoped installation — @2026-08-02 [effect, generator, reader, runtime, composition, zettelkasten]
+
+The freer runtime now preserves the installed effect tuple as its dispatch environment. Operations carry their originating effect instance and dispatch by identity, allowing multiple same-named effects to coexist. A runtime-owned `with` control operation runs a nested action under an immutably swapped installation tuple, propagates aborts, and leaves finalization exclusively to the outer successful run. The unfinished Reader-local operation was removed because scoped replacement belongs at this handler boundary rather than in an ordinary Reader handler.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — tuple-based installation dispatch and nested `with` execution.
+- `src/utils/effects/reader.ts` — removed the invalid nested-run local handler.
+
+## Session: Freer with combinator correction — @2026-08-02 [effect, generator, runtime, composition, zettelkasten]
+
+The scoped-installation mechanism is a normal runtime combinator, not a yielded control operation. While the driver invokes an effect handler it dynamically provides the current installation tuple; `with` recursively drives a supplied nested generator under a swapped tuple and returns its control result directly to that handler. This preserves tuple identity dispatch, keeps finalization at the outer run, and avoids adding a new operation to every program's effect union.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — replaced the provisional yielded `with` operation with the ordinary nested-driver combinator.
+
+## Session: Freer with simplification — @2026-08-02 [effect, generator, runtime, composition, zettelkasten]
+
+The nested-run helper now swaps the effect tuple directly. The transient frame-wrapper abstraction and its exported helper types were removed; dispatch finds the originating effect instance by identity in that tuple.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — simplified `with` to operate directly on the received effect tuple.
+
+## Session: Freer scoped overrides — @2026-08-02 [effect, generator, reader, runtime, composition, zettelkasten]
+
+Reader-local scope is now owned by the freer driver. A `Scoped` control request carries a nested action and a transformation of the current effect tuple; the driver recursively evaluates that action under the transformed tuple, propagates abort unchanged, and leaves finalization to the root run. Effect dispatch distinguishes an operation's stable originating identity from the current tuple entry, allowing an override to replace the whole entry while continuing to answer operations produced by the original instance. Nested Reader locals replace the currently dispatched entry, so their bindings unwind naturally as nested drives return.
+
+### Updates
+
+- `src/utils/effects/freer.ts` — replaced the rejected global `with` driver state with `Scoped`, tuple transformation, and identity-preserving `override`.
+- `src/utils/effects/reader.ts` — added `local(modify, action)` as a scoped replacement with a fresh Reader environment.
+
+## Session: Freer and elaboration-monad compatibility audit — @2026-08-02 [effect, elaboration, monad, reader, writer, state, error-handling, zettelkasten]
+
+The freer runtime can express the elaboration monad's operational Reader, structured Writer, State, and aborting-error capabilities: Reader-local already maps to scoped installation, Writer can accumulate the Collector under its existing merge algebra, and scoped State replacement gives `localSt` rollback. The migration boundary is representational rather than expressiveness: `liftC`, `pure`, and `regen` are adapters for the existing fused function/yield protocol and must be redesigned around effect operations and the new `Do` driver. Abort finalization also needs an explicit policy if elaboration must retain accumulated diagnostics on failure. The audit found documentation drift: the recent registry-state narrative does not match the inspected `MutState` declaration, which contains only delimitations and nondeterminism.
+
+### Updates
+
+- [[monad-split]] — freer effects are a viable implementation substrate, but the split needs an explicit migration of Collector-facing adapters and failed-run outputs.
+- [[elaboration-monad]] — source and current registry-state narrative require reconciliation before treating the state layout as settled.
+
+## Session: Effect declaration and handler installation — @2026-08-02 [effect, elaboration, reader, runtime, testing, design, zettelkasten]
+
+The freer experiment exposed a phase separation requirement: an effect declaration owns stable operation identity and types, whereas a handler installation owns runtime resources such as a Reader environment, Writer accumulator, or State cell. Conflating them makes Reader construction capture an environment globally and prevents a `run` call, including a test, from selecting its own environment. Reader-local scope must replace the installed handler for the same stable declaration identity; it must not construct a new effect declaration. This separation generalizes to Writer and State and makes each interpreter invocation the resource-ownership boundary.
+
+### Updates
+
+- [[monad-split]] — a viable freer migration requires separate effect declarations and per-run handler installations; the current combined builder cannot provide Reader semantics.
+
+## Session: Freer handler-installation proposal — @2026-08-02 [effect, elaboration, reader, writer, state, error-handling, testing, design, zettelkasten]
+
+The proposed runtime split retains one stable declaration object per effect and introduces a separate handler-installation object per interpreter run. Declarations produce typed operations and carry only a token; installations bind that token to handlers, finalization, and resources. Reader binds an environment only through `reader.handle(env)` at the `run` call site, while scoped local replacement swaps the installation for the same token. Writer and State similarly allocate their accumulator and cell per run. The runner should finalize both successful and aborted runs and expose a structured outcome plus outputs, preserving elaboration diagnostics instead of losing Writer state at abort.
+
+### Updates
+
+- [[monad-split]] — proposed declaration/installation split establishes run-scoped resource ownership and testable Reader environments.
+- [[error-propagation]] — failed runs need explicit access to final handler outputs when diagnostic accumulation is semantically relevant.
+
+## Session: Freer handler factory refinement — @2026-08-02 [effect, reader, writer, state, error-handling, api, design, zettelkasten]
+
+Abort intentionally exits without finalization, so finalizer-on-abort is not part of the freer redesign. The declaration/resource split remains, but it is internal to `defineEffect`: a defined effect exposes stable program operations and a `handler(dependencies)` factory. Calling that factory at a `run` call site creates the opaque interpreter handler that owns the supplied environment, accumulator algebra, initial state, or other dependencies. `run` receives those handlers directly. This preserves the effect-algebra-facing API while placing resource binding at the interpretation boundary.
+
+### Updates
+
+- [[monad-split]] — public API should expose operations plus handler factories, not a generic installation/registering abstraction.
+- [[error-propagation]] — abort remains terminal and bypasses finalizers by semantic choice.
+
+## Session: Single-record freer effect definitions — @2026-08-02 [effect, reader, writer, state, typescript, api, design, zettelkasten]
+
+The handler map already defines an effect's operation algebra, so a separate public operation specification would duplicate it and is rejected. `defineEffect` should instead accept one dependency-taking handler factory. It generates stable actions from that factory's handler-map type once, exposes those actions together with `handler(...dependencies)`, and internally binds a fresh returned handler map plus finalizer to the stable effect identity. A handler factory can close over each run's resources, while `local` replaces the bound handler for the same declaration through `self.handler(modifiedEnvironment)`. This gives per-run Reader environments without exposing registration or installation concepts and without duplicating action declarations.
+
+### Updates
+
+- [[monad-split]] — selected API direction: `defineEffect` derives operations from one dependency-taking handler factory and exposes a per-run handler function.
+
+## Session: Freer resource-state handler model — @2026-08-02 [effect, reader, writer, state, runtime, api, design, zettelkasten]
+
+The dependency-taking handler factory is refined away because it hides handler keys until a run supplies dependencies. `defineEffect` instead receives one static handler map and finalizer, plus a resource initializer. It enumerates the static map once to generate operations. Calling the exposed `handler(...dependencies)` initializes an opaque per-run resource and binds it as `this` for that same map and finalizer. Reader's resource is its environment; Writer's holds its monoid and accumulator; State's holds its cell. A scoped Reader local replaces the run handler for the same effect identity with `self.handler(modifiedEnvironment)`. This preserves a single declaration of operations, handlers, and finalization while placing dependencies at handler creation.
+
+### Updates
+
+- [[monad-split]] — refined selected API: static handler map plus resource initializer, rather than a dependency-taking handler-map factory.
+
+## Session: Freer effect system — final direction — @2026-08-09 [effect, generator, elaboration, monad, migration, reader, writer, state, error-handling, tracing, zettelkasten]
+
+The freer-effect logs from "Freer effect scratchpad cleanup" (@2026-08-01) through "Freer resource-state handler model" (@2026-08-02) are exploratory design iterations — finalizers, the `with` combinator, `Scoped` driver control, the declaration/installation split, `defineEffect` handler factories — and are superseded by this entry. The shipped design (`src/utils/effects/`) keeps actions as the primitive: an `Action` is a tag, payload, answer type, and control (`resume` | `abort`); programs are plain generators and their effect row is inferred from what they actually yield. `run(program, handlers)` type-checks handler coverage against the row, dispatches by tag (last handler wins), and answers with the program's value followed by each handler's `output()` — on abort too, so Writer diagnostics survive failure, resolving the error-accumulation question the exploratory logs left open; there are no finalizers. Effects are factories (`reader`, `writer`, `st`, `except`, `supply`, `tracer`) grouping action builders with a `handlers(deps)` factory that owns per-run resources, giving the per-run Reader environments the exploration was after without any installation machinery. Scoping (`reader.local`, `writer.listen`/`censor`, `tracer.track`) is paired push/pop actions in ordinary generators — nothing driver-owned. Elaboration's row lives in `src/elaboration/shared/effects.ts`: writer over a constraints-only collector, reader over `EB.Context`, except over `Err` (abort, no catch), st over `MutState` (now carrying the metas registry), a supply effect for fresh minting, and the tracer replacing `ctx.trace`. Migration pass 1 landed on `refactor/v3-free-monad` (commit 955775c): all bidirectional elaboration files converted off the V2 Do driver; solver, unification, module driver, and the run boundary remain V2 as the deliberate frontier. The registry sessions of @2026-07-29–31 remain in force: that work (branch `refactor/monad-v3-stateful-registry`, off PR #17) is the semantic fix for the writer metas/zonker leak and will be re-expressed over the freer `st` effect once PR #17 reconciles.
+
+### Updates
+
+- `src/utils/effects/` — freer runtime (`freer.ts`) plus reader, writer, st, except, supply, tracer effects; `of`/`traverse` combinators.
+- `src/elaboration/shared/effects.ts` — the `M.Elaboration` row and `constrain`/`fail` helpers (provenance stamping deferred).
+- `src/elaboration/{check,elaborate}.ts`, `src/elaboration/inference/*` — converted to freer generators; `.gen`/`pure`/`regen` lifting removed on this path.
+- Binder channel dropped; recursive-let Mu detection deferred (agreed: `va == Type` + occurs-check on the elaborated body, TODO in `statements.ts`).
+
+## Session: Effects-migration regression triage — @2026-08-13 [elaboration, effect, migration, generalization, constraint, display, error-handling, testing, regression, bugfix]
+
+61 → 16 failures on `refactor/v3-free-monad`, by tracing each failure class against `main` instead of reading the new code for plausible causes. Five distinct regressions, and in every case the algorithm was identical to v2's — the divergence was always in what a value could *see*. v2's `ctx` carried the scope **and** the metacontext, so every `local`-style swap moved both; once they are separate effects each site has to say which it meant, and five did not. Method note: two earlier readings anchored on `2cf6b20` and `78f3051` as baselines and wrongly concluded some failures pre-dated the work. Both are branch commits; `main` (`15ff565`) is the merge-base and is green, so every failure belongs to this branch.
+
+Fixed: generalization's meta→level mapping was readable while `wrap` quoted the body (`7766b2f`); block statements shared one constraint scope because `writer.peek` replaced `V2.listen`'s per-`Do` accumulator (`2da6753`); a Pi closure captured its own binder because the effectful `closeVal` asks the reader from inside the binding `local` (`f33f986`); display expanded every solved meta because a shared registry replaced per-call-site `ctx.zonker` (`f3ed02f`); `M.fail` dropped the tracer's stack so no error carried provenance (`ff09945`). Also: the writer rewritten over `Eff.with`, retiring `Open`/`Close`, the `scopes` array and a two-meaning `innermost()` (`04d1115`); test harnesses onto boundary runs with no snapshot updated (`997cb4f`).
+
+### Updates
+
+- [[effects-migration-regression-triage.session]] — full account, per-regression traces
+- [[elaboration-monad]] — splitting ctx separates scope from metacontext; that separation is the root of all five
+- `z-yap/resources/plans/effectful-subsystems.plan.md` — drift log records each regression and the baseline mistake
+
+SPAWN [[generalization-substitution-timing.bug]] — no commit time for generalization's substitution is correct; blocks let-generalization
+ENQUEUE [[letdec-boundary-split]] — fold `letdec` into `Stmt.infer`'s `let` case
+ENQUEUE [[scope-output-on-abort]] — does an aborted scope have an output?
+
+## Session: Row solution dereference and generalization test repair — @2026-08-14 [elaboration, normalization, nbe, evaluation, row-types, unification, generalization, metavariable, testing, snapshot-testing, regression, bugfix]
+
+The two throwing let-polymorphism tests were not a generalization ordering problem. Row-variable resolution held a solved meta whose solution named a binder (`?4 |=> Bound(lvl 1)`) and installed that reference verbatim, while the env slot it named already held `?12`, the fresh meta the implicit application had minted for that use site; the rigid tail then reached row unification, which has no case for one. Its two siblings — the row `Bound` case and the value path for a solved meta — both resolve against the current scope. Fixed by quoting the solution back into the reading scope and re-evaluating, reusing the level-to-index conversion in `quoting.ts` rather than repeating it. `main` carries the identical gap, unfired because committing the substitution before the wrap kept that position out of the `Meta` branch. What localised it was logging what the environment held at the moment resolution decided; the prior ordering diagnosis had been inherited as a premise, and the tell against it was that one implicit application instantiated its Type binder correctly and its Row binder not at all.
+
+The generalization suite's eight failing expectations were cross-test pollution, not behaviour: `defaultContext()` returns the module-level empty substitution by reference and two tests wrote solutions into it, so from that point every fresh context saw `?1`/`?2` as solved. Six expectations had recorded the output of a generalization that never ran. Three further tests minted their metas below the env they claimed to generalize under, so the scope filter dropped everything; they now mint above it, with a direct assertion that the inserted binders land after the existing env, and the rule they were accidentally covering became its own test. `src/elaboration` went 16 → 6 failures: one `liquids.ts` pre-migration `closeVal` call that M6 retires, and five deferred snapshot rulings from `78f3051`'s block-return abstraction.
+
+### Updates
+
+- [[row-solution-dereference]] — new: a solution naming a variable is a reference, and resolution must follow it
+- [[generalization-substitution-timing.bug]] — RESOLVED; title claim falsified, analysis kept as the record of a wrong diagnosis
+- [[default-context-substitution-aliasing.bug]] — new: shared empty substitution lets one test's write become process state
+- yap `8c1c405` — the fix plus the test repairs
+
+### Edges
+
+[[row-solution-dereference]] --[:FIXES]--> [[generalization-substitution-timing.bug]]  -- The row symptom was a resolution stopping at a reference  @2026-08-14
+[[row-solution-dereference]] --[:CLARIFIES]--> [[row-unification]]  -- A rigid tail signals an unresolved reference upstream  @2026-08-14
+[[default-context-substitution-aliasing.bug]] --[:MOTIVATES]--> [[semantic-assertions-with-regression-snapshots]]  -- A direct claim about what was quantified would have caught the leak  @2026-08-13
+
+RESOLVED [[generalization-substitution-timing.bug]] — let-generalization is not blocked; commit-after-wrap stands
+ENQUEUE [[default-context-substitution-aliasing.bug]] — shared substitution aliasing, and the false greens it produced

@@ -3203,6 +3203,7 @@
 [[solver-meta-threading]] --[:APPLIES_TO]--> [[flex-flex-unification]]  -- Fresh metas from row-tail rewriting trigger the missing-kind crash  @2026-07-06
 [[solver-meta-threading]] --[:DEFERS_TO]--> [[monad-split]]  -- The real fix is threaded State, making new metas visible to every step at any depth  @2026-07-06
 [[generalization]] --[:MOTIVATES]--> [[instantiate-any-default]]  -- Transitive kind gen removes one Any source; the residual default is the open question  @2026-07-06
+[[generalization]] --[:USES]--> [[nbe]]  -- Semantic block-return abstraction preserves block-local binding indices  @2026-07-27
 [[instantiate-any-default]] --[:EXTENDS]--> [[implicit-generalization-semantics]]  -- Same generalize-not-default principle, now at the kind level  @2026-07-06
 [[codegen-correctness-gaps]] --[:REVEALS]--> [[type-erasure]]  -- Type-leak-to-runtime is the erasure gap's runtime face  @2026-07-06
 [[codegen-correctness-gaps]] --[:REFERENCES]--> [[string-dispatch-float-record-bug]]  -- Sibling lossy-lowering case  @2026-07-06
@@ -3291,3 +3292,25 @@
 [[neutral-category-completion.session]] --[:CLARIFIES]--> [[neutrals]]  -- Constructor categories are semantic obligations, not a defaulting convenience  @2026-07-24
 [[neutral-category-completion.session]] --[:VALIDATES]--> [[semantic-assertions-with-regression-snapshots]]  -- Direct μ-category assertions and ordered-list verification retain semantic contracts  @2026-07-24
 [[sessions.hub]] --[:INCLUDES]--> [[neutral-category-completion.session]]  @2026-07-24
+[[pipeline-explorer]] --[:USES]--> [[js-codegen]]  -- Generated JavaScript supplies the primary Explorer result  @2026-07-25
+[[pipeline-explorer]] --[:USES]--> [[mir]]  -- MIR interpretation remains an opt-in diagnostic  @2026-07-25
+[[default-context-substitution-aliasing.bug]] --[:AFFECTS]--> [[generalization]]  -- A borrowed solution makes generalization skip the meta and return its input  @2026-08-13
+[[default-context-substitution-aliasing.bug]] --[:AFFECTS]--> [[snapshot-testing]]  -- Expectations recorded under leaked state keep the suite green  @2026-08-13
+[[default-context-substitution-aliasing.bug]] --[:MOTIVATES]--> [[semantic-assertions-with-regression-snapshots]]  -- A direct claim about what was quantified would have caught the leak  @2026-08-13
+[[default-context-substitution-aliasing.bug]] --[:REVEALS]--> [[elaboration-monad]]  -- Metacontext on the reader env is writable by anyone holding a context  @2026-08-13
+[[default-context-substitution-aliasing.bug]] --[:DISCOVERED_BY]--> [[effects-migration-regression-triage.session]]  -- Surfaced while judging the branch's generalization snapshots  @2026-08-13
+[[monad-split]] --[:FIXES]--> [[default-context-substitution-aliasing.bug]]  -- Per-run registry state leaves no shared substitution to write through  @2026-08-13
+[[global-pending-queue]] --[:INCLUDES]--> [[default-context-substitution-aliasing.bug]]  @2026-08-13
+[[generalization-substitution-timing.bug]] --[:APPLIES_TO]--> [[generalization]]  -- Where the substitution is recorded  @2026-08-13
+[[generalization-substitution-timing.bug]] --[:SHARED_WITH]--> [[row-types.thread]]  -- Surfaced through a row tail in rewrite  @2026-08-13
+[[row-solution-dereference]] --[:FIXES]--> [[generalization-substitution-timing.bug]]  -- The row symptom was a resolution stopping at a reference, not a commit time  @2026-08-14
+[[row-solution-dereference]] --[:APPLIES_TO]--> [[generalization]]  -- Per-use instantiation of a telescope binder depends on the reference being followed  @2026-08-14
+[[row-solution-dereference]] --[:CLARIFIES]--> [[row-unification]]  -- Row unification is defined over a flexible tail; a rigid tail signals an unresolved reference upstream  @2026-08-14
+[[row-solution-dereference]] --[:APPLIES_TO]--> [[nbe]]  -- Quote-then-re-evaluate is the resolution step that makes a recorded level meaningful  @2026-08-14
+[[row-solution-dereference]] --[:SHARED_WITH]--> [[row-types.thread]]  -- Row variables resolve separately from values and drifted from them  @2026-08-14
+[[elaboration-v2.thread]] --[:INCLUDES]--> [[row-solution-dereference]]  @2026-08-14
+
+[[generalized-body-display-offset.bug]] --[:APPLIES_TO]--> [[generalization]]  -- Generalization-introduced binders shift the display name mapping  @2026-08-27
+[[generalized-body-display-offset.bug]] --[:APPLIES_TO]--> [[pretty-printing]]  -- Display renders type-incorrect names for outer let references  @2026-08-27
+[[generalized-body-display-offset.bug]] --[:MOTIVATES]--> [[semantic-assertions-with-regression-snapshots]]  -- Snapshot-only tests hide display bugs as "passing"  @2026-08-27
+[[global-pending-queue]] --[:INCLUDES]--> [[generalized-body-display-offset.bug]]  @2026-08-27

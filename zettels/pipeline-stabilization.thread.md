@@ -55,9 +55,8 @@ invisible when each pass was tested in isolation._
    - 9a. ~~**Forward label references** [[bridge-forward-label-refs]] — bug, **implemented**~~
      Edge-based resolution plus the demand-driven bridge walk remove the forward/backward asymmetry.
 
-10. **Type-only let erasure** [[type-erasure]] — backlog
-    Top-level type defs produce `return v0` undefined. Partial erasure doesn't cover
-    root-level type definitions. Already tracked; connected here for completeness.
+10. ~~**Type-only let erasure** [[type-erasure]] — implemented~~
+    Bridge erasure now covers μ declarations as operationally inert empty-record witnesses, with MIR debug provenance identifying the erased source binding.
 
 11. ~~**Bridge struct dispatch** [[bridge-struct-dispatch]] — backlog, **implemented**~~
     Fixed by resolving each `SWITCH` through its `:inspect` edge and letting `kind:"struct"` emit the projected branch subtree. Variant dispatch was aligned to the same pass by using `{ __tag, payload }` values end-to-end.

@@ -52,5 +52,6 @@ tags:
 - [[explorer-diff-mode]] ← COMPOSES_WITH — Diff mode complements snapshot-based testing
 - [[semantic-assertions-with-regression-snapshots]] ← CLARIFIES — Snapshots are regression artifacts paired with direct claims
 - [[snapshot-error-triage]] ← CLARIFIES — Embedded errors need explicit roles
+- [[default-context-substitution-aliasing.bug]] ← AFFECTS — Expectations recorded under leaked state keep the suite green
 
 <!-- connections:end -->

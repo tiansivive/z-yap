@@ -29,13 +29,15 @@ tags:
 
 **Implementation**: `src/cli/explore/index.ts` exports **`start`** from **`server.ts`**. Node **`http`** server serves **`src/cli/explore/static/`** (HTML/JS/CSS) and **`tooling/syntax-highlighting`** under **`GET /syntax/…`**.
 
-**Core API**: **`POST /run`** parses JSON **`{ source, deBruijn, parserRule, rawJson, ivlSimplify }`** and calls **`run`** from **`pipeline.ts`**. **`ParserRule`** is **`"Ann"` | `"Script"`** (matches Nearley parser entry switching). **`Result`** strings include **`parsed`**, **`elaborated`**, **`type`**, **`normalized`**, **`constraints`**, **`metas`**, **`ivl`**, **`solverTrace`**, **`mir`**, **`gram`**, **`codegenJS`**, **`codegenC`**, **`codegenErlang`**, **`errors`**, plus **`raw`**.
+**Core API**: **`POST /run`** parses JSON **`{ source, deBruijn, parserRule, rawJson, ivlSimplify, evaluate, interpret }`** and calls **`run`** from **`pipeline.ts`**. **`ParserRule`** is **`"Ann"` | `"Script"`** (matches Nearley parser entry switching). **`Result`** strings include **`output`**, **`type`**, **`validity`**, **`parsed`**, **`elaborated`**, **`normalized`**, **`interpreted`**, **`constraints`**, **`metas`**, **`ivl`**, **`solverTrace`**, **`mir`**, **`gram`**, **`codegenJS`**, **`codegenC`**, **`codegenErlang`**, **`errors`**, plus **`raw`**.
+
+**Output and inspection**: Generated JavaScript is the primary executable result and runs in a Node VM context. The output drawer presents its value beside the inferred type and verification verdict; compilation, verification, and execution errors appear there too. Each error carries its producing phase, so a JavaScript syntax failure is distinct from a Yap parse failure. Inspection is grouped by responsibility: Typechecker (parsed/elaborated forms, constraints, zonker, optional NbE result), Verification (IVL, solver trace), IR (GRAM, DOT, MIR, optional MIR-interpreter result), and Codegen (JS, C, Erlang). NbE evaluation and MIR interpretation are opt-in diagnostics, preserving generated-JS execution as the user-facing result.
 
 **IVL tab**: Displays the IVL formula (s-expression) produced by `VerificationServiceV2`. Uses `smtlib` syntax highlighting mode.
 
 **Trace tab**: Displays the solver execution trace produced by `Solver.run()` + v2 trace replay. Shows step-by-step CDCL(T) execution: clause state, propagations, decisions, theory sub-steps (EUF merges, arithmetic bounds), quantifier rounds.
 
-**Config sidebar**: Snippet library (19 built-in examples across 5 groups), parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle.
+**Config sidebar**: Snippet library (19 built-in examples across 5 groups), parser rule, de Bruijn display mode, "IVL simplify" checkbox (persisted in localStorage, sent as `ivlSimplify`), raw JSON toggle, and toggles for NbE and MIR-interpreter diagnostics.
 
 **Pipeline deps**: Nearley grammar, **`EB`** inference/display, **`NF`**, MIR lower/pretty, GRAM passes imported as **`@yap/gram`** (`tsconfig.json` path → `src/GRAM/index`), **`VerificationServiceV2`**, **`Build`** (IVL constructors), **`Solver`** (CDCL(T)), **`Trace`** (replay renderer), **`IVLPrint`** (s-expression printer).
 
@@ -59,6 +61,8 @@ tags:
 - REPORTS → [[solver-trace]] — Renders trace output in Trace tab
 - REPORTS → [[vc-ir]] — Renders IVL formula in IVL tab
 - INCLUDES → [[explorer-evolution.thread]] — Roadmap thread
+- USES → [[js-codegen]] — Generated JavaScript supplies the primary Explorer result
+- USES → [[mir]] — MIR interpretation remains an opt-in diagnostic
 
 **Incoming**
 - [[yap-explore]] ← MIRRORS — Same tool, alternate zettel

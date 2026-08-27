@@ -28,6 +28,7 @@ One future direction: split reader, writer, and mutable state into narrower inte
 
 **Outgoing**
 - REVISES → [[elaboration-monad]] — Addresses coupling
+- FIXES → [[default-context-substitution-aliasing.bug]] — Per-run registry state leaves no shared substitution to write through
 
 **Incoming**
 - [[elaboration-v2.thread]] ← INCLUDES

@@ -17,6 +17,7 @@ records what was discussed, decided, and built, with connections to affected zet
 - includes: [[programmable-gram-passes-mvp-plan.session]]
 - includes: [[solver-v2-monadic-port.session]]
 - includes: [[vc-validity-discharge.session]]
+- includes: [[effects-migration-regression-triage.session]]
 
 <!-- connections:start -->
 

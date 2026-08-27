@@ -65,5 +65,6 @@ Usage pattern: `V2.Do(function* () { const ctx = yield* V2.ask(); … yield* V2.
 - [[nondeterminism]] ← THREADS_THROUGH — MutState.nondeterminism.solution
 - [[elaboration-v2.thread]] ← INCLUDES
 - [[module-zonker-fix]] ← FIXES — Told zonker dropped by listen()
+- [[default-context-substitution-aliasing.bug]] ← REVEALS — Metacontext on the reader env is writable by anyone holding a context
 
 <!-- connections:end -->

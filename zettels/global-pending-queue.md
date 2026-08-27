@@ -94,12 +94,13 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 
 - [ ] [[instantiate-any-default]] — needs design discussion: does an unconstrained meta default to `Any` or generalize? `Any` has no unification semantics; decide its role before removing the default
 - [ ] [[solver-meta-threading]] — remove the interim `rows.ts` reader-splice once metas move onto threaded State ([[monad-split]])
-- [ ] [[codegen-correctness-gaps]] — deferred backend emitter/erasure bugs (match join-block scoping, positional `.0` access, type-leak-to-runtime); MIR is correct, so semantics are unaffected
+- [ ] [[codegen-correctness-gaps]] — deferred backend type-erasure bug: type-level values reach runtime despite correct MIR semantics
 
 ## Label fixes follow-ups (2026-07-08)
 
 - [ ] [[record-refinement-false-valid.bug]] — symbolic record-field refinement (`n > n`) discharged as false-valid; MBQI leaves `v=n` residual and a redundant `∧ (= n n)` conjunct flips the verdict vs the scalar analogue
 - [ ] [[label-context-trichotomy]] — consolidate or clarify the `ctx.labels` / `ctx.sigma` / `ctx.record` split (dead `extendRecord` helper; overlapping resolution roles)
+- [ ] Resolution-level privacy for NbE internals — extract a shared kernel package (Term/Value/Context types) to break the EB↔NF type-level cycle, then split normalization into a workspace package with an `exports` map (barrel-only entry) and bump `moduleResolution` off node10 (node16-CJS or bundler; bundler also moves the CLI off ts-node-CJS). Supersedes the interim `no-restricted-imports` boundary rules in eslint.config.mjs (effectful-subsystems plan, 2026-08-11)
 
 ## Nested refinement verification follow-up (2026-07-23)
 
@@ -144,9 +145,20 @@ See [[delimited-continuations.thread]], [[row-types.thread]],
 - INCLUDES → [[label-context-trichotomy]] — Deferred context-consolidation review
 - INCLUDES → [[nested-refinement-outer-label-capture.bug]] — Deferred verification follow-up
 - INCLUDES → [[neutral-semantics-dependent-regression.bug]] — Resolved neutral-category audit
+- INCLUDES → [[default-context-substitution-aliasing.bug]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design
 - [[thread-queue-system.thread]] ← INCLUDES — Queue is part of the meta system
 
 <!-- connections:end -->
+
+- [x] **Generalization's substitution has no correct commit time** (2026-08-13, regression triage; resolved 2026-08-14). The premise was wrong: committing after the wrap is correct and stands. The row-annotation symptom came from row-variable resolution installing a solution that named a binder rather than following it to the slot the use site had just filled with a fresh meta. Fixed by quoting the solution back into the reading scope and re-evaluating, which reuses the level-to-index conversion already in quoting. Let-generalization is not blocked. See [[row-solution-dereference]].
+
+- [ ] **Fuse `Stmt.infer`'s `let` case with `letdec`** (2026-08-13, block constraint-scoping fix). `letdec` is not inference — it is the let boundary (solve this declaration's constraints, generalize, instantiate, wrap implicits). Because it reads its constraints with `writer.peek()`, the caller must open a scope spanning the preceding `infer`, which is the only reason `block.ts` wraps both calls in a bespoke generator. Also leaks two statements (the caller must pick the generalized one) and a cast in `module.ts`. Cheap now: `letdec`'s returned `Context` is `const next = ctx` — vestigial since the registry migration — so the return can shrink and the `let` case can own the whole rule and its own `listen`. See [[letdec-boundary-split]].
+
+- [ ] **Does an aborted scope have an output?** (2026-08-13, writer rewrite over `Eff.with`). A run reads its handlers' outputs when a clause aborts; an `Eff.with` aborted from outside reports nothing, so the same effect answers two ways depending on whether a scope boundary sat between the `tell` and the abort. Transformers settle this by stacking order (`WriterT w (Either e)` discards, `ExceptT e (Writer w)` keeps); a single writer effect has no order to appeal to. Either answer is fine, the hybrid is not. Free choice today — the elaboration suite is indifferent. See [[scope-output-on-abort]].
+
+- [ ] **Small-step neutrals: Sealed/Blocked as explicit redex states** (2026-08-12, M4 discussion). Today Mu's loop-breaker is distributed choreography: `EB.unfoldMu` plants a marked env entry, the machine's Bound case answers `Neutral("Sealed", …)` for it, and unification's pattern order gates when unfolding is attempted. Proposal: make unfolding produce its own evidence — `unfoldMu` answers the body with the recursive occurrence wrapped `Sealed` (one deliberate step; unsealing is explicit), mirroring how `Blocked` already makes stuck matches data with `resume` as the explicit step. Extends to any unfolding redex. For unification of recursive types, consider Amadio–Cardelli coinductive assumption sets (in-progress (l, r) pairs, could ride the Unification row like the subst accumulator) over env-marking. Precedent: Coq's fix ι-reduces only on constructor-headed arguments (demand-guarded reduction). Semantics redesign — post-migration.
+
+- [ ] **The default context's zonker is a shared singleton** (2026-08-13, snapshot triage). `defaultContext()` hands out the module-level empty substitution by reference, so a direct write through any context's zonker (`ctx.zonker[n] = v`) publishes that meta solution to every context in the process. Purely functional composition hides it until someone writes through the record. Meta collection follows solutions, so a borrowed solution makes generalization skip the meta, return its input untouched, and display expand the borrowed value — eight generalization expectations on `main` encode exactly that, which is why the suite is green. Reproduces by running one of those tests alone, or by freezing the shared record. Fix the writers, and consider making the default non-aliasing. See [[default-context-substitution-aliasing.bug]].

@@ -110,5 +110,7 @@ mechanism.
 - [[pipeline-stabilization.thread]] ← SHARED_WITH — Row/schema unification bug
 - [[structural-data-traversal-syntax]] ← INFORMS — Traversal sugar targets row-backed structural data
 - [[lacks-exclusion-type-operator]] ← INFORMS — Lacks constraints belong with row reasoning
+- [[generalization-substitution-timing.bug]] ← SHARED_WITH — Surfaced through a row tail in rewrite
+- [[row-solution-dereference]] ← SHARED_WITH — Row variables resolve separately from values and drifted from them
 
 <!-- connections:end -->

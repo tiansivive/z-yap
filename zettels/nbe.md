@@ -98,5 +98,7 @@ Children: cbv-evaluation, quoting, trampoline-evaluator, knot-tying, variable-ev
 - [[eq-normalization-bug]] ← RELIES_ON — Bug fires during normalization
 - [[maplist-schema-unification]] ← RELIES_ON — Unfolding happens during evaluation
 - [[static-partial-evaluation]] ← RELIES_ON — Type-level PE site
+- [[generalization]] ← USES — Semantic block-return abstraction preserves block-local binding indices
+- [[row-solution-dereference]] ← APPLIES_TO — Quote-then-re-evaluate is the resolution step that makes a recorded level meaningful
 
 <!-- connections:end -->

@@ -46,5 +46,6 @@ Detail: **`row-unification-mechanism.md`**.
 - [[row-types.thread]] ← INCLUDES
 - [[maplist-schema-unification]] ← APPLIES_TO — Row comparison step fails
 - [[leijen-scoped-labels]] ← INFORMS — Scoped labels and row unification prior art
+- [[row-solution-dereference]] ← CLARIFIES — Row unification is defined over a flexible tail; a rigid tail signals an unresolved reference upstream
 
 <!-- connections:end -->

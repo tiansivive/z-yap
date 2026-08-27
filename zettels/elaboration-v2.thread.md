@@ -84,6 +84,7 @@ and `check.ts` with `monad.v2.ts`; V1 is deprecated but kept for reference.
 - INCLUDES → [[solver-meta-threading]] — Interim solver meta-visibility patch
 - INCLUDES → [[instantiate-any-default]] — Open generalization/defaulting design gap
 - INCLUDES → [[meta-collection-zonker]] — Generalization collector zonker-consistency
+- INCLUDES → [[row-solution-dereference]]
 
 **Incoming**
 - [[thread-queue-system.thread]] ← INFORMS — System design

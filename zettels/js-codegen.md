@@ -38,5 +38,6 @@ tags:
 - [[repl]] ← USES — Code generation
 - [[ffi]] ← TRANSLATES_TO — Curried JS functions (.ffi.js companions)
 - [[integration-testing]] ← CONCERNS
+- [[pipeline-explorer]] ← USES — Generated JavaScript supplies the primary Explorer result
 
 <!-- connections:end -->
